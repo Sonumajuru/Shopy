@@ -59,4 +59,10 @@
             android:label="@string/title_category"
             tools:layout="@layout/fragment_account"/>
 
+    <fragment
+            android:id="@+id/navigation_createuser"
+            android:name="com.example.shopy.ui.createuser.CreateUserFragment"
+            android:label="@string/title_create_user"
+            tools:layout="@layout/fragment_createuser"/>
+
 </navigation>

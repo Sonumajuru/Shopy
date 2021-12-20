@@ -9,4 +9,9 @@
     <string name="title_invoice">Invoice</string>
     <string name="title_setting">Setting</string>
     <string name="title_category">Category</string>
+    <string name="title_create_user">Create User</string>
+    <string name="order">Order</string>
+    <string name="category">Category</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
 </resources>
