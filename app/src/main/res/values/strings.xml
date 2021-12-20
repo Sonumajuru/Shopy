@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Shopy</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_shopping_cart">Cart</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_account">Account</string>
+    <string name="title_order">Order</string>
+    <string name="title_invoice">Invoice</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_category">Category</string>
+</resources>
