@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/drawable/btn_dropdown.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/btn_background_blue.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/drawable/btn_background_white.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.25" />
