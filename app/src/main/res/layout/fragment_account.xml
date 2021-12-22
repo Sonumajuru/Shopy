@@ -1,24 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.account.AccountFragment">
 
-    <TextView
-            android:id="@+id/text_account"
+    <RelativeLayout
+            android:id="@+id/empty_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:paddingBottom="10dp">
+
+        <TextView
+                android:id="@+id/text_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/account_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_below="@+id/empty_Layout"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+                android:id="@+id/order_Btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_blue"
+                android:layout_marginBottom="20dp"
+                android:text="@string/order"/>
+
+        <Button
+                android:id="@+id/invoice_Btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_blue"
+                android:layout_marginBottom="20dp"
+                android:text="@string/invoice" />
+
+        <Button
+                android:id="@+id/add_remove_Btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_blue"
+                android:layout_marginBottom="20dp"
+                android:text="@string/manage_item" />
+
+        <Button
+                android:id="@+id/settings_Btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_blue"
+                android:layout_marginBottom="20dp"
+                android:text="@string/settings" />
+
+        <Button
+                android:id="@+id/sign_out_Btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_background_blue"
+                android:text="@string/sign_out" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/support_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/account_Layout"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/search_bar_background">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/customer_support"/>
+
+        <TextView
+                android:id="@+id/contact_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TEL: +237-745-3456"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="40dp" />
+
+        <TextView
+                android:id="@+id/email_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EMAIL: YOUR@COMPANY.COM"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"/>
+
+        <TextView
+                android:id="@+id/version_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VERSION 1.0"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

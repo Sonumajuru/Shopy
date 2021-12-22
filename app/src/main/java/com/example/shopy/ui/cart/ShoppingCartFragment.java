@@ -10,18 +10,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.shopy.databinding.FragmentShoppingCartBinding;
+import com.example.shopy.databinding.FragmentCartBinding;
 
 public class ShoppingCartFragment extends Fragment {
 
     private ShoppingCartViewModel shoppingCartViewModel;
-    private FragmentShoppingCartBinding binding;
+    private FragmentCartBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         shoppingCartViewModel = new ViewModelProvider(this).get(ShoppingCartViewModel.class);
 
-        binding = FragmentShoppingCartBinding.inflate(inflater, container, false);
+        binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textShoppingCart;

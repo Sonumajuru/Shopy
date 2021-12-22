@@ -10,7 +10,7 @@ public class ShoppingCartViewModel extends ViewModel {
 
     public ShoppingCartViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is shopping cart fragment");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

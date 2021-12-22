@@ -1,16 +1,16 @@
-package com.example.shopy.ui.search;
+package com.example.shopy.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SearchViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SearchViewModel() {
+    public LoginViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("");
+        mText.setValue("This is category fragment");
     }
 
     public LiveData<String> getText() {

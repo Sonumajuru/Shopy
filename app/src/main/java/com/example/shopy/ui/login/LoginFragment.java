@@ -1,4 +1,4 @@
-package com.example.shopy.ui.createuser;
+package com.example.shopy.ui.login;
 
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
@@ -10,24 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.shopy.R;
 
-public class CreateUserFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
-    private CreateUserViewModel mViewModel;
+    private LoginViewModel loginViewModel;
 
-    public static CreateUserFragment newInstance() {
-        return new CreateUserFragment();
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_createuser, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(CreateUserViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         // TODO: Use the ViewModel
     }
 

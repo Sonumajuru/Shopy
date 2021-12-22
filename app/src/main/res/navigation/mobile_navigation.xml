@@ -21,7 +21,7 @@
             android:id="@+id/navigation_cart"
             android:name="com.example.shopy.ui.cart.ShoppingCartFragment"
             android:label="@string/title_shopping_cart"
-            tools:layout="@layout/fragment_shopping_cart"/>
+            tools:layout="@layout/fragment_cart"/>
 
     <fragment
             android:id="@+id/navigation_favorite"
@@ -61,8 +61,8 @@
 
     <fragment
             android:id="@+id/navigation_createuser"
-            android:name="com.example.shopy.ui.createuser.CreateUserFragment"
+            android:name="com.example.shopy.ui.login.LoginFragment"
             android:label="@string/title_create_user"
-            tools:layout="@layout/fragment_createuser"/>
+            tools:layout="@layout/fragment_login"/>
 
 </navigation>

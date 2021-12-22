@@ -23,8 +23,9 @@
 
     <LinearLayout
             android:id="@+id/search_Layout"
+            android:layout_below="@+id/text_home"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:paddingBottom="10dp">
 
         <SearchView
@@ -66,15 +67,17 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/order"
-                android:layout_centerInParent="true"
+                android:background="@drawable/btn_background_blue"
                 android:layout_marginStart="30dp"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"/>
 
         <Button
                 android:id="@+id/category_Btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/category"
+                android:background="@drawable/btn_background_blue"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="30dp"
                 android:layout_alignParentEnd="true"/>
@@ -86,7 +89,7 @@
             android:orientation="vertical"
             android:layout_below="@+id/middle_Layout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
             android:background="#C8E7F2">

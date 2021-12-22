@@ -23,8 +23,9 @@
 
     <LinearLayout
             android:id="@+id/search_Layout"
+            android:layout_below="@+id/text_search"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:paddingBottom="10dp">
 
         <SearchView
@@ -49,9 +50,9 @@
             android:layout_below="@+id/search_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#C8E7F2"
             android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginStart="5dp">
 
         <ScrollView
                 android:id="@+id/deals_ScrollView_Layout"

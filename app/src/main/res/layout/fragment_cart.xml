@@ -10,7 +10,7 @@
     <TextView
             android:id="@+id/text_shopping_cart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -22,24 +22,23 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     <LinearLayout
-            android:id="@+id/daily_deals_layout"
+            android:id="@+id/to_Pay_Layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="350dp"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
-            android:layout_above="@+id/middle_Layout"
+            android:layout_below="@+id/text_shopping_cart"
             android:background="#C8E7F2">
 
         <ScrollView
-                android:id="@+id/deals_ScrollView_Layout"
+                android:id="@+id/to_Pay_ScrollView_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">
 
             <RelativeLayout
-                    android:id="@+id/items_Layout"
+                    android:id="@+id/to_Pay_items_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -52,27 +51,40 @@
     <RelativeLayout
             android:id="@+id/middle_Layout"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_alignParentBottom="true">
-
-        <Button
-                android:id="@+id/order_Btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="30dp"
-                android:layout_alignParentStart="true"/>
+            android:layout_height="60dp"
+            android:layout_below="@+id/to_Pay_Layout">
 
         <Button
                 android:id="@+id/category_Btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/next"
-                android:layout_centerInParent="true"
+                android:text="@string/pay"
                 android:layout_marginEnd="30dp"
-                android:layout_alignParentEnd="true"/>
+                android:background="@drawable/btn_background_blue"
+                android:layout_centerInParent="true"/>
 
     </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/overview_price_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/middle_Layout"
+            android:layout_above="@+id/accepted_method_Layout"
+            android:background="#7F2">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/accepted_method_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:orientation="horizontal"
+            android:background="#C8E7F2"
+            android:layout_alignParentBottom="true">
+
+    </LinearLayout>
 
 </RelativeLayout>
