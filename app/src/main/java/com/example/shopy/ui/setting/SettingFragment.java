@@ -1,5 +1,7 @@
 package com.example.shopy.ui.setting;
 
+import android.widget.TextView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -9,26 +11,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.shopy.R;
+import com.example.shopy.databinding.FragmentHomeBinding;
+import com.example.shopy.databinding.FragmentSettingBinding;
+import com.example.shopy.ui.home.HomeViewModel;
 
 public class SettingFragment extends Fragment {
 
     private SettingViewModel settingViewModel;
+    private FragmentSettingBinding binding;
 
-    public static SettingFragment newInstance() {
-        return new SettingFragment();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        settingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
+
+        binding = FragmentSettingBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        final TextView textView = binding.btnLogin;
+        settingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
+        return root;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        settingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
-        // TODO: Use the ViewModel
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

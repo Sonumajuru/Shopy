@@ -21,38 +21,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <LinearLayout
-            android:id="@+id/to_Pay_Layout"
-            android:orientation="vertical"
+    <ScrollView
+            android:id="@+id/to_Pay_ScrollView_Layout"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
             android:layout_below="@+id/text_shopping_cart"
-            android:background="#C8E7F2">
+            android:background="#C8E7F2"
+            android:fillViewport="true"
+            tools:ignore="SpeakableTextPresentCheck">
 
-        <ScrollView
-                android:id="@+id/to_Pay_ScrollView_Layout"
+        <RelativeLayout
+                android:id="@+id/to_Pay_items_Layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                    android:id="@+id/to_Pay_items_Layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        </RelativeLayout>
 
-            </RelativeLayout>
-
-        </ScrollView>
-
-    </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
             android:id="@+id/middle_Layout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@+id/to_Pay_Layout">
+            android:layout_below="@+id/to_Pay_ScrollView_Layout">
 
         <Button
                 android:id="@+id/category_Btn"

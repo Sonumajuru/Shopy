@@ -36,4 +36,7 @@
     <string name="update">Update</string>
     <string name="re_type_password">Re-type Password</string>
     <string name="language">Language</string>
+    <string name="country">Country</string>
+    <string name="usertype">UserType</string>
+    <string name="add_item">Add Item</string>
 </resources>

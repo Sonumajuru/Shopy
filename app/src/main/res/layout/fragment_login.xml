@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
         android:background="@color/app_color_blue"
         tools:context=".ui.login.LoginFragment">
-
-    <LinearLayout
-              android:id="@+id/ll_example"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical" >
 
         <TextView
                 android:id="@+id/tv_title"
@@ -20,8 +15,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textSize="50sp"
-                android:layout_marginBottom="50dp"
-                />
+                android:layout_marginBottom="50dp"/>
 
         <EditText
                 android:id="@+id/txt_email"
@@ -30,7 +24,9 @@
                 android:hint="@string/username"
                 android:textAlignment="center"
                 android:background="@drawable/btn_background_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:inputType="textEmailAddress"
+                android:autofillHints="username"/>
 
         <EditText
                 android:id="@+id/txt_password"
@@ -40,7 +36,9 @@
                 android:hint="@string/password"
                 android:textAlignment="center"
                 android:background="@drawable/btn_background_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:inputType="textPassword"
+                android:autofillHints="password"/>
 
         <Button
                 android:id="@+id/btn_login"
@@ -58,6 +56,4 @@
                 android:text="@string/sign_up"
                 android:textSize="15sp"/>
 
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

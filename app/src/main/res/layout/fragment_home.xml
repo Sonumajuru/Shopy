@@ -84,31 +84,24 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-            android:id="@+id/daily_deals_layout"
-            android:orientation="vertical"
-            android:layout_below="@+id/middle_Layout"
+    <ScrollView
+            android:id="@+id/deals_ScrollView_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/middle_Layout"
+            android:fillViewport="true"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
-            android:background="#C8E7F2">
+            android:background="#C8E7F2"
+            tools:ignore="SpeakableTextPresentCheck">
 
-        <ScrollView
-                android:id="@+id/deals_ScrollView_Layout"
+        <RelativeLayout
+                android:id="@+id/items_Layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                    android:id="@+id/items_Layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        </RelativeLayout>
 
-            </RelativeLayout>
-
-        </ScrollView>
-
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

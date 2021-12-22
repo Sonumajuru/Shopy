@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_background_blue"
                 android:layout_marginBottom="20dp"
-                android:text="@string/invoice" />
+                android:text="@string/invoice"/>
 
         <Button
                 android:id="@+id/add_remove_Btn"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_background_blue"
                 android:layout_marginBottom="20dp"
-                android:text="@string/manage_item" />
+                android:text="@string/manage_item"/>
 
         <Button
                 android:id="@+id/settings_Btn"
@@ -63,14 +63,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_background_blue"
                 android:layout_marginBottom="20dp"
-                android:text="@string/settings" />
+                android:text="@string/settings"/>
 
         <Button
                 android:id="@+id/sign_out_Btn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_background_blue"
-                android:text="@string/sign_out" />
+                android:text="@string/sign_out"/>
 
     </LinearLayout>
 

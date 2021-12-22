@@ -20,7 +20,8 @@
                 android:padding="10sp"
                 android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_list_add_24"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/add_item"/>
 
     </RelativeLayout>
 
@@ -39,31 +40,25 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <LinearLayout
-            android:id="@+id/item_list_layout"
-            android:orientation="vertical"
-            android:layout_below="@+id/text_favorite"
+    <ScrollView
+            android:id="@+id/item_list_ScrollView_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#C8E7F2"
             android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp">
+            android:layout_marginStart="5dp"
+            android:layout_below="@+id/text_favorite"
+            android:fillViewport="true"
+            tools:ignore="SpeakableTextPresentCheck">
 
-        <ScrollView
-                android:id="@+id/item_list_ScrollView_Layout"
+        <RelativeLayout
+                android:id="@+id/item_list_Layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                    android:id="@+id/item_list_Layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        </RelativeLayout>
 
-            </RelativeLayout>
+    </ScrollView>
 
-        </ScrollView>
-
-    </LinearLayout>
 
 </RelativeLayout>
