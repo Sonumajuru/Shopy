@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/navigation_home">
+            app:startDestination="@id/navigation_home">
 
     <fragment
             android:id="@+id/navigation_home"
@@ -30,8 +30,8 @@
             tools:layout="@layout/fragment_favorite"/>
 
     <fragment
-            android:id="@+id/navigation_profile"
-            android:name="com.example.shopy.ui.login.LoginFragment"
+            android:id="@+id/navigation_account"
+            android:name="com.example.shopy.ui.account.AccountFragment"
             android:label="@string/title_account"
             tools:layout="@layout/fragment_account"/>
 
@@ -39,25 +39,25 @@
             android:id="@+id/navigation_order"
             android:name="com.example.shopy.ui.order.OrderFragment"
             android:label="@string/title_order"
-            tools:layout="@layout/fragment_account"/>
+            tools:layout="@layout/fragment_order"/>
 
     <fragment
             android:id="@+id/navigation_invoice"
             android:name="com.example.shopy.ui.invoice.InvoiceFragment"
             android:label="@string/title_invoice"
-            tools:layout="@layout/fragment_account"/>
+            tools:layout="@layout/fragment_invoice"/>
 
     <fragment
-            android:id="@+id/navigation_setting"
-            android:name="com.example.shopy.ui.setting.SettingFragment"
+            android:id="@+id/navigation_register"
+            android:name="com.example.shopy.ui.register.RegisterFragment"
             android:label="@string/title_setting"
-            tools:layout="@layout/fragment_account"/>
+            tools:layout="@layout/fragment_register"/>
 
     <fragment
             android:id="@+id/navigation_category"
             android:name="com.example.shopy.ui.category.CategoryFragment"
             android:label="@string/title_category"
-            tools:layout="@layout/fragment_account"/>
+            tools:layout="@layout/fragment_category"/>
 
     <fragment
             android:id="@+id/navigation_login"

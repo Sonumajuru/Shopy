@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/app_color_blue"
         tools:context=".ui.account.AccountFragment">
 
     <RelativeLayout
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="TEL: +237-745-3456"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="40dp" />
+                android:layout_marginTop="40dp"/>
 
         <TextView
                 android:id="@+id/email_text"

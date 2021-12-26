@@ -48,7 +48,7 @@
             android:layout_below="@+id/to_Pay_ScrollView_Layout">
 
         <Button
-                android:id="@+id/category_Btn"
+                android:id="@+id/pay_Btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/pay"
