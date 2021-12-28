@@ -17,15 +17,15 @@ import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment {
 
     private RegisterViewModel registerViewModel;
     private FragmentRegisterBinding binding;
@@ -75,34 +75,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         inputRetypePassword = binding.txtRetypePassword;
         btnRegister = binding.btnRegister;
 
-        btnRegister.setOnClickListener(this);
-
         getLanguages();
         getCountry();
         getUserType();
-        return root;
-    }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId())
-        {
-            case R.id.language:
-                break;
-            case R.id.country:
-                break;
-            case R.id.user:
-                break;
-            case R.id.btn_register:
-                performRegister();
-                break;
-        }
-    }
-
-    private void performRegister()
-    {
         btnRegister.setOnClickListener(v -> {
 
             String email = inputEmail.getText().toString().trim();
@@ -117,46 +93,64 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String usrType = userType.getSelectedItem().toString();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email)) {
-                Toast.makeText(requireActivity().getApplicationContext(),
-                        "Enter email address!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (TextUtils.isEmpty(password)) {
-                Toast.makeText(requireActivity().getApplicationContext(),
-                        "Enter password!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (password.length() < 6) {
-                Toast.makeText(requireActivity().getApplicationContext(),
-                        "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-//                progressBar.setVisibility(View.VISIBLE);
-
+            formCheck(username, lastname, addr, email, password);
+            if (email.isEmpty() || password.isEmpty()) return;
             mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity(), task -> {
-//                                progressBar.setVisibility(View.GONE);
-                    // If sign in fails, display a message to the user.
-                    // If sign in succeeds the auth state listener will be notified and logic to handle the
-                    // signed-in user can be handled in the listener.
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(requireActivity(), "Authentication failed." + task.getException(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                        @SuppressLint("HardwareIds")
-                        String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
-                                .getContentResolver(), Settings.Secure.ANDROID_ID);
-                        user = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
-                                usrType, email, password, retypePassword, deviceToken);
-                        goToAccount(userId);
-                    }
-                });
+                    .addOnCompleteListener(requireActivity(), task -> {
+                        // If sign in fails, display a message to the user.
+                        // If sign in succeeds the auth state listener will be notified and logic to handle the
+                        // signed-in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(requireActivity(), "Authentication failed." + task.getException(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                            @SuppressLint("HardwareIds")
+                            String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
+                                    .getContentResolver(), Settings.Secure.ANDROID_ID);
+                            user = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
+                                    usrType, email, password, retypePassword, deviceToken);
+                            goToAccount(userId);
+                        }
+                    });
         });
+        return root;
+    }
+
+    private void formCheck(String username, String lastname, String addr, String email, String password)
+    {
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Enter name!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(lastname)) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Enter surname!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(addr)) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Enter address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.length() < 6) {
+            Toast.makeText(requireActivity().getApplicationContext(),
+                    "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     private void goToAccount(String userId)

@@ -40,7 +40,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private LinearLayout linearLayout;
 
     private User NjangiUser;
-
     private NavHost navHostFragment;
     private FirebaseAuth mAuth;
 

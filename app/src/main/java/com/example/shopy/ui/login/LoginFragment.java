@@ -1,6 +1,5 @@
 package com.example.shopy.ui.login;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,19 +21,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.example.shopy.R.id.btn_login;
-import static com.example.shopy.R.id.txt_sign_up;
-
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
     private FragmentLoginBinding binding;
     private EditText inputEmail;
     private EditText inputPassword;
-    private Button btnLogin;
     private NavHostFragment navHostFragment;
 
     private FirebaseAuth mAuth;
@@ -52,22 +44,44 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
 
-        TextView textView = binding.txtSignUp;
+        TextView signUp = binding.txtSignUp;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
-        btnLogin = binding.btnLogin;
-        btnLogin.setOnClickListener(this);
-        textView.setOnClickListener(this);
+        Button btnLogin = binding.btnLogin;
+
+        btnLogin.setOnClickListener(v -> {
+
+            String email = inputEmail.getText().toString();
+            String password = inputPassword.getText().toString();
+            formCheck(email, password);
+
+            if (email.isEmpty() || password.isEmpty()) return;
+            //authenticate user
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(requireActivity(), task -> {
+                        // If sign in fails, display a message to the user.
+                        // If sign in succeeds the auth state listener will be notified and logic to handle the
+                        // signed-in user can be handled in the listener.
+                        if (!task.isSuccessful())
+                        {
+                            Toast.makeText(getActivity(),"Wrong Email or Password!",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            goToAccount();
+                        }
+                    });
+        });
+        signUp.setOnClickListener(view -> {
+            NavController navController = navHostFragment.getNavController();
+            navController.navigate(R.id.navigation_register);
+        });
 
         return root;
     }
 
-    private void performLogin()
+    private void formCheck(String email, String password)
     {
-        mAuth = FirebaseAuth.getInstance();
-        String email = inputEmail.getText().toString();
-        final String password = inputPassword.getText().toString();
-
         if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
             Toast.makeText(requireActivity().getApplicationContext(),
                     "Login details are empty!", Toast.LENGTH_SHORT).show();
@@ -82,41 +96,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(requireActivity().getApplicationContext(),
                     "Enter password!", Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        btnLogin.setOnClickListener(v -> {
-
-        //authenticate user
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity(), task -> {
-                // If sign in fails, display a message to the user.
-                // If sign in succeeds the auth state listener will be notified and logic to handle the
-                // signed-in user can be handled in the listener.
-                if (!task.isSuccessful())
-                {
-                    Toast.makeText(getActivity(),"Wrong Email or Password!",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    goToAccount();
-                }
-            });
-        });
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId())
-        {
-            case btn_login:
-                performLogin();
-                break;
-            case txt_sign_up:
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.navigation_register);
-                break;
         }
     }
 
