@@ -18,7 +18,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.Controller;
-import com.example.shopy.LanguageHelper;
+import com.example.shopy.helper.LanguageHelper;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.model.User;

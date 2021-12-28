@@ -1,4 +1,4 @@
-package com.example.shopy;
+package com.example.shopy.helper;
 
 import android.content.Context;
 import android.content.res.Configuration;
