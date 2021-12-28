@@ -41,7 +41,6 @@ public class RegisterFragment extends Fragment {
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputRetypePassword;
-    private Button btnRegister;
     private NavHostFragment navHostFragment;
 
     private User user;
@@ -73,7 +72,7 @@ public class RegisterFragment extends Fragment {
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
         inputRetypePassword = binding.txtRetypePassword;
-        btnRegister = binding.btnRegister;
+        Button btnRegister = binding.btnRegister;
 
         getLanguages();
         getCountry();
