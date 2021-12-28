@@ -1,5 +1,9 @@
 package com.example.shopy.ui.account;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.model.User;
@@ -22,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.example.shopy.R.id.*;
@@ -36,13 +42,16 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private Button btnManageItem;
     private Button btnSettings;
     private Button btnSignOut;
-    TextView username;
+    private TextView username;
+    private TextView userEmail;
     private LinearLayout linearLayout;
 
-    private User NjangiUser;
+    private Controller controller;
+    private User njangiUser;
     private NavHost navHostFragment;
     private FirebaseAuth mAuth;
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
@@ -53,7 +62,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        NjangiUser = new User();
+        controller = new Controller();
+        njangiUser = new User();
         btnOrder = binding.orderBtn;
         btnInvoice = binding.invoiceBtn;
         btnManageItem = binding.addRemoveBtn;
@@ -67,12 +77,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnSettings.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
 
-        username = binding.textAccount;
+        username = binding.userName;
+        userEmail = binding.userEmail;
+        TextView appVersion = binding.appVersion;
+        String versionName = BuildConfig.VERSION_NAME;
+        appVersion.setText(getString(R.string.version_number) +" "+ versionName);
         getUserData();
 
         return root;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
 
@@ -85,6 +100,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case add_remove_Btn:
                 break;
             case settings_Btn:
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.navigation_register);
                 break;
             case sign_out_Btn:
                 mAuth.signOut();
@@ -118,19 +135,21 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
-                NjangiUser.setName(dataSnapshot.getValue(User.class).getName());
-                NjangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                NjangiUser.setCheckBokMale(dataSnapshot.getValue(User.class).isCheckBokMale());
-                NjangiUser.setCheckBokFemale(dataSnapshot.getValue(User.class).isCheckBokFemale());
-                NjangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
-                NjangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
-                NjangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                NjangiUser.setUserType(dataSnapshot.getValue(User.class).getUserType());
-                NjangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
-                NjangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                NjangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+                njangiUser.setName(dataSnapshot.getValue(User.class).getName());
+                njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
+                njangiUser.setCheckBokMale(dataSnapshot.getValue(User.class).isCheckBokMale());
+                njangiUser.setCheckBokFemale(dataSnapshot.getValue(User.class).isCheckBokFemale());
+                njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
+                njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
+                njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
+                njangiUser.setUserType(dataSnapshot.getValue(User.class).getUserType());
+                njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
+                njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
+                njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
                 Log.d("Datasnapshot",email);
-                username.setText(NjangiUser.getName());
+                username.setText(njangiUser.getName());
+                userEmail.setText(njangiUser.getEmail());
+//                setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 
             @Override
@@ -139,6 +158,18 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    public static void setLocale(Activity activity, String languageCode)
+    {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+    }
+
+//    requireActivity().finish();
 
     @Override
     public void onDestroyView() {

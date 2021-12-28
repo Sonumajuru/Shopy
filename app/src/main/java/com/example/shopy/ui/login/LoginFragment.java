@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentLoginBinding;
@@ -78,6 +80,14 @@ public class LoginFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void popUp()
+    {
+        //here the R.id refer to the fragment one wants to pop back once pressed back from the newly  navigated fragment
+        NavOptions navOption = new NavOptions.Builder().setPopUpTo(R.id.navigation_home, true).build();
+        //now how to navigate to new fragment
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_account, null, navOption);
     }
 
     private void formCheck(String email, String password)

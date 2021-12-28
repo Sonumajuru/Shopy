@@ -1,5 +1,8 @@
 package com.example.shopy.activity;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,6 +11,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.shopy.R;
 import com.example.shopy.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,5 +35,15 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.navView, navController);
         }
+    }
+
+    public static void setLocale(Activity activity, String languageCode)
+    {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 }

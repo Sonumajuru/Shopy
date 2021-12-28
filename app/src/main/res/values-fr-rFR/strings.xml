@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Njangi</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_search">Rechercher</string>
+    <string name="title_shopping_cart">Panier</string>
+    <string name="title_favorite">Favori</string>
+    <string name="title_account">Compte</string>
+    <string name="title_order">Commande</string>
+    <string name="title_invoice">Facture d\'achat</string>
+    <string name="title_setting">Réglage</string>
+    <string name="title_category">Catégorie</string>
+    <string name="title_create_user">Créer un utilisateur</string>
+    <string name="order">Commandes</string>
+    <string name="category">Catégorie</string>
+    <string name="cancel">Annuler</string>
+    <string name="pay">Payer</string>
+    <string name="invoice">Facture d\'achat</string>
+    <string name="add_remove_item">Ajouter/Supprimer un élément</string>
+    <string name="settings">Réglage</string>
+    <string name="sign_out">Se déconnecter</string>
+    <string name="sign_in">S\'identifier</string>
+    <string name="customer_support">SERVICE CLIENT</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="login">Connexion</string>
+    <string name="sign_up">Pas de compte? S\'inscrire</string>
+    <string name="email">E-mail</string>
+    <string name="name">Nom</string>
+    <string name="surname">Prénom</string>
+    <string name="address">Adresse</string>
+    <string name="male">Masculin</string>
+    <string name="female">Féminin</string>
+    <string name="buyer">Acheteur</string>
+    <string name="seller">Vendeur</string>
+    <string name="save">Sauvegarder</string>
+    <string name="update">Mettre à jour</string>
+    <string name="re_type_password">Retaper le mot de passe</string>
+    <string name="language">Langue</string>
+    <string name="country">Pays</string>
+    <string name="usertype">Type d\'utilisateur</string>
+    <string name="add_item">Ajouter un produit</string>
+</resources>
