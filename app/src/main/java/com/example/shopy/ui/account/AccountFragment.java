@@ -4,21 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.Controller;
+import com.example.shopy.LanguageHelper;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.model.User;
@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static com.example.shopy.R.id.*;
+//import static com.example.shopy.BuildConfig.*;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
 
@@ -80,8 +81,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         username = binding.userName;
         userEmail = binding.userEmail;
         TextView appVersion = binding.appVersion;
-        String versionName = BuildConfig.VERSION_NAME;
-        appVersion.setText(getString(R.string.version_number) +" "+ versionName);
+//        appVersion.setText(getString(R.string.version_number) +" "+ VERSION_NAME);
         getUserData();
 
         return root;
@@ -146,10 +146,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
                 njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
-                Log.d("Datasnapshot",email);
                 username.setText(njangiUser.getName());
                 userEmail.setText(njangiUser.getEmail());
-//                setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
+                setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 
             @Override
@@ -159,14 +158,31 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public static void setLocale(Activity activity, String languageCode)
+    public void setLocale(Activity activity, String languageCode)
     {
-        Locale locale = new Locale(languageCode);
+       if (getISO3Language(languageCode) == null) return;
+        Locale locale = new Locale(getISO3Language(languageCode).substring(0,2));
         Locale.setDefault(locale);
         Resources resources = activity.getResources();
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
+
+        LanguageHelper.storeUserLanguage(requireActivity(), String.valueOf(locale));
+        LanguageHelper.updateLanguage(requireActivity(), String.valueOf(locale));
+    }
+
+    public String getISO3Language(String name)
+    {
+        String lang = null;
+        for (Locale locale : Locale.getAvailableLocales())
+        {
+            if (name.equals(locale.getDisplayLanguage()))
+            {
+                lang = locale.getISO3Language();
+            }
+        }
+        return lang;
     }
 
 //    requireActivity().finish();

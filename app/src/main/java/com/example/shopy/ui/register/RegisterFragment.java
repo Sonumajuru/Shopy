@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.core.os.ConfigurationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -92,6 +93,7 @@ public class RegisterFragment extends Fragment {
             String usrType = userType.getSelectedItem().toString();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
+
             formCheck(username, lastname, addr, email, password);
             if (email.isEmpty() || password.isEmpty()) return;
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -171,8 +173,18 @@ public class RegisterFragment extends Fragment {
     {
         ArrayAdapter<String> adapter;
         List<String> languages = new ArrayList<>();
-        languages.add(Locale.US.getDisplayLanguage(Locale.ENGLISH));
-        languages.add(Locale.FRANCE.getDisplayLanguage(Locale.ENGLISH));
+        // Get Current Language app and change in respective
+        Locale current = ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
+        if (current.getDisplayLanguage().equals("en"))
+        {
+            languages.add(Locale.US.getDisplayLanguage(Locale.ENGLISH));
+            languages.add(Locale.FRANCE.getDisplayLanguage(Locale.ENGLISH));
+        }
+        else
+        {
+            languages.add(Locale.US.getDisplayLanguage(Locale.FRENCH));
+            languages.add(Locale.FRANCE.getDisplayLanguage(Locale.FRENCH));
+        }
 
         adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, languages);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -195,8 +207,8 @@ public class RegisterFragment extends Fragment {
     {
         ArrayAdapter<String> adapter;
         List<String> user = new ArrayList<>();
-        user.add("Buyer");
-        user.add("Seller");
+        user.add(getString(R.string.Buyer));
+        user.add(getString(R.string.Seller));
 
         adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, user);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

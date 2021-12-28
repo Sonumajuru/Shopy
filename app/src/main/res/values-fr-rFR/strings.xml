@@ -7,7 +7,7 @@
     <string name="title_favorite">Favori</string>
     <string name="title_account">Compte</string>
     <string name="title_order">Commande</string>
-    <string name="title_invoice">Facture d\'achat</string>
+    <string name="title_invoice">Facture</string>
     <string name="title_setting">Réglage</string>
     <string name="title_category">Catégorie</string>
     <string name="title_create_user">Créer un utilisateur</string>
@@ -15,10 +15,9 @@
     <string name="category">Catégorie</string>
     <string name="cancel">Annuler</string>
     <string name="pay">Payer</string>
-    <string name="invoice">Facture d\'achat</string>
-    <string name="add_remove_item">Ajouter/Supprimer un élément</string>
-    <string name="settings">Réglage</string>
-    <string name="sign_out">Se déconnecter</string>
+    <string name="invoice">Facture</string>
+    <string name="settings">Réglages</string>
+    <string name="sign_out">Déconnecter</string>
     <string name="sign_in">S\'identifier</string>
     <string name="customer_support">SERVICE CLIENT</string>
     <string name="username">Nom d\'utilisateur</string>
@@ -33,11 +32,15 @@
     <string name="female">Féminin</string>
     <string name="buyer">Acheteur</string>
     <string name="seller">Vendeur</string>
-    <string name="save">Sauvegarder</string>
+    <string name="save">Validé</string>
     <string name="update">Mettre à jour</string>
     <string name="re_type_password">Retaper le mot de passe</string>
     <string name="language">Langue</string>
     <string name="country">Pays</string>
     <string name="usertype">Type d\'utilisateur</string>
-    <string name="add_item">Ajouter un produit</string>
+    <string name="version_number">"Version: "</string>
+    <string name="user">Utilisateur</string>
+    <string name="manage_product">Gérer produit</string>
+    <string name="Buyer">Acheteur</string>
+    <string name="Seller">Vendeur</string>
 </resources>

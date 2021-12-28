@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_background_blue"
                 android:layout_marginBottom="20dp"
-                android:text="@string/add_remove_item"/>
+                android:text="@string/manage_product"/>
 
         <Button
                 android:id="@+id/settings_Btn"

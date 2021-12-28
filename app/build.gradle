@@ -10,7 +10,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     compileSdk 31
-
     defaultConfig {
         applicationId "com.example.shopy"
         minSdk 26
