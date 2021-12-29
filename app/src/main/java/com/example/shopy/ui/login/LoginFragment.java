@@ -1,5 +1,7 @@
 package com.example.shopy.ui.login;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -92,20 +94,13 @@ public class LoginFragment extends Fragment {
 
     private void formCheck(String email, String password)
     {
-        if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Login details are empty!", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter email address!", Toast.LENGTH_SHORT).show();
-            return;
+            inputEmail.setError("");
+            inputEmail.requestFocus();
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter password!", Toast.LENGTH_SHORT).show();
-            return;
+            inputPassword.setError("");
+            inputPassword.requestFocus();
         }
     }
 

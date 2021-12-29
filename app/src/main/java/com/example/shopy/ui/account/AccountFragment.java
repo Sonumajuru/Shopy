@@ -47,7 +47,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView userEmail;
     private LinearLayout linearLayout;
 
-    private Controller controller;
     private User njangiUser;
     private NavHost navHostFragment;
     private FirebaseAuth mAuth;
@@ -63,7 +62,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        controller = new Controller();
         njangiUser = new User();
         btnOrder = binding.orderBtn;
         btnInvoice = binding.invoiceBtn;

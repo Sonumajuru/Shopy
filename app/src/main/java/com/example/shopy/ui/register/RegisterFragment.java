@@ -17,9 +17,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
 import com.example.shopy.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +47,10 @@ public class RegisterFragment extends Fragment {
     private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
 
-    private User user;
+    private User njangiUser;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private Button btnRegister;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -62,6 +66,7 @@ public class RegisterFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
 
+        njangiUser = new User();
         name = binding.txtName;
         surname = binding.txtSurname;
         checkBoxMale = binding.checkBoxMale;
@@ -73,7 +78,7 @@ public class RegisterFragment extends Fragment {
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
         inputRetypePassword = binding.txtRetypePassword;
-        Button btnRegister = binding.btnRegister;
+        btnRegister = binding.btnRegister;
 
         getLanguages();
         getCountry();
@@ -93,29 +98,55 @@ public class RegisterFragment extends Fragment {
             String usrType = userType.getSelectedItem().toString();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
-
             formCheck(username, lastname, addr, email, password);
-            if (email.isEmpty() || password.isEmpty()) return;
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity(), task -> {
-                        // If sign in fails, display a message to the user.
-                        // If sign in succeeds the auth state listener will be notified and logic to handle the
-                        // signed-in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(requireActivity(), "Authentication failed." + task.getException(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else
+            String text = btnRegister.getText().toString();
+            if (!text.equals(getString(R.string.update)))
+            {
+                if (email.isEmpty() || password.isEmpty()) return;
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(requireActivity(), task -> {
+                            // If sign in fails, display a message to the user.
+                            // If sign in succeeds the auth state listener will be notified and logic to handle the
+                            // signed-in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(requireActivity(), "Authentication failed." + task.getException(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                                @SuppressLint("HardwareIds")
+                                String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
+                                        .getContentResolver(), Settings.Secure.ANDROID_ID);
+                                njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
+                                        usrType, email, password, retypePassword, deviceToken);
+                                goToAccount(userId);
+                            }
+                        });
+            }
+            else
+            {
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                assert currentUser != null;
+                currentUser.updatePassword(password)
+                        .addOnCompleteListener(task ->
                         {
-                            String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                            @SuppressLint("HardwareIds")
-                            String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
-                                    .getContentResolver(), Settings.Secure.ANDROID_ID);
-                            user = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
-                                    usrType, email, password, retypePassword, deviceToken);
-                            goToAccount(userId);
-                        }
-                    });
+                            if (task.isSuccessful())
+                            {
+                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                                @SuppressLint("HardwareIds")
+                                String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
+                                        .getContentResolver(), Settings.Secure.ANDROID_ID);
+                                njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
+                                        usrType, email, password, retypePassword, deviceToken);
+                                goToAccount(userId);
+                            }
+                            else
+                            {
+                                Toast.makeText(requireActivity(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
         });
         return root;
     }
@@ -123,34 +154,22 @@ public class RegisterFragment extends Fragment {
     private void formCheck(String username, String lastname, String addr, String email, String password)
     {
         if (TextUtils.isEmpty(username)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter name!", Toast.LENGTH_SHORT).show();
-            return;
+            name.setError("");
         }
         if (TextUtils.isEmpty(lastname)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter surname!", Toast.LENGTH_SHORT).show();
-            return;
+            surname.setError("");
         }
         if (TextUtils.isEmpty(addr)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter address!", Toast.LENGTH_SHORT).show();
-            return;
+            address.setError("");
         }
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter email address!", Toast.LENGTH_SHORT).show();
-            return;
+            inputEmail.setError("");
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Enter password!", Toast.LENGTH_SHORT).show();
-            return;
+            inputPassword.setError("");
         }
         if (password.length() < 6) {
-            Toast.makeText(requireActivity().getApplicationContext(),
-                    "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-            return;
+            inputPassword.setError("");
         }
     }
 
@@ -159,7 +178,7 @@ public class RegisterFragment extends Fragment {
         if (navHostFragment != null)
         {
             mAuth.addAuthStateListener(firebaseAuth -> {
-                mDatabase.child(userId).setValue(user);
+                mDatabase.child(userId).setValue(njangiUser);
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_account);
             });
@@ -213,6 +232,73 @@ public class RegisterFragment extends Fragment {
         adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, user);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userType.setAdapter(adapter);
+    }
+
+    private void getUserData()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = Objects.requireNonNull(user).getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot)
+            {
+                String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
+                njangiUser.setName(dataSnapshot.getValue(User.class).getName());
+                njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
+                njangiUser.setCheckBokMale(dataSnapshot.getValue(User.class).isCheckBokMale());
+                njangiUser.setCheckBokFemale(dataSnapshot.getValue(User.class).isCheckBokFemale());
+                njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
+                njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
+                njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
+                njangiUser.setUserType(dataSnapshot.getValue(User.class).getUserType());
+                njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
+                njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
+                njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+
+                disAbleControls();
+                name.setText(njangiUser.getName());
+                surname.setText(njangiUser.getSurname());
+                checkBoxMale.setChecked(njangiUser.isCheckBokMale());
+                checkBoxFemale.setChecked(njangiUser.isCheckBokFemale());
+                address.setText(njangiUser.getAddress());
+//                language.setSelection(njangiUser.getLanguage());
+//                country.setText(njangiUser.getEmail());
+//                userType.setText(njangiUser.getEmail());
+                inputEmail.setText(njangiUser.getEmail());
+                inputPassword.setText(njangiUser.getPassword());
+                inputRetypePassword.setText(njangiUser.getRetypePassword());
+                btnRegister.setText(R.string.update);
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mAuth.addAuthStateListener(firebaseAuth -> {
+            if (currentUser == null) {
+            }
+            else
+            {
+                getUserData();
+            }
+        });
+    }
+
+    private void disAbleControls()
+    {
+        name.setEnabled(false);
+        surname.setEnabled(false);
+        checkBoxMale.setEnabled(false);
+        checkBoxFemale.setEnabled(false);
+        inputEmail.setEnabled(false);
     }
 
     @Override
