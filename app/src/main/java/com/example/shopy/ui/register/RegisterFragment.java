@@ -9,25 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
-import androidx.core.os.ConfigurationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
+import com.example.shopy.helper.LanguageHelper;
 import com.example.shopy.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class RegisterFragment extends Fragment {
 
@@ -36,12 +31,13 @@ public class RegisterFragment extends Fragment {
 
     private EditText name;
     private EditText surname;
-    private CheckBox checkBoxMale;
-    private CheckBox checkBoxFemale;
+    private CheckBox male;
+    private CheckBox female;
     private EditText address;
-    private Spinner language;
     private Spinner country;
-    private Spinner userType;
+    private Spinner language;
+    private CheckBox userBuyer;
+    private CheckBox userSeller;
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputRetypePassword;
@@ -51,6 +47,8 @@ public class RegisterFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private Button btnRegister;
+
+    private List<String> langCode;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -67,35 +65,38 @@ public class RegisterFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
 
         njangiUser = new User();
+        langCode = new ArrayList<>();
+
         name = binding.txtName;
         surname = binding.txtSurname;
-        checkBoxMale = binding.checkBoxMale;
-        checkBoxFemale = binding.checkBoxFemale;
+        male = binding.male;
+        female = binding.female;
         address = binding.txtAddress;
         language = binding.language;
         country = binding.country;
-        userType = binding.user;
+        userBuyer = binding.buyer;
+        userSeller = binding.seller;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
         inputRetypePassword = binding.txtRetypePassword;
         btnRegister = binding.btnRegister;
 
+        setCountryAdapter();
         getLanguages();
-        getCountry();
-        getUserType();
-
+        onCheckBoxSelection();
         btnRegister.setOnClickListener(v -> {
 
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
             String username = name.getText().toString().trim();
             String lastname = surname.getText().toString().trim();
-            boolean isMale = checkBoxMale.isChecked();
-            boolean isFemale = checkBoxFemale.isChecked();
+            boolean isMale = male.isChecked();
+            boolean isFemale = female.isChecked();
             String addr  = address.getText().toString().trim();
             String lang = language.getSelectedItem().toString();
             String ctry = country.getSelectedItem().toString();
-            String usrType = userType.getSelectedItem().toString();
+            boolean buyer = userBuyer.isChecked();
+            boolean seller = userSeller.isChecked();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
             formCheck(username, lastname, addr, email, password);
@@ -119,7 +120,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
-                                        usrType, email, password, retypePassword, deviceToken);
+                                        buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }
                         });
@@ -138,7 +139,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
-                                        usrType, email, password, retypePassword, deviceToken);
+                                        buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }
                             else
@@ -148,6 +149,25 @@ public class RegisterFragment extends Fragment {
                         });
             }
         });
+
+        language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View v, int position, long id)
+            {
+                // On selecting a spinner item
+                String item = adapter.getItemAtPosition(position).toString();
+
+                // Showing selected spinner item
+//                Toast.makeText(requireActivity(),"Selected Country : " + item, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
         return root;
     }
 
@@ -188,50 +208,28 @@ public class RegisterFragment extends Fragment {
 //    Updating Password at a specified location in the database
 //    mDatabase.child("users").child(userId).child("username").setValue(name);
 
-    private void getLanguages()
+    private void onCheckBoxSelection()
     {
-        ArrayAdapter<String> adapter;
-        List<String> languages = new ArrayList<>();
-        // Get Current Language app and change in respective
-        Locale current = ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
-        if (current.getDisplayLanguage().equals("en"))
-        {
-            languages.add(Locale.US.getDisplayLanguage(Locale.ENGLISH));
-            languages.add(Locale.FRANCE.getDisplayLanguage(Locale.ENGLISH));
-        }
-        else
-        {
-            languages.add(Locale.US.getDisplayLanguage(Locale.FRENCH));
-            languages.add(Locale.FRANCE.getDisplayLanguage(Locale.FRENCH));
-        }
-
-        adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, languages);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        language.setAdapter(adapter);
-    }
-
-    private void getCountry()
-    {
-        ArrayAdapter<String> adapter;
-        List<String> ctry = new ArrayList<>();
-        ctry.add("Cameroon");
-        ctry.add("Nigeria");
-
-        adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, ctry);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        country.setAdapter(adapter);
-    }
-
-    private void getUserType()
-    {
-        ArrayAdapter<String> adapter;
-        List<String> user = new ArrayList<>();
-        user.add(getString(R.string.Buyer));
-        user.add(getString(R.string.Seller));
-
-        adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, user);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        userType.setAdapter(adapter);
+        male.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                female.setChecked(false);
+            }
+        });
+        female.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                male.setChecked(false);
+            }
+        });
+        userBuyer.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                userSeller.setChecked(false);
+            }
+        });
+        userSeller.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                userBuyer.setChecked(false);
+            }
+        });
     }
 
     private void getUserData()
@@ -243,15 +241,15 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
-                String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
                 njangiUser.setName(dataSnapshot.getValue(User.class).getName());
                 njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                njangiUser.setCheckBokMale(dataSnapshot.getValue(User.class).isCheckBokMale());
-                njangiUser.setCheckBokFemale(dataSnapshot.getValue(User.class).isCheckBokFemale());
+                njangiUser.setMale(dataSnapshot.getValue(User.class).isMale());
+                njangiUser.setFemale(dataSnapshot.getValue(User.class).isFemale());
                 njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
                 njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
                 njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                njangiUser.setUserType(dataSnapshot.getValue(User.class).getUserType());
+                njangiUser.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
+                njangiUser.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
                 njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
@@ -259,12 +257,13 @@ public class RegisterFragment extends Fragment {
                 disAbleControls();
                 name.setText(njangiUser.getName());
                 surname.setText(njangiUser.getSurname());
-                checkBoxMale.setChecked(njangiUser.isCheckBokMale());
-                checkBoxFemale.setChecked(njangiUser.isCheckBokFemale());
+                male.setChecked(njangiUser.isMale());
+                female.setChecked(njangiUser.isFemale());
                 address.setText(njangiUser.getAddress());
 //                language.setSelection(njangiUser.getLanguage());
 //                country.setText(njangiUser.getEmail());
-//                userType.setText(njangiUser.getEmail());
+                userBuyer.setChecked(njangiUser.isBuyer());
+                userSeller.setChecked(njangiUser.isSeller());
                 inputEmail.setText(njangiUser.getEmail());
                 inputPassword.setText(njangiUser.getPassword());
                 inputRetypePassword.setText(njangiUser.getRetypePassword());
@@ -276,6 +275,75 @@ public class RegisterFragment extends Fragment {
 
             }
         });
+    }
+
+    private void disAbleControls()
+    {
+        name.setEnabled(false);
+        surname.setEnabled(false);
+        male.setEnabled(false);
+        female.setEnabled(false);
+        userBuyer.setEnabled(false);
+        userSeller.setEnabled(false);
+        inputEmail.setEnabled(false);
+    }
+
+    private List<String> getCountryList()
+    {
+        List<String> countriesList = new ArrayList<>();
+        String[] locales = Locale.getISOCountries();
+
+        for (String countryCode : locales)
+        {
+            if (countryCode.equals("CM") || countryCode.equals("NG")|| countryCode.equals("GH"))
+            {
+                Locale obj = new Locale("", countryCode);
+                countriesList.add(obj.getDisplayCountry(Locale.ENGLISH));
+                Collections.sort(countriesList);
+            }
+        }
+
+        return countriesList;
+    }
+
+    private void setCountryAdapter()
+    {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, getCountryList());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        country.setAdapter(adapter);
+    }
+
+    private void getLanguages()
+    {
+        country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+                langCode.clear();
+                if (country.getSelectedItem().equals("Cameroon"))
+                {
+                    langCode.add("FR " + LanguageHelper.countryCodeToEmoji("FR"));
+                    langCode.add("ENG " + LanguageHelper.countryCodeToEmoji("UK"));
+                }
+                else
+                {
+                    langCode.add("ENG " + LanguageHelper.countryCodeToEmoji("UK"));
+                }
+                setLanguage();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+    }
+
+    private void setLanguage()
+    {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, langCode);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        language.setAdapter(adapter);
     }
 
     @Override
@@ -290,15 +358,6 @@ public class RegisterFragment extends Fragment {
                 getUserData();
             }
         });
-    }
-
-    private void disAbleControls()
-    {
-        name.setEnabled(false);
-        surname.setEnabled(false);
-        checkBoxMale.setEnabled(false);
-        checkBoxFemale.setEnabled(false);
-        inputEmail.setEnabled(false);
     }
 
     @Override

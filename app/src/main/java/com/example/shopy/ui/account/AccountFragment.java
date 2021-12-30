@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
-import com.example.shopy.Controller;
 import com.example.shopy.helper.LanguageHelper;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
@@ -135,12 +134,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
                 njangiUser.setName(dataSnapshot.getValue(User.class).getName());
                 njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                njangiUser.setCheckBokMale(dataSnapshot.getValue(User.class).isCheckBokMale());
-                njangiUser.setCheckBokFemale(dataSnapshot.getValue(User.class).isCheckBokFemale());
+                njangiUser.setMale(dataSnapshot.getValue(User.class).isMale());
+                njangiUser.setFemale(dataSnapshot.getValue(User.class).isFemale());
                 njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
                 njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
                 njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                njangiUser.setUserType(dataSnapshot.getValue(User.class).getUserType());
+                njangiUser.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
+                njangiUser.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
                 njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
@@ -158,8 +158,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     public void setLocale(Activity activity, String languageCode)
     {
-       if (getISO3Language(languageCode) == null) return;
-        Locale locale = new Locale(getISO3Language(languageCode).substring(0,2));
+
+        Locale locale = new Locale(languageCode.substring(0,2));
         Locale.setDefault(locale);
         Resources resources = activity.getResources();
         Configuration config = resources.getConfiguration();
@@ -168,19 +168,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         LanguageHelper.storeUserLanguage(requireActivity(), String.valueOf(locale));
         LanguageHelper.updateLanguage(requireActivity(), String.valueOf(locale));
-    }
-
-    public String getISO3Language(String name)
-    {
-        String lang = null;
-        for (Locale locale : Locale.getAvailableLocales())
-        {
-            if (name.equals(locale.getDisplayLanguage()))
-            {
-                lang = locale.getISO3Language();
-            }
-        }
-        return lang;
     }
 
 //    requireActivity().finish();

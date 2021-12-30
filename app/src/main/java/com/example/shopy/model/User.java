@@ -4,12 +4,13 @@ public class User {
 
     private String name;
     private String surname;
-    private boolean checkBokMale;
-    private boolean checkBokFemale;
+    private boolean male;
+    private boolean female;
     private String address;
     private String language;
     private String country;
-    private String userType;
+    private boolean buyer;
+    private boolean seller;
     private String email;
     private String password;
     private String retypePassword;
@@ -31,20 +32,20 @@ public class User {
         this.surname = surname;
     }
 
-    public boolean isCheckBokMale() {
-        return checkBokMale;
+    public boolean isMale() {
+        return male;
     }
 
-    public void setCheckBokMale(boolean checkBokMale) {
-        this.checkBokMale = checkBokMale;
+    public void setMale(boolean male) {
+        this.male = male;
     }
 
-    public boolean isCheckBokFemale() {
-        return checkBokFemale;
+    public boolean isFemale() {
+        return female;
     }
 
-    public void setCheckBokFemale(boolean checkBokFemale) {
-        this.checkBokFemale = checkBokFemale;
+    public void setFemale(boolean female) {
+        this.female = female;
     }
 
     public String getAddress() {
@@ -71,12 +72,20 @@ public class User {
         this.country = country;
     }
 
-    public String getUserType() {
-        return userType;
+    public boolean isBuyer() {
+        return buyer;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setBuyer(boolean buyer) {
+        this.buyer = buyer;
+    }
+
+    public boolean isSeller() {
+        return seller;
+    }
+
+    public void setSeller(boolean seller) {
+        this.seller = seller;
     }
 
     public String getEmail() {
@@ -115,17 +124,18 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String name, String surname, boolean checkBokMale, boolean checkBokFemale, String address, String language,
-                String country, String userType, String email, String password, String retypePassword, String deviceToken)
+    public User(String name, String surname, boolean male, boolean female, String address, String language,
+                String country, boolean buyer, boolean seller, String email, String password, String retypePassword, String deviceToken)
     {
         this.name = name;
         this.surname = surname;
-        this.checkBokMale = checkBokMale;
-        this.checkBokFemale = checkBokFemale;
+        this.male = male;
+        this.female = female;
         this.address = address;
         this.language = language;
         this.country = country;
-        this.userType = userType;
+        this.buyer = buyer;
+        this.seller = seller;
         this.email = email;
         this.password = password;
         this.retypePassword = retypePassword;
