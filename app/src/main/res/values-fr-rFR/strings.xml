@@ -43,6 +43,7 @@
     <string name="title_manage_product">Gérer produit</string>
     <string name="Buyer">Acheteur</string>
     <string name="Seller">Vendeur</string>
-    <string name="Choose">Choisir</string>
-    <string name="Upload">Soumettre</string>
+    <string name="price">Prix</string>
+    <string name="description">Description</string>
+    <string name="product_image">Image du produit</string>
 </resources>

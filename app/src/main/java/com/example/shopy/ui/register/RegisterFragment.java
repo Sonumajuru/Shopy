@@ -88,18 +88,18 @@ public class RegisterFragment extends Fragment {
 
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
-            String username = name.getText().toString().trim();
-            String lastname = surname.getText().toString().trim();
-            boolean isMale = male.isChecked();
-            boolean isFemale = female.isChecked();
-            String addr  = address.getText().toString().trim();
-            String lang = language.getSelectedItem().toString();
-            String ctry = country.getSelectedItem().toString();
+            String name = this.name.getText().toString().trim();
+            String surname = this.surname.getText().toString().trim();
+            boolean male = this.male.isChecked();
+            boolean female = this.female.isChecked();
+            String address  = this.address.getText().toString().trim();
+            String language = this.language.getSelectedItem().toString();
+            String country = this.country.getSelectedItem().toString();
             boolean buyer = userBuyer.isChecked();
             boolean seller = userSeller.isChecked();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
-            formCheck(username, lastname, addr, email, password);
+            formCheck(name, surname, address, email, password);
             String text = btnRegister.getText().toString();
             if (!text.equals(getString(R.string.update)))
             {
@@ -119,7 +119,7 @@ public class RegisterFragment extends Fragment {
                                 @SuppressLint("HardwareIds")
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
+                                njangiUser = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }
@@ -138,7 +138,7 @@ public class RegisterFragment extends Fragment {
                                 @SuppressLint("HardwareIds")
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                njangiUser = new User(username, lastname, isMale, isFemale, addr, lang, ctry,
+                                njangiUser = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }

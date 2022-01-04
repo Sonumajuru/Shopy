@@ -21,15 +21,15 @@ import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.travijuu.numberpicker.library.NumberPicker;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -43,7 +43,8 @@ public class ProductFragment extends Fragment {
     private Button btnUpload;
     private Button btnView;
     private NumberPicker quantityPicker;
-    private EditText inputCategory;
+    private EditText inputName;
+    private Spinner category;
     private EditText inputPrice;
     private TextView inputCurrency; // Set currency based on chosen country
     private EditText inputDescription;
@@ -88,13 +89,16 @@ public class ProductFragment extends Fragment {
         btnUpload = binding.btnUpload;
         btnView = binding.btnView;
         quantityPicker = binding.numberPicker;
-        inputCategory = binding.txtCategory;
+        inputName = binding.txtName;
+        category = binding.category;
         inputCurrency = binding.txtCurrency;
         inputDescription = binding.txtDescription;
         inputPrice = binding.txtPrice;
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> uploadImage());
+        getCurrency();
+        getCategory();
 
         return root;
     }
@@ -132,17 +136,19 @@ public class ProductFragment extends Fragment {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            String category = inputCategory.getText().toString().trim();
+            String name = inputName.getText().toString().trim();
+            String category = this.category.getSelectedItem().toString();
             String price = inputPrice.getText().toString().trim();
             int quantity = quantityPicker.getValue();
-            String currency = inputCurrency.getText().toString().trim();
             String description = inputDescription.getText().toString().trim();
+            String currency = inputCurrency.getText().toString().trim();
 
             StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
                         Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
-                        product = new Product(category, price, quantity, currency, description);
+                        product = new Product(name, category, price, quantity, currency, description,
+                                Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString());
                         mDatabase.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                 .setValue(product);
                     })
@@ -157,6 +163,47 @@ public class ProductFragment extends Fragment {
         }
     }
 
+    private void getCategory()
+    {
+        String[] ProductCategories = new String[]{"Electronics", "Computer",
+                "Home Appliance", "Phones", "Books", "Games"};
+
+        final List<String> plantsList = new ArrayList<>(Arrays.asList(ProductCategories));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, plantsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category.setAdapter(adapter);
+    }
+
+    private void getCurrency()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = Objects.requireNonNull(user).getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot)
+            {
+                String country = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getCountry();
+                if (country.equals("Cameroon"))
+                {
+                    inputCurrency.setText("CFA");
+                }
+                else if (country.equals("Nigeria"))
+                {
+                    inputCurrency.setText("NGN");
+                }
+                else if (country.equals("Ghana"))
+                {
+                    inputCurrency.setText("NGN");
+                }
+                inputCurrency.setEnabled(false);
+            }
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public void onDestroyView() {
