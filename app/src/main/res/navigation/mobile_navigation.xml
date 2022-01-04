@@ -65,4 +65,10 @@
             android:label="@string/title_create_user"
             tools:layout="@layout/fragment_login"/>
 
+    <fragment
+            android:id="@+id/navigation_product"
+            android:name="com.example.shopy.ui.product.ProductFragment"
+            android:label="@string/title_manage_product"
+            tools:layout="@layout/fragment_product"/>
+
 </navigation>

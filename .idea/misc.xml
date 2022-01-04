@@ -3,39 +3,47 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1875" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/drawable/btn_dropdown.xml" value="0.321025641025641" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.16927083333333334" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/drawable/btn_background_blue.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/drawable/btn_background_grey.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/drawable/btn_background_white.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/drawable/btn_normal_background.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/button_background_white.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/drawable/error_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/ic_account_black_24.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_choose_file_black_24.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/ic_erroricon_black_24.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_file_upload_black_24.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_list_add_24.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_shopping_cart_black_24dp.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/login_edittext.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/drawable/normal_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/searchBar_background.xml" value="0.171875" />
         <entry key="app/src/main/res/drawable/search_bar_background.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.16927083333333334" />
-        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_createuser.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.2028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_item.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_order.xml" value="0.2028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_shopping_cart.xml" value="0.2028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_view_item.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />
       </map>
     </option>

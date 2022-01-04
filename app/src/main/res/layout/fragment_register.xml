@@ -33,7 +33,7 @@
                         android:layout_marginBottom="10dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:inputType="textPersonName"
                         android:autofillHints="Name"/>
@@ -47,7 +47,7 @@
                         android:layout_marginBottom="5dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:inputType="textPersonName"
                         android:autofillHints="Lastname"/>
@@ -96,7 +96,7 @@
                         android:gravity="top|start"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:autofillHints="Address"/>
 
@@ -198,7 +198,7 @@
                         android:layout_marginBottom="10dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:inputType="textEmailAddress"
                         android:autofillHints="Email"/>
@@ -213,7 +213,7 @@
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:inputType="textPassword"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:autofillHints="Password"/>
 
@@ -227,7 +227,7 @@
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:inputType="textPassword"
-                        android:background="@drawable/btn_background_blue"
+                        android:background="@color/app_color_blue"
                         android:textSize="15sp"
                         android:autofillHints="Password"/>
 
@@ -237,7 +237,6 @@
                     android:id="@+id/btn_register"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_background_blue"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:text="@string/save"/>

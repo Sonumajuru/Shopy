@@ -67,7 +67,6 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/order"
-                android:background="@drawable/btn_background_blue"
                 android:layout_marginStart="30dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"/>
@@ -77,10 +76,9 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/category"
-                android:background="@drawable/btn_background_blue"
-                android:layout_centerInParent="true"
                 android:layout_marginEnd="30dp"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"/>
 
     </RelativeLayout>
 

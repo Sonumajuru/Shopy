@@ -21,7 +21,7 @@
                 android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_list_add_24"
                 android:scaleType="fitCenter"
-                android:contentDescription="@string/manage_product"/>
+                android:contentDescription="@string/title_manage_product"/>
 
     </RelativeLayout>
 

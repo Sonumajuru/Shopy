@@ -19,4 +19,6 @@
     <color name="royal_orange">#FFf99245</color>
     <color name="tropical_forest">#FF00755e</color>
     <color name="blue_green">#FF3A6960</color>
+    <color name="grey">#f0f0f0</color>
+    <color name="dark_grey">#dfdfdf</color>
 </resources>

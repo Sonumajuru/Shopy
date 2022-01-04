@@ -40,7 +40,9 @@
     <string name="usertype">Type d\'utilisateur</string>
     <string name="version_number">"Version: "</string>
     <string name="user">Utilisateur</string>
-    <string name="manage_product">Gérer produit</string>
+    <string name="title_manage_product">Gérer produit</string>
     <string name="Buyer">Acheteur</string>
     <string name="Seller">Vendeur</string>
+    <string name="Choose">Choisir</string>
+    <string name="Upload">Soumettre</string>
 </resources>

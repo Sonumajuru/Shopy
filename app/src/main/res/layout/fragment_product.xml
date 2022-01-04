@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:numberpicker="http://schemas.android.com/apk/res-auto"
+        tools:context=".ui.product.ProductFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/layout_image"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+        <ImageView
+                android:id="@+id/imgView_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/product_image"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/layout_button"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/layout_image"
+            android:weightSum="3"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+        <Button
+                android:id="@+id/btnChoose"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:drawableLeft="@drawable/ic_choose_file_black_24"
+                android:layout_marginEnd="5dp"/>
+
+        <Button
+                android:id="@+id/btnUpload"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:drawableLeft="@drawable/ic_file_upload_black_24"/>
+
+        <Button
+                android:id="@+id/btnView"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:drawableLeft="@drawable/ic_folder_open_black_24"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/layout_button"
+            android:gravity="start"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+        <EditText
+                android:id="@+id/txt_Category"
+                android:layout_width="250dp"
+                android:layout_height="48dp"
+                android:hint="@string/category"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@color/app_color_blue"
+                android:textSize="15sp"
+                android:autofillHints="Category"/>
+
+        <LinearLayout
+                android:id="@+id/quantity_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_below="@id/txt_Category"
+                android:layout_marginTop="5dp">
+
+            <EditText
+                    android:id="@+id/txt_Price"
+                    android:layout_width="100dp"
+                    android:layout_height="48dp"
+                    android:hint="@string/price"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/app_color_blue"
+                    android:textSize="15sp"
+                    android:autofillHints="Price"/>
+
+            <TextView
+                    android:id="@+id/txt_Currency"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:hint="FCFA"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/app_color_blue"
+                    android:textSize="15sp"
+                    android:autofillHints="Currency"/>
+
+            <com.travijuu.numberpicker.library.NumberPicker
+                    android:id="@+id/number_picker"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    numberpicker:min="0"
+                    numberpicker:max="50"
+                    numberpicker:value="-5"
+                    numberpicker:unit="1"
+                    numberpicker:focusable="false"
+                    android:layout_marginStart="25dp"/>
+
+        </LinearLayout>
+
+        <EditText
+                android:id="@+id/txt_Description"
+                android:layout_width="350dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/quantity_layout"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:hint="@string/description"
+                android:gravity="top|start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/app_color_blue"
+                android:textSize="15sp"
+                android:autofillHints="Description"/>
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

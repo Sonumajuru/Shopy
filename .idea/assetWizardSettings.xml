@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -18,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/error/baseline_error_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/folder_open/baseline_folder_open_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +33,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_erroricon_black_24" />
+                            <entry key="outputName" value="ic_folder_open_black_24" />
                           </map>
                         </option>
                       </PersistentState>

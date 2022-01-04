@@ -87,7 +87,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-
+        NavController navController = navHostFragment.getNavController();
         switch (v.getId())
         {
             case order_Btn:
@@ -95,9 +95,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case invoice_Btn:
                 break;
             case add_remove_Btn:
+                navController.navigate(navigation_product);
                 break;
             case settings_Btn:
-                NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_register);
                 break;
             case sign_out_Btn:
