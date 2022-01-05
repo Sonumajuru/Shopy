@@ -149,8 +149,7 @@ public class ProductFragment extends Fragment {
                         Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                         product = new Product(name, category, price, quantity, currency, description,
                                 Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString());
-                        mDatabase.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                .setValue(product);
+                        mDatabase.push().setValue(product);
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();
