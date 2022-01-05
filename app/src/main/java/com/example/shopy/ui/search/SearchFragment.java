@@ -9,26 +9,19 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.shopy.R;
 import com.example.shopy.adapter.ListViewAdapter;
 import com.example.shopy.databinding.FragmentSearchBinding;
 import com.example.shopy.model.Product;
-import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
 
-    // Declare Variables
     private ListView list;
     private ListViewAdapter adapter;
     private SearchView searchView;
@@ -50,17 +43,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         searchView = binding.search;
         list = binding.listview;
-
-        // Generate sample data
-//        productNameList = new String[]{"Lion", "Tiger", "Dog",
-//                "1", "Tortoise", "Rat", "Elephant"};
-
-//        for (int i = 0; i < productNameList.length; i++) {
-//            Product productNames = new Product("Lion", "Tiger", "Dog",
-//                    1, "Tortoise", "Rat", "Elephant");
-//            // Binds all strings into an array
-//            arraylist.add(productNames);
-//        }
 
         getUserData();
 
@@ -91,10 +73,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     product = ds.getValue(Product.class);
                     productList.add(product);
                 }
-                for (Product productNames : productList) {
-                    // Binds all strings into an array
-                    arraylist.add(productNames);
-                }
+                // Binds all strings into an array
+                arraylist.addAll(productList);
 
                 // Pass results to ListViewAdapter Class
                 adapter = new ListViewAdapter(requireActivity(), arraylist);

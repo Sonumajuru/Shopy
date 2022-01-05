@@ -2,6 +2,7 @@ package com.example.shopy.model;
 
 public class Product {
 
+    private String id;
     private String name;
     private String category;
     private String price;
@@ -9,6 +10,14 @@ public class Product {
     private String currency;
     private String description;
     private String imageUrl;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -69,7 +78,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String category, String price, int quantity, String currency, String description, String imageUrl) {
+    public Product(String id, String name, String category, String price, int quantity, String currency, String description, String imageUrl) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;

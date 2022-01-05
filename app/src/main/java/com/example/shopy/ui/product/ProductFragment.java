@@ -46,7 +46,7 @@ public class ProductFragment extends Fragment {
     private EditText inputName;
     private Spinner category;
     private EditText inputPrice;
-    private TextView inputCurrency; // Set currency based on chosen country
+    private TextView inputCurrency;
     private EditText inputDescription;
 
     private Uri filePath;
@@ -147,7 +147,8 @@ public class ProductFragment extends Fragment {
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
                         Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
-                        product = new Product(name, category, price, quantity, currency, description,
+                        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                        product = new Product(userId, name, category, price, quantity, currency, description,
                                 Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString());
                         mDatabase.push().setValue(product);
                     })
