@@ -30,7 +30,7 @@
         <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.2028985507246377" />
-        <entry key="app/src/main/res/layout/fragment_category.xml" value="0.2028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_createuser.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
@@ -44,6 +44,8 @@
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_shopping_cart.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_view_item.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/list_group.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/list_view_items.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />
       </map>

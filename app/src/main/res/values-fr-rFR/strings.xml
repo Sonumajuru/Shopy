@@ -46,4 +46,10 @@
     <string name="price">Prix</string>
     <string name="description">Description</string>
     <string name="product_image">Image du produit</string>
+    <string name="electronics">Électronique</string>
+    <string name="computer">Ordinateur</string>
+    <string name="home_appliance">Appareils Ménagers</string>
+    <string name="phones">Téléphone</string>
+    <string name="books">Livres</string>
+    <string name="games">Jeux</string>
 </resources>

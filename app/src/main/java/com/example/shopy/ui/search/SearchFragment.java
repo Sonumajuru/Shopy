@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.shopy.adapter.ListViewAdapter;
 import com.example.shopy.databinding.FragmentSearchBinding;
 import com.example.shopy.model.Product;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
@@ -26,10 +25,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private ListViewAdapter adapter;
     private SearchView searchView;
     private ArrayList<Product> arraylist = new ArrayList<>();
-
     private ArrayList<Product> productList = new ArrayList<>();
     private Product product;
-    private FirebaseAuth mAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -39,13 +36,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         View root = binding.getRoot();
 
         product = new Product();
-        mAuth = FirebaseAuth.getInstance();
-
         searchView = binding.search;
         list = binding.listview;
 
         getUserData();
-
         searchView.setOnQueryTextListener(this);
 
         return root;

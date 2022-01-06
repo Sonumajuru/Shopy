@@ -45,4 +45,11 @@
     <string name="price">Price</string>
     <string name="description">Description</string>
     <string name="product_image">Product Image</string>
+    <string name="electronics">Electronics</string>
+    <string name="computer">Computers</string>
+    <string name="home_appliance">Home Appliances</string>
+    <string name="phones">Phones</string>
+    <string name="books">Books</string>
+    <string name="games">Games</string>
+
 </resources>

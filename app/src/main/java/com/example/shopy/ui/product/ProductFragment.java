@@ -165,11 +165,13 @@ public class ProductFragment extends Fragment {
 
     private void getCategory()
     {
-        String[] ProductCategories = new String[]{"Electronics", "Computer",
-                "Home Appliance", "Phones", "Books", "Games"};
+        // Make ENUM for Categories or Strings of ID R.id.String
+        String[] ProductCategories = new String[]{getString(R.string.electronics), getString(R.string.computer),
+                getString(R.string.home_appliance), getString(R.string.phones),
+                getString(R.string.books), getString(R.string.games)};
 
-        final List<String> plantsList = new ArrayList<>(Arrays.asList(ProductCategories));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, plantsList);
+        final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category.setAdapter(adapter);
     }
