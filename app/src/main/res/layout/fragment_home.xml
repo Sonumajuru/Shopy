@@ -11,43 +11,29 @@
             android:id="@+id/text_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="15dp"
             android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:textSize="20sp"/>
 
-    <LinearLayout
-            android:id="@+id/search_Layout"
-            android:layout_below="@+id/text_home"
+    <SearchView
+            android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:paddingBottom="10dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/text_home"
+            android:queryHint="@string/menu_search"
+            android:background="@drawable/search_bar_background"
+            android:iconifiedByDefault="false"/>
 
-        <SearchView
-                android:id="@+id/searchView"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_bar_background"
-                android:elevation="2sp"
-                tools:ignore="UnusedAttribute">
-            <requestFocus />
-
-        </SearchView>
-
-    </LinearLayout>
+    <requestFocus />
 
     <LinearLayout
             android:id="@+id/advertisement_Layout"
             android:orientation="vertical"
-            android:layout_below="@+id/search_Layout"
+            android:layout_below="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginEnd="5dp"

@@ -12,6 +12,7 @@ import com.example.shopy.helper.LanguageHelper;
 import com.example.shopy.R;
 import com.example.shopy.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         initLanguage();
     }

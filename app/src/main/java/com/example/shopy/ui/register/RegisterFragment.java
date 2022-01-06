@@ -43,7 +43,7 @@ public class RegisterFragment extends Fragment {
     private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
 
-    private User njangiUser;
+    private User user;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private Button btnRegister;
@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
 
-        njangiUser = new User();
+        user = new User();
         langCode = new ArrayList<>();
 
         name = binding.txtName;
@@ -119,7 +119,7 @@ public class RegisterFragment extends Fragment {
                                 @SuppressLint("HardwareIds")
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                njangiUser = new User(name, surname, male, female, address, language, country,
+                                user = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }
@@ -138,7 +138,7 @@ public class RegisterFragment extends Fragment {
                                 @SuppressLint("HardwareIds")
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                njangiUser = new User(name, surname, male, female, address, language, country,
+                                user = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
                                 goToAccount(userId);
                             }
@@ -198,7 +198,7 @@ public class RegisterFragment extends Fragment {
         if (navHostFragment != null)
         {
             mAuth.addAuthStateListener(firebaseAuth -> {
-                mDatabase.child(userId).setValue(njangiUser);
+                mDatabase.child(userId).setValue(user);
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_account);
             });
@@ -235,38 +235,46 @@ public class RegisterFragment extends Fragment {
     private void getUserData()
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
         String userid = Objects.requireNonNull(user).getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
         reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
-                njangiUser.setName(dataSnapshot.getValue(User.class).getName());
-                njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                njangiUser.setMale(dataSnapshot.getValue(User.class).isMale());
-                njangiUser.setFemale(dataSnapshot.getValue(User.class).isFemale());
-                njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
-                njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
-                njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                njangiUser.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
-                njangiUser.setSeller(dataSnapshot.getValue(User.class).isSeller());
-                njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
-                njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+                RegisterFragment.this.user.setName(dataSnapshot.getValue(User.class).getName());
+                RegisterFragment.this.user.setSurname(dataSnapshot.getValue(User.class).getSurname());
+                RegisterFragment.this.user.setMale(dataSnapshot.getValue(User.class).isMale());
+                RegisterFragment.this.user.setFemale(dataSnapshot.getValue(User.class).isFemale());
+                RegisterFragment.this.user.setAddress(dataSnapshot.getValue(User.class).getAddress());
+                RegisterFragment.this.user.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
+                RegisterFragment.this.user.setCountry(dataSnapshot.getValue(User.class).getCountry());
+                RegisterFragment.this.user.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
+                RegisterFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
+                RegisterFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
+                RegisterFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
+                RegisterFragment.this.user.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
 
                 disAbleControls();
-                name.setText(njangiUser.getName());
-                surname.setText(njangiUser.getSurname());
-                male.setChecked(njangiUser.isMale());
-                female.setChecked(njangiUser.isFemale());
-                address.setText(njangiUser.getAddress());
-//                language.setSelection(njangiUser.getLanguage());
-//                country.setText(njangiUser.getEmail());
-                userBuyer.setChecked(njangiUser.isBuyer());
-                userSeller.setChecked(njangiUser.isSeller());
-                inputEmail.setText(njangiUser.getEmail());
-                inputPassword.setText(njangiUser.getPassword());
-                inputRetypePassword.setText(njangiUser.getRetypePassword());
+                name.setText(RegisterFragment.this.user.getName());
+                surname.setText(RegisterFragment.this.user.getSurname());
+                male.setChecked(RegisterFragment.this.user.isMale());
+                female.setChecked(RegisterFragment.this.user.isFemale());
+                address.setText(RegisterFragment.this.user.getAddress());
+
+                ArrayAdapter<String> countryAdapter = (ArrayAdapter<String>) country.getAdapter();
+                int countryPosition = countryAdapter.getPosition(dataSnapshot.getValue(User.class).getCountry());
+                country.setSelection(countryPosition);
+
+                ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
+                int langPosition = languageAdapter.getPosition(dataSnapshot.getValue(User.class).getCountry());
+                language.setSelection(langPosition);
+
+                userBuyer.setChecked(RegisterFragment.this.user.isBuyer());
+                userSeller.setChecked(RegisterFragment.this.user.isSeller());
+                inputEmail.setText(RegisterFragment.this.user.getEmail());
+                inputPassword.setText(RegisterFragment.this.user.getPassword());
+                inputRetypePassword.setText(RegisterFragment.this.user.getRetypePassword());
                 btnRegister.setText(R.string.update);
             }
 

@@ -46,7 +46,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView userEmail;
     private LinearLayout linearLayout;
 
-    private User njangiUser;
+    private User user;
     private NavHost navHostFragment;
     private FirebaseAuth mAuth;
 
@@ -61,7 +61,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        njangiUser = new User();
+        user = new User();
         btnOrder = binding.orderBtn;
         btnInvoice = binding.invoiceBtn;
         btnManageItem = binding.addRemoveBtn;
@@ -125,6 +125,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void getUserData()
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
         String userid = Objects.requireNonNull(user).getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
         reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -132,20 +133,20 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
-                njangiUser.setName(dataSnapshot.getValue(User.class).getName());
-                njangiUser.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                njangiUser.setMale(dataSnapshot.getValue(User.class).isMale());
-                njangiUser.setFemale(dataSnapshot.getValue(User.class).isFemale());
-                njangiUser.setAddress(dataSnapshot.getValue(User.class).getAddress());
-                njangiUser.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
-                njangiUser.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                njangiUser.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
-                njangiUser.setSeller(dataSnapshot.getValue(User.class).isSeller());
-                njangiUser.setEmail(dataSnapshot.getValue(User.class).getEmail());
-                njangiUser.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                njangiUser.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
-                username.setText(njangiUser.getName());
-                userEmail.setText(njangiUser.getEmail());
+                AccountFragment.this.user.setName(dataSnapshot.getValue(User.class).getName());
+                AccountFragment.this.user.setSurname(dataSnapshot.getValue(User.class).getSurname());
+                AccountFragment.this.user.setMale(dataSnapshot.getValue(User.class).isMale());
+                AccountFragment.this.user.setFemale(dataSnapshot.getValue(User.class).isFemale());
+                AccountFragment.this.user.setAddress(dataSnapshot.getValue(User.class).getAddress());
+                AccountFragment.this.user.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
+                AccountFragment.this.user.setCountry(dataSnapshot.getValue(User.class).getCountry());
+                AccountFragment.this.user.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
+                AccountFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
+                AccountFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
+                AccountFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
+                AccountFragment.this.user.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+                username.setText(AccountFragment.this.user.getName());
+                userEmail.setText(AccountFragment.this.user.getEmail());
                 setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 

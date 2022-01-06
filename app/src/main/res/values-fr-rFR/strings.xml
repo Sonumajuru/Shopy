@@ -52,4 +52,6 @@
     <string name="phones">Téléphone</string>
     <string name="books">Livres</string>
     <string name="games">Jeux</string>
+    <string name="search_hint">As-tu trouvé ce que tu cherchais?</string>
+    <string name="menu_search">Permet de vous aider à rechercher..</string>
 </resources>

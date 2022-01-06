@@ -51,5 +51,7 @@
     <string name="phones">Phones</string>
     <string name="books">Books</string>
     <string name="games">Games</string>
+    <string name="search_hint">Find what you were looking for?</string>
+    <string name="menu_search">Lets help you search..</string>
 
 </resources>
