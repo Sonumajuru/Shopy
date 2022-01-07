@@ -20,12 +20,13 @@ import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.travijuu.numberpicker.library.NumberPicker;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -42,9 +43,9 @@ public class ProductFragment extends Fragment {
     private Button btnChoose;
     private Button btnUpload;
     private Button btnView;
-    private NumberPicker quantityPicker;
     private EditText inputName;
     private Spinner category;
+    private RatingBar ratingBar;
     private EditText inputPrice;
     private TextView inputCurrency;
     private EditText inputDescription;
@@ -88,7 +89,7 @@ public class ProductFragment extends Fragment {
         btnChoose = binding.btnChoose;
         btnUpload = binding.btnUpload;
         btnView = binding.btnView;
-        quantityPicker = binding.numberPicker;
+        ratingBar = binding.ratingBar;
         inputName = binding.txtName;
         category = binding.category;
         inputCurrency = binding.txtCurrency;
@@ -97,6 +98,14 @@ public class ProductFragment extends Fragment {
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> uploadImage());
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
+                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         getCurrency();
         getCategory();
 
@@ -138,19 +147,25 @@ public class ProductFragment extends Fragment {
 
             String name = inputName.getText().toString().trim();
             String category = this.category.getSelectedItem().toString();
-            String price = inputPrice.getText().toString().trim();
-            int quantity = quantityPicker.getValue();
+            double price = Double.parseDouble(inputPrice.getText().toString().trim());
+            double rating = ratingBar.getRating();
             String description = inputDescription.getText().toString().trim();
             String currency = inputCurrency.getText().toString().trim();
 
             StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
-                        Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
-                        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                        product = new Product(userId, name, category, price, quantity, currency, description,
-                                Objects.requireNonNull(taskSnapshot.getUploadSessionUri()).toString());
-                        mDatabase.push().setValue(product);
+
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri)
+                            {
+                                Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
+                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                                product = new Product(userId, name, category, price, currency, description, uri.toString(), rating);
+                                mDatabase.push().setValue(product);
+                            }
+                        });
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();

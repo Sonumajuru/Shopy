@@ -25,7 +25,7 @@
     <string name="login">Login</string>
     <string name="sign_up">No account? Sign Up</string>
     <string name="email">Email</string>
-    <string name="name">Name</string>
+    <string name="title">Title</string>
     <string name="surname">Surname</string>
     <string name="address">Address</string>
     <string name="male">Male</string>
@@ -53,5 +53,6 @@
     <string name="games">Games</string>
     <string name="search_hint">Find what you were looking for?</string>
     <string name="menu_search">Lets help you search..</string>
+    <string name="name">Title</string>
 
 </resources>

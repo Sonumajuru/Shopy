@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="start"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp">
 
@@ -158,30 +158,48 @@
                                 android:textSize="15sp"
                                 android:autofillHints="Currency"/>
 
-                        <com.travijuu.numberpicker.library.NumberPicker
-                                android:id="@+id/number_picker"
-                                android:layout_width="130dp"
-                                android:layout_height="40dp"
-                                numberpicker:min="0"
-                                numberpicker:max="50"
-                                numberpicker:value="-5"
-                                numberpicker:unit="1"
-                                numberpicker:focusable="false"
-                                android:layout_marginStart="25dp"/>
-
                     </LinearLayout>
+
+                    <RelativeLayout
+                            android:id="@+id/rating_Layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/quantity_layout">
+
+                        <RatingBar
+                                android:id="@+id/ratingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                style="?android:attr/ratingBarStyleIndicator"
+                                android:isIndicator="false"
+                                android:backgroundTint="@color/black"
+                                android:progressTint="@color/royal_orange"
+                                android:numStars="5"/>
+
+                        <TextView
+                                android:id="@+id/txt_Rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_toEndOf="@id/ratingBar"
+                                android:text="Set Rating"
+                                android:textSize="15sp"
+                                android:autofillHints="Currency"/>
+
+                    </RelativeLayout>
 
                     <EditText
                             android:id="@+id/txt_Description"
                             android:layout_width="350dp"
-                            android:layout_height="120dp"
-                            android:layout_below="@+id/quantity_layout"
+                            android:layout_height="75dp"
+                            android:layout_below="@+id/rating_Layout"
                             android:inputType="textImeMultiLine|textMultiLine"
                             android:hint="@string/description"
                             android:gravity="top|start"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
                             android:background="@color/app_color_blue"
                             android:textSize="15sp"

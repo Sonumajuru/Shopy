@@ -25,7 +25,7 @@
     <string name="login">Connexion</string>
     <string name="sign_up">Pas de compte? S\'inscrire</string>
     <string name="email">E-mail</string>
-    <string name="name">Nom</string>
+    <string name="name">Titre</string>
     <string name="surname">Prénom</string>
     <string name="address">Adresse</string>
     <string name="male">Masculin</string>

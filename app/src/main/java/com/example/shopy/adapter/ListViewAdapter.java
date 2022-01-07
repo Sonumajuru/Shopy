@@ -61,7 +61,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(productNamesList.get(position).getName());
+        holder.name.setText(productNamesList.get(position).getTitle());
         return view;
     }
 
@@ -73,7 +73,7 @@ public class ListViewAdapter extends BaseAdapter {
             productNamesList.addAll(arraylist);
         } else {
             for (Product wp : arraylist) {
-                if (wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                if (wp.getTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
                     productNamesList.add(wp);
                 }
             }

@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ExpandableListViewAdapter;
 import com.example.shopy.databinding.FragmentCategoryBinding;
@@ -21,6 +24,9 @@ import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
 import java.util.*;
+
+import static com.example.shopy.R.id.navigation_category;
+import static com.example.shopy.R.id.navigation_product_overview;
 
 public class CategoryFragment extends Fragment {
 
@@ -39,6 +45,8 @@ public class CategoryFragment extends Fragment {
     private List<String> phones = new ArrayList<>();
     private List<String> books = new ArrayList<>();
     private List<String> games = new ArrayList<>();
+
+    private NavHost navHostFragment;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -60,6 +68,12 @@ public class CategoryFragment extends Fragment {
         getUserData();
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+
+            navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment_activity_main);
+            NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+            navController.navigate(navigation_product_overview);
+
             Toast.makeText(
                     requireActivity().getApplicationContext(), expandableListTitle.get(groupPosition)
                             + " -> "
@@ -83,27 +97,27 @@ public class CategoryFragment extends Fragment {
 
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.electronics, "en")))
                     {
-                        electronics.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        electronics.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.computer, "en")))
                     {
-                        computer.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        computer.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.home_appliance, "en")))
                     {
-                        home_appliance.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        home_appliance.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.phones, "en")))
                     {
-                        phones.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        phones.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.books, "en")))
                     {
-                        books.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        books.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                     if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.games, "en")))
                     {
-                        games.add(Objects.requireNonNull(ds.getValue(Product.class)).getName());
+                        games.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
                     }
                 }
                 expandableListDetail.put(getString(R.string.electronics), electronics);

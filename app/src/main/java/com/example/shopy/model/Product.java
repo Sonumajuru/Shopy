@@ -3,13 +3,13 @@ package com.example.shopy.model;
 public class Product {
 
     private String id;
-    private String name;
+    private String title;
     private String category;
-    private String price;
-    private int quantity;
+    private double price;
     private String currency;
-    private String description;
+    private String shortDesc;
     private String imageUrl;
+    private double rating;
 
     public String getId() {
         return id;
@@ -19,12 +19,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCategory() {
@@ -35,20 +35,12 @@ public class Product {
         this.category = category;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public String getCurrency() {
@@ -59,12 +51,12 @@ public class Product {
         this.currency = currency;
     }
 
-    public String getDescription() {
-        return description;
+    public String getShortDesc() {
+        return shortDesc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
     }
 
     public String getImageUrl() {
@@ -75,17 +67,26 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
     public Product() {
     }
 
-    public Product(String id, String name, String category, String price, int quantity, String currency, String description, String imageUrl) {
+    public Product(String id, String title, String category, double price,
+                   String currency, String shortDesc, String imageUrl, double rating) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.category = category;
         this.price = price;
-        this.quantity = quantity;
         this.currency = currency;
-        this.description = description;
+        this.shortDesc = shortDesc;
         this.imageUrl = imageUrl;
+        this.rating = rating;
     }
 }
