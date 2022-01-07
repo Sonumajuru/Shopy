@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/folder_open/baseline_folder_open_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/favorite_border/baseline_favorite_border_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,7 +33,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_folder_open_black_24" />
+                            <entry key="outputName" value="ic_favorite_border_24" />
                           </map>
                         </option>
                       </PersistentState>

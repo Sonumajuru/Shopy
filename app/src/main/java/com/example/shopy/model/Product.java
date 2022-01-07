@@ -1,6 +1,9 @@
 package com.example.shopy.model;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
 
     private String id;
     private String title;
@@ -88,5 +91,45 @@ public class Product {
         this.shortDesc = shortDesc;
         this.imageUrl = imageUrl;
         this.rating = rating;
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    protected Product(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        category = in.readString();
+        price = in.readDouble();
+        currency = in.readString();
+        shortDesc = in.readString();
+        imageUrl = in.readString();
+        rating = in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(category);
+        dest.writeDouble(price);
+        dest.writeString(currency);
+        dest.writeString(shortDesc);
+        dest.writeString(imageUrl);
+        dest.writeDouble(rating);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

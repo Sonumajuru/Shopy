@@ -1,5 +1,6 @@
 package com.example.shopy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
@@ -19,16 +19,18 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    //this context we will use to inflate the layout
-    private Context mCtx;
+    private final Context mCtx;
 
     //we are storing all the products in a list
-    private List<Product> productList;
+    private final List<Product> productList;
+    public int clickedPos = -1;
+    private final OnItemClickListener onItemClickListener; // Global scope
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, List<Product> productList) {
+    public ProductAdapter(Context mCtx, List<Product> productList, OnItemClickListener onItemClickListener) {
         this.mCtx = mCtx;
         this.productList = productList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NotNull
@@ -41,11 +43,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
+    @SuppressLint("RecyclerView")
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Product product = productList.get(position);
 
-        //binding the data with the viewholder views
+        //binding the data with the viewHolder views
         holder.textViewTitle.setText(product.getTitle());
         holder.textViewShortDesc.setText(product.getShortDesc());
         holder.textViewRating.setRating((float) product.getRating());
@@ -53,6 +56,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.imageView);
+
+        holder.imageView.setOnClickListener(v -> {
+            clickedPos = holder.getAdapterPosition();
+            String title = product.getTitle();
+            onItemClickListener.onItemClicked(position, product);
+        });
     }
 
     @Override
@@ -75,5 +84,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position, Object object);
     }
 }

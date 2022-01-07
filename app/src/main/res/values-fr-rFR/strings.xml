@@ -54,4 +54,10 @@
     <string name="games">Jeux</string>
     <string name="search_hint">As-tu trouvé ce que tu cherchais?</string>
     <string name="menu_search">Permet de vous aider à rechercher..</string>
+    <string name="add_to_cart">Ajouter au panier</string>
+    <string name="product_details">Détails du produit</string>
+    <string name="rating">Évaluation</string>
+    <string name="title_product_listing">Liste de produits</string>
+    <string name="title_product_detail">Détails du produit</string>
+    <string name="product_owner">Produit par</string>
 </resources>

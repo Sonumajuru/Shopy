@@ -1,6 +1,7 @@
 package com.example.shopy.ui.product_overview;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
@@ -18,6 +23,10 @@ import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.example.shopy.R.id.navigation_detail;
+import static com.example.shopy.R.id.navigation_product;
 
 public class ProductOverviewFragment extends Fragment {
 
@@ -31,6 +40,7 @@ public class ProductOverviewFragment extends Fragment {
     private RecyclerView recyclerView;
     private Product product;
     private String category;
+    private ProductAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,7 +57,6 @@ public class ProductOverviewFragment extends Fragment {
 
         assert getArguments() != null;
         category = getArguments().getString("category");
-
         getUserData();
 
         return root;
@@ -69,7 +78,20 @@ public class ProductOverviewFragment extends Fragment {
                     }
                 }
                 //creating recyclerview adapter
-                ProductAdapter adapter = new ProductAdapter(getActivity(), productList);
+                adapter = new ProductAdapter(getActivity(), productList, new ProductAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(int position, Object object) {
+                        // Handle Object of list item here
+                        Product product = (Product) object;
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("product", product);
+                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                                .findFragmentById(R.id.nav_host_fragment_activity_main);
+                        assert navHostFragment != null;
+                        NavController navController = navHostFragment.getNavController();
+                        navController.navigate(navigation_detail, bundle);
+                    }
+                });
 
                 //setting adapter to recyclerview
                 recyclerView.setAdapter(adapter);

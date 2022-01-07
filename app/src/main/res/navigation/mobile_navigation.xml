@@ -74,13 +74,13 @@
     <fragment
             android:id="@+id/navigation_product_overview"
             android:name="com.example.shopy.ui.product_overview.ProductOverviewFragment"
-            android:label="Overview"
+            android:label="@string/title_product_listing"
             tools:layout="@layout/fragment_overview"/>
 
-<!--    <fragment-->
-<!--            android:id="@+id/navigation_overview"-->
-<!--            android:name="com.example.shopy.ui.product_overview.ProductOverviewFragment"-->
-<!--            android:label="@string/title_manage_product"-->
-<!--            tools:layout="@layout/overview"/>-->
+    <fragment
+            android:id="@+id/navigation_detail"
+            android:name="com.example.shopy.ui.detail.DetailFragment"
+            android:label="@string/title_product_detail"
+            tools:layout="@layout/fragment_detail"/>
 
 </navigation>
