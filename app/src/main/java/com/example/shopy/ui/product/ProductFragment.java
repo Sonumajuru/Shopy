@@ -20,8 +20,6 @@ import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -156,15 +154,11 @@ public class ProductFragment extends Fragment {
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
 
-                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri)
-                            {
-                                Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
-                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                                product = new Product(userId, name, category, price, currency, description, uri.toString(), rating);
-                                mDatabase.push().setValue(product);
-                            }
+                        ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                            Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
+                            String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                            product = new Product(userId, name, category, price, currency, description, uri.toString(), rating);
+                            mDatabase.push().setValue(product);
                         });
                     })
                     .addOnFailureListener(e -> {

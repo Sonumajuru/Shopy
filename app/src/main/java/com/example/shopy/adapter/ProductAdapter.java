@@ -49,11 +49,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.textViewTitle.setText(product.getTitle());
         holder.textViewShortDesc.setText(product.getShortDesc());
         holder.textViewRating.setRating((float) product.getRating());
-        holder.textViewPrice.setText(String.valueOf(product.getPrice()));
+        holder.textViewPrice.setText(product.getPrice() + " " + product.getCurrency());
 
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.imageView);
-//        holder.imageView.setImageDrawable(mCtx.getResources().getDrawable());
     }
 
     @Override

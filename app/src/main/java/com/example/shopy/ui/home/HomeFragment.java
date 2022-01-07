@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentHomeBinding;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
         Button btnCategory = binding.categoryBtn;
 
         getUserData();
+//        Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
         btnCategory.setOnClickListener(v -> navController.navigate(navigation_category));
 
         return root;

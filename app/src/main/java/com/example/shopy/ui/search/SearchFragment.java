@@ -9,7 +9,7 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.shopy.adapter.ListViewAdapter;
+import com.example.shopy.adapter.SearchViewAdapter;
 import com.example.shopy.databinding.FragmentSearchBinding;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
@@ -22,7 +22,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private FragmentSearchBinding binding;
 
     private ListView list;
-    private ListViewAdapter adapter;
+    private SearchViewAdapter adapter;
     private SearchView searchView;
     private ArrayList<Product> arraylist = new ArrayList<>();
     private ArrayList<Product> productList = new ArrayList<>();
@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 arraylist.addAll(productList);
 
                 // Pass results to ListViewAdapter Class
-                adapter = new ListViewAdapter(requireActivity(), arraylist);
+                adapter = new SearchViewAdapter(requireActivity(), arraylist);
                 // Binds the Adapter to the ListView
                 list.setAdapter(adapter);
             }

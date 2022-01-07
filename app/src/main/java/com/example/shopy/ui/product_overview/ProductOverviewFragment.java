@@ -29,8 +29,8 @@ public class ProductOverviewFragment extends Fragment {
 
     //the recyclerview
     private RecyclerView recyclerView;
-
     private Product product;
+    private String category;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,37 +43,11 @@ public class ProductOverviewFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
-        //initializing the productlist
         productList = new ArrayList<>();
 
-        //adding some items to our list
-//        productList.add(
-//                new Product(
-//                        1,
-//                        "Apple iPhone 11",
-//                        "6.1 inches, Color black 828 x 1792 pixels",
-//                        4.8,
-//                        90000,
-//                        R.drawable.apple));
-//
-//        productList.add(
-//                new Product(
-//                        1,
-//                        "Galaxy A12",
-//                        "2.3GHz, 1.8GHz CPU, multi color, 205 kg",
-//                        4.1,
-//                        55000,
-//                        R.drawable.samsung));
-//
-//        productList.add(
-//                new Product(
-//                        1,
-//                        "Oppo F17",
-//                        "6.44 inch, Color Peach, 6GB RAM , 163  kg",
-//                        4.3,
-//                        60000,
-//                        R.drawable.oppo));
+        assert getArguments() != null;
+        category = getArguments().getString("category");
+
         getUserData();
 
         return root;
@@ -88,7 +62,11 @@ public class ProductOverviewFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     product = ds.getValue(Product.class);
-                    productList.add(product);
+                    assert product != null;
+                    if (product.getCategory().equals(category))
+                    {
+                        productList.add(product);
+                    }
                 }
                 //creating recyclerview adapter
                 ProductAdapter adapter = new ProductAdapter(getActivity(), productList);

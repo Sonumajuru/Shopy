@@ -1,52 +1,37 @@
 package com.example.shopy.ui.category;
 
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import com.example.shopy.R;
-import com.example.shopy.adapter.ExpandableListViewAdapter;
+import com.example.shopy.adapter.CategoryViewAdapter;
 import com.example.shopy.databinding.FragmentCategoryBinding;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
-import java.util.*;
-
-import static com.example.shopy.R.id.navigation_category;
-import static com.example.shopy.R.id.navigation_product_overview;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class CategoryFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
     private FragmentCategoryBinding binding;
 
-    private ExpandableListView expandableListView;
-    private ExpandableListAdapter expandableListAdapter;
-
+    private ListView list;
+    private CategoryViewAdapter adapter;
+    private ArrayList<Product> arraylist;
+    private ArrayList<Product> productList;
     private Product product;
-    private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
-    private List<String> electronics = new ArrayList<>();
-    private List<String> computer = new ArrayList<>();
-    private List<String> home_appliance = new ArrayList<>();
-    private List<String> phones = new ArrayList<>();
-    private List<String> books = new ArrayList<>();
-    private List<String> games = new ArrayList<>();
-
-    private NavHost navHostFragment;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -56,32 +41,21 @@ public class CategoryFragment extends Fragment {
         binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        expandableListView = root.findViewById(R.id.expandableListView);
-        expandableListDetail = new HashMap<>();
-        electronics = new ArrayList<>();
-        computer = new ArrayList<>();
-        home_appliance = new ArrayList<>();
-        phones = new ArrayList<>();
-        books = new ArrayList<>();
-        games = new ArrayList<>();
+        product = new Product();
+        arraylist = new ArrayList<>();
+        productList = new ArrayList<>();
+        list = binding.listview;
+
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            Product product = (Product)parent.getAdapter().getItem(position);
+            String category = product.getCategory();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("category", product.getCategory());
+            Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+        });
 
         getUserData();
-
-        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-
-            navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                    .findFragmentById(R.id.nav_host_fragment_activity_main);
-            NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-            navController.navigate(navigation_product_overview);
-
-            Toast.makeText(
-                    requireActivity().getApplicationContext(), expandableListTitle.get(groupPosition)
-                            + " -> "
-                            + Objects.requireNonNull(expandableListDetail.get(
-                            expandableListTitle.get(groupPosition))).get(childPosition), Toast.LENGTH_SHORT
-            ).show();
-            return false;
-        });
 
         return root;
     }
@@ -95,41 +69,20 @@ public class CategoryFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.electronics, "en")))
-                    {
-                        electronics.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.computer, "en")))
-                    {
-                        computer.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.home_appliance, "en")))
-                    {
-                        home_appliance.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.phones, "en")))
-                    {
-                        phones.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.books, "en")))
-                    {
-                        books.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
-                    if (Objects.requireNonNull(ds.getValue(Product.class)).getCategory().equals(getResStringLanguage(R.string.games, "en")))
-                    {
-                        games.add(Objects.requireNonNull(ds.getValue(Product.class)).getTitle());
-                    }
+                    product = ds.getValue(Product.class);
+                    productList.add(product);
                 }
-                expandableListDetail.put(getString(R.string.electronics), electronics);
-                expandableListDetail.put(getString(R.string.computer), computer);
-                expandableListDetail.put(getString(R.string.home_appliance), home_appliance);
-                expandableListDetail.put(getString(R.string.phones), phones);
-                expandableListDetail.put(getString(R.string.books), books);
-                expandableListDetail.put(getString(R.string.games), games);
 
-                expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-                expandableListAdapter = new ExpandableListViewAdapter(requireActivity(), expandableListTitle, expandableListDetail);
-                expandableListView.setAdapter(expandableListAdapter);
+                Set<Product> set = productList.stream()
+                        .collect(Collectors.toCollection(() ->
+                                new TreeSet<>(Comparator.comparing(Product::getCategory))));
+                // Binds all strings into an array
+                arraylist.addAll(set);
+
+                // Pass results to ListViewAdapter Class
+                adapter = new CategoryViewAdapter(requireActivity(), arraylist);
+                // Binds the Adapter to the ListView
+                list.setAdapter(adapter);
             }
 
             @Override
@@ -138,25 +91,6 @@ public class CategoryFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
-    }
-
-    public String getResStringLanguage(int id, String lang){
-        //Get default locale to back it
-        Resources res = getResources();
-        Configuration conf = res.getConfiguration();
-        Locale savedLocale = conf.locale;
-        //Retrieve resources from desired locale
-        Configuration confAr = getResources().getConfiguration();
-        confAr.locale = new Locale(lang);
-        DisplayMetrics metrics = new DisplayMetrics();
-        Resources resources = new Resources(requireActivity().getAssets(), metrics, confAr);
-        //Get string which you want
-        String string = resources.getString(id);
-        //Restore default locale
-        conf.locale = savedLocale;
-        res.updateConfiguration(conf, null);
-        //return the string that you want
-        return string;
     }
 
     @Override
