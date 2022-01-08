@@ -15,6 +15,7 @@ public class Product implements Parcelable {
     private String imageUrl;
     private double rating;
     private String favStatus;
+    private int orderCount;
 
     public String getId() {
         return id;
@@ -95,9 +96,11 @@ public class Product implements Parcelable {
     public Product() {
     }
 
-    public Product(String id, String uuid, String title, String category, double price, String currency,
+    public Product(String uuid, String title, String category, double price, String currency,
                    String shortDesc, String imageUrl, double rating, String favStatus) {
-        this.id = id;
+
+        orderCount++;
+        this.id = String.valueOf(orderCount);
         this.uuid = uuid;
         this.title = title;
         this.category = category;

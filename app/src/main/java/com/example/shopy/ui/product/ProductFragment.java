@@ -157,7 +157,7 @@ public class ProductFragment extends Fragment {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                            product = new Product("0", userId, title, category, price,
+                            product = new Product(userId, title, category, price,
                                     currency, description, uri.toString(), rating,"0");
                             mDatabase.push().setValue(product);
                         });
