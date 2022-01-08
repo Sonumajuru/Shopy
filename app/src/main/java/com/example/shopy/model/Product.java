@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Product implements Parcelable {
 
     private String id;
+    private String uuid;
     private String title;
     private String category;
     private double price;
@@ -13,6 +14,7 @@ public class Product implements Parcelable {
     private String shortDesc;
     private String imageUrl;
     private double rating;
+    private String favStatus;
 
     public String getId() {
         return id;
@@ -20,6 +22,14 @@ public class Product implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getTitle() {
@@ -50,10 +60,6 @@ public class Product implements Parcelable {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public String getShortDesc() {
         return shortDesc;
     }
@@ -78,12 +84,21 @@ public class Product implements Parcelable {
         this.rating = rating;
     }
 
+    public String getFavStatus() {
+        return favStatus;
+    }
+
+    public void setFavStatus(String favStatus) {
+        this.favStatus = favStatus;
+    }
+
     public Product() {
     }
 
-    public Product(String id, String title, String category, double price,
-                   String currency, String shortDesc, String imageUrl, double rating) {
+    public Product(String id, String uuid, String title, String category, double price, String currency,
+                   String shortDesc, String imageUrl, double rating, String favStatus) {
         this.id = id;
+        this.uuid = uuid;
         this.title = title;
         this.category = category;
         this.price = price;
@@ -91,6 +106,7 @@ public class Product implements Parcelable {
         this.shortDesc = shortDesc;
         this.imageUrl = imageUrl;
         this.rating = rating;
+        this.favStatus = favStatus;
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

@@ -59,6 +59,6 @@
     <string name="rating">Rating</string>
     <string name="title_product_listing">Product Listing</string>
     <string name="title_product_detail">Product Details</string>
-    <string name="product_owner">Product Owner</string>
+    <string name="product_owner">Sold By</string>
 
 </resources>

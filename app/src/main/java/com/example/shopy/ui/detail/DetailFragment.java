@@ -65,7 +65,7 @@ public class DetailFragment extends Fragment {
         title.setText(product.getTitle());
         ratingBar.setRating((float) product.getRating());
         description.setText(product.getShortDesc());
-        getID(product.getId());
+        getID(product.getUuid());
 
         return root;
     }

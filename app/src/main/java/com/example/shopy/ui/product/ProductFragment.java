@@ -143,7 +143,7 @@ public class ProductFragment extends Fragment {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            String name = inputName.getText().toString().trim();
+            String title = inputName.getText().toString().trim();
             String category = this.category.getSelectedItem().toString();
             double price = Double.parseDouble(inputPrice.getText().toString().trim());
             double rating = ratingBar.getRating();
@@ -157,7 +157,8 @@ public class ProductFragment extends Fragment {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                            product = new Product(userId, name, category, price, currency, description, uri.toString(), rating);
+                            product = new Product("0", userId, title, category, price,
+                                    currency, description, uri.toString(), rating,"0");
                             mDatabase.push().setValue(product);
                         });
                     })
