@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -100,7 +101,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         RatingBar textViewRating;
         TextView textViewTitle, textViewShortDesc, textViewPrice;
-        ImageView imageView, favBtn;
+        ImageView imageView;
+        ImageView favBtn;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
