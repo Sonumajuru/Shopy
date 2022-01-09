@@ -13,14 +13,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.Product;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static com.example.shopy.R.id.navigation_login;
+import static com.example.shopy.R.id.navigation_product;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -73,16 +82,30 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.favBtn.setOnClickListener(v -> {
 
-            if (product.getFavStatus().equals("0"))
+            if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                product.setFavStatus("1");
-                favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(), product.getFavStatus());
-                holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                //User is Logged in
+                if (product.getFavStatus().equals("0"))
+                {
+                    product.setFavStatus("1");
+                    favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(), product.getFavStatus());
+                    holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                }
+                else
+                {
+                    product.setFavStatus("0");
+                    favDB.remove_fav(product.getId());
+                    holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                }
             }
-            else {
-                product.setFavStatus("0");
-                favDB.remove_fav(product.getId());
-                holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+            else
+            {
+                //No User is Logged in
+                NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(navigation_login);
             }
         });
         holder.imageView.setOnClickListener(v -> {
@@ -134,10 +157,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 product.setFavStatus(item_fav_status);
 
                 //check fav status
-                if (item_fav_status != null && item_fav_status.equals("1")) {
-                    holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                {
+                    if (item_fav_status != null && item_fav_status.equals("1")) {
+                        holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    }
+                    else if (item_fav_status != null && item_fav_status.equals("0")) {
+                        holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                    }
                 }
-                else if (item_fav_status != null && item_fav_status.equals("0")) {
+                else
+                {
                     holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                 }
             }

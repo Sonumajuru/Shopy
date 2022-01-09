@@ -10,16 +10,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.R;
 import com.example.shopy.adapter.FavAdapter;
 import com.example.shopy.databinding.FragmentFavoriteBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.shopy.R.id.navigation_login;
 
 public class FavoriteFragment extends Fragment {
 
@@ -29,7 +35,6 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
     private FavDB favDB;
     private List<FavItem> favItemList;
-    private FavAdapter favAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -44,7 +49,19 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        loadData();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            // user loged in already
+            loadData();
+        }
+        else
+        {
+            NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment_activity_main);
+            assert navHostFragment != null;
+            NavController navController = navHostFragment.getNavController();
+            navController.navigate(navigation_login);
+        }
 
         return root;
     }
@@ -70,7 +87,7 @@ public class FavoriteFragment extends Fragment {
             db.close();
         }
 
-        favAdapter = new FavAdapter(favItemList, requireActivity());
+        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity());
         recyclerView.setAdapter(favAdapter);
     }
 
