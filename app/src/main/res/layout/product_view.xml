@@ -65,7 +65,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="60dp"
                     android:layout_toEndOf="@id/ratingBar"
-                    android:background ="@drawable/ic_favorite_border_24"/>
+                    android:background="@drawable/ic_favorite_border_24"/>
 
             <TextView
                     android:id="@+id/textViewPrice"

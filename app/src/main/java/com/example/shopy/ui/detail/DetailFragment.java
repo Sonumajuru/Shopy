@@ -14,8 +14,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
@@ -30,6 +34,8 @@ import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.shopy.R.id.navigation_login;
+
 public class DetailFragment extends Fragment {
 
     private DetailViewModel detailViewModel;
@@ -40,7 +46,7 @@ public class DetailFragment extends Fragment {
 
     private ImageView productPhoto;
     private TextView productOwner;
-    private ImageView btnFav;
+    private ImageView favBtn;
     private TextView price;
     private TextView title;
     private RatingBar ratingBar;
@@ -65,7 +71,7 @@ public class DetailFragment extends Fragment {
 
         productPhoto = binding.photo;
         productOwner = binding.productOwner;
-        btnFav = binding.favButton;
+        favBtn = binding.favBtn;
         price = binding.priceOfProduct;
         title = binding.title;
         ratingBar = binding.ratingBar;
@@ -80,7 +86,46 @@ public class DetailFragment extends Fragment {
         ratingBar.setRating((float) product.getRating());
         description.setText(product.getShortDesc());
         getID(product.getUuid());
-        getFav();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+            getFav();
+        }
+        else
+        {
+            favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+        }
+
+        favBtn.setOnClickListener(v -> {
+
+            if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            {
+                //User is Logged in
+                if (product.getFavStatus().equals("0"))
+                {
+                    product.setFavStatus("1");
+                    favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(),
+                            product.getFavStatus(), product.getPrice(), product.getRating(), product.getCurrency());
+                    favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                }
+                else
+                {
+                    product.setFavStatus("0");
+                    favDB.remove_fav(product.getId());
+                    favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                }
+            }
+            else
+            {
+                //No User is Logged in
+                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(navigation_login);
+            }
+        });
 
         return root;
     }
@@ -105,6 +150,14 @@ public class DetailFragment extends Fragment {
             if (cursor != null && cursor.isClosed())
                 cursor.close();
             db.close();
+        }
+
+        for (FavItem favItem : favItemList) {
+            if (product.getId().equals(favItem.getKey_id())) {
+                favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                break;
+            }
+            favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
         }
     }
 
