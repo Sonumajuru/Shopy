@@ -78,7 +78,10 @@ public class FavoriteFragment extends Fragment {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
                 String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
-                FavItem favItem = new FavItem(title, id, image);
+                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
+                double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
+                String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
+                FavItem favItem = new FavItem(title, id, image, price, rating, currency);
                 favItemList.add(favItem);
             }
         } finally {

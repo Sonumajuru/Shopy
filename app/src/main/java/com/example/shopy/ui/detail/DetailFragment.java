@@ -2,6 +2,8 @@ package com.example.shopy.ui.detail;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,11 +18,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
+import com.example.shopy.db.FavDB;
+import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
+
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailFragment extends Fragment {
 
@@ -38,6 +46,9 @@ public class DetailFragment extends Fragment {
     private RatingBar ratingBar;
     private TextView description;
 
+    private FavDB favDB;
+    private List<FavItem> favItemList;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +60,9 @@ public class DetailFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         product = new Product();
+        favItemList = new ArrayList<>();
+        favDB = new FavDB(getActivity());
+
         productPhoto = binding.photo;
         productOwner = binding.productOwner;
         btnFav = binding.favButton;
@@ -66,8 +80,32 @@ public class DetailFragment extends Fragment {
         ratingBar.setRating((float) product.getRating());
         description.setText(product.getShortDesc());
         getID(product.getUuid());
+        getFav();
 
         return root;
+    }
+
+    @SuppressLint("Range")
+    private void getFav()
+    {
+        SQLiteDatabase db = favDB.getReadableDatabase();
+        Cursor cursor = favDB.select_all_favorite_list();
+        try {
+            while (cursor.moveToNext()) {
+                String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
+                String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
+                String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
+                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
+                double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
+                String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
+                FavItem favItem = new FavItem(title, id, image, price, rating, currency);
+                favItemList.add(favItem);
+            }
+        } finally {
+            if (cursor != null && cursor.isClosed())
+                cursor.close();
+            db.close();
+        }
     }
 
     private void getID(String uid)

@@ -14,12 +14,16 @@ public class FavDB extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
     public static String ITEM_TITLE = "itemTitle";
+    public static String ITEM_PRICE =  "itemPrice";
+    public static String ITEM_RATING =  "itemRating";
+    public static String ITEM_CURRENCY =  "itemCurrency";
     public static String ITEM_IMAGE = "itemImage";
     public static String FAVORITE_STATUS = "fStatus";
     // dont forget write this spaces
     private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-            + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT,"
-            + ITEM_IMAGE + " TEXT," + FAVORITE_STATUS+" TEXT)";
+            + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT," + ITEM_PRICE
+            + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING
+            + " TEXT," + ITEM_IMAGE + " TEXT," + FAVORITE_STATUS+" TEXT)";
 
     public FavDB(Context context) { super(context,DATABASE_NAME,null,DB_VERSION);}
 
@@ -47,12 +51,17 @@ public class FavDB extends SQLiteOpenHelper {
     }
 
     // insert data into database
-    public void insertIntoTheDatabase(String item_title, String item_image, String id, String fav_status) {
+    public void insertIntoTheDatabase(String item_title, String item_image, String id,
+                                      String fav_status, double item_price,
+                                      double item_rating, String currency) {
         SQLiteDatabase db;
         db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(ITEM_TITLE, item_title);
         cv.put(ITEM_IMAGE, item_image);
+        cv.put(ITEM_PRICE, item_price);
+        cv.put(ITEM_RATING, item_rating);
+        cv.put(ITEM_CURRENCY, currency);
         cv.put(KEY_ID, id);
         cv.put(FAVORITE_STATUS, fav_status);
         db.insert(TABLE_NAME,null, cv);
