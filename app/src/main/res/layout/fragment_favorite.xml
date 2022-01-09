@@ -26,7 +26,7 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec"
+            android:id="@+id/recyclerView"
             android:layout_below="@+id/create_List_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

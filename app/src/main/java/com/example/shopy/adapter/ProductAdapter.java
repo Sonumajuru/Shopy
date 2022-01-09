@@ -101,8 +101,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         RatingBar textViewRating;
         TextView textViewTitle, textViewShortDesc, textViewPrice;
-        ImageView imageView;
-        ImageView favBtn;
+        ImageView imageView, favBtn;
 
         public ProductViewHolder(View itemView) {
             super(itemView);

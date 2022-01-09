@@ -63,40 +63,40 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             textViewRating = itemView.findViewById(R.id.ratingBar);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
+            favBtn = itemView.findViewById(R.id.fav_btn);
 
-            refLike = FirebaseDatabase.getInstance().getReference().child("likes");
+//            refLike = FirebaseDatabase.getInstance().getReference().child("Product");
             //remove from fav after click
             favBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     final FavItem favItem = favItemList.get(position);
-                    final DatabaseReference upvotesRefLike = refLike.child(favItemList.get(position).getKey_id());
+//                    final DatabaseReference upvotesRefLike = refLike.child(favItemList.get(position).getKey_id());
                     favDB.remove_fav(favItem.getKey_id());
                     removeItem(position);
-
-                    upvotesRefLike.runTransaction(new Transaction.Handler() {
-                        @NonNull
-                        @Override
-                        public Transaction.Result doTransaction(@NonNull final MutableData mutableData) {
-                            try {
-                                Integer currentValue = mutableData.getValue(Integer.class);
-                                if (currentValue == null) {
-                                    mutableData.setValue(1);
-                                } else {
-                                    mutableData.setValue(currentValue - 1);
-                                }
-                            } catch (Exception e) {
-                                throw e;
-                            }
-                            return Transaction.success(mutableData);
-                        }
-
-                        @Override
-                        public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
-                            System.out.println("Transaction completed");
-                        }
-                    });
+//                    upvotesRefLike.runTransaction(new Transaction.Handler() {
+//                        @NonNull
+//                        @Override
+//                        public Transaction.Result doTransaction(@NonNull final MutableData mutableData) {
+//                            try {
+//                                Integer currentValue = mutableData.getValue(Integer.class);
+//                                if (currentValue == null) {
+//                                    mutableData.setValue(1);
+//                                } else {
+//                                    mutableData.setValue(currentValue - 1);
+//                                }
+//                            } catch (Exception e) {
+//                                throw e;
+//                            }
+//                            return Transaction.success(mutableData);
+//                        }
+//
+//                        @Override
+//                        public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+//                            System.out.println("Transaction completed");
+//                        }
+//                    });
                 }
             });
         }

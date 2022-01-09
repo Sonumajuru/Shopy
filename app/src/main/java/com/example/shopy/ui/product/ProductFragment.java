@@ -54,6 +54,7 @@ public class ProductFragment extends Fragment {
     // instance for firebase storage and StorageReference
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    private long maxId;
     private Product product;
     private NavHost navHostFragment;
     private FirebaseAuth mAuth;
@@ -76,7 +77,20 @@ public class ProductFragment extends Fragment {
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                {
+                    maxId = snapshot.getChildrenCount();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
@@ -157,7 +171,7 @@ public class ProductFragment extends Fragment {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                            product = new Product(userId, title, category, price,
+                            product = new Product(String.valueOf(maxId+1), userId, title, category, price,
                                     currency, description, uri.toString(), rating,"0");
                             mDatabase.push().setValue(product);
                         });

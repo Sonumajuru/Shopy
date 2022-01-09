@@ -12,7 +12,10 @@ public class FavItem {
     private double rating;
     private String favStatus;
 
-    public FavItem() {
+    public FavItem(String item_title, String key_id, String item_image) {
+        this.title = item_title;
+        this.key_id = key_id;
+        this.imageUrl = item_image;
     }
 
     public String getKey_id() {
