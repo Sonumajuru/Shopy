@@ -1,6 +1,9 @@
 package com.example.shopy.model;
 
-public class FavItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class FavItem implements Parcelable {
 
     private String key_id;
     private String uuid;
@@ -11,16 +14,6 @@ public class FavItem {
     private String imageUrl;
     private double rating;
     private String favStatus;
-
-    public FavItem(String item_title, String key_id, String item_image,
-                   double item_price, double item_rating, String currency) {
-        this.key_id = key_id;
-        this.title = item_title;
-        this.price = item_price;
-        this.rating = item_rating;
-        this.currency = currency;
-        this.imageUrl = item_image;
-    }
 
     public String getKey_id() {
         return key_id;
@@ -92,5 +85,56 @@ public class FavItem {
 
     public void setFavStatus(String favStatus) {
         this.favStatus = favStatus;
+    }
+
+    public FavItem(String item_title, String key_id, String item_image,
+                   double item_price, double item_rating, String currency, String uuid) {
+        this.key_id = key_id;
+        this.title = item_title;
+        this.price = item_price;
+        this.rating = item_rating;
+        this.uuid = uuid;
+        this.currency = currency;
+        this.imageUrl = item_image;
+    }
+
+    public static final Creator<FavItem> CREATOR = new Creator<FavItem>() {
+        @Override
+        public FavItem createFromParcel(Parcel in) {
+            return new FavItem(in);
+        }
+
+        @Override
+        public FavItem[] newArray(int size) {
+            return new FavItem[size];
+        }
+    };
+
+    protected FavItem(Parcel in) {
+        key_id = in.readString();
+        title = in.readString();
+        category = in.readString();
+        price = in.readDouble();
+        currency = in.readString();
+//        shortDesc = in.readString();
+        imageUrl = in.readString();
+        rating = in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeString(key_id);
+        dest.writeString(title);
+        dest.writeString(category);
+        dest.writeDouble(price);
+        dest.writeString(currency);
+//        dest.writeString(shortDesc);
+        dest.writeString(imageUrl);
+        dest.writeDouble(rating);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

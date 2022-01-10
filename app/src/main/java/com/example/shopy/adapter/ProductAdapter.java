@@ -66,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    @SuppressLint("RecyclerView")
+    @SuppressLint({"RecyclerView", "SetTextI18n"})
     public void onBindViewHolder(@NotNull ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Product product = productList.get(position);
@@ -89,7 +89,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 {
                     product.setFavStatus("1");
                     favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(),
-                            product.getFavStatus(), product.getPrice(), product.getRating(), product.getCurrency());
+                            product.getFavStatus(), product.getPrice(), product.getRating(),
+                            product.getCurrency(), product.getUuid());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                 }
                 else

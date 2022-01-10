@@ -14,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -30,7 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +52,9 @@ public class DetailFragment extends Fragment {
 
     private FavDB favDB;
     private List<FavItem> favItemList;
+    private List<Product> productList;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,6 +97,14 @@ public class DetailFragment extends Fragment {
             favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
         }
 
+//        for (FavItem favItem : favItemList)
+//        {
+//            if (product.getId().equals(favItem.getKey_id())) {
+//                productList = product.getProductList();
+//                break;
+//            }
+//        }
+
         favBtn.setOnClickListener(v -> {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -106,7 +114,8 @@ public class DetailFragment extends Fragment {
                 {
                     product.setFavStatus("1");
                     favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(),
-                            product.getFavStatus(), product.getPrice(), product.getRating(), product.getCurrency());
+                            product.getFavStatus(), product.getPrice(), product.getRating(),
+                            product.getCurrency(), product.getUuid());
                     favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                 }
                 else
@@ -143,7 +152,8 @@ public class DetailFragment extends Fragment {
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
-                FavItem favItem = new FavItem(title, id, image, price, rating, currency);
+                String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
+                FavItem favItem = new FavItem(title, id, image, price, rating, currency, uuid);
                 favItemList.add(favItem);
             }
         } finally {

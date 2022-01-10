@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.shopy.R.id.navigation_detail;
 import static com.example.shopy.R.id.navigation_login;
 
 public class FavoriteFragment extends Fragment {
@@ -81,7 +82,8 @@ public class FavoriteFragment extends Fragment {
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
-                FavItem favItem = new FavItem(title, id, image, price, rating, currency);
+                String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
+                FavItem favItem = new FavItem(title, id, image, price, rating, currency, uuid);
                 favItemList.add(favItem);
             }
         } finally {
@@ -90,7 +92,20 @@ public class FavoriteFragment extends Fragment {
             db.close();
         }
 
-        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity());
+        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity(), new FavAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int position, Object object) {
+                // Handle Object of list item here
+                FavItem favItem = (FavItem) object;
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("favItem", favItem);
+                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(navigation_detail, bundle);
+            }
+        });
         recyclerView.setAdapter(favAdapter);
     }
 

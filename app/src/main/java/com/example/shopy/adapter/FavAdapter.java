@@ -1,5 +1,6 @@
 package com.example.shopy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
+import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 
@@ -24,10 +26,12 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     private static List<FavItem> favItemList;
     private static FavDB favDB;
     private static DatabaseReference refLike;
+    private final FavAdapter.OnItemClickListener onItemClickListener; // Global scope
 
-    public FavAdapter(List<FavItem> favItemList, Context context) {
+    public FavAdapter(List<FavItem> favItemList, Context context, FavAdapter.OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.favItemList = favItemList;
+        FavAdapter.favItemList = favItemList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -38,14 +42,20 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        FavItem favItem = favItemList.get(position);
         //binding the data with the viewHolder views
         holder.textViewTitle.setText(favItemList.get(position).getTitle());
         holder.textViewRating.setRating((float) favItemList.get(position).getRating());
         holder.textViewPrice.setText(favItemList.get(position).getPrice() + " " + favItemList.get(position).getCurrency());
 
         Picasso.with(context).load(favItemList.get(position).getImageUrl()).into(holder.imageView);
+        holder.imageView.setOnClickListener(v -> {
+            onItemClickListener.onItemClicked(position, favItem);
+        });
     }
 
     @Override
@@ -106,5 +116,9 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         favItemList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,favItemList.size());
+    }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position, Object object);
     }
 }

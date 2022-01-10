@@ -3,6 +3,9 @@ package com.example.shopy.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product implements Parcelable {
 
     private String id;
@@ -15,6 +18,7 @@ public class Product implements Parcelable {
     private String imageUrl;
     private double rating;
     private String favStatus;
+    private List<Product> productList;
 
     public String getId() {
         return id;
@@ -92,6 +96,14 @@ public class Product implements Parcelable {
         this.favStatus = favStatus;
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
     public Product() {
     }
 
@@ -108,6 +120,7 @@ public class Product implements Parcelable {
         this.imageUrl = imageUrl;
         this.rating = rating;
         this.favStatus = favStatus;
+        productList = new ArrayList<>();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {

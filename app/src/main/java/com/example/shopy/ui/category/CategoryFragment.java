@@ -76,6 +76,8 @@ public class CategoryFragment extends Fragment {
                 Set<Product> set = productList.stream()
                         .collect(Collectors.toCollection(() ->
                                 new TreeSet<>(Comparator.comparing(Product::getCategory))));
+
+                product.setProductList(productList);
                 // Binds all strings into an array
                 arraylist.addAll(set);
 
