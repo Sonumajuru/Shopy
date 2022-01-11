@@ -9,7 +9,8 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/addToCartButton">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -25,7 +26,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:transitionName="photoToAnimate"
-                    tools:src="@tools:sample/backgrounds/scenic" />
+                    tools:src="@tools:sample/backgrounds/scenic"/>
 
             <TextView
                     android:id="@+id/product_Detail"
@@ -54,7 +55,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="16sp"
                     android:textStyle="bold|italic"
-                    tools:text="John Doe" />
+                    tools:text="John Doe"/>
 
             <TextView
                     android:id="@+id/priceOfProduct"
@@ -63,7 +64,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:textSize="24sp"
-                    tools:text="2500 + CFA" />
+                    tools:text="2500 + CFA"/>
 
             <TextView
                     android:id="@+id/title"
@@ -122,10 +123,8 @@
             android:layout_alignParentBottom="true"
             android:text="@string/add_to_cart"
             android:textColor="#FFF"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:layout_centerInParent="true"/>
 
 </RelativeLayout>
