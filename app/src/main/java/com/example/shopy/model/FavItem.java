@@ -11,6 +11,7 @@ public class FavItem implements Parcelable {
     private String category;
     private double price;
     private String currency;
+    private String shortDesc;
     private String imageUrl;
     private double rating;
     private String favStatus;
@@ -63,6 +64,14 @@ public class FavItem implements Parcelable {
         this.currency = currency;
     }
 
+    public String getShortDesc() {
+        return shortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -87,13 +96,15 @@ public class FavItem implements Parcelable {
         this.favStatus = favStatus;
     }
 
-    public FavItem(String item_title, String key_id, String item_image,
-                   double item_price, double item_rating, String currency, String uuid) {
+    public FavItem(String item_title, String shortDesc, String key_id, String item_image,
+                   double item_price, double item_rating, String currency, String uuid, String category) {
         this.key_id = key_id;
         this.title = item_title;
         this.price = item_price;
         this.rating = item_rating;
         this.uuid = uuid;
+        this.category = category;
+        this.shortDesc = shortDesc;
         this.currency = currency;
         this.imageUrl = item_image;
     }
@@ -116,7 +127,7 @@ public class FavItem implements Parcelable {
         category = in.readString();
         price = in.readDouble();
         currency = in.readString();
-//        shortDesc = in.readString();
+        shortDesc = in.readString();
         imageUrl = in.readString();
         rating = in.readDouble();
     }
@@ -128,7 +139,7 @@ public class FavItem implements Parcelable {
         dest.writeString(category);
         dest.writeDouble(price);
         dest.writeString(currency);
-//        dest.writeString(shortDesc);
+        dest.writeString(shortDesc);
         dest.writeString(imageUrl);
         dest.writeDouble(rating);
     }

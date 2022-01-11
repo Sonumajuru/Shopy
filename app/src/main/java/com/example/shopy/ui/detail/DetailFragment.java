@@ -41,6 +41,7 @@ public class DetailFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private Product product;
+    private FavItem favItem;
 
     private ImageView productPhoto;
     private TextView productOwner;
@@ -53,6 +54,7 @@ public class DetailFragment extends Fragment {
     private FavDB favDB;
     private List<FavItem> favItemList;
     private List<Product> productList;
+    String item_fav_status = null;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -79,13 +81,27 @@ public class DetailFragment extends Fragment {
 
         assert getArguments() != null;
         product = getArguments().getParcelable("product");
-        Uri uri = Uri.parse(product.getImageUrl());
-        Picasso.with(getActivity()).load(uri).into(productPhoto);
-        price.setText(product.getPrice() + " " + product.getCurrency());
-        title.setText(product.getTitle());
-        ratingBar.setRating((float) product.getRating());
-        description.setText(product.getShortDesc());
-        getID(product.getUuid());
+        if (product != null)
+        {
+            Uri uri = Uri.parse(product.getImageUrl());
+            Picasso.with(getActivity()).load(uri).into(productPhoto);
+            price.setText(product.getPrice() + " " + product.getCurrency());
+            title.setText(product.getTitle());
+            ratingBar.setRating((float) product.getRating());
+            description.setText(product.getShortDesc());
+            getID(product.getUuid());
+        }
+        else
+        {
+            favItem = getArguments().getParcelable("favItem");
+            Uri uri = Uri.parse(favItem.getImageUrl());
+            Picasso.with(getActivity()).load(uri).into(productPhoto);
+            price.setText(favItem.getPrice() + " " + favItem.getCurrency());
+            title.setText(favItem.getTitle());
+            ratingBar.setRating((float) favItem.getRating());
+            description.setText(favItem.getShortDesc());
+            getID(favItem.getUuid());
+        }
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
         {
@@ -110,19 +126,40 @@ public class DetailFragment extends Fragment {
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
                 //User is Logged in
-                if (product.getFavStatus().equals("0"))
+                if (product != null)
                 {
-                    product.setFavStatus("1");
-                    favDB.insertIntoTheDatabase(product.getTitle(), product.getImageUrl(), product.getId(),
-                            product.getFavStatus(), product.getPrice(), product.getRating(),
-                            product.getCurrency(), product.getUuid());
-                    favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    if (product.getFavStatus().equals("0"))
+                    {
+                        product.setFavStatus("1");
+                        favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
+                                product.getImageUrl(), product.getId(),
+                                product.getFavStatus(), product.getPrice(), product.getRating(),
+                                product.getCurrency(), product.getUuid(), product.getCategory());
+                        favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    }
+                    else
+                    {
+                        product.setFavStatus("0");
+                        favDB.remove_fav(product.getId());
+                        favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                    }
                 }
                 else
                 {
-                    product.setFavStatus("0");
-                    favDB.remove_fav(product.getId());
-                    favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                    if (item_fav_status != null && item_fav_status.equals("0"))
+                    {
+                        favItem.setFavStatus("1");
+                        favDB.insertIntoTheDatabase(favItem.getTitle(), favItem.getShortDesc(),
+                                favItem.getImageUrl(), favItem.getKey_id(),
+                                favItem.getFavStatus(), favItem.getPrice(), favItem.getRating(),
+                                favItem.getCurrency(), favItem.getUuid(), product.getCategory());
+                        favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    }
+                    {
+                        favItem.setFavStatus("0");
+                        favDB.remove_fav(favItem.getKey_id());
+                        favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                    }
                 }
             }
             else
@@ -146,6 +183,7 @@ public class DetailFragment extends Fragment {
         Cursor cursor = favDB.select_all_favorite_list();
         try {
             while (cursor.moveToNext()) {
+                item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
                 String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
@@ -153,7 +191,9 @@ public class DetailFragment extends Fragment {
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
-                FavItem favItem = new FavItem(title, id, image, price, rating, currency, uuid);
+                String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
+                String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
+                FavItem favItem = new FavItem(title, desc, id, image, price, rating, currency, uuid, category);
                 favItemList.add(favItem);
             }
         } finally {
@@ -162,12 +202,25 @@ public class DetailFragment extends Fragment {
             db.close();
         }
 
-        for (FavItem favItem : favItemList) {
-            if (product.getId().equals(favItem.getKey_id())) {
-                favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-                break;
+        if (product != null)
+        {
+            for (FavItem favItem : favItemList) {
+                if (product.getId().equals(favItem.getKey_id()))
+                {
+                    favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    break;
+                }
+                favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
             }
-            favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+        }
+        else
+        {
+            if (item_fav_status != null && item_fav_status.equals("1")) {
+                favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+            }
+            else if (item_fav_status != null && item_fav_status.equals("0")) {
+                favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+            }
         }
     }
 

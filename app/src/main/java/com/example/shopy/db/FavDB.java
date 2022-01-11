@@ -17,6 +17,8 @@ public class FavDB extends SQLiteOpenHelper {
     public static String ITEM_PRICE =  "itemPrice";
     public static String ITEM_RATING =  "itemRating";
     public static String ITEM_CURRENCY =  "itemCurrency";
+    public static String ITEM_DESCRIPTION =  "itemDescription";
+    public static String ITEM_CATEGORY =  "itemCategory";
     public static String ITEM_IMAGE = "itemImage";
     public static String ITEM_UUID = "itemUuid";
     public static String FAVORITE_STATUS = "fStatus";
@@ -24,8 +26,8 @@ public class FavDB extends SQLiteOpenHelper {
     private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
             + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT," + ITEM_PRICE
             + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING
-            + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE
-            + " TEXT," + FAVORITE_STATUS+" TEXT)";
+            + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE + " TEXT," + ITEM_CATEGORY
+            + " TEXT," + ITEM_DESCRIPTION + " TEXT," + FAVORITE_STATUS+" TEXT)";
 
     public FavDB(Context context) { super(context,DATABASE_NAME,null,DB_VERSION);}
 
@@ -53,9 +55,9 @@ public class FavDB extends SQLiteOpenHelper {
     }
 
     // insert data into database
-    public void insertIntoTheDatabase(String item_title, String item_image, String id,
+    public void insertIntoTheDatabase(String item_title, String desc, String item_image, String id,
                                       String fav_status, double item_price,
-                                      double item_rating, String currency, String uuid) {
+                                      double item_rating, String currency, String uuid, String category) {
         SQLiteDatabase db;
         db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -64,6 +66,8 @@ public class FavDB extends SQLiteOpenHelper {
         cv.put(ITEM_PRICE, item_price);
         cv.put(ITEM_RATING, item_rating);
         cv.put(ITEM_CURRENCY, currency);
+        cv.put(ITEM_DESCRIPTION, desc);
+        cv.put(ITEM_CATEGORY, category);
         cv.put(ITEM_UUID, uuid);
         cv.put(KEY_ID, id);
         cv.put(FAVORITE_STATUS, fav_status);
