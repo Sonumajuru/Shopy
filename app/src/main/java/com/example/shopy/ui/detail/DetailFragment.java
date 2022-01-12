@@ -113,14 +113,6 @@ public class DetailFragment extends Fragment {
             favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
         }
 
-//        for (FavItem favItem : favItemList)
-//        {
-//            if (product.getId().equals(favItem.getKey_id())) {
-//                productList = product.getProductList();
-//                break;
-//            }
-//        }
-
         favBtn.setOnClickListener(v -> {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
