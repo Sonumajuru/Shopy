@@ -16,7 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
-import com.example.shopy.adapter.HomeViewAdapter;
+import com.example.shopy.adapter.HomeAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
@@ -30,14 +30,11 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.shopy.R.id.navigation_category;
-import static com.example.shopy.R.id.navigation_login;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
-
-    private NavHost navHostFragment;
 
     //a list to store all the products
     private List<Product> productList;
@@ -45,7 +42,7 @@ public class HomeFragment extends Fragment {
     //the recyclerview
     private RecyclerView recyclerView;
     private Product product;
-    private HomeViewAdapter adapter;
+    private HomeAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -53,7 +50,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
@@ -113,7 +110,7 @@ public class HomeFragment extends Fragment {
 //                    }
                 }
                 //creating recyclerview adapter
-                adapter = new HomeViewAdapter(getActivity(), productList);
+                adapter = new HomeAdapter(getActivity(), productList);
 
                 //setting adapter to recyclerview
                 recyclerView.setAdapter(adapter);

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.example.shopy.R;
-import com.example.shopy.adapter.CategoryViewAdapter;
+import com.example.shopy.adapter.CategoryAdapter;
 import com.example.shopy.databinding.FragmentCategoryBinding;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
@@ -28,7 +28,7 @@ public class CategoryFragment extends Fragment {
     private FragmentCategoryBinding binding;
 
     private ListView list;
-    private CategoryViewAdapter adapter;
+    private CategoryAdapter adapter;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
     private Product product;
@@ -82,7 +82,7 @@ public class CategoryFragment extends Fragment {
                 arraylist.addAll(set);
 
                 // Pass results to ListViewAdapter Class
-                adapter = new CategoryViewAdapter(requireActivity(), arraylist);
+                adapter = new CategoryAdapter(requireActivity(), arraylist);
                 // Binds the Adapter to the ListView
                 list.setAdapter(adapter);
             }

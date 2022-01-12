@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SearchViewAdapter extends BaseAdapter {
+public class SearchAdapter extends BaseAdapter {
 
     // Declare Variables
 
@@ -22,7 +22,7 @@ public class SearchViewAdapter extends BaseAdapter {
     private List<Product> productNamesList;
     private ArrayList<Product> arraylist;
 
-    public SearchViewAdapter(Context context, List<Product> productNamesList) {
+    public SearchAdapter(Context context, List<Product> productNamesList) {
         mContext = context;
         this.productNamesList = productNamesList;
         inflater = LayoutInflater.from(mContext);

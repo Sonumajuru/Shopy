@@ -19,13 +19,13 @@ import com.example.shopy.model.Product;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
-public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
-    private static final String TAG = "HomeViewAdapter";
+    private static final String TAG = "HomeAdapter";
     private final List<Product> productList;
     private Context mCtx;
 
-    public HomeViewAdapter(Context context, List<Product> productList) {
+    public HomeAdapter(Context context, List<Product> productList) {
         mCtx = context;
         this.productList = productList;
     }

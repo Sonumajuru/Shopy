@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CategoryViewAdapter extends BaseAdapter {
+public class CategoryAdapter extends BaseAdapter {
 
     // Declare Variables
 
@@ -22,7 +22,7 @@ public class CategoryViewAdapter extends BaseAdapter {
     private List<Product> productNamesList;
     private ArrayList<Product> arraylist;
 
-    public CategoryViewAdapter(Context context, List<Product> productNamesList) {
+    public CategoryAdapter(Context context, List<Product> productNamesList) {
         mContext = context;
         this.productNamesList = productNamesList;
         inflater = LayoutInflater.from(mContext);
