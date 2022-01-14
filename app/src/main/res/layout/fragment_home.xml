@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_grey"
         tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -68,14 +69,16 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Recycler View inside a Scroll View"
+                    android:text="Latest Offers"
                     android:textColor="@color/black"
+                    android:textAlignment="center"
                     android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/farnell_grey"
                     android:layout_marginTop="8dp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

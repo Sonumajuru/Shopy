@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.adapter.HomeAdapter;
+import com.example.shopy.adapter.ParentRecyclerViewAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
+import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,9 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.shopy.R.id.navigation_category;
 
@@ -44,6 +45,12 @@ public class HomeFragment extends Fragment {
     private Product product;
     private HomeAdapter adapter;
 
+    private RecyclerView parentRecyclerView;
+    private ParentRecyclerViewAdapter ParentAdapter;
+    private ArrayList<ParentModel> categoryList;
+    ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
+    private RecyclerView.LayoutManager parentLayoutManager;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -59,15 +66,19 @@ public class HomeFragment extends Fragment {
         //getting the recyclerview from xml
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        parentLayoutManager = new LinearLayoutManager(getActivity());
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+//                LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(parentLayoutManager);
         productList = new ArrayList<>();
+        categoryList = new ArrayList<>();
 
-        setUserName();
+        getProducts();
+
+//        setUserName();
 //        Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
         btnCategory.setOnClickListener(v -> navController.navigate(navigation_category));
-        setProducts();
+//        setProducts();
 
         return root;
     }
@@ -94,7 +105,8 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setProducts()
+    @SuppressLint("NotifyDataSetChanged")
+    private void getProducts()
     {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference eventsRef = rootRef.child("Product");
@@ -104,16 +116,19 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     product = ds.getValue(Product.class);
                     assert product != null;
-//                    if (product.getCategory().equals(category))
-//                    {
-                        productList.add(product);
-//                    }
+                    parentModelArrayList.add(new ParentModel(product.getCategory()));
+                    productList.add(product);
                 }
-                //creating recyclerview adapter
-                adapter = new HomeAdapter(getActivity(), productList);
 
-                //setting adapter to recyclerview
-                recyclerView.setAdapter(adapter);
+                TreeSet<ParentModel> set = parentModelArrayList.stream()
+                        .collect(Collectors.toCollection(() ->
+                                new TreeSet<>(Comparator.comparing(ParentModel::getCategory))));
+                categoryList.addAll(set);
+
+                parentLayoutManager = new LinearLayoutManager(getActivity());
+                ParentAdapter = new ParentRecyclerViewAdapter(categoryList, productList, getActivity());
+                recyclerView.setAdapter(ParentAdapter);
+                ParentAdapter.notifyDataSetChanged();
             }
 
             @Override

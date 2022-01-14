@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,14 +21,12 @@ import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import static com.example.shopy.R.id.navigation_login;
-import static com.example.shopy.R.id.navigation_product;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -61,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             createTableOnFirstStart();
         }
 
-        View view = inflater.inflate(R.layout.product_view, null);
+        View view = inflater.inflate(R.layout.product_view_items, null);
         return new ProductViewHolder(view);
     }
 
