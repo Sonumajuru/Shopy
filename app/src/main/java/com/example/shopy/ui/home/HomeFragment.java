@@ -43,9 +43,7 @@ public class HomeFragment extends Fragment {
     //the recyclerview
     private RecyclerView recyclerView;
     private Product product;
-    private HomeAdapter adapter;
 
-    private RecyclerView parentRecyclerView;
     private ParentRecyclerViewAdapter ParentAdapter;
     private ArrayList<ParentModel> categoryList;
     ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
@@ -63,22 +61,17 @@ public class HomeFragment extends Fragment {
 
         Button btnOrder = binding.orderBtn;
         Button btnCategory = binding.categoryBtn;
-        //getting the recyclerview from xml
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         parentLayoutManager = new LinearLayoutManager(getActivity());
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
-//                LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(parentLayoutManager);
         productList = new ArrayList<>();
         categoryList = new ArrayList<>();
 
         getProducts();
 
-//        setUserName();
-//        Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+        setUserName();
         btnCategory.setOnClickListener(v -> navController.navigate(navigation_category));
-//        setProducts();
 
         return root;
     }

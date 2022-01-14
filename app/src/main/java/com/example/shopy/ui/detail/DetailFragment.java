@@ -216,6 +216,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void getID(String uid)
     {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();

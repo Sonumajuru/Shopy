@@ -2,7 +2,9 @@ package com.example.shopy.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
+import com.example.shopy.model.User;
+import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
+
+import static com.example.shopy.R.id.navigation_detail;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
@@ -46,7 +57,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.image);
 
-        holder.seller.setText(product.getUuid());
+        getID(product.getUuid(), holder);
         holder.title.setText(product.getTitle());
         holder.price.setText(product.getPrice() + " " + product.getCurrency());
 
@@ -54,7 +65,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
-                Toast.makeText(mCtx, productList.get(position).getImageUrl(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mCtx, "Product ID: "+ productList.get(position).getId(), Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("product", product);
+                NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(navigation_detail, bundle);
             }
         });
     }
@@ -76,5 +94,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             seller = itemView.findViewById(R.id.seller);
             price = itemView.findViewById(R.id.price);
         }
+    }
+
+    private void getID(String uid, ViewHolder holder)
+    {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference eventsRef = rootRef.child("User").child(uid).getRef();
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                User user = dataSnapshot.getValue(User.class);
+                assert user != null;
+                holder.seller.setText(user.getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
 }
