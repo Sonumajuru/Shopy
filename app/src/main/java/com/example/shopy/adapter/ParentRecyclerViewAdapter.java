@@ -64,10 +64,22 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         ArrayList<Product> arrayList = new ArrayList<>();
 
         // added the first child row
-        if (parentModelArrayList.get(position).getCategory().equals("Electronics"))
-        {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.electronics))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Electronics"))
+                if (product.getCategory().equals(cxt.getString(R.string.electronics)))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getTitle(), product.getCategory(),
+                            product.getPrice(), product.getCurrency(),
+                            product.getShortDesc(), product.getImageUrl(),
+                            product.getRating(), product.getFavStatus()));
+                }
+            }
+        }
+
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.clothing))) {
+            for (Product product : productList) {
+                if (product.getCategory().equals(cxt.getString(R.string.clothing)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),
@@ -79,9 +91,9 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         }
 
         // added in second child row
-        if (parentModelArrayList.get(position).getCategory().equals("Phones")) {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.phones))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Phones"))
+                if (product.getCategory().equals(cxt.getString(R.string.phones)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),
@@ -93,9 +105,9 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         }
 
         // added in third child row
-        if (parentModelArrayList.get(position).getCategory().equals("Home Appliances")) {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.home_appliance))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Home Appliances"))
+                if (product.getCategory().equals(cxt.getString(R.string.home_appliance)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),
@@ -107,9 +119,9 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         }
 
         // added in fourth child row
-        if (parentModelArrayList.get(position).getCategory().equals("Games")) {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.games))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Games"))
+                if (product.getCategory().equals(cxt.getString(R.string.games)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),
@@ -121,9 +133,9 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         }
 
         // added in fifth child row
-        if (parentModelArrayList.get(position).getCategory().equals("Books")) {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.books))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Books"))
+                if (product.getCategory().equals(cxt.getString(R.string.books)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),
@@ -135,9 +147,9 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         }
 
         // added in sixth child row
-        if (parentModelArrayList.get(position).getCategory().equals("Computers")) {
+        if (parentModelArrayList.get(position).getCategory().equals(cxt.getString(R.string.computer))) {
             for (Product product : productList) {
-                if (product.getCategory().equals("Computers"))
+                if (product.getCategory().equals(cxt.getString(R.string.computer)))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
                             product.getTitle(), product.getCategory(),

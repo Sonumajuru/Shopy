@@ -60,4 +60,5 @@
     <string name="title_product_listing">Liste de produits</string>
     <string name="title_product_detail">Détails du produit</string>
     <string name="product_owner">Vente par</string>
+    <string name="clothing">Vêtements</string>
 </resources>

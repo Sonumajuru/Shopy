@@ -96,8 +96,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
     }
 
-    private void getID(String uid, ViewHolder holder)
-    {
+    private void getID(String uid, ViewHolder holder) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference eventsRef = rootRef.child("User").child(uid).getRef();
         ValueEventListener valueEventListener = new ValueEventListener() {

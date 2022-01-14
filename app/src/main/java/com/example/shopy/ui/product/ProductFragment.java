@@ -51,13 +51,9 @@ public class ProductFragment extends Fragment {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 22;
 
-    // instance for firebase storage and StorageReference
-    private FirebaseStorage storage;
     private StorageReference storageReference;
     private long maxId;
     private Product product;
-    private NavHost navHostFragment;
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
 //    public static ProductFragment newInstance() {
@@ -72,10 +68,10 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Product");
 
-        navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,7 +89,8 @@ public class ProductFragment extends Fragment {
         });
 
         // get the Firebase  storage reference
-        storage = FirebaseStorage.getInstance();
+        // instance for firebase storage and StorageReference
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         product = new Product();
 
@@ -191,7 +188,7 @@ public class ProductFragment extends Fragment {
     {
         // Make ENUM for Categories or Strings of ID R.id.String
         String[] ProductCategories = new String[]{getString(R.string.electronics), getString(R.string.computer),
-                getString(R.string.home_appliance), getString(R.string.phones),
+                getString(R.string.home_appliance), getString(R.string.phones), getString(R.string.clothing),
                 getString(R.string.books), getString(R.string.games)};
 
         final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));
