@@ -24,7 +24,7 @@
                 android:layout_height="50dp"
                 android:hint="@string/username"
                 android:textAlignment="center"
-                android:background="@drawable/btn_normal_background"
+                android:background="@drawable/normal_text_background"
                 android:textSize="15sp"
                 android:inputType="textEmailAddress"
                 android:autofillHints="username"/>
@@ -36,7 +36,7 @@
                 android:layout_marginTop="20dp"
                 android:hint="@string/password"
                 android:textAlignment="center"
-                android:background="@drawable/btn_normal_background"
+                android:background="@drawable/normal_text_background"
                 android:textSize="15sp"
                 android:inputType="textPassword"
                 android:autofillHints="password"/>
