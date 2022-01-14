@@ -34,49 +34,42 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                        android:id="@+id/layout_button"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:weightSum="3"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
+            <LinearLayout
+                    android:id="@+id/layout_button"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                      android:gravity="center" >
 
-                    <Button
-                            android:id="@+id/btnChoose"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:drawableLeft="@drawable/ic_choose_file_black_24"
-                            android:layout_marginEnd="5dp"
-                            tools:ignore="SpeakableTextPresentCheck"/>
+                <ImageView
+                        android:id="@+id/btnChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_normal_background"
+                        android:src="@drawable/ic_choose_file_black_24" />
 
-                    <Button
-                            android:id="@+id/btnUpload"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_width="0dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:drawableLeft="@drawable/ic_file_upload_black_24"
-                            tools:ignore="SpeakableTextPresentCheck"/>
+                <ImageView
+                        android:id="@+id/btnUpload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_normal_background"
+                        android:src="@drawable/ic_file_upload_black_24" />
 
-                    <Button
-                            android:id="@+id/btnView"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_width="0dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:drawableLeft="@drawable/ic_folder_open_black_24"
-                            tools:ignore="SpeakableTextPresentCheck"/>
+                <ImageView
+                        android:id="@+id/btnView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_normal_background"
+                        android:src="@drawable/ic_folder_open_black_24" />
 
-                </LinearLayout>
+            </LinearLayout>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -122,7 +115,7 @@
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:layout_below="@+id/category_Layout"
-                            android:background="@color/app_color_blue"
+                            android:background="@color/grey"
                             android:textSize="15sp"
                             android:autofillHints="Category"/>
 
@@ -141,7 +134,7 @@
                                 android:hint="@string/price"
                                 android:paddingStart="10dp"
                                 android:paddingEnd="10dp"
-                                android:background="@color/app_color_blue"
+                                android:background="@color/grey"
                                 android:textSize="15sp"
                                 android:autofillHints="Price"/>
 
@@ -175,7 +168,8 @@
                                 android:isIndicator="false"
                                 android:backgroundTint="@color/black"
                                 android:progressTint="@color/royal_orange"
-                                android:numStars="5"/>
+                                android:numStars="5"
+                                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"/>
 
                         <TextView
                                 android:id="@+id/txt_Rating"
@@ -201,7 +195,7 @@
                             android:paddingEnd="10dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
-                            android:background="@color/app_color_blue"
+                            android:background="@color/grey"
                             android:textSize="15sp"
                             android:autofillHints="Description"/>
 

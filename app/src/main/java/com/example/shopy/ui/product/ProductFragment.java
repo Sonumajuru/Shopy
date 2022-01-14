@@ -38,9 +38,9 @@ public class ProductFragment extends Fragment {
     private FragmentProductBinding binding;
 
     private ImageView imageView;
-    private Button btnChoose;
-    private Button btnUpload;
-    private Button btnView;
+    private ImageView btnChoose;
+    private ImageView btnUpload;
+    private ImageView btnView;
     private EditText inputName;
     private Spinner category;
     private RatingBar ratingBar;
