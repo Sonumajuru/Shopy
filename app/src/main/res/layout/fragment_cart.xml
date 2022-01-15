@@ -8,15 +8,32 @@
         tools:context=".ui.cart.ShoppingCartFragment">
 
     <TextView
-            android:id="@+id/card_Overview"
+            android:id="@+id/cart_Overview"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:paddingTop="5dp"
             android:paddingStart="10dp"
+            android:textAlignment="center"
             android:paddingEnd="10dp"
             android:textSize="20sp"
-            android:text="Overview"
+            android:text="@string/overview"
+            android:textStyle="bold"
+            android:textColor="#000"/>
+
+    <TextView
+            android:id="@+id/empty_Cart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            android:layout_below="@+id/cart_Overview"
+            android:paddingTop="5dp"
+            android:textAlignment="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="20sp"
+            android:text="@string/overview"
             android:textStyle="bold"
             android:textColor="#000"/>
 
@@ -25,13 +42,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/card_Overview">
+                android:layout_below="@+id/empty_Cart">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_cart"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
 
         </RelativeLayout>
 

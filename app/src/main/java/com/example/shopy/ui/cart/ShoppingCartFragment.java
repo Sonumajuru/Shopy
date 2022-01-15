@@ -23,6 +23,7 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
     private TextView subTotal;
     private TextView shipCost;
     private TextView total;
+    private TextView emptyCart;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -34,7 +35,11 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         subTotal = binding.subtotal;
         shipCost = binding.shippingCost;
         total = binding.total;
+        emptyCart = binding.emptyCart;
         btnCheckOut.setOnClickListener(this);
+
+        emptyCart.setText("Your shopping cart is empty!");
+        emptyCart.setVisibility(View.VISIBLE);
 
         return root;
     }
