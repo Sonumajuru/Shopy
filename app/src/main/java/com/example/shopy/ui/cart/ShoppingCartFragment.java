@@ -14,15 +14,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentCartBinding;
-import com.example.shopy.ui.account.AccountFragment;
-
-import static com.example.shopy.R.id.pay_Btn;
 
 public class ShoppingCartFragment extends Fragment implements View.OnClickListener {
 
     private ShoppingCartViewModel shoppingCartViewModel;
     private FragmentCartBinding binding;
-    private Button btnPay;
+    private Button btnCheckOut;
+    private TextView subTotal;
+    private TextView shipCost;
+    private TextView total;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -30,10 +30,13 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        btnPay = binding.payBtn;
-        btnPay.setOnClickListener(this);
+        btnCheckOut = binding.btnCheckout;
+        subTotal = binding.subtotal;
+        shipCost = binding.shippingCost;
+        total = binding.total;
+        btnCheckOut.setOnClickListener(this);
 
-        final TextView textView = binding.textShoppingCart;
+        final TextView textView = binding.cardOverview;
         shoppingCartViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -49,17 +52,11 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
 
         switch (v.getId())
         {
-            case pay_Btn:
+//            case btnCheckOut:
 //                AccountFragment accountFragment = new AccountFragment();
 //                swapFragment(accountFragment);
-                break;
+//                break;
         }
-    }
-
-    public void swapFragment(Fragment fragment) {
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.navigation_cart, fragment, null)
-                .commit();
     }
 
     @Override

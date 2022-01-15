@@ -10,12 +10,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
-import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +35,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favourites_view,viewGroup,false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favourites_items,viewGroup,false);
         favDB = new FavDB(context);
         return new ViewHolder(view);
     }

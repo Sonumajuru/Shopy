@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/error_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/ic_account_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_choose_file_black_24.xml" value="0.240625" />
+        <entry key="app/src/main/res/drawable/ic_delete_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_erroricon_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_favorite_black_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_favorite_border_24.xml" value="0.15833333333333333" />
@@ -24,7 +25,11 @@
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_list_add_24.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_minus_remove_24.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/drawable/ic_plus_add_24.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/drawable/ic_red_favorite_24.xml" value="0.18697916666666667" />
+        <entry key="app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_shopping_cart_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_shopping_cart_black_24dp.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/login_edittext.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/drawable/normal_background.xml" value="0.32" />
@@ -33,11 +38,14 @@
         <entry key="app/src/main/res/drawable/search_bar_background.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.16927083333333334" />
+        <entry key="app/src/main/res/layout/cart_items.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/cart_view_items.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/child_recyclerview_items.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/favourites_items.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/favourites_list.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/favourites_view.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.2028985507246377" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_createuser.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.25" />
@@ -61,8 +69,10 @@
         <entry key="app/src/main/res/layout/list_item.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/list_view_items.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/overview.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/parent_items.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/parent_recyclerview_home.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/parent_recyclerview_items.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/product_items.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/product_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view_items.xml" value="0.14375" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />

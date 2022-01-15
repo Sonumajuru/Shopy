@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/idCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            app:cardPreventCornerOverlap="false">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+            <LinearLayout
+                    android:id="@+id/idLinearLayoutProductImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true">
+
+                <ImageView
+                        android:id="@+id/idProductImage"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/idTopLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentEnd="true">
+
+                <TextView
+                        android:id="@+id/idProductName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textSize="18dp"
+                        android:text="Mac Book Air"
+                        tools:textColor="@android:color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/idMiddleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/idTopLayout"
+                    android:layout_alignParentEnd="true">
+
+                <ImageView
+                        android:id="@+id/idMinusICon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_minus_remove_24"/>
+
+                <TextView
+                        android:id="@+id/idProductQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:text="4"
+                        android:layout_marginEnd="20dp"
+                        tools:textColor="@android:color/black"
+                        android:textStyle="bold"/>
+
+                <ImageView
+                        android:id="@+id/idPlusIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_plus_add_24"/>
+
+                <TextView
+                        android:id="@+id/idProductPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textSize="18dp"
+                        android:text="10500 CFA"
+                        tools:textColor="@android:color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/idBottomLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/idMiddleLayout">
+
+                <ImageView
+                        android:id="@+id/idDeleteICon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_delete_black_24" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

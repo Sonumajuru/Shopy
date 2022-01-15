@@ -14,7 +14,7 @@
 
     <item
             android:id="@+id/navigation_cart"
-            android:icon="@drawable/ic_shopping_cart_black_24dp"
+            android:icon="@drawable/ic_shopping_cart_black_24"
             tools:ignore="MenuTitle"/>
 
     <item

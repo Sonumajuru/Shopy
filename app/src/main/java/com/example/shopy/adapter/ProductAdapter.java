@@ -58,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             createTableOnFirstStart();
         }
 
-        View view = inflater.inflate(R.layout.product_view_items, null);
+        View view = inflater.inflate(R.layout.product_items, null);
         return new ProductViewHolder(view);
     }
 

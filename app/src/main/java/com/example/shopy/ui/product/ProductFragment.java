@@ -111,7 +111,7 @@ public class ProductFragment extends Fragment {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
-                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
             }
         });
 

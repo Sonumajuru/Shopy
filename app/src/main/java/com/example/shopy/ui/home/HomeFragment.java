@@ -16,8 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
-import com.example.shopy.adapter.HomeAdapter;
-import com.example.shopy.adapter.ParentRecyclerViewAdapter;
+import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
 import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
@@ -44,7 +43,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private Product product;
 
-    private ParentRecyclerViewAdapter ParentAdapter;
+    private ParentViewAdapter ParentAdapter;
     private ArrayList<ParentModel> categoryList;
     ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
     private RecyclerView.LayoutManager parentLayoutManager;
@@ -119,7 +118,7 @@ public class HomeFragment extends Fragment {
                 categoryList.addAll(set);
 
                 parentLayoutManager = new LinearLayoutManager(getActivity());
-                ParentAdapter = new ParentRecyclerViewAdapter(categoryList, productList, getActivity());
+                ParentAdapter = new ParentViewAdapter(categoryList, productList, getActivity());
                 recyclerView.setAdapter(ParentAdapter);
                 ParentAdapter.notifyDataSetChanged();
             }
