@@ -22,14 +22,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/CartAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/CartAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/FavAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/FavAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/ProductAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/adapter/ProductAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/db/FavDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/db/FavDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/model/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/model/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/account/AccountFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/account/AccountFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/cart/ShoppingCartFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/cart/ShoppingCartFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/detail/DetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/detail/DetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/product_overview/ProductOverviewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/product_overview/ProductOverviewFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/cart_items.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cart_items.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_cart.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_cart.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
@@ -113,6 +109,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_RecyclerView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED" value="RecyclerView" />
     <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.github.travijuu/numberpicker/1.0.7/5934fd944fbeaa37ef284017b759c2a05681a3ee/numberpicker-1.0.7-sources.jar!/com/travijuu/numberpicker/library/NumberPicker.java_NumberPicker_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.github.travijuu/numberpicker/1.0.7/5934fd944fbeaa37ef284017b759c2a05681a3ee/numberpicker-1.0.7-sources.jar!/com/travijuu/numberpicker/library/NumberPicker.java_SELECTED" value="NumberPicker" />
     <property name="project.structure.last.edited" value="Project" />
@@ -577,6 +575,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added Shopping Cart xml items and fragment xml" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/shopy/ui/cart/ShoppingCartFragment.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="shadow$_klass_" />

@@ -96,10 +96,10 @@
                 android:text="@string/customer_support"/>
 
         <TextView
-                android:id="@+id/contact_text"
+                android:id="@+id/chat_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEL: +237-745-3456"
+                android:text="@string/chat_whatsapp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="40dp"/>
 
@@ -107,7 +107,10 @@
                 android:id="@+id/email_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="EMAIL: YOUR@COMPANY.COM"
+                android:text="@string/email_njangi_support_com"
+                android:autoLink="email|web"
+                android:linksClickable="true"
+                android:backgroundTint="@color/dark_blue"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"/>
 

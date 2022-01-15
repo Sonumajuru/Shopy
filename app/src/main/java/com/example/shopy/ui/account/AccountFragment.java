@@ -2,9 +2,15 @@ package com.example.shopy.ui.account;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,10 +84,36 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         username = binding.userName;
         userEmail = binding.userEmail;
         TextView appVersion = binding.appVersion;
-//        appVersion.setText(getString(R.string.version_number) +" "+ VERSION_NAME);
-        getUserData();
+        TextView emailSender = binding.emailText;
+        TextView whatsAppNum = binding.chatTel;
+        emailSender.setText(Html.fromHtml("<a href=\"malito:njangi@support.com\">Email: njangi@support.com</a>"));
+        emailSender.setMovementMethod(LinkMovementMethod.getInstance());
+        whatsAppNum.setText(Html.fromHtml("Chat: "+ "<a href=\"\">WhatsApp</a>"));
+        whatsAppNum.setOnClickListener(view -> support());
 
+        try {
+            PackageInfo pInfo = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0);
+            appVersion.setText(getString(R.string.version_number) +" "+ pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        getUserData();
         return root;
+    }
+
+    private void support()
+    {
+        String contact = "+237 666305349"; // use country code with your phone number
+        String url = "https://api.whatsapp.com/send?phone=" + contact;
+        try {
+            PackageManager pm = requireActivity().getPackageManager();
+            pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -147,6 +179,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 AccountFragment.this.user.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
                 username.setText(AccountFragment.this.user.getName());
                 userEmail.setText(AccountFragment.this.user.getEmail());
+                btnManageItem.setEnabled(!Objects.requireNonNull(dataSnapshot.getValue(User.class)).isBuyer());
                 setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 
@@ -170,8 +203,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         LanguageHelper.storeUserLanguage(requireActivity(), String.valueOf(locale));
         LanguageHelper.updateLanguage(requireActivity(), String.valueOf(locale));
     }
-
-//    requireActivity().finish();
 
     @Override
     public void onDestroyView() {

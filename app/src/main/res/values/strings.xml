@@ -62,5 +62,7 @@
     <string name="title_product_detail">Product Details</string>
     <string name="product_owner">Sold By</string>
     <string name="overview">Overview</string>
+    <string name="chat_whatsapp">Chat: WhatsApp</string>
+    <string name="email_njangi_support_com">Email: your@company.com</string>
 
 </resources>

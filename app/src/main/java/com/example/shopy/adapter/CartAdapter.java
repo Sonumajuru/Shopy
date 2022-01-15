@@ -21,10 +21,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final List<CartItem> cartItemList;
     private final Context mCtx;
     private FavDB favDB;
+    private final OnItemClickListener onItemClickListener; // Global scope
 
-    public CartAdapter(List<CartItem> cartItemList, Context mCtx) {
+    public CartAdapter(List<CartItem> cartItemList, Context mCtx, OnItemClickListener onItemClickListener) {
         this.cartItemList = cartItemList;
         this.mCtx = mCtx;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -65,6 +67,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 cartItemList.get(position).setCartStatus("0");
                 favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
+                onItemClickListener.onItemClicked(position, cartItem);
                 notifyDataSetChanged();
             }
         });
@@ -92,5 +95,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             plusbtn = itemView.findViewById(R.id.idPlusIcon);
             deletbtn = itemView.findViewById(R.id.idDeleteICon);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position, Object object);
     }
 }

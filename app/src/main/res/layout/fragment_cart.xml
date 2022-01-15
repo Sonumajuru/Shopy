@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_weight="0"
                     android:layout_gravity="right"
-                    android:text="12000 CFA"/>
+                    android:text="0 CFA"/>
 
         </LinearLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_weight="0"
                     android:layout_gravity="right"
-                    android:text="5000 CFA"/>
+                    android:text="0 CFA"/>
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:layout_weight="0"
                     android:layout_gravity="right"
                     android:textStyle="bold"
-                    android:text="17000 CFA"/>
+                    android:text="0 CFA"/>
 
         </LinearLayout>
 
