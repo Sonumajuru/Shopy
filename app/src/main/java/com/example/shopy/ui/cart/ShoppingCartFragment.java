@@ -36,13 +36,6 @@ public class ShoppingCartFragment extends Fragment implements View.OnClickListen
         total = binding.total;
         btnCheckOut.setOnClickListener(this);
 
-        final TextView textView = binding.cardOverview;
-        shoppingCartViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 

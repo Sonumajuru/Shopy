@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.shopy.R.id.addToCartBtn;
 import static com.example.shopy.R.id.navigation_login;
 
 public class DetailFragment extends Fragment {
@@ -44,6 +46,7 @@ public class DetailFragment extends Fragment {
     private FavItem favItem;
 
     private ImageView productPhoto;
+    private Button btnAddToCart;
     private TextView productOwner;
     private ImageView favBtn;
     private TextView price;
@@ -53,7 +56,6 @@ public class DetailFragment extends Fragment {
 
     private FavDB favDB;
     private List<FavItem> favItemList;
-    private List<Product> productList;
     String item_fav_status = null;
 
     @SuppressLint("SetTextI18n")
@@ -72,6 +74,7 @@ public class DetailFragment extends Fragment {
         favDB = new FavDB(getActivity());
 
         productPhoto = binding.photo;
+        btnAddToCart = binding.addToCartBtn;
         productOwner = binding.productOwner;
         favBtn = binding.favBtn;
         price = binding.priceOfProduct;
@@ -117,7 +120,6 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                //User is Logged in
                 if (product != null)
                 {
                     if (product.getFavStatus().equals("0"))
@@ -162,6 +164,12 @@ public class DetailFragment extends Fragment {
                 assert navHostFragment != null;
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(navigation_login);
+            }
+        });
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
