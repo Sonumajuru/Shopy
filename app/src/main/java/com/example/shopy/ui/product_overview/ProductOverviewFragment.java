@@ -46,7 +46,7 @@ public class ProductOverviewFragment extends Fragment {
         View root = binding.getRoot();
 
         //getting the recyclerview from xml
-        recyclerView = root.findViewById(R.id.recyclerView);
+        recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         productList = new ArrayList<>();

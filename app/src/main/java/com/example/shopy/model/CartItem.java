@@ -1,9 +1,10 @@
 package com.example.shopy.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Cart implements Parcelable {
+public class CartItem implements Parcelable {
 
     private String key_id;
     private String uuid;
@@ -15,6 +16,7 @@ public class Cart implements Parcelable {
     private String imageUrl;
     private double rating;
     private String favStatus;
+    private String cartStatus;
 
     public String getKey_id() {
         return key_id;
@@ -96,33 +98,45 @@ public class Cart implements Parcelable {
         this.favStatus = favStatus;
     }
 
-    public Cart(String key_id, String uuid, String title, String category, double price,
-                String currency, String shortDesc, String imageUrl, double rating, String favStatus) {
-        this.key_id = key_id;
-        this.uuid = uuid;
-        this.title = title;
-        this.category = category;
-        this.price = price;
-        this.currency = currency;
-        this.shortDesc = shortDesc;
-        this.imageUrl = imageUrl;
-        this.rating = rating;
-        this.favStatus = favStatus;
+    public String isCartStatus() {
+        return cartStatus;
     }
 
-    public static final Creator<Cart> CREATOR = new Creator<Cart>() {
+    public void setCartStatus(String cartStatus) {
+        this.cartStatus = cartStatus;
+    }
+
+    public CartItem() {
+    }
+
+    public CartItem(String item_title, String shortDesc, String key_id, String item_image,
+                    double item_price, double item_rating, String currency, String uuid, String category, String cartStatus) {
+        this.key_id = key_id;
+        this.uuid = uuid;
+        this.title = item_title;
+        this.category = category;
+        this.price = item_price;
+        this.currency = currency;
+        this.shortDesc = shortDesc;
+        this.imageUrl = item_image;
+        this.rating = rating;
+        this.favStatus = favStatus;
+        this.cartStatus = cartStatus;
+    }
+
+    public static final Creator<CartItem> CREATOR = new Creator<CartItem>() {
         @Override
-        public Cart createFromParcel(Parcel in) {
-            return new Cart(in);
+        public CartItem createFromParcel(Parcel in) {
+            return new CartItem(in);
         }
 
         @Override
-        public Cart[] newArray(int size) {
-            return new Cart[size];
+        public CartItem[] newArray(int size) {
+            return new CartItem[size];
         }
     };
 
-    protected Cart(Parcel in) {
+    protected CartItem(Parcel in) {
         key_id = in.readString();
         title = in.readString();
         category = in.readString();
@@ -131,6 +145,7 @@ public class Cart implements Parcelable {
         shortDesc = in.readString();
         imageUrl = in.readString();
         rating = in.readDouble();
+        cartStatus = in.readString();
     }
 
     @Override
@@ -143,6 +158,7 @@ public class Cart implements Parcelable {
         dest.writeString(shortDesc);
         dest.writeString(imageUrl);
         dest.writeDouble(rating);
+        dest.writeString(cartStatus);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
                             product.getImageUrl(), product.getId(), product.getFavStatus(),
                             product.getPrice(), product.getRating(), product.getCurrency(),
-                            product.getUuid(), product.getCategory());
+                            product.getUuid(), product.getCategory(), "0");
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                 }
                 else

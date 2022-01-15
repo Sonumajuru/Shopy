@@ -23,6 +23,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
+import com.example.shopy.model.CartItem;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
@@ -33,7 +34,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.shopy.R.id.addToCartBtn;
 import static com.example.shopy.R.id.navigation_login;
 
 public class DetailFragment extends Fragment {
@@ -44,6 +44,7 @@ public class DetailFragment extends Fragment {
     private FirebaseAuth mAuth;
     private Product product;
     private FavItem favItem;
+    private CartItem cartItem;
 
     private ImageView productPhoto;
     private Button btnAddToCart;
@@ -72,6 +73,7 @@ public class DetailFragment extends Fragment {
         product = new Product();
         favItemList = new ArrayList<>();
         favDB = new FavDB(getActivity());
+        cartItem = new CartItem();
 
         productPhoto = binding.photo;
         btnAddToCart = binding.addToCartBtn;
@@ -128,7 +130,7 @@ public class DetailFragment extends Fragment {
                         favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
                                 product.getImageUrl(), product.getId(),
                                 product.getFavStatus(), product.getPrice(), product.getRating(),
-                                product.getCurrency(), product.getUuid(), product.getCategory());
+                                product.getCurrency(), product.getUuid(), product.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     }
                     else
@@ -146,7 +148,7 @@ public class DetailFragment extends Fragment {
                         favDB.insertIntoTheDatabase(favItem.getTitle(), favItem.getShortDesc(),
                                 favItem.getImageUrl(), favItem.getKey_id(),
                                 favItem.getFavStatus(), favItem.getPrice(), favItem.getRating(),
-                                favItem.getCurrency(), favItem.getUuid(), product.getCategory());
+                                favItem.getCurrency(), favItem.getUuid(), favItem.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     }
                     {
@@ -169,7 +171,13 @@ public class DetailFragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (product != null)
+                {
+                    favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
+                            product.getImageUrl(), product.getId(),
+                            "0", product.getPrice(), product.getRating(),
+                            product.getCurrency(), product.getUuid(), product.getCategory(), "1");
+                }
             }
         });
 

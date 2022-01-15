@@ -11,23 +11,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
-import com.example.shopy.model.Cart;
+import com.example.shopy.db.FavDB;
+import com.example.shopy.model.CartItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private final List<Cart> cartList;
+    private final List<CartItem> cartItemList;
     private final Context mCtx;
+    private FavDB favDB;
 
-    public CartAdapter(List<Cart> cartList, Context mCtx) {
-        this.cartList = cartList;
+    public CartAdapter(List<CartItem> cartItemList, Context mCtx) {
+        this.cartItemList = cartItemList;
         this.mCtx = mCtx;
     }
 
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        favDB = new FavDB(mCtx);
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_items,parent,false);
         return new CartViewHolder(view);
     }
@@ -36,11 +39,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, final int position) {
 
-        final Cart cart = cartList.get(position);
+        final CartItem cartItem = cartItemList.get(position);
 
-        holder.prname.setText(cart.getTitle());
-        holder.prprice.setText(cart.getPrice() + " " + cart.getCurrency());
-        Uri uri = Uri.parse(cart.getImageUrl());
+        holder.prname.setText(cartItem.getTitle());
+        holder.prprice.setText(cartItem.getPrice() + " " + cartItem.getCurrency());
+        Uri uri = Uri.parse(cartItem.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.image);
 
         holder.minusbtn.setOnClickListener(new View.OnClickListener() {
@@ -58,17 +61,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.deletbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cartList.remove(position);
+
+                cartItemList.get(position).setCartStatus("0");
+                favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
+//                cartItemList.remove(position);
                 notifyDataSetChanged();
-//                MainActivity.myDatabase.cartDao().deleteItem(cart.getId());
-//                int cartcount = MainActivity.myDatabase.cartDao().countCart();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return cartList.size();
+        return cartItemList.size();
     }
 
     static class CartViewHolder extends RecyclerView.ViewHolder{

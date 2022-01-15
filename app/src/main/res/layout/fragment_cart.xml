@@ -14,7 +14,6 @@
             android:layout_marginTop="8dp"
             android:paddingTop="5dp"
             android:paddingStart="10dp"
-            android:textAlignment="center"
             android:paddingEnd="10dp"
             android:textSize="20sp"
             android:text="@string/overview"
@@ -37,28 +36,21 @@
             android:textStyle="bold"
             android:textColor="#000"/>
 
-    <RelativeLayout
-                android:id="@+id/checkout_Items"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/empty_Cart">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_cart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"/>
-
-        </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/paymentOverview"
+            android:layout_below="@+id/empty_Cart"/>
 
     <LinearLayout
+            android:id="@+id/paymentOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_below="@+id/checkout_Items"
+            android:layout_above="@+id/checkout_Layout"
             android:orientation="vertical">
 
         <LinearLayout
