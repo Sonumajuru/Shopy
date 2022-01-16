@@ -14,14 +14,15 @@
 
     <application
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/icon_njangi"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/icon_njangi"
             android:supportsRtl="true"
-            android:theme="@style/Theme.Shopy"
+            android:theme="@style/Theme.App.Starting"
             tools:ignore="AllowBackup">
         <activity
                 android:name=".activity.MainActivity"
+                android:theme="@style/Theme.App.Starting"
                 android:configChanges="orientation"
                 android:screenOrientation="portrait"
                 android:exported="true"

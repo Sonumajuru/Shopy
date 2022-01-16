@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
     private ParentViewAdapter ParentAdapter;
     private ArrayList<ParentModel> categoryList;
-    ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
+    private ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
     private RecyclerView.LayoutManager parentLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

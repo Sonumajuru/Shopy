@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground" >@color/dark_blue</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/icon_njangi</item>
+<!--        <item name="windowSplashScreenAnimationDuration">1000</item>-->
+        <item name="windowSplashScreenIconBackgroundColor">@color/dark_blue</item>
+        <item name="postSplashScreenTheme">@style/ThemeNjangi</item>
+    </style>
+</resources>
