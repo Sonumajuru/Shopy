@@ -24,4 +24,6 @@
     <color name="light_grey">#FFf9f9f9</color>
     <color name="farnell_grey">#FFF6F6F6</color>
     <color name="dark_grey">#FFDFDFDF</color>
+    <color name="app_light_background">#fbab29</color>
+    <color name="app_background">#F89402</color>
 </resources>

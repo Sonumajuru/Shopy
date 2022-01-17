@@ -110,7 +110,6 @@
                 android:text="@string/email_njangi_support_com"
                 android:autoLink="email|web"
                 android:linksClickable="true"
-                android:backgroundTint="@color/dark_blue"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"/>
 
