@@ -1,10 +1,16 @@
 package com.example.shopy.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -24,6 +30,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.ThemeNjangi);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        @SuppressLint("ShowToast") Toast toast = Toast.makeText(getApplicationContext(),
+                "This is my Toast message!", Toast.LENGTH_LONG);
+        splashScreen.setKeepOnScreenCondition(new SplashScreen.KeepOnScreenCondition() {
+            @Override
+            public boolean shouldKeepOnScreen() {
+                if (!isNetworkAvailable())
+                {
+                    setTheme(R.style.Theme_App_Starting);
+                    toast.show();
+                    return true;
+                }
+                toast.cancel();
+                return false;
+            }
+        });
+
+
         initLanguage();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -49,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
+    }
+
+    private boolean isNetworkAvailable()
+    {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
