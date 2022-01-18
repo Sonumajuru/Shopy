@@ -1,64 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".ui.home.HomeFragment"
+        android:id="@+id/relativeLayout10">
 
     <TextView
             android:id="@+id/text_home"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
-            android:textAlignment="center"
-            android:textSize="20sp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <LinearLayout
-            android:id="@+id/advertisement_Layout"
-            android:orientation="vertical"
-            android:layout_below="@+id/text_home"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp">
+    <WebView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            android:id="@+id/webView"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/category_Btn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            />
 
+    <Button
+            android:id="@+id/order_Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/order"
+            android:layout_marginTop="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/webView"
+            app:layout_constraintEnd_toStartOf="@+id/category_Btn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="51dp"/>
 
-
-    </LinearLayout>
-
-    <RelativeLayout
-            android:id="@+id/middle_Layout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/advertisement_Layout">
-
-        <Button
-                android:id="@+id/order_Btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/order"
-                android:layout_marginStart="30dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerInParent="true"/>
-
-        <Button
-                android:id="@+id/category_Btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/category"
-                android:layout_marginEnd="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
+    <Button
+            android:id="@+id/category_Btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            app:layout_constraintTop_toBottomOf="@+id/webView"
+            app:layout_constraintStart_toEndOf="@+id/order_Btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"
+            android:layout_marginEnd="30dp"/>
 
     <androidx.core.widget.NestedScrollView
-            android:layout_below="@+id/middle_Layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:id="@+id/nestedScrollView2"
+            app:layout_constraintTop_toBottomOf="@+id/category_Btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0">
 
         <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -68,22 +77,20 @@
                 android:paddingBottom="20dp">
 
             <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Latest Offers"
+                    android:text="@string/latest_offers"
                     android:textColor="@color/black"
-                    android:textAlignment="center"
                     android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/farnell_grey"
-                    android:layout_marginTop="8dp"/>
+                    android:background="@color/farnell_grey"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

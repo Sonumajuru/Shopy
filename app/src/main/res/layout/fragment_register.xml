@@ -1,249 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.register.RegisterFragment">
+        tools:context=".ui.register.RegisterFragment"
+        android:id="@+id/relativeLayout2">
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="MissingConstraints"
+            android:id="@+id/scrollView3"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:scrollbars="vertical">
 
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="start"
+            <EditText
+                    android:id="@+id/txt_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:hint="@string/name"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:autofillHints="Name"
                     android:layout_marginTop="15dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
-
-                <EditText
-                        android:id="@+id/txt_Name"
-                        android:layout_width="250dp"
-                        android:layout_height="48dp"
-                        android:hint="@string/name"
-                        android:layout_marginBottom="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:inputType="textPersonName"
-                        android:autofillHints="Name"/>
-
-                <EditText
-                        android:id="@+id/txt_Surname"
-                        android:layout_width="250dp"
-                        android:layout_height="48dp"
-                        android:hint="@string/surname"
-                        android:layout_below="@+id/txt_Name"
-                        android:layout_marginBottom="5dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:inputType="textPersonName"
-                        android:autofillHints="Lastname"/>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="10dp">
-
-                <CheckBox
-                        android:id="@+id/male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/male"
-                        android:checked="false"/>
-
-                <CheckBox
-                        android:id="@+id/female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/female"
-                        android:checked="false"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="start"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
-
-                <EditText
-                        android:id="@+id/txt_Address"
-                        android:layout_width="250dp"
-                        android:layout_height="70dp"
-                        android:inputType="textImeMultiLine|textMultiLine"
-                        android:hint="@string/address"
-                        android:gravity="top|start"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:autofillHints="Address"/>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="start"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <Spinner
-                        android:id="@+id/country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:contentDescription="@string/country"
-                        android:background="@android:drawable/btn_dropdown"
-                        android:spinnerMode="dropdown"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/country"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="start"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <Spinner
-                        android:id="@+id/language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:contentDescription="@string/language"
-                        android:background="@android:drawable/btn_dropdown"
-                        android:spinnerMode="dropdown"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/language"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="10dp">
-
-                <CheckBox
-                        android:id="@+id/buyer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/buyer"
-                        android:checked="false"/>
-
-                <CheckBox
-                        android:id="@+id/seller"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/seller"
-                        android:checked="false"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="start"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
-
-                <EditText
-                        android:id="@+id/txt_email"
-                        android:layout_width="250dp"
-                        android:layout_height="48dp"
-                        android:hint="@string/email"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:inputType="textEmailAddress"
-                        android:autofillHints="Email"/>
-
-                <EditText
-                        android:id="@+id/txt_Password"
-                        android:layout_width="250dp"
-                        android:layout_height="48dp"
-                        android:hint="@string/password"
-                        android:layout_marginBottom="10dp"
-                        android:layout_below="@+id/txt_email"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:inputType="textPassword"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:autofillHints="Password"/>
-
-                <EditText
-                        android:id="@+id/txt_Retype_Password"
-                        android:layout_width="250dp"
-                        android:layout_height="48dp"
-                        android:hint="@string/re_type_password"
-                        android:layout_marginBottom="5dp"
-                        android:layout_below="@+id/txt_Password"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:inputType="textPassword"
-                        android:background="@color/grey"
-                        android:textSize="15sp"
-                        android:autofillHints="Password"/>
-
-            </RelativeLayout>
-
-            <Button
-                    android:id="@+id/btn_register"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/save"/>
+                    app:layout_constraintEnd_toEndOf="@+id/txt_Surname"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_Surname"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/txt_Surname"/>
 
-        </LinearLayout>
+            <EditText
+                    android:id="@+id/txt_Surname"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:hint="@string/surname"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:autofillHints="Lastname"
+                    android:layout_marginTop="73dp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_Address"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/male"/>
+
+            <CheckBox
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:checked="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/female"
+                    android:layout_marginStart="20dp"
+                    android:minHeight="48dp"/>
+
+            <CheckBox
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    android:checked="false"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_Surname"
+                    app:layout_constraintStart_toEndOf="@+id/male"
+                    android:minHeight="48dp"/>
+
+            <EditText
+                    android:id="@+id/txt_Address"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:inputType="textImeMultiLine|textMultiLine"
+                    android:hint="@string/address"
+                    android:gravity="top|start"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:autofillHints="Address"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintTop_toBottomOf="@+id/male"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_email"
+                    app:layout_constraintBottom_toTopOf="@+id/country"
+                    app:layout_constraintStart_toStartOf="@+id/male"/>
+
+            <Spinner
+                    android:id="@+id/country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/country"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="267dp"
+                    android:layout_marginStart="25dp"
+                    tools:ignore="DuplicateSpeakableTextCheck"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/country"
+                    android:id="@+id/textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/country"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toEndOf="@+id/country"
+                    android:layout_marginBottom="13dp"/>
+
+            <Spinner
+                    android:id="@+id/language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/language"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginStart="25dp"
+                    app:layout_constraintTop_toBottomOf="@+id/country"
+                    tools:ignore="DuplicateSpeakableTextCheck"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/language"
+                    android:id="@+id/textView2"
+                    app:layout_constraintBottom_toBottomOf="@+id/language"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toEndOf="@+id/language"
+                    android:layout_marginBottom="14dp"/>
+
+            <CheckBox
+                    android:id="@+id/buyer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buyer"
+                    android:checked="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/seller"
+                    android:layout_marginStart="20dp"
+                    android:minHeight="48dp"/>
+
+            <CheckBox
+                    android:id="@+id/seller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seller"
+                    android:checked="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintTop_toBottomOf="@+id/language"
+                    app:layout_constraintStart_toEndOf="@+id/language"
+                    android:minHeight="48dp"/>
+
+            <EditText
+                    android:id="@+id/txt_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:inputType="textEmailAddress"
+                    android:autofillHints="Email"
+                    android:layout_marginTop="52dp"
+                    android:layout_marginBottom="57dp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_Password"
+                    app:layout_constraintTop_toTopOf="@+id/buyer"
+                    app:layout_constraintStart_toStartOf="@+id/txt_Password"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_Password"
+                    android:minHeight="48dp"/>
+
+            <EditText
+                    android:id="@+id/txt_Password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:inputType="textPassword"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:autofillHints="Password"
+                    android:layout_marginTop="162dp"
+                    android:layout_marginBottom="165dp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_Retype_Password"
+                    app:layout_constraintTop_toTopOf="@+id/textView2"
+                    app:layout_constraintStart_toStartOf="@+id/txt_Retype_Password"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:minHeight="48dp"/>
+
+            <EditText
+                    android:id="@+id/txt_Retype_Password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/re_type_password"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:inputType="textPassword"
+                    android:background="@color/grey"
+                    android:textSize="15sp"
+                    android:autofillHints="Password"
+                    android:layout_marginTop="58dp"
+                    android:layout_marginBottom="58dp"
+                    app:layout_constraintTop_toTopOf="@+id/txt_Password"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="11dp"
+                    android:minHeight="48dp"/>
+
+            <LinearLayout
+                    android:id="@+id/register_Layout"
+                    android:layout_width="300dp"
+                    android:layout_height="80dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginEnd="9dp">
+
+                <Button
+                        android:id="@+id/btn_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:text="@string/save"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

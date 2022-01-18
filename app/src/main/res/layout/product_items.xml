@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -57,7 +58,8 @@
                     android:progressTint="@color/royal_orange"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:max="5"
-                    android:layout_below="@id/textViewShortDesc"/>
+                    android:layout_below="@id/textViewShortDesc"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"/>
 
             <ImageView
                     android:id="@+id/fav_btn"
