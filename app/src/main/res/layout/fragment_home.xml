@@ -81,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/latest_offers"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"

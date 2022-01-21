@@ -28,7 +28,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            category = itemView.findViewById(R.id.Movie_category);
+            category = itemView.findViewById(R.id.product_category);
             childRecyclerView = itemView.findViewById(R.id.Child_RV);
         }
     }

@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1875" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/drawable/btn_dropdown.xml" value="0.321025641025641" />
+        <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.16041666666666668" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.16927083333333334" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/drawable/babayy.xml" value="0.19166666666666668" />
@@ -88,6 +89,7 @@
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.21920289855072464" />
       </map>
     </option>
   </component>

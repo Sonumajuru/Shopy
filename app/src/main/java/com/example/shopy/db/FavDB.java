@@ -84,7 +84,7 @@ public class FavDB extends SQLiteOpenHelper {
         return db.rawQuery(sql,null,null);
     }
 
-    // remove fav from database
+    // remove from database
     public void remove_fav(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "UPDATE " + TABLE_NAME + " SET  "+ FAVORITE_STATUS+" ='0' WHERE "+KEY_ID+"="+id+"";
@@ -92,8 +92,6 @@ public class FavDB extends SQLiteOpenHelper {
         Log.d("remove", id);
 
     }
-
-    // remove cart from database
     public void remove_from_cart(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "UPDATE " + TABLE_NAME + " SET  "+ CART_STATUS+" ='0' WHERE "+KEY_ID+"="+id+"";
@@ -102,14 +100,12 @@ public class FavDB extends SQLiteOpenHelper {
 
     }
 
-    // select all favorite list
-
+    // select all  list
     public Cursor select_all_favorite_list() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+FAVORITE_STATUS+" ='1'";
         return db.rawQuery(sql,null,null);
     }
-
     public Cursor select_all_cart_list() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+CART_STATUS+" ='1'";

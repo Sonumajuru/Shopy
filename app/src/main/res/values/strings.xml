@@ -52,7 +52,7 @@
     <string name="phones">Phones</string>
     <string name="books">Books</string>
     <string name="games">Games</string>
-    <string name="search_hint">Find what you were looking for?</string>
+    <string name="search_hint">Search in Njangi</string>
     <string name="menu_search">Lets help you search..</string>
     <string name="name">Title</string>
     <string name="add_to_cart">Add to cartItem</string>
@@ -65,5 +65,6 @@
     <string name="chat_whatsapp">Chat: WhatsApp</string>
     <string name="email_njangi_support_com">Email: your@company.com</string>
     <string name="latest_offers">Latest Offers</string>
+    <string name="firstname">Firstname</string>
 
 </resources>
