@@ -10,26 +10,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
-import com.example.shopy.adapter.ProductAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.CartItem;
-import com.example.shopy.model.Product;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.shopy.R.id.navigation_detail;
 
 public class ShoppingCartFragment extends Fragment {
 
@@ -47,7 +41,8 @@ public class ShoppingCartFragment extends Fragment {
     private double subTotalCost;
     private double totalCost;
     private String currency;
-    private ActionBar actionBar;
+    private View notificationsBadge;
+    private BottomNavigationView navView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -58,6 +53,7 @@ public class ShoppingCartFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         cartItemList = new ArrayList<>();
+        navView = requireActivity().findViewById(R.id.nav_view);
         recyclerView = binding.recyclerViewCart;
         btnCheckOut = binding.btnCheckout;
         subTotal = binding.subtotal;
@@ -68,10 +64,32 @@ public class ShoppingCartFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         loadData();
-
+//        addBadge(String.valueOf(3));
 //        btnCheckOut.setOnClickListener(this);
 
         return root;
+    }
+
+    private void getBadge()
+    {
+        if (notificationsBadge != null) {
+            return;
+        }
+        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navView.getChildAt(0);
+        notificationsBadge = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_badge_layout,
+                bottomNavigationMenuView,false);
+    }
+
+    private void addBadge(String count)
+    {
+        getBadge();
+        TextView notifications_badge = notificationsBadge.findViewById(R.id.notifications_badge);
+        notifications_badge.setText(count);
+        navView.addView(notificationsBadge);
+    }
+
+    private void removeBadge() {
+        navView.removeView(notificationsBadge);
     }
 
     @SuppressLint("Range")

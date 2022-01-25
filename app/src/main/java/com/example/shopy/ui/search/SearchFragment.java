@@ -1,9 +1,10 @@
 package com.example.shopy.ui.search;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
-import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         searchView.setOnSuggestionListener(this);
         searchView.setQueryRefinementEnabled(true);
         searchView.requestFocus(1);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
 
         list.setOnItemClickListener((parent, view, position, id) -> {
             Product product = arraylist.get(position);

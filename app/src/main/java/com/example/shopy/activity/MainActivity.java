@@ -29,15 +29,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.ThemeNjangi);
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-        @SuppressLint("ShowToast") Toast toast = Toast.makeText(getApplicationContext(),
-                "This is my Toast message!", Toast.LENGTH_LONG);
+        @SuppressLint("ShowToast")
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "There is no internet connectivity!", Toast.LENGTH_LONG);
         splashScreen.setKeepOnScreenCondition(new SplashScreen.KeepOnScreenCondition() {
             @Override
             public boolean shouldKeepOnScreen() {
@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
         initLanguage();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

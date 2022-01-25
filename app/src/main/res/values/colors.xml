@@ -26,4 +26,5 @@
     <color name="dark_grey">#DFDFDF</color>
     <color name="app_light_background">#FBAB29</color>
     <color name="app_background">#F89402</color>
+    <color name="red_background">#FF0000</color>
 </resources>
