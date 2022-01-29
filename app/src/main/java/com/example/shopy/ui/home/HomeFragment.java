@@ -9,14 +9,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ParentViewAdapter;
+import com.example.shopy.adapter.SliderAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
 import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
@@ -45,8 +48,11 @@ public class HomeFragment extends Fragment {
 
     private ParentViewAdapter ParentAdapter;
     private ArrayList<ParentModel> categoryList;
-    private ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
+    private final ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
     private RecyclerView.LayoutManager parentLayoutManager;
+    private SliderAdapter sliderAdapter;
+    private ViewPager page;
+    private FragmentActivity objects;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -58,6 +64,7 @@ public class HomeFragment extends Fragment {
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
+        page = binding.viewPager;
         Button btnOrder = binding.orderBtn;
         Button btnCategory = binding.categoryBtn;
         recyclerView = root.findViewById(R.id.recyclerView);
@@ -121,6 +128,19 @@ public class HomeFragment extends Fragment {
                 ParentAdapter = new ParentViewAdapter(categoryList, productList, getActivity());
                 recyclerView.setAdapter(ParentAdapter);
                 ParentAdapter.notifyDataSetChanged();
+
+                // Setting up the slides.
+                for (int j = 0; j < productList.size(); j++)
+                {
+                    sliderAdapter = new SliderAdapter(getActivity(), productList);
+                    page.setAdapter(sliderAdapter);
+                }
+
+                objects = requireActivity();
+
+                // sliderTimer
+                java.util.Timer timer = new java.util.Timer();
+                timer.scheduleAtFixedRate(new sliderTimer(),2000,3000);
             }
 
             @Override
@@ -129,6 +149,20 @@ public class HomeFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public class sliderTimer extends TimerTask {
+        @Override
+        public void run() {
+
+            objects.runOnUiThread(() -> {
+                if (page.getCurrentItem()< productList.size()-1) {
+                    page.setCurrentItem(page.getCurrentItem()+1);
+                }
+                else
+                    page.setCurrentItem(0);
+            });
+        }
     }
 
     @Override

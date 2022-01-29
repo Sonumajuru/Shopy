@@ -61,19 +61,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.title.setText(product.getTitle());
         holder.price.setText(product.getPrice() + " " + product.getCurrency());
 
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
+        holder.image.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
 //                Toast.makeText(mCtx, "Product ID: "+ productList.get(position).getId(), Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("product", product);
-                NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment_activity_main);
-                assert navHostFragment != null;
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(navigation_detail, bundle);
-            }
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("product", product);
+            NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment_activity_main);
+            assert navHostFragment != null;
+            NavController navController = navHostFragment.getNavController();
+            navController.navigate(navigation_detail, bundle);
         });
     }
 

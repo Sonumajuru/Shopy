@@ -36,30 +36,26 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("ShowToast")
         Toast toast = Toast.makeText(getApplicationContext(),
                 "There is no internet connectivity!", Toast.LENGTH_LONG);
-        splashScreen.setKeepOnScreenCondition(new SplashScreen.KeepOnScreenCondition() {
-            @Override
-            public boolean shouldKeepOnScreen() {
-                if (!isNetworkAvailable())
-                {
-                    setTheme(R.style.Theme_App_Starting);
-                    toast.show();
-                    return true;
-                }
-                toast.cancel();
-                return false;
+        splashScreen.setKeepOnScreenCondition(() -> {
+            if (!isNetworkAvailable())
+            {
+                setTheme(R.style.Theme_App_Starting);
+                toast.show();
+                return true;
             }
+            toast.cancel();
+            return false;
         });
         initLanguage();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        Controller controller = new Controller(this);
         setContentView(binding.getRoot());
+        Controller controller = new Controller(this);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().
-                findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+
         if (navHostFragment != null)
         {
             NavController navController = navHostFragment.getNavController();
