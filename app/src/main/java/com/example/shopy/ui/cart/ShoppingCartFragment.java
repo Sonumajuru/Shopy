@@ -14,13 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.CartItem;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,7 @@ public class ShoppingCartFragment extends Fragment {
     private double subTotalCost;
     private double totalCost;
     private String currency;
-    private View notificationsBadge;
-    private BottomNavigationView navView;
+    private Controller controller;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -53,7 +51,8 @@ public class ShoppingCartFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         cartItemList = new ArrayList<>();
-        navView = requireActivity().findViewById(R.id.nav_view);
+        controller = Controller.getInstance(requireActivity());
+        controller.setNavView(requireActivity().findViewById(R.id.nav_view));
         recyclerView = binding.recyclerViewCart;
         btnCheckOut = binding.btnCheckout;
         subTotal = binding.subtotal;
@@ -64,32 +63,10 @@ public class ShoppingCartFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         loadData();
-//        addBadge(String.valueOf(3));
-//        btnCheckOut.setOnClickListener(this);
+        btnCheckOut.setOnClickListener(view -> {
 
+        });
         return root;
-    }
-
-    private void getBadge()
-    {
-        if (notificationsBadge != null) {
-            return;
-        }
-        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navView.getChildAt(0);
-        notificationsBadge = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_badge_layout,
-                bottomNavigationMenuView,false);
-    }
-
-    private void addBadge(String count)
-    {
-        getBadge();
-        TextView notifications_badge = notificationsBadge.findViewById(R.id.notifications_badge);
-        notifications_badge.setText(count);
-        navView.addView(notificationsBadge);
-    }
-
-    private void removeBadge() {
-        navView.removeView(notificationsBadge);
     }
 
     @SuppressLint("Range")
@@ -144,24 +121,23 @@ public class ShoppingCartFragment extends Fragment {
             emptyCart.setText("You are one step away " + getEmojiByUnicode(unicode));
             emptyCart.setVisibility(View.VISIBLE);
 
-            for (int i = 0; i < cartItemList.size(); i++)
-            {
-                subTotalCost += cartItemList.get(i).getPrice();
-                totalCost += cartItemList.get(i).getPrice() + 0;
+            for (CartItem cartItem : cartItemList) {
+                subTotalCost += cartItem.getPrice();
+                totalCost += cartItem.getPrice() + 0;
             }
-
-            subTotal.setText(subTotalCost + " " +currency);
-            shipCost.setText(Double.toString(0));
-            total.setText(totalCost + " " +currency);
         }
         else
         {
             unicode = 0x1F62D;
             emptyCart.setText("Your shopping cart is empty " + getEmojiByUnicode(unicode));
             emptyCart.setVisibility(View.VISIBLE);
-            subTotal.setText(subTotalCost + " " +currency);
-            shipCost.setText(Double.toString(0));
-            total.setText(totalCost + " " +currency);
+        }
+        subTotal.setText(subTotalCost + " " +currency);
+        shipCost.setText(Double.toString(0));
+        total.setText(totalCost + " " +currency);
+        if (totalCost == 0)
+        {
+            controller.removeBadge();
         }
     }
 

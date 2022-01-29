@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.CartItem;
@@ -21,11 +22,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final List<CartItem> cartItemList;
     private final Context mCtx;
     private FavDB favDB;
+    private Controller controller;
+    private int count;
     private final OnItemClickListener onItemClickListener; // Global scope
 
     public CartAdapter(List<CartItem> cartItemList, Context mCtx, OnItemClickListener onItemClickListener) {
         this.cartItemList = cartItemList;
         this.mCtx = mCtx;
+        controller = Controller.getInstance(mCtx);
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -47,29 +51,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.prprice.setText(cartItem.getPrice() + " " + cartItem.getCurrency());
         Uri uri = Uri.parse(cartItem.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.image);
+        count = controller.getBadgeCount();
+        holder.prqtty.setText(String.valueOf(count));
 
-        holder.minusbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        holder.minusbtn.setOnClickListener(v -> {
+            count = count - 1;
+            if (count < 0) count = 0;
+            controller.setBadgeCount(count);
+            controller.addBadge(count);
+            holder.prqtty.setText(String.valueOf(count));
         });
-        holder.plusbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        holder.plusbtn.setOnClickListener(v -> {
+            count = count + 1;
+            if (count < 0) count = 0;
+            controller.setBadgeCount(count);
+            controller.addBadge(count);
+            holder.prqtty.setText(String.valueOf(count));
         });
-        holder.deletbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.deletbtn.setOnClickListener(v -> {
 
-                cartItemList.get(position).setCartStatus("0");
-                favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
+            cartItemList.get(position).setCartStatus("0");
+            favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
-                onItemClickListener.onItemClicked(position, cartItem);
-                notifyDataSetChanged();
-            }
+            onItemClickListener.onItemClicked(position, cartItem);
+            notifyDataSetChanged();
         });
     }
 
@@ -85,12 +90,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private final ImageView plusbtn;
         private final TextView prname;
         private final TextView prprice;
+        private final TextView prqtty;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             prname = itemView.findViewById(R.id.idProductName);
             image = itemView.findViewById(R.id.idProductImage);
             prprice = itemView.findViewById(R.id.idProductPrice);
+            prqtty = itemView.findViewById(R.id.idProductQty);
             minusbtn = itemView.findViewById(R.id.idMinusICon);
             plusbtn = itemView.findViewById(R.id.idPlusIcon);
             deletbtn = itemView.findViewById(R.id.idDeleteICon);

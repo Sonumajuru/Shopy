@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
@@ -27,8 +28,6 @@ import com.example.shopy.model.CartItem;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
@@ -61,8 +60,7 @@ public class DetailFragment extends Fragment {
     private List<FavItem> favItemList;
     private String item_fav_status = null;
 
-    private View notificationsBadge;
-    private BottomNavigationView navView;
+    private Controller controller;
     private int counter;
 
     @SuppressLint("SetTextI18n")
@@ -76,12 +74,13 @@ public class DetailFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
+        controller = Controller.getInstance(requireActivity());
         product = new Product();
         favItemList = new ArrayList<>();
         favDB = new FavDB(getActivity());
         cartItem = new CartItem();
         counter = 0;
-        navView = requireActivity().findViewById(R.id.nav_view);
+        controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
         productPhoto = binding.photo;
         btnAddToCart = binding.addToCartBtn;
@@ -176,18 +175,15 @@ public class DetailFragment extends Fragment {
                 navController.navigate(navigation_login);
             }
         });
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (product != null)
-                {
-                    counter = counter + 1;
-                    addBadge(String.valueOf(counter));
-                    favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
-                            product.getImageUrl(), product.getId(),
-                            "0", product.getPrice(), product.getRating(),
-                            product.getCurrency(), product.getUuid(), product.getCategory(), "1");
-                }
+        btnAddToCart.setOnClickListener(view -> {
+            if (product != null)
+            {
+                counter = counter + 1;
+                controller.addBadge(counter);
+                favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
+                        product.getImageUrl(), product.getId(),
+                        "0", product.getPrice(), product.getRating(),
+                        product.getCurrency(), product.getUuid(), product.getCategory(), "1");
             }
         });
 
@@ -265,29 +261,6 @@ public class DetailFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
-    }
-
-    private void getBadge()
-    {
-        if (notificationsBadge != null) {
-            return;
-        }
-        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navView.getChildAt(0);
-        notificationsBadge = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_badge_layout,
-                bottomNavigationMenuView,false);
-    }
-
-    private void addBadge(String count)
-    {
-        navView.removeView(notificationsBadge);
-        getBadge();
-        TextView notifications_badge = notificationsBadge.findViewById(R.id.notifications_badge);
-        notifications_badge.setText(count);
-        navView.addView(notificationsBadge);
-    }
-
-    private void removeBadge() {
-        navView.removeView(notificationsBadge);
     }
 
     @Override
