@@ -34,7 +34,7 @@
     <string name="seller">Seller</string>
     <string name="save">Save</string>
     <string name="update">Update</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="tel">Telephone</string>
     <string name="language">Language</string>
     <string name="country">Country</string>
     <string name="usertype">UserType</string>
@@ -66,5 +66,4 @@
     <string name="latest_offers">Latest Offers</string>
     <string name="firstname">Firstname</string>
     <string name="registered_since">Registered Since</string>
-
 </resources>

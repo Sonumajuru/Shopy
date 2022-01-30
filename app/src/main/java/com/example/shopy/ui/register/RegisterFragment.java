@@ -78,7 +78,7 @@ public class RegisterFragment extends Fragment {
         userSeller = binding.seller;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
-        inputRetypePassword = binding.txtRetypePassword;
+        inputRetypePassword = binding.txtPhone;
         btnRegister = binding.btnRegister;
 
         setCountryAdapter();
