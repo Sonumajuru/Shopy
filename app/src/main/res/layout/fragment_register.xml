@@ -212,7 +212,7 @@
                     android:id="@+id/txt_Retype_Password"
                     android:layout_width="289dp"
                     android:layout_height="51dp"
-                    android:hint="@string/re_type_password"
+                    android:hint="@string/phone_number"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:inputType="textPassword"

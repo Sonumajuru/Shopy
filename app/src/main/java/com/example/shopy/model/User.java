@@ -13,7 +13,7 @@ public class User {
     private boolean seller;
     private String email;
     private String password;
-    private String retypePassword;
+    private String telNumber;
     private String deviceToken;
 
     public String getName() {
@@ -104,12 +104,12 @@ public class User {
         this.password = password;
     }
 
-    public String getRetypePassword() {
-        return retypePassword;
+    public String getTelNumber() {
+        return telNumber;
     }
 
-    public void setRetypePassword(String retypePassword) {
-        this.retypePassword = retypePassword;
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
     }
 
     public String getDeviceToken() {
@@ -125,7 +125,7 @@ public class User {
     }
 
     public User(String name, String surname, boolean male, boolean female, String address, String language,
-                String country, boolean buyer, boolean seller, String email, String password, String retypePassword, String deviceToken)
+                String country, boolean buyer, boolean seller, String email, String password, String telNumber, String deviceToken)
     {
         this.name = name;
         this.surname = surname;
@@ -138,7 +138,7 @@ public class User {
         this.seller = seller;
         this.email = email;
         this.password = password;
-        this.retypePassword = retypePassword;
+        this.telNumber = telNumber;
         this.deviceToken = deviceToken;
     }
 }

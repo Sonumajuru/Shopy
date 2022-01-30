@@ -176,7 +176,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 AccountFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 AccountFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 AccountFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                AccountFragment.this.user.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+                AccountFragment.this.user.setTelNumber(dataSnapshot.getValue(User.class).getTelNumber());
                 username.setText(AccountFragment.this.user.getName());
                 userEmail.setText(AccountFragment.this.user.getEmail());
                 btnManageItem.setEnabled(!Objects.requireNonNull(dataSnapshot.getValue(User.class)).isBuyer());

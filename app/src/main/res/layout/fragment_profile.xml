@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.profile.ProfileFragment"
+        android:background="@color/app_background"
+        android:id="@+id/frameLayout3">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="124dp"
+            android:layout_height="174dp"
+            android:src="@drawable/buyer_icon"
+            android:elevation="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="156dp"
+            app:layout_constraintBottom_toTopOf="@+id/idCardViewProfile">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/idCardViewProfile"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView"
+            app:cardBackgroundColor="@color/app_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+                android:id="@+id/idProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Joan Silvestre Navarro"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/idCardViewInfo"
+            android:layout_width="396dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/app_light_background"
+            app:cardCornerRadius="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/idCardViewProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="@+id/idAddress"
+                app:layout_constraintBottom_toTopOf="@+id/idAddress">
+
+            <ImageView
+                    android:id="@+id/idMailImage"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_email_black_24"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                    android:id="@+id/idEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="johndoe@gmail.com"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/idMailImage"
+                    app:layout_constraintHorizontal_bias="0.362"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/idView"/>
+
+            <View
+                    android:id="@+id/idView"
+                    android:layout_width="368dp"
+                    android:layout_height="1dp"
+                    style="@style/Divider"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/app_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/idEmail"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/idNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            <ImageView
+                    android:id="@+id/idPhone"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_phone_black_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/idView"/>
+
+            <TextView
+                    android:id="@+id/idNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+234 8060768787"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/idPhone"
+                    app:layout_constraintHorizontal_bias="0.318"
+                    app:layout_constraintTop_toBottomOf="@+id/idView"
+                    android:layout_marginBottom="36dp"
+                    app:layout_constraintBottom_toTopOf="@+id/idCountryText"/>
+
+            <View
+                    android:id="@+id/idView2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    style="@style/Divider"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/app_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/idNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ImageView
+                    android:id="@+id/idCountry"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_country_black_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/idView2"/>
+
+            <TextView
+                    android:id="@+id/idCountryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nigeria"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/idCountry"
+                    app:layout_constraintHorizontal_bias="0.240"
+                    app:layout_constraintTop_toBottomOf="@+id/idNumber"
+                    android:layout_marginBottom="37dp"
+                    app:layout_constraintBottom_toTopOf="@+id/idAdd"/>
+
+            <View
+                    android:id="@+id/idView3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    style="@style/Divider"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/app_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/idCountryText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ImageView
+                    android:id="@+id/idAdd"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_location_black_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/idView3"/>
+
+            <TextView
+                    android:id="@+id/idAddress"
+                    android:layout_width="289dp"
+                    android:layout_height="0dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut."
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:maxLines="4"
+                    android:lines="6"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/idAdd"
+                    app:layout_constraintHorizontal_bias="0.567"
+                    app:layout_constraintTop_toBottomOf="@+id/idView3"/>
+
+            <View
+                    android:id="@+id/idView4"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    style="@style/Divider"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/app_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/idAddress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ImageView
+                    android:id="@+id/idRegSince"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_registered_time_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/idView4"/>
+
+            <TextView
+                    android:id="@+id/idSince"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:text="@string/registered_since"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/idRegSince"
+                    app:layout_constraintTop_toBottomOf="@+id/idView4"
+                    app:layout_constraintHorizontal_bias="0.329"
+                    android:layout_marginTop="15dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

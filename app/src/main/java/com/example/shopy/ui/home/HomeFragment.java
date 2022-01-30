@@ -140,7 +140,43 @@ public class HomeFragment extends Fragment {
 
                 // sliderTimer
                 java.util.Timer timer = new java.util.Timer();
-                timer.scheduleAtFixedRate(new sliderTimer(),2000,3000);
+                timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void getSpecialOffers()
+    {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference eventsRef = rootRef.child("Special Offers");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    product = ds.getValue(Product.class);
+                    assert product != null;
+                    productList.add(product);
+                }
+
+                // Setting up the slides.
+                for (int j = 0; j < productList.size(); j++)
+                {
+                    sliderAdapter = new SliderAdapter(getActivity(), productList);
+                    page.setAdapter(sliderAdapter);
+                }
+
+                objects = requireActivity();
+
+                // sliderTimer
+                java.util.Timer timer = new java.util.Timer();
+                timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
             }
 
             @Override

@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_baby_changing_station_24.xml" value="0.1859375" />
         <entry key="app/src/main/res/drawable/ic_choose_file_black_24.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/ic_delete_black_24.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_email_black_24.xml" value="0.3260416666666667" />
         <entry key="app/src/main/res/drawable/ic_erroricon_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_favorite_black_24.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/drawable/ic_favorite_border_24.xml" value="0.15833333333333333" />
@@ -71,6 +72,7 @@
         <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/fragment_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_product_overview.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.24094202898550723" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25" />

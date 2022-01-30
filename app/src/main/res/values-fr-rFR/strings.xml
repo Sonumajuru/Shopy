@@ -34,7 +34,7 @@
     <string name="seller">Vendeur</string>
     <string name="save">Validé</string>
     <string name="update">Actualiser</string>
-    <string name="re_type_password">Retaper le mot de passe</string>
+    <string name="phone_number">Número De Telephone</string>
     <string name="language">Langue</string>
     <string name="country">Pays</string>
     <string name="usertype">Type d\'utilisateur</string>
@@ -61,4 +61,11 @@
     <string name="title_product_detail">Détails du produit</string>
     <string name="product_owner">Vente par</string>
     <string name="clothing">Vêtements</string>
+    <string name="title">Titre</string>
+    <string name="overview">Aperçu</string>
+    <string name="chat_whatsapp">Chat: WhatsApp</string>
+    <string name="email_njangi_support_com">Email: your@company.com</string>
+    <string name="latest_offers">Dernières offres</string>
+    <string name="firstname">Prénom</string>
+    <string name="registered_since">Inscrit depuis</string>
 </resources>

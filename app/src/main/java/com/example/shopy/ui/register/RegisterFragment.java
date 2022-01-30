@@ -253,7 +253,7 @@ public class RegisterFragment extends Fragment {
                 RegisterFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 RegisterFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 RegisterFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                RegisterFragment.this.user.setRetypePassword(dataSnapshot.getValue(User.class).getRetypePassword());
+                RegisterFragment.this.user.setTelNumber(dataSnapshot.getValue(User.class).getTelNumber());
 
                 disAbleControls();
                 name.setText(RegisterFragment.this.user.getName());
@@ -274,7 +274,7 @@ public class RegisterFragment extends Fragment {
                 userSeller.setChecked(RegisterFragment.this.user.isSeller());
                 inputEmail.setText(RegisterFragment.this.user.getEmail());
                 inputPassword.setText(RegisterFragment.this.user.getPassword());
-                inputRetypePassword.setText(RegisterFragment.this.user.getRetypePassword());
+                inputRetypePassword.setText(RegisterFragment.this.user.getTelNumber());
                 btnRegister.setText(R.string.update);
             }
 
@@ -290,6 +290,7 @@ public class RegisterFragment extends Fragment {
         name.setEnabled(false);
         surname.setEnabled(false);
         male.setEnabled(false);
+        country.setEnabled(false);
         female.setEnabled(false);
         userBuyer.setEnabled(false);
         userSeller.setEnabled(false);

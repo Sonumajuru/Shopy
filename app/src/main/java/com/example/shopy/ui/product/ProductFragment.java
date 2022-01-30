@@ -70,6 +70,7 @@ public class ProductFragment extends Fragment {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Product");
+//        mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Special Offers");
 
         NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
@@ -88,7 +89,6 @@ public class ProductFragment extends Fragment {
             }
         });
 
-        // get the Firebase  storage reference
         // instance for firebase storage and StorageReference
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -207,17 +207,16 @@ public class ProductFragment extends Fragment {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 String country = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getCountry();
-                if (country.equals("Cameroon"))
-                {
-                    inputCurrency.setText("CFA");
-                }
-                else if (country.equals("Nigeria"))
-                {
-                    inputCurrency.setText("NGN");
-                }
-                else if (country.equals("Ghana"))
-                {
-                    inputCurrency.setText("NGN");
+                switch (country) {
+                    case "Cameroon":
+                        inputCurrency.setText("CFA");
+                        break;
+                    case "Nigeria":
+                        inputCurrency.setText("NGN");
+                        break;
+                    case "Ghana":
+                        inputCurrency.setText("GH₵");
+                        break;
                 }
                 inputCurrency.setEnabled(false);
             }
