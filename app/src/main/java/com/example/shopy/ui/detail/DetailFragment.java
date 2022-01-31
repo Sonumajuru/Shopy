@@ -18,10 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
@@ -36,9 +33,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static com.example.shopy.R.id.*;
+import static com.example.shopy.R.id.navigation_login;
+import static com.example.shopy.R.id.navigation_profile;
 
 public class DetailFragment extends Fragment {
 
@@ -173,23 +170,26 @@ public class DetailFragment extends Fragment {
             }
             else
             {
-                //No User is Logged in
-                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment_activity_main);
-                assert navHostFragment != null;
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(navigation_login);
+                Navigation.findNavController(v).navigate(navigation_login);
             }
         });
         btnAddToCart.setOnClickListener(view -> {
-            if (product != null)
+
+            if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                counter = counter + 1;
-                controller.addBadge(counter);
-                favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
-                        product.getImageUrl(), product.getId(),
-                        "0", product.getPrice(), product.getRating(),
-                        product.getCurrency(), product.getUuid(), product.getCategory(), "1");
+                if (product != null)
+                {
+                    counter = counter + 1;
+                    controller.addBadge(counter);
+                    favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
+                            product.getImageUrl(), product.getId(),
+                            "0", product.getPrice(), product.getRating(),
+                            product.getCurrency(), product.getUuid(), product.getCategory(), "1");
+                }
+            }
+            else
+            {
+                Navigation.findNavController(view).navigate(navigation_login);
             }
         });
         productOwner.setOnClickListener(view -> {

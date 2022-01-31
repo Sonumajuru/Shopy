@@ -55,14 +55,6 @@ public class FavoriteFragment extends Fragment {
             // user loged in already
             loadData();
         }
-        else
-        {
-            NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                    .findFragmentById(R.id.nav_host_fragment_activity_main);
-            assert navHostFragment != null;
-            NavController navController = navHostFragment.getNavController();
-            navController.navigate(navigation_login);
-        }
 
         return root;
     }
