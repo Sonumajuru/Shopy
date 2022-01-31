@@ -49,13 +49,13 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/idCardViewInfo"
-            android:layout_width="396dp"
+            android:layout_width="0dp"
             android:layout_height="400dp"
             android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/app_light_background"
             app:cardCornerRadius="8dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintTop_toBottomOf="@+id/idCardViewProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -85,7 +85,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idMailImage"
-                    app:layout_constraintHorizontal_bias="0.362"
+                    app:layout_constraintHorizontal_bias="0.370"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="20dp"
@@ -126,7 +126,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idPhone"
-                    app:layout_constraintHorizontal_bias="0.318"
+                    app:layout_constraintHorizontal_bias="0.250"
                     app:layout_constraintTop_toBottomOf="@+id/idView"
                     android:layout_marginBottom="36dp"
                     app:layout_constraintBottom_toTopOf="@+id/idCountryText"/>
@@ -164,7 +164,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idCountry"
-                    app:layout_constraintHorizontal_bias="0.240"
+                    app:layout_constraintHorizontal_bias="0.200"
                     app:layout_constraintTop_toBottomOf="@+id/idNumber"
                     android:layout_marginBottom="37dp"
                     app:layout_constraintBottom_toTopOf="@+id/idAdd"/>
@@ -195,17 +195,18 @@
 
             <TextView
                     android:id="@+id/idAddress"
-                    android:layout_width="289dp"
-                    android:layout_height="0dp"
+                    android:layout_width="229dp"
+                    android:layout_height="123dp"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut."
                     android:textColor="@color/white"
                     android:textSize="18sp"
+                    android:paddingTop="10dp"
                     android:maxLines="4"
                     android:lines="6"
                     android:layout_marginTop="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idAdd"
-                    app:layout_constraintHorizontal_bias="0.567"
+                    app:layout_constraintHorizontal_bias="0.560"
                     app:layout_constraintTop_toBottomOf="@+id/idView3"/>
 
             <View

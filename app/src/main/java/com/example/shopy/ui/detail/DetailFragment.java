@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
@@ -34,8 +36,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static com.example.shopy.R.id.navigation_login;
+import static com.example.shopy.R.id.*;
 
 public class DetailFragment extends Fragment {
 
@@ -55,6 +58,7 @@ public class DetailFragment extends Fragment {
     private TextView title;
     private RatingBar ratingBar;
     private TextView description;
+    private String uid;
 
     private FavDB favDB;
     private List<FavItem> favItemList;
@@ -102,6 +106,7 @@ public class DetailFragment extends Fragment {
             ratingBar.setRating((float) product.getRating());
             description.setText(product.getShortDesc());
             getID(product.getUuid());
+            uid = product.getUuid();
         }
         else
         {
@@ -113,6 +118,7 @@ public class DetailFragment extends Fragment {
             ratingBar.setRating((float) favItem.getRating());
             description.setText(favItem.getShortDesc());
             getID(favItem.getUuid());
+            uid = favItem.getUuid();
         }
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -186,6 +192,11 @@ public class DetailFragment extends Fragment {
                         product.getCurrency(), product.getUuid(), product.getCategory(), "1");
             }
         });
+        productOwner.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("uid", uid);
+            Navigation.findNavController(view).navigate(navigation_profile, bundle);
+        });
 
         return root;
     }
@@ -252,6 +263,7 @@ public class DetailFragment extends Fragment {
                 Resources res = getResources();
                 @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
                 String text = String.format(res.getString(R.string.product_owner), user.getName());
+                productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 productOwner.setText(text + ": " + user.getName());
             }
 
