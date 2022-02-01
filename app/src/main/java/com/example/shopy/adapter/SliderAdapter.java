@@ -1,7 +1,6 @@
 package com.example.shopy.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter {
 
     private final Context mCtx;
-    private final List<Product> productList;
+    private final List<Product> sliderList;
+    private final List<String> offerList;
+    private final OnItemClickListener onItemClickListener; // Global scope
 
-    public SliderAdapter(Context mCtx, List<Product> productList) {
+    public SliderAdapter(Context mCtx, List<Product> sliderList, List<String> offerList, OnItemClickListener onItemClickListener) {
         this.mCtx = mCtx;
-        this.productList = productList;
+        this.sliderList = sliderList;
+        this.offerList = offerList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -29,10 +31,23 @@ public class SliderAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup parent, int position) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_layout, parent, false);
-
         ImageView imageView = view.findViewById(R.id.sliderImage);
-        Uri uri = Uri.parse(productList.get(position).getImageUrl());
-        Picasso.with(mCtx).load(uri).into(imageView);
+
+        String slider = offerList.get(position);
+
+        if (slider.equals(mCtx.getResources().getString(R.string.black_friday))) {
+            imageView.setBackgroundResource(R.drawable.black_friday);
+        }
+        else if (slider.equals(mCtx.getResources().getString(R.string.discounts))) {
+            imageView.setBackgroundResource(R.drawable.discounts);
+        }
+        else if (slider.equals(mCtx.getResources().getString(R.string.hot_deals))) {
+            imageView.setBackgroundResource(R.drawable.hot_deals);
+        }
+        else if (slider.equals(mCtx.getResources().getString(R.string.njangi_deals))) {
+            imageView.setBackgroundResource(R.drawable.njangi_day);
+        }
+        onItemClickListener.onItemClicked(position, slider);
 
         parent.addView(view);
         return view;
@@ -45,11 +60,15 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return productList.size();
+        return offerList.size();
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position, Object object);
     }
 }

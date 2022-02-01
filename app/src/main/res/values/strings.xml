@@ -67,4 +67,9 @@
     <string name="firstname">Firstname</string>
     <string name="registered_since">Registered Since</string>
     <string name="Profile">title_profile</string>
+    <string name="feeling_lucky">Feel Lucky</string>
+    <string name="black_friday">Black-Friday</string>
+    <string name="discounts">Discounts</string>
+    <string name="hot_deals">Hot-Deals</string>
+    <string name="njangi_deals">Njangi-Deals</string>
 </resources>

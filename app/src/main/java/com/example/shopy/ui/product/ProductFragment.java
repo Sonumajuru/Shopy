@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
@@ -56,10 +54,6 @@ public class ProductFragment extends Fragment {
     private Product product;
     private DatabaseReference mDatabase;
 
-//    public static ProductFragment newInstance() {
-//        return new ProductFragment();
-//    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -69,11 +63,11 @@ public class ProductFragment extends Fragment {
         View root = binding.getRoot();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Product");
-//        mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Special Offers");
+        mDatabase = FirebaseDatabase
+                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Product");
+//                .child("Njangi-Deals");
 
-        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment_activity_main);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -108,11 +102,8 @@ public class ProductFragment extends Fragment {
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> uploadImage());
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
+        ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
-            }
         });
 
         getCurrency();

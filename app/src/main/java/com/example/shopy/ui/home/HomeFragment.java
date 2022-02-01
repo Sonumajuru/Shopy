@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.shopy.R.id.navigation_category;
+import static com.example.shopy.R.id.navigation_detail;
 
 public class HomeFragment extends Fragment {
 
@@ -41,6 +42,8 @@ public class HomeFragment extends Fragment {
 
     //a list to store all the products
     private List<Product> productList;
+    private List<Product> sliderList;
+    private List<String> offerList;
 
     //the recyclerview
     private RecyclerView recyclerView;
@@ -73,8 +76,11 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(parentLayoutManager);
         productList = new ArrayList<>();
         categoryList = new ArrayList<>();
+        sliderList = new ArrayList<>();
+        offerList = new ArrayList<>();
 
         getProducts();
+        getSpecialOffers();
 
         setUserName();
         btnCategory.setOnClickListener(v -> navController.navigate(navigation_category));
@@ -128,19 +134,6 @@ public class HomeFragment extends Fragment {
                 ParentAdapter = new ParentViewAdapter(categoryList, productList, getActivity());
                 recyclerView.setAdapter(ParentAdapter);
                 ParentAdapter.notifyDataSetChanged();
-
-                // Setting up the slides.
-                for (int j = 0; j < productList.size(); j++)
-                {
-                    sliderAdapter = new SliderAdapter(getActivity(), productList);
-                    page.setAdapter(sliderAdapter);
-                }
-
-                objects = requireActivity();
-
-                // sliderTimer
-                java.util.Timer timer = new java.util.Timer();
-                timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
             }
 
             @Override
@@ -155,23 +148,41 @@ public class HomeFragment extends Fragment {
     private void getSpecialOffers()
     {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("Special Offers");
+        DatabaseReference eventsRef = rootRef.child("Feeling Lucky");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    product = ds.getValue(Product.class);
-                    assert product != null;
-                    productList.add(product);
+
+                for (DataSnapshot parentDS : dataSnapshot.getChildren()) {
+                    String key = parentDS.getKey();
+
+                    for (DataSnapshot ds : parentDS.getChildren()) {
+//                        key = ds.getKey();
+                        product = ds.getValue(Product.class);
+                        sliderList.add(product);
+                    }
+                    offerList.add(key);
                 }
 
-                // Setting up the slides.
-                for (int j = 0; j < productList.size(); j++)
-                {
-                    sliderAdapter = new SliderAdapter(getActivity(), productList);
-                    page.setAdapter(sliderAdapter);
-                }
+                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, new SliderAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(int position, Object object) {
 
+                        // Handle Object of list item here
+                        String offer  = (String) object;
+
+
+//                        Bundle bundle = new Bundle();
+//                        bundle.putParcelable("product", product);
+//                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+//                                .findFragmentById(R.id.nav_host_fragment_activity_main);
+//                        assert navHostFragment != null;
+//                        NavController navController = navHostFragment.getNavController();
+//                        navController.navigate(navigation_detail, bundle);
+
+                    }
+                });
+                page.setAdapter(sliderAdapter);
                 objects = requireActivity();
 
                 // sliderTimer
@@ -192,11 +203,14 @@ public class HomeFragment extends Fragment {
         public void run() {
 
             objects.runOnUiThread(() -> {
-                if (page.getCurrentItem()< productList.size()-1) {
+                if (page.getCurrentItem() < offerList.size()-1)
+                {
                     page.setCurrentItem(page.getCurrentItem()+1);
                 }
                 else
+                {
                     page.setCurrentItem(0);
+                }
             });
         }
     }
