@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.Controller;
-import com.example.shopy.FragmentCallback;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;

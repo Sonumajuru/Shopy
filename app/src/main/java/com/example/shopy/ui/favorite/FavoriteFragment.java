@@ -15,7 +15,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.shopy.FragmentCallback;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.FavAdapter;
 import com.example.shopy.databinding.FragmentFavoriteBinding;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.shopy.R.id.navigation_detail;
-import static com.example.shopy.R.id.navigation_login;
 
 public class FavoriteFragment extends Fragment {
 

@@ -13,6 +13,8 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import com.example.shopy.R;
 import com.example.shopy.adapter.SearchAdapter;
 import com.example.shopy.adapter.SuggestionAdapter;
 import com.example.shopy.databinding.FragmentSearchBinding;
@@ -29,11 +31,12 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private ListView list;
     private SearchAdapter adapter;
-    private final ArrayList<Product> arraylist = new ArrayList<>();
-    private final ArrayList<Product> productList = new ArrayList<>();
+    private ArrayList<Product> arraylist;
+    private ArrayList<Product> productList;
     private SuggestionsDatabase database;
     private SearchView searchView;
     private Product product;
+    private String lastSearch;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -43,6 +46,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         View root = binding.getRoot();
 
         product = new Product();
+        arraylist = new ArrayList<>();
+        productList = new ArrayList<>();
         database = new SuggestionsDatabase(requireActivity());
         searchView = binding.search;
         list = binding.listview;
@@ -62,12 +67,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
 
         list.setOnItemClickListener((parent, view, position, id) -> {
-            Product product = arraylist.get(position);
-            // -------------------------------------------------------
-            //           Launch display of product in detail fragment
-            //           If product is more than one display categories fragment of it
-            // -------------------------------------------------------
-            String favorite_message = product.getId();
+            product = arraylist.get(position);
+            lastSearch = product.getTitle();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("product", product);
+            Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+            searchView.setQuery("", false);
+            searchView.setIconified(true);
+            searchView.clearFocus();
         });
 
         return root;
@@ -100,12 +107,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     @Override
@@ -145,8 +146,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 int[] columnTextId = new int[] { android.R.id.text1};
 
                 SuggestionAdapter simple = new SuggestionAdapter(requireActivity().getBaseContext(),
-                        android.R.layout.simple_list_item_1, cursor,
-                        columns , columnTextId
+                        android.R.layout.simple_list_item_1
+                        , cursor
+                        , columns
+                        ,columnTextId
                         , 0);
 
                 searchView.setSuggestionsAdapter(simple);
@@ -161,5 +164,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             list.setVisibility(View.INVISIBLE);
             return false;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

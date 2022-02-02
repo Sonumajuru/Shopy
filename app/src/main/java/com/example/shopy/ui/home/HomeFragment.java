@@ -18,7 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import com.example.shopy.FragmentCallback;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.adapter.SliderAdapter;
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     private ParentViewAdapter parentViewAdapter;
     private ArrayList<ParentModel> categoryList;
-    private final ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
+    private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
     private SliderAdapter sliderAdapter;
     private ViewPager page;
@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         recyclerView.setHasFixedSize(true);
         parentLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(parentLayoutManager);
+        parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
         categoryList = new ArrayList<>();
         sliderList = new ArrayList<>();
