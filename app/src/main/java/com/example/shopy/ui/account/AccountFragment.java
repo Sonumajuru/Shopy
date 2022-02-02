@@ -122,7 +122,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         NavController navController = navHostFragment.getNavController();
         switch (v.getId())
         {
-            case order_Btn:
+            case orderBtn:
                 break;
             case invoice_Btn:
                 break;

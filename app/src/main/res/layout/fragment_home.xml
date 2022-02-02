@@ -35,7 +35,7 @@
             />
 
     <Button
-            android:id="@+id/order_Btn"
+            android:id="@+id/luck_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/feeling_lucky"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/category"
             app:layout_constraintTop_toBottomOf="@+id/viewPager"
-            app:layout_constraintStart_toEndOf="@+id/order_Btn"
+            app:layout_constraintStart_toEndOf="@+id/luck_btn"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="1dp"
             app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"

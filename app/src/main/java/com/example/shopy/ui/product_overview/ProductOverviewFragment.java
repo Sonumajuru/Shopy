@@ -1,6 +1,7 @@
 package com.example.shopy.ui.product_overview;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class ProductOverviewFragment extends Fragment {
     private RecyclerView recyclerView;
     private Product product;
     private String category;
+    private ArrayList<Parcelable> mList;
     private ProductAdapter adapter;
     private FragmentCallback callback;
 
@@ -54,8 +56,17 @@ public class ProductOverviewFragment extends Fragment {
         productList = new ArrayList<>();
 
         assert getArguments() != null;
-        category = getArguments().getString("category");
-        getUserData();
+        category = getArguments().getString(requireActivity().getResources().getString(R.string.category));
+        if (category != null)
+        {
+            getUserData();
+        }
+        else
+        {
+            mList = new ArrayList<>();
+            mList = getArguments().getParcelableArrayList(requireActivity().getResources().getString(R.string.feeling_lucky));
+            getData();
+        }
 
         return root;
     }
@@ -75,7 +86,6 @@ public class ProductOverviewFragment extends Fragment {
                         productList.add(product);
                     }
                 }
-                //creating recyclerview adapter
 
                 callback = new FragmentCallback() {
                     @Override
@@ -96,7 +106,6 @@ public class ProductOverviewFragment extends Fragment {
                         navController.navigate(navigation_detail, bundle);
                     }
                 };
-
                 adapter = new ProductAdapter(getActivity(), productList, callback);
 
                 //setting adapter to recyclerview
@@ -109,5 +118,35 @@ public class ProductOverviewFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void getData()
+    {
+        for (Parcelable parcelable : mList) {
+            productList.add((Product) parcelable);
+        }
+        callback = new FragmentCallback() {
+            @Override
+            public void doSomething() {
+            }
+
+            @Override
+            public void onItemClicked(int position, Object object) {
+
+                // Handle Object of list item here
+                Product product = (Product) object;
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("product", product);
+                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(navigation_detail, bundle);
+            }
+        };
+        adapter = new ProductAdapter(getActivity(), productList, callback);
+
+        //setting adapter to recyclerview
+        recyclerView.setAdapter(adapter);
     }
 }

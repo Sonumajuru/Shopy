@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -54,6 +57,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private FragmentActivity objects;
     private Timer timer;
     private FragmentCallback callback;
+    private List<DataSnapshot> dataSnapshotList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -63,7 +67,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         View root = binding.getRoot();
 
         page = binding.viewPager;
-        Button btnOrder = binding.orderBtn;
+        Button btnFeelLucky = binding.luckBtn;
         Button btnCategory = binding.categoryBtn;
         recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -74,6 +78,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         sliderList = new ArrayList<>();
         offerList = new ArrayList<>();
         timer = new java.util.Timer();
+        dataSnapshotList = new Stack<>();
 
         getProducts();
         getSpecialOffers();
@@ -83,6 +88,11 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             timer.cancel();
             timer.purge();
             Navigation.findNavController(v).navigate(R.id.navigation_category);
+        });
+        btnFeelLucky.setOnClickListener(v -> {
+            timer.cancel();
+            timer.purge();
+            Navigation.findNavController(v).navigate(R.id.navigation_detail, randomPick());
         });
 
         return root;
@@ -168,6 +178,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
                 for (DataSnapshot parentDS : dataSnapshot.getChildren()) {
                     String key = parentDS.getKey();
+                    dataSnapshotList.add(parentDS);
 
                     for (DataSnapshot ds : parentDS.getChildren()) {
 //                        key = ds.getKey();
@@ -189,17 +200,30 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     public void onItemClicked(int position, Object object) {
                         // Handle Object of list item here
                         String offer  = (String) object;
-//                        Bundle bundle = new Bundle();
-//                        bundle.putParcelable("product", product);
-//                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-//                                .findFragmentById(R.id.nav_host_fragment_activity_main);
-//                        assert navHostFragment != null;
-//                        NavController navController = navHostFragment.getNavController();
-//                        navController.navigate(navigation_detail, bundle);
+                        ArrayList<Product> tempList = new ArrayList<>();
+
+                        for (DataSnapshot snapshot : dataSnapshotList) {
+                            if (offer.equals(snapshot.getKey())) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    product = ds.getValue(Product.class);
+                                    tempList.add(product);
+                                }
+                            }
+                        }
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList(requireActivity()
+                                .getResources()
+                                .getString(R.string.feeling_lucky), tempList);
+                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                                .findFragmentById(R.id.nav_host_fragment_activity_main);
+                        assert navHostFragment != null;
+                        NavController navController = navHostFragment.getNavController();
+                        navController.navigate(R.id.navigation_product_overview, bundle);
                     }
                 };
-                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
 
+                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
                 page.setAdapter(sliderAdapter);
                 objects = requireActivity();
 
@@ -213,6 +237,14 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public Bundle randomPick() {
+        Random rand = new Random();
+        Product randomElement = productList.get(rand.nextInt(productList.size()));
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("product", randomElement);
+        return bundle;
     }
 
     @Override

@@ -48,7 +48,8 @@ public class SliderAdapter extends PagerAdapter {
         else if (slider.equals(mCtx.getResources().getString(R.string.njangi_deals))) {
             imageView.setBackgroundResource(R.drawable.njangi_day);
         }
-        callback.onItemClicked(position, slider);
+
+        imageView.setOnClickListener(view1 -> callback.onItemClicked(position, slider));
 
         parent.addView(view);
         return view;
