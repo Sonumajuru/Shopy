@@ -2,7 +2,6 @@ package com.example.shopy.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,16 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
@@ -28,17 +21,19 @@ import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
-import static com.example.shopy.R.id.navigation_detail;
+import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private static final String TAG = "HomeAdapter";
     private final List<Product> productList;
-    private Context mCtx;
+    private final Context mCtx;
+    private FragmentCallback callback;
 
-    public HomeAdapter(Context context, List<Product> productList) {
+    public HomeAdapter(Context context, List<Product> productList, FragmentCallback callback) {
         mCtx = context;
         this.productList = productList;
+        this.callback = callback;
     }
 
     @NotNull
@@ -63,14 +58,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.image.setOnClickListener(view -> {
             Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
-//                Toast.makeText(mCtx, "Product ID: "+ productList.get(position).getId(), Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putParcelable("product", product);
-            NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
-                    .findFragmentById(R.id.nav_host_fragment_activity_main);
-            assert navHostFragment != null;
-            NavController navController = navHostFragment.getNavController();
-            navController.navigate(navigation_detail, bundle);
+            Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+            callback.doSomething(); //<-- This is how you call callback method
         });
     }
 

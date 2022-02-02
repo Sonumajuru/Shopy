@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.Controller;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;
@@ -34,6 +35,7 @@ public class ShoppingCartFragment extends Fragment {
     private TextView total;
     private TextView emptyCart;
 
+    private FragmentCallback callback;
     private FavDB favDB;
     private List<CartItem> cartItemList;
     private RecyclerView recyclerView;
@@ -99,7 +101,12 @@ public class ShoppingCartFragment extends Fragment {
         }
 
         updateScreen();
-        CartAdapter cartAdapter = new CartAdapter(cartItemList, getActivity(), new CartAdapter.OnItemClickListener() {
+
+        callback = new FragmentCallback() {
+            @Override
+            public void doSomething() {
+            }
+
             @Override
             public void onItemClicked(int position, Object object) {
                 // Handle Object of list item here
@@ -107,7 +114,8 @@ public class ShoppingCartFragment extends Fragment {
                 totalCost = 0;
                 updateScreen();
             }
-        });
+        };
+        CartAdapter cartAdapter = new CartAdapter(cartItemList, getActivity(), callback);
         recyclerView.setAdapter(cartAdapter);
     }
 

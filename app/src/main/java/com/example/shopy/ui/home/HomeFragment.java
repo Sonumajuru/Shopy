@@ -11,12 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.adapter.SliderAdapter;
@@ -32,10 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.shopy.R.id.navigation_category;
-import static com.example.shopy.R.id.navigation_detail;
-
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements FragmentCallback {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -49,13 +45,15 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private Product product;
 
-    private ParentViewAdapter ParentAdapter;
+    private ParentViewAdapter parentViewAdapter;
     private ArrayList<ParentModel> categoryList;
     private final ArrayList<ParentModel> parentModelArrayList = new ArrayList<>();
     private RecyclerView.LayoutManager parentLayoutManager;
     private SliderAdapter sliderAdapter;
     private ViewPager page;
     private FragmentActivity objects;
+    private Timer timer;
+    private FragmentCallback callback;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -63,9 +61,6 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment_activity_main);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         page = binding.viewPager;
         Button btnOrder = binding.orderBtn;
@@ -78,12 +73,17 @@ public class HomeFragment extends Fragment {
         categoryList = new ArrayList<>();
         sliderList = new ArrayList<>();
         offerList = new ArrayList<>();
+        timer = new java.util.Timer();
 
         getProducts();
         getSpecialOffers();
 
         setUserName();
-        btnCategory.setOnClickListener(v -> navController.navigate(navigation_category));
+        btnCategory.setOnClickListener(v -> {
+            timer.cancel();
+            timer.purge();
+            Navigation.findNavController(v).navigate(R.id.navigation_category);
+        });
 
         return root;
     }
@@ -130,10 +130,23 @@ public class HomeFragment extends Fragment {
                                 new TreeSet<>(Comparator.comparing(ParentModel::getCategory))));
                 categoryList.addAll(set);
 
+                callback = new FragmentCallback() {
+                    @Override
+                    public void doSomething() {
+                        timer.cancel();
+                        timer.purge();
+                    }
+
+                    @Override
+                    public void onItemClicked(int position, Object object) {
+
+                    }
+                };
+
                 parentLayoutManager = new LinearLayoutManager(getActivity());
-                ParentAdapter = new ParentViewAdapter(categoryList, productList, getActivity());
-                recyclerView.setAdapter(ParentAdapter);
-                ParentAdapter.notifyDataSetChanged();
+                parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
+                recyclerView.setAdapter(parentViewAdapter);
+                parentViewAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -164,14 +177,18 @@ public class HomeFragment extends Fragment {
                     offerList.add(key);
                 }
 
-                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, new SliderAdapter.OnItemClickListener() {
+                callback = new FragmentCallback() {
+                    @Override
+                    public void doSomething() {
+
+                        timer.cancel();
+                        timer.purge();
+                    }
+
                     @Override
                     public void onItemClicked(int position, Object object) {
-
                         // Handle Object of list item here
                         String offer  = (String) object;
-
-
 //                        Bundle bundle = new Bundle();
 //                        bundle.putParcelable("product", product);
 //                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
@@ -179,14 +196,14 @@ public class HomeFragment extends Fragment {
 //                        assert navHostFragment != null;
 //                        NavController navController = navHostFragment.getNavController();
 //                        navController.navigate(navigation_detail, bundle);
-
                     }
-                });
+                };
+                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
+
                 page.setAdapter(sliderAdapter);
                 objects = requireActivity();
 
                 // sliderTimer
-                java.util.Timer timer = new java.util.Timer();
                 timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
             }
 
@@ -196,6 +213,15 @@ public class HomeFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    @Override
+    public void doSomething() {
+    }
+
+    @Override
+    public void onItemClicked(int position, Object object) {
+
     }
 
     public class sliderTimer extends TimerTask {

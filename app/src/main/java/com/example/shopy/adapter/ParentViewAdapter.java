@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
@@ -17,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.MyViewHolder> {
-    private ArrayList<ParentModel> parentModelArrayList;
+    private final ArrayList<ParentModel> parentModelArrayList;
     private final List<Product> productList;
     public Context cxt;
+    private final FragmentCallback callback;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView category;
@@ -33,11 +35,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         }
     }
 
-    public ParentViewAdapter(ArrayList<ParentModel> exampleList, List<Product> productList, Context context) {
+    public ParentViewAdapter(ArrayList<ParentModel> exampleList, List<Product> productList, Context context, FragmentCallback callback) {
         this.parentModelArrayList = exampleList;
         this.productList = productList;
         this.cxt = context;
-
+        this.callback = callback;
     }
 
     @NotNull
@@ -160,7 +162,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
             }
         }
 
-        HomeAdapter childRecyclerViewAdapter = new HomeAdapter(holder.childRecyclerView.getContext(), arrayList);
+        HomeAdapter childRecyclerViewAdapter = new HomeAdapter(holder.childRecyclerView.getContext(), arrayList, callback);
         holder.childRecyclerView.setAdapter(childRecyclerViewAdapter);
     }
 

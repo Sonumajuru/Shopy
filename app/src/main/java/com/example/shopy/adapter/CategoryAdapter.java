@@ -1,5 +1,6 @@
 package com.example.shopy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,8 @@ public class CategoryAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private List<Product> productNamesList;
-    private ArrayList<Product> arraylist;
+    private final List<Product> productNamesList;
+    private final ArrayList<Product> arraylist;
 
     public CategoryAdapter(Context context, List<Product> productNamesList) {
         mContext = context;
@@ -49,6 +50,7 @@ public class CategoryAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("InflateParams")
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
         if (view == null) {

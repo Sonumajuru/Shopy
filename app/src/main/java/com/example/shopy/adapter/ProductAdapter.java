@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.Product;
@@ -26,25 +24,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.example.shopy.R.id.navigation_login;
-
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private final Context mCtx;
-
     //we are storing all the products in a list
     private final List<Product> productList;
     public int clickedPos = -1;
-    private final OnItemClickListener onItemClickListener; // Global scope
+    public FragmentCallback callback;
     private FavDB favDB;
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, List<Product> productList, OnItemClickListener onItemClickListener) {
+    public ProductAdapter(Context mCtx, List<Product> productList, FragmentCallback callback) {
         this.mCtx = mCtx;
         this.productList = productList;
-        this.onItemClickListener = onItemClickListener;
+        this.callback = callback;
     }
 
+    @SuppressLint("InflateParams")
     @NotNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -101,17 +97,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             else
             {
                 //No User is Logged in
-                NavHost navHostFragment = (NavHostFragment) ((AppCompatActivity) mCtx).getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment_activity_main);
-                assert navHostFragment != null;
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(navigation_login);
+                Navigation.findNavController(v).navigate(R.id.navigation_login);
             }
         });
         holder.imageView.setOnClickListener(v -> {
             clickedPos = holder.getAdapterPosition();
             String title = product.getTitle();
-            onItemClickListener.onItemClicked(position, product);
+            callback.onItemClicked(position, product);
         });
     }
 
@@ -176,9 +168,5 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 cursor.close();
             db.close();
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(int position, Object object);
     }
 }

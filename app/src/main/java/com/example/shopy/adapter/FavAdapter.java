@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
@@ -23,12 +24,12 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     Context context;
     private static List<FavItem> favItemList;
     private static FavDB favDB;
-    private final FavAdapter.OnItemClickListener onItemClickListener; // Global scope
+    private FragmentCallback callback;
 
-    public FavAdapter(List<FavItem> favItemList, Context context, FavAdapter.OnItemClickListener onItemClickListener) {
+    public FavAdapter(List<FavItem> favItemList, Context context, FragmentCallback callback) {
         this.context = context;
         FavAdapter.favItemList = favItemList;
-        this.onItemClickListener = onItemClickListener;
+        this.callback = callback;
     }
 
     @NonNull
@@ -51,7 +52,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
 
         Picasso.with(context).load(favItemList.get(position).getImageUrl()).into(holder.imageView);
         holder.imageView.setOnClickListener(v -> {
-            onItemClickListener.onItemClicked(position, favItem);
+            callback.onItemClicked(position, favItem);
         });
     }
 
@@ -88,9 +89,5 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         favItemList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,favItemList.size());
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(int position, Object object);
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
 
@@ -17,13 +18,13 @@ public class SliderAdapter extends PagerAdapter {
     private final Context mCtx;
     private final List<Product> sliderList;
     private final List<String> offerList;
-    private final OnItemClickListener onItemClickListener; // Global scope
+    private FragmentCallback callback;
 
-    public SliderAdapter(Context mCtx, List<Product> sliderList, List<String> offerList, OnItemClickListener onItemClickListener) {
+    public SliderAdapter(Context mCtx, List<Product> sliderList, List<String> offerList, FragmentCallback callback) {
         this.mCtx = mCtx;
         this.sliderList = sliderList;
         this.offerList = offerList;
-        this.onItemClickListener = onItemClickListener;
+        this.callback = callback;
     }
 
     @NonNull
@@ -47,7 +48,7 @@ public class SliderAdapter extends PagerAdapter {
         else if (slider.equals(mCtx.getResources().getString(R.string.njangi_deals))) {
             imageView.setBackgroundResource(R.drawable.njangi_day);
         }
-        onItemClickListener.onItemClicked(position, slider);
+        callback.onItemClicked(position, slider);
 
         parent.addView(view);
         return view;
@@ -66,9 +67,5 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(int position, Object object);
     }
 }

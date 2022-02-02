@@ -15,6 +15,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.FavAdapter;
 import com.example.shopy.databinding.FragmentFavoriteBinding;
@@ -86,9 +87,16 @@ public class FavoriteFragment extends Fragment {
             db.close();
         }
 
-        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity(), new FavAdapter.OnItemClickListener() {
+        // Handle Object of list item here
+        FragmentCallback callback = new FragmentCallback() {
+            @Override
+            public void doSomething() {
+
+            }
+
             @Override
             public void onItemClicked(int position, Object object) {
+
                 // Handle Object of list item here
                 FavItem favItem = (FavItem) object;
                 Bundle bundle = new Bundle();
@@ -99,7 +107,9 @@ public class FavoriteFragment extends Fragment {
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(navigation_detail, bundle);
             }
-        });
+        };
+
+        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity(), callback);
         recyclerView.setAdapter(favAdapter);
     }
 

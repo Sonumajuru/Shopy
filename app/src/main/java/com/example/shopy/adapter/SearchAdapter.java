@@ -15,7 +15,6 @@ import java.util.Locale;
 
 public class SearchAdapter extends BaseAdapter {
 
-    // Declare Variables
     Context mContext;
     LayoutInflater inflater;
     private final List<Product> productNamesList;

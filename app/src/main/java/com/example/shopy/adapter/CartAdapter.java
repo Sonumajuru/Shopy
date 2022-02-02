@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.Controller;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.CartItem;
@@ -24,13 +25,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private FavDB favDB;
     private Controller controller;
     private int count;
-    private final OnItemClickListener onItemClickListener; // Global scope
+    public FragmentCallback callback;
 
-    public CartAdapter(List<CartItem> cartItemList, Context mCtx, OnItemClickListener onItemClickListener) {
+    public CartAdapter(List<CartItem> cartItemList, Context mCtx, FragmentCallback callback) {
         this.cartItemList = cartItemList;
         this.mCtx = mCtx;
         controller = Controller.getInstance(mCtx);
-        this.onItemClickListener = onItemClickListener;
+        this.callback = callback;
     }
 
     @NonNull
@@ -73,7 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             cartItemList.get(position).setCartStatus("0");
             favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
-            onItemClickListener.onItemClicked(position, cartItem);
+            callback.onItemClicked(position, cartItem);
             notifyDataSetChanged();
         });
     }
@@ -102,9 +103,5 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             plusbtn = itemView.findViewById(R.id.idPlusIcon);
             deletbtn = itemView.findViewById(R.id.idDeleteICon);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(int position, Object object);
     }
 }

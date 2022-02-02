@@ -13,6 +13,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ProductAdapter;
 import com.example.shopy.databinding.FragmentOverviewBinding;
@@ -37,6 +38,7 @@ public class ProductOverviewFragment extends Fragment {
     private Product product;
     private String category;
     private ProductAdapter adapter;
+    private FragmentCallback callback;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -74,9 +76,15 @@ public class ProductOverviewFragment extends Fragment {
                     }
                 }
                 //creating recyclerview adapter
-                adapter = new ProductAdapter(getActivity(), productList, new ProductAdapter.OnItemClickListener() {
+
+                callback = new FragmentCallback() {
+                    @Override
+                    public void doSomething() {
+                    }
+
                     @Override
                     public void onItemClicked(int position, Object object) {
+
                         // Handle Object of list item here
                         Product product = (Product) object;
                         Bundle bundle = new Bundle();
@@ -87,7 +95,9 @@ public class ProductOverviewFragment extends Fragment {
                         NavController navController = navHostFragment.getNavController();
                         navController.navigate(navigation_detail, bundle);
                     }
-                });
+                };
+
+                adapter = new ProductAdapter(getActivity(), productList, callback);
 
                 //setting adapter to recyclerview
                 recyclerView.setAdapter(adapter);
