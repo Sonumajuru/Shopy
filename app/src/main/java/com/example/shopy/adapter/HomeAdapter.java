@@ -10,14 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.Product;
-import com.example.shopy.model.User;
-import com.google.firebase.database.*;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +49,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.image);
 
-        getID(product.getUuid(), holder);
         holder.title.setText(product.getTitle());
         holder.price.setText(product.getPrice() + " " + product.getCurrency());
 
@@ -79,28 +75,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             super(itemView);
             image = itemView.findViewById(R.id.image_view);
             title = itemView.findViewById(R.id.title);
-            seller = itemView.findViewById(R.id.seller);
             price = itemView.findViewById(R.id.price);
         }
-    }
-
-    private void getID(String uid, ViewHolder holder) {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("User").child(uid).getRef();
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                holder.seller.setText(user.getName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
-            }
-        };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
 }

@@ -51,6 +51,8 @@ public class SearchAdapter extends BaseAdapter {
     @SuppressLint("InflateParams")
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
+
+        /** Remove the duplicates here  */
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.list_view_items, null);

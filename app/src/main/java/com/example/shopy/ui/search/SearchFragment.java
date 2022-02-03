@@ -23,6 +23,8 @@ import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
@@ -69,12 +71,31 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         list.setOnItemClickListener((parent, view, position, id) -> {
             product = arraylist.get(position);
             lastSearch = product.getTitle();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("product", product);
-            Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
-            searchView.setQuery("", false);
-            searchView.setIconified(true);
-            searchView.clearFocus();
+
+            // hashmap to store the frequency of element
+            Map<String, Integer> hm = new HashMap<>();
+
+            for (Product value : productList) {
+                String i = value.getTitle();
+                Integer j = hm.get(i);
+                hm.put(i, (j == null) ? 1 : j + 1);
+            }
+
+            // displaying the occurrence of elements in the arraylist
+            for (Map.Entry<String, Integer> val : hm.entrySet()) {
+                System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
+                if (val.getKey().equals(lastSearch))
+                {
+                    /** Open Category Menu */
+                }
+            }
+
+//            Bundle bundle = new Bundle();
+//            bundle.putParcelable("product", product);
+//            Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+//            searchView.setQuery("", false);
+//            searchView.setIconified(true);
+//            searchView.clearFocus();
         });
 
         return root;
