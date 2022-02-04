@@ -69,7 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
-        TextView seller, title, price;
+        TextView title, price;
 
         public ViewHolder(View itemView) {
             super(itemView);

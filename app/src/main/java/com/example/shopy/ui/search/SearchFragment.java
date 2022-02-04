@@ -22,9 +22,8 @@ import com.example.shopy.db.SuggestionsDatabase;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
@@ -73,29 +72,50 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             lastSearch = product.getTitle();
 
             // hashmap to store the frequency of element
-            Map<String, Integer> hm = new HashMap<>();
-
+            Map<String, Integer> map = new HashMap<>();
             for (Product value : productList) {
-                String i = value.getTitle();
-                Integer j = hm.get(i);
-                hm.put(i, (j == null) ? 1 : j + 1);
+                String title = value.getTitle();
+                Integer count = map.get(title);
+                map.put(title, (count == null) ? 1 : count + 1);
             }
 
             // displaying the occurrence of elements in the arraylist
-            for (Map.Entry<String, Integer> val : hm.entrySet()) {
+            for (Map.Entry<String, Integer> val : map.entrySet()) {
                 System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
-                if (val.getKey().equals(lastSearch))
+                if (val.getValue() == 1)
                 {
-                    /** Open Category Menu */
+                    if (lastSearch.equals(val.getKey()))
+                    {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("product", product);
+                        Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+                        searchView.setQuery("", false);
+                        searchView.setIconified(true);
+                        searchView.clearFocus();
+                    }
+                }
+                else
+                {
+                    ArrayList<Product> tempList = new ArrayList<>();
+                    if (lastSearch.equals(val.getKey()))
+                    {
+                        for (Product product : productList) {
+                            if (lastSearch.equals(product.getTitle())) {
+                                tempList.add(product);
+                            }
+                        }
+                        //Get all items > 2 in a list and submit into parceableList
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList(requireActivity()
+                                .getResources()
+                                .getString(R.string.feeling_lucky), tempList);
+                        Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+                        searchView.setQuery("", false);
+                        searchView.setIconified(true);
+                        searchView.clearFocus();
+                    }
                 }
             }
-
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelable("product", product);
-//            Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
-//            searchView.setQuery("", false);
-//            searchView.setIconified(true);
-//            searchView.clearFocus();
         });
 
         return root;
@@ -113,8 +133,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     productList.add(product);
                 }
 
+                Set<Product> set = productList.stream()
+                        .collect(Collectors.toCollection(() ->
+                                new TreeSet<>(Comparator.comparing(Product::getTitle))));
+
+                product.setProductList(productList);
                 // Binds all strings into an array
-                arraylist.addAll(productList);
+                arraylist.addAll(set);
 
                 // Pass results to ListViewAdapter Class
                 adapter = new SearchAdapter(requireActivity(), arraylist);
