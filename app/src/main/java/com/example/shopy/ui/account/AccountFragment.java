@@ -1,15 +1,7 @@
 package com.example.shopy.ui.account;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
-import com.example.shopy.helper.LanguageHelper;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.model.User;
@@ -32,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
 import java.util.Objects;
 
 import static com.example.shopy.R.id.*;
@@ -54,7 +44,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private User user;
     private NavHost navHostFragment;
-    private FirebaseAuth mAuth;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -63,12 +52,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        mAuth = FirebaseAuth.getInstance();
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
         user = new User();
         btnOrder = binding.orderBtn;
+        username = binding.userName;
+        userEmail = binding.userEmail;
         btnInvoice = binding.invoiceBtn;
         btnManageItem = binding.addRemoveBtn;
         btnSettings = binding.settingsBtn;
@@ -80,40 +70,27 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnManageItem.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
+//        TextView appVersion = binding.appVersion;
+//        emailSender.setText(Html.fromHtml("<a href=\"malito:njangi@support.com\">Email: njangi@support.com</a>"));
+//        whatsAppNum.setText(Html.fromHtml("Chat: "+ "<a href=\"\">WhatsApp</a>"));
 
-        username = binding.userName;
-        userEmail = binding.userEmail;
-        TextView appVersion = binding.appVersion;
-        TextView emailSender = binding.emailText;
-        TextView whatsAppNum = binding.chatTel;
-        emailSender.setText(Html.fromHtml("<a href=\"malito:njangi@support.com\">Email: njangi@support.com</a>"));
-        emailSender.setMovementMethod(LinkMovementMethod.getInstance());
-        whatsAppNum.setText(Html.fromHtml("Chat: "+ "<a href=\"\">WhatsApp</a>"));
-        whatsAppNum.setOnClickListener(view -> support());
+        final TextView emailSender = binding.emailText;
+        accountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
+            emailSender.setText(s);
+            emailSender.setMovementMethod(LinkMovementMethod.getInstance());
+        });
 
-        try {
-            PackageInfo pInfo = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(), 0);
-            appVersion.setText(getString(R.string.version_number) +" "+ pInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        final TextView whatsAppNum = binding.chatTel;
+        accountViewModel.getChat().observe(getViewLifecycleOwner(), s -> {
+            whatsAppNum.setText(s);
+            whatsAppNum.setOnClickListener(view -> accountViewModel.support(requireActivity()));
+        });
+
+        final TextView appVersion = binding.appVersion;
+        accountViewModel.getAppVersion().observe(getViewLifecycleOwner(), appVersion::setText);
+
         getUserData();
         return root;
-    }
-
-    private void support()
-    {
-        String contact = "+237 666305349"; // use country code with your phone number
-        String url = "https://api.whatsapp.com/send?phone=" + contact;
-        try {
-            PackageManager pm = requireActivity().getPackageManager();
-            pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -133,25 +110,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 navController.navigate(R.id.navigation_register);
                 break;
             case sign_out_Btn:
-                mAuth.signOut();
-                signOut();
+                accountViewModel.signOut(navHostFragment);
                 break;
         }
-    }
-
-    private void signOut()
-    {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        mAuth.addAuthStateListener(firebaseAuth -> {
-            NavController navController = navHostFragment.getNavController();
-            if (currentUser == null) {
-                navController.navigate(navigation_login);
-            }
-            else
-            {
-                navController.navigate(R.id.navigation_account);
-            }
-        });
     }
 
     private void getUserData()
@@ -180,7 +141,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 username.setText(AccountFragment.this.user.getName());
                 userEmail.setText(AccountFragment.this.user.getEmail());
                 btnManageItem.setEnabled(!Objects.requireNonNull(dataSnapshot.getValue(User.class)).isBuyer());
-                setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
+                accountViewModel.setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 
             @Override
@@ -188,20 +149,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-    }
-
-    public void setLocale(Activity activity, String languageCode)
-    {
-
-        Locale locale = new Locale(languageCode.substring(0,2));
-        Locale.setDefault(locale);
-        Resources resources = activity.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-
-        LanguageHelper.storeUserLanguage(requireActivity(), String.valueOf(locale));
-        LanguageHelper.updateLanguage(requireActivity(), String.valueOf(locale));
     }
 
     @Override

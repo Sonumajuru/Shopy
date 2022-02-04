@@ -1,14 +1,17 @@
 package com.example.shopy.helper;
 
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class FirebaseApp extends android.app.Application {
+public class FirebaseApp {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    private final FirebaseAuth mAuth;
 
-        //enable offline data on firebase database
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    public FirebaseApp() {
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    public FirebaseAuth getAuth()
+    {
+        return mAuth;
     }
 }
