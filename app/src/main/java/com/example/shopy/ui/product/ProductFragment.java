@@ -14,19 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
-import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,7 +60,6 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase
                 .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("Product");
@@ -106,8 +103,11 @@ public class ProductFragment extends Fragment {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
         });
 
-        getCurrency();
-        getCategory();
+        productViewModel.getCurrency();
+        category.setAdapter(productViewModel.getAdapter());
+        productViewModel.getText().observe(getViewLifecycleOwner(), s -> {
+            inputCurrency.setText(s);
+        });
 
         return root;
     }
@@ -173,49 +173,6 @@ public class ProductFragment extends Fragment {
                         progressDialog.setMessage("Uploaded "+(int)progress+"%");
                     });
         }
-    }
-
-    private void getCategory()
-    {
-        // Make ENUM for Categories or Strings of ID R.id.String
-        String[] ProductCategories = new String[]{getString(R.string.electronics), getString(R.string.computer),
-                getString(R.string.home_appliance), getString(R.string.phones), getString(R.string.clothing),
-                getString(R.string.books), getString(R.string.games)};
-
-        final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category.setAdapter(adapter);
-    }
-
-    private void getCurrency()
-    {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = Objects.requireNonNull(user).getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot dataSnapshot)
-            {
-                String country = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getCountry();
-                switch (country) {
-                    case "Cameroon":
-                        inputCurrency.setText("CFA");
-                        break;
-                    case "Nigeria":
-                        inputCurrency.setText("NGN");
-                        break;
-                    case "Ghana":
-                        inputCurrency.setText("GH₵");
-                        break;
-                }
-                inputCurrency.setEnabled(false);
-            }
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override

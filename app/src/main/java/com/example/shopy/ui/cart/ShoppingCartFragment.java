@@ -15,11 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.Controller;
-import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;
 import com.example.shopy.db.FavDB;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.CartItem;
 
 import java.util.ArrayList;
@@ -35,7 +35,6 @@ public class ShoppingCartFragment extends Fragment {
     private TextView total;
     private TextView emptyCart;
 
-    private FragmentCallback callback;
     private FavDB favDB;
     private List<CartItem> cartItemList;
     private RecyclerView recyclerView;
@@ -47,7 +46,6 @@ public class ShoppingCartFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         shoppingCartViewModel = new ViewModelProvider(this).get(ShoppingCartViewModel.class);
-
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -102,7 +100,8 @@ public class ShoppingCartFragment extends Fragment {
 
         updateScreen();
 
-        callback = new FragmentCallback() {
+        // Handle Object of list item here
+        FragmentCallback callback = new FragmentCallback() {
             @Override
             public void doSomething() {
             }
@@ -122,13 +121,12 @@ public class ShoppingCartFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void updateScreen()
     {
-        int unicode;
         if (cartItemList.size() > 0)
         {
-            unicode = 0x1F60A;
-            emptyCart.setText("You are one step away " + getEmojiByUnicode(unicode));
-            emptyCart.setVisibility(View.VISIBLE);
-
+            shoppingCartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {
+                emptyCart.setText(s);
+                emptyCart.setVisibility(View.VISIBLE);
+            });
             for (CartItem cartItem : cartItemList) {
                 subTotalCost += cartItem.getPrice();
                 totalCost += cartItem.getPrice() + 0;
@@ -136,9 +134,10 @@ public class ShoppingCartFragment extends Fragment {
         }
         else
         {
-            unicode = 0x1F62D;
-            emptyCart.setText("Your shopping cart is empty " + getEmojiByUnicode(unicode));
-            emptyCart.setVisibility(View.VISIBLE);
+            shoppingCartViewModel.getCartText().observe(getViewLifecycleOwner(), s -> {
+                emptyCart.setText(s);
+                emptyCart.setVisibility(View.VISIBLE);
+            });
         }
         subTotal.setText(subTotalCost + " " +currency);
         shipCost.setText(Double.toString(0));
@@ -147,10 +146,6 @@ public class ShoppingCartFragment extends Fragment {
         {
             controller.removeBadge();
         }
-    }
-
-    public String getEmojiByUnicode(int unicode){
-        return new String(Character.toChars(unicode));
     }
 
     @Override

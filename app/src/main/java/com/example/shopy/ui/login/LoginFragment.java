@@ -12,16 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentLoginBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.shopy.helper.FirebaseApp;
 
 public class LoginFragment extends Fragment {
 
@@ -30,8 +26,7 @@ public class LoginFragment extends Fragment {
     private EditText inputEmail;
     private EditText inputPassword;
     private NavHostFragment navHostFragment;
-
-    private FirebaseAuth mAuth;
+    private FirebaseApp firebaseApp;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -43,9 +38,7 @@ public class LoginFragment extends Fragment {
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-
+        firebaseApp = new FirebaseApp();
         TextView signUp = binding.txtSignUp;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
@@ -59,7 +52,7 @@ public class LoginFragment extends Fragment {
 
             if (email.isEmpty() || password.isEmpty()) return;
             //authenticate user
-            mAuth.signInWithEmailAndPassword(email, password)
+            firebaseApp.getAuth().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(requireActivity(), task -> {
                         // If sign in fails, display a message to the user.
                         // If sign in succeeds the auth state listener will be notified and logic to handle the
@@ -70,13 +63,12 @@ public class LoginFragment extends Fragment {
                         }
                         else
                         {
-                            goToAccount();
+                            loginViewModel.goToAccount(navHostFragment);
                         }
                     });
         });
         signUp.setOnClickListener(view -> {
-            NavController navController = navHostFragment.getNavController();
-            navController.navigate(R.id.navigation_register);
+            Navigation.findNavController(view).navigate(R.id.navigation_register);
         });
 
         return root;
@@ -102,33 +94,15 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private void goToAccount()
-    {
-        if (navHostFragment != null)
-        {
-            NavController navController = navHostFragment.getNavController();
-            navController.navigate(R.id.navigation_account);
-        }
-    }
-
-    public void swapFragment(Fragment fragment)
-    {
-        Fragment currentFragment = this;
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(currentFragment.getId(), fragment)
-                .commit();
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        mAuth.addAuthStateListener(firebaseAuth -> {
-            if (currentUser == null) {
+        firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
+            if (firebaseApp.getAuth().getCurrentUser() == null) {
             }
             else
             {
-                goToAccount();
+                loginViewModel.goToAccount(navHostFragment);
             }
         });
     }

@@ -11,18 +11,19 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
-import com.example.shopy.helper.LanguageHelper;
+import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class RegisterFragment extends Fragment {
 
@@ -42,13 +43,10 @@ public class RegisterFragment extends Fragment {
     private EditText inputPassword;
     private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
+    private FirebaseApp firebaseApp;
 
     private User user;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     private Button btnRegister;
-
-    private List<String> langCode;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -61,11 +59,13 @@ public class RegisterFragment extends Fragment {
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
+        DatabaseReference mDatabase = FirebaseDatabase
+                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("User");
 
         user = new User();
-        langCode = new ArrayList<>();
+        List<String> langCode = new ArrayList<>();
+        firebaseApp = new FirebaseApp();
 
         name = binding.txtName;
         surname = binding.txtSurname;
@@ -81,8 +81,8 @@ public class RegisterFragment extends Fragment {
         inputRetypePassword = binding.txtPhone;
         btnRegister = binding.btnRegister;
 
-        setCountryAdapter();
-        getLanguages();
+        registerViewModel.setCountryAdapter(country);
+        registerViewModel.getLanguages(country, language, langCode);
         onCheckBoxSelection();
         btnRegister.setOnClickListener(v -> {
 
@@ -104,7 +104,7 @@ public class RegisterFragment extends Fragment {
             if (!text.equals(getString(R.string.update)))
             {
                 if (email.isEmpty() || password.isEmpty()) return;
-                mAuth.createUserWithEmailAndPassword(email, password)
+                firebaseApp.getAuth().createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(requireActivity(), task -> {
                             // If sign in fails, display a message to the user.
                             // If sign in succeeds the auth state listener will be notified and logic to handle the
@@ -121,13 +121,14 @@ public class RegisterFragment extends Fragment {
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
-                                goToAccount(userId);
+
+                                registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
                         });
             }
             else
             {
-                FirebaseUser currentUser = mAuth.getCurrentUser();
+                FirebaseUser currentUser = firebaseApp.getAuth().getCurrentUser();
                 assert currentUser != null;
                 currentUser.updatePassword(password)
                         .addOnCompleteListener(task ->
@@ -140,7 +141,7 @@ public class RegisterFragment extends Fragment {
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
                                         buyer, seller, email, password, retypePassword, deviceToken);
-                                goToAccount(userId);
+                                registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
                             else
                             {
@@ -149,14 +150,12 @@ public class RegisterFragment extends Fragment {
                         });
             }
         });
-
         language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v, int position, long id)
             {
                 // On selecting a spinner item
                 String item = adapter.getItemAtPosition(position).toString();
-
                 // Showing selected spinner item
 //                Toast.makeText(requireActivity(),"Selected Country : " + item, Toast.LENGTH_LONG).show();
             }
@@ -192,21 +191,6 @@ public class RegisterFragment extends Fragment {
             inputPassword.setError("");
         }
     }
-
-    private void goToAccount(String userId)
-    {
-        if (navHostFragment != null)
-        {
-            mAuth.addAuthStateListener(firebaseAuth -> {
-                mDatabase.child(userId).setValue(user);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.navigation_account);
-            });
-        }
-    }
-
-//    Updating Password at a specified location in the database
-//    mDatabase.child("users").child(userId).child("username").setValue(name);
 
     private void onCheckBoxSelection()
     {
@@ -297,70 +281,11 @@ public class RegisterFragment extends Fragment {
         inputEmail.setEnabled(false);
     }
 
-    private List<String> getCountryList()
-    {
-        List<String> countriesList = new ArrayList<>();
-        String[] locales = Locale.getISOCountries();
-
-        for (String countryCode : locales)
-        {
-            if (countryCode.equals("CM") || countryCode.equals("NG")|| countryCode.equals("GH"))
-            {
-                Locale obj = new Locale("", countryCode);
-                countriesList.add(obj.getDisplayCountry(Locale.ENGLISH));
-                Collections.sort(countriesList);
-            }
-        }
-
-        return countriesList;
-    }
-
-    private void setCountryAdapter()
-    {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, getCountryList());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        country.setAdapter(adapter);
-    }
-
-    private void getLanguages()
-    {
-        country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // your code here
-                langCode.clear();
-                if (country.getSelectedItem().equals("Cameroon"))
-                {
-                    langCode.add("FR " + LanguageHelper.countryCodeToEmoji("FR"));
-                    langCode.add("ENG " + LanguageHelper.countryCodeToEmoji("UK"));
-                }
-                else
-                {
-                    langCode.add("ENG " + LanguageHelper.countryCodeToEmoji("UK"));
-                }
-                setLanguage();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-        });
-    }
-
-    private void setLanguage()
-    {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(), android.R.layout.simple_spinner_item, langCode);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        language.setAdapter(adapter);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        mAuth.addAuthStateListener(firebaseAuth -> {
-            if (currentUser == null) {
+        firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
+            if (firebaseApp.getAuth().getCurrentUser() == null) {
             }
             else
             {
