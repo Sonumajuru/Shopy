@@ -18,7 +18,7 @@ public class SliderAdapter extends PagerAdapter {
     private final Context mCtx;
     private final List<Product> sliderList;
     private final List<String> offerList;
-    private FragmentCallback callback;
+    private final FragmentCallback callback;
 
     public SliderAdapter(Context mCtx, List<Product> sliderList, List<String> offerList, FragmentCallback callback) {
         this.mCtx = mCtx;
