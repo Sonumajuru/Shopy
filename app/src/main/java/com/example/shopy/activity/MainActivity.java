@@ -26,8 +26,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         });
         initLanguage();
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.shopy.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Controller controller = new Controller(this);
 

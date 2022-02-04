@@ -37,20 +37,20 @@ public class ProductFragment extends Fragment {
     private ImageView btnChoose;
     private ImageView btnUpload;
     private ImageView btnView;
-    private EditText inputName;
     private Spinner category;
     private RatingBar ratingBar;
-    private EditText inputPrice;
     private TextView inputCurrency;
+    private EditText inputName;
+    private EditText inputPrice;
     private EditText inputDescription;
 
     private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 22;
-
-    private StorageReference storageReference;
-    private long maxId;
-    private Product product;
     private DatabaseReference mDatabase;
+    private StorageReference storageReference;
+
+    private Product product;
+    private final int PICK_IMAGE_REQUEST = 22;
+    private long maxId;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

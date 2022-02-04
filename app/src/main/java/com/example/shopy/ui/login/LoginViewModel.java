@@ -1,16 +1,21 @@
 package com.example.shopy.ui.login;
 
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import com.example.shopy.R;
+import com.example.shopy.helper.FirebaseApp;
+import org.jetbrains.annotations.NotNull;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
     
-    public LoginViewModel() {
-//        mText.setValue("This is category fragment");
+    public LoginViewModel(@NonNull @NotNull Application application) {
+        super(application);
     }
 
     public void goToAccount(NavHost navHostFragment)

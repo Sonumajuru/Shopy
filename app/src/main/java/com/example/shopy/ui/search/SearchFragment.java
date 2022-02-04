@@ -31,19 +31,20 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
 
-    private ListView list;
-    private SearchAdapter adapter;
-    private ArrayList<Product> arraylist;
-    private ArrayList<Product> productList;
-    private SuggestionsDatabase database;
     private SearchView searchView;
     private Product product;
+    private SearchAdapter adapter;
+    private SuggestionsDatabase database;
+
+    private ListView list;
+    private ArrayList<Product> arraylist;
+    private ArrayList<Product> productList;
+
     private String lastSearch;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -67,7 +68,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
-
         list.setOnItemClickListener((parent, view, position, id) -> {
             product = arraylist.get(position);
             lastSearch = product.getTitle();

@@ -14,7 +14,7 @@ public class Controller {
     private View notificationsBadge;
     private BottomNavigationMenuView bottomNavigationMenuView;
     private static Context mContext;
-    private static Controller instance;
+    private static volatile Controller instance;
     private int badgeCount;
     private BottomNavigationView navView;
 

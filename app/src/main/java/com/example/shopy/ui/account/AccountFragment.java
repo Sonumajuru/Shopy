@@ -17,9 +17,8 @@ import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
+import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +32,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private AccountViewModel accountViewModel;
     private FragmentAccountBinding binding;
 
+    private User user;
+    private NavHost navHostFragment;
+    private LinearLayout linearLayout;
+    private FirebaseApp firebaseApp;
+
     private Button btnOrder;
     private Button btnInvoice;
     private Button btnManageItem;
@@ -40,10 +44,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private Button btnSignOut;
     private TextView username;
     private TextView userEmail;
-    private LinearLayout linearLayout;
-
-    private User user;
-    private NavHost navHostFragment;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -56,6 +56,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
         user = new User();
+        firebaseApp = new FirebaseApp();
         btnOrder = binding.orderBtn;
         username = binding.userName;
         userEmail = binding.userEmail;
@@ -117,9 +118,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private void getUserData()
     {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
-        String userid = Objects.requireNonNull(user).getUid();
+        if (firebaseApp.getAuth().getCurrentUser() == null) return;
+        String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
         reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ParentViewAdapter;
@@ -25,11 +26,7 @@ import com.example.shopy.adapter.SliderAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
 import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
-import com.example.shopy.model.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,6 +35,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private FragmentActivity objects;
 
     //a list to store all the products
     private List<Product> productList;
@@ -46,18 +44,20 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     //the recyclerview
     private RecyclerView recyclerView;
+    private FragmentCallback callback;
+    private FirebaseApp firebaseApp;
+
+    private Timer timer;
+    private ViewPager page;
     private Product product;
 
+    private SliderAdapter sliderAdapter;
     private ParentViewAdapter parentViewAdapter;
+
+    private List<DataSnapshot> dataSnapshotList;
     private ArrayList<ParentModel> categoryList;
     private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
-    private SliderAdapter sliderAdapter;
-    private ViewPager page;
-    private FragmentActivity objects;
-    private Timer timer;
-    private FragmentCallback callback;
-    private List<DataSnapshot> dataSnapshotList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -66,13 +66,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        page = binding.viewPager;
-        Button btnFeelLucky = binding.luckBtn;
-        Button btnCategory = binding.categoryBtn;
-        recyclerView = root.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        parentLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(parentLayoutManager);
+        firebaseApp = new FirebaseApp();
         parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
         categoryList = new ArrayList<>();
@@ -80,11 +74,20 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         offerList = new ArrayList<>();
         timer = new java.util.Timer();
         dataSnapshotList = new Stack<>();
+        page = binding.viewPager;
+        Button btnFeelLucky = binding.luckBtn;
+        Button btnCategory = binding.categoryBtn;
+        recyclerView = root.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        parentLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(parentLayoutManager);
 
         getProducts();
         getSpecialOffers();
 
-        setUserName();
+        homeViewModel.getUserName();
+        final TextView title = binding.textHome;
+        homeViewModel.getText().observe(getViewLifecycleOwner(), title::setText);
         btnCategory.setOnClickListener(v -> {
             timer.cancel();
             timer.purge();
@@ -99,33 +102,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         return root;
     }
 
-    private void setUserName()
-    {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        TextView title = binding.textHome;
-        if (user == null) return;
-        String userid = Objects.requireNonNull(user).getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NotNull DataSnapshot dataSnapshot)
-            {
-                title.setText("Welcome back " + Objects.requireNonNull(dataSnapshot.getValue(User.class)).getName());
-            }
-
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private void getProducts()
     {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("Product");
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("Product");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

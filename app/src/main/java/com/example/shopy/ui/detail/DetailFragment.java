@@ -23,12 +23,15 @@ import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
-import com.example.shopy.model.CartItem;
+import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,27 +45,27 @@ public class DetailFragment extends Fragment {
     private DetailViewModel detailViewModel;
     private FragmentDetailBinding binding;
 
-    private FirebaseAuth mAuth;
+    private FavDB favDB;
+    private FirebaseApp firebaseApp;
+    private Controller controller;
+
     private Product product;
     private FavItem favItem;
-    private CartItem cartItem;
 
-    private ImageView productPhoto;
-    private Button btnAddToCart;
-    private TextView productOwner;
-    private ImageView favBtn;
     private TextView price;
     private TextView title;
-    private RatingBar ratingBar;
     private TextView description;
-    private String uid;
+    private TextView productOwner;
+    private RatingBar ratingBar;
+    private ImageView favBtn;
+    private ImageView productPhoto;
+    private Button btnAddToCart;
 
-    private FavDB favDB;
-    private List<FavItem> favItemList;
+    private int counter;
+    private String uid;
     private String item_fav_status = null;
 
-    private Controller controller;
-    private int counter;
+    private List<FavItem> favItemList;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -73,13 +76,11 @@ public class DetailFragment extends Fragment {
         binding = FragmentDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        mAuth = FirebaseAuth.getInstance();
-
         controller = Controller.getInstance(requireActivity());
+        firebaseApp = new FirebaseApp();
         product = new Product();
         favItemList = new ArrayList<>();
         favDB = new FavDB(getActivity());
-        cartItem = new CartItem();
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
@@ -252,8 +253,7 @@ public class DetailFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void getID(String uid)
     {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("User").child(uid).getRef();
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("User").child(uid).getRef();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)

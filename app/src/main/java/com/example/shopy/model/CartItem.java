@@ -1,6 +1,5 @@
 package com.example.shopy.model;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -111,15 +110,15 @@ public class CartItem implements Parcelable {
 
     public CartItem(String item_title, String shortDesc, String key_id, String item_image,
                     double item_price, double item_rating, String currency, String uuid, String category, String cartStatus) {
-        this.key_id = key_id;
         this.uuid = uuid;
         this.title = item_title;
+        this.shortDesc = shortDesc;
+        this.key_id = key_id;
         this.category = category;
         this.price = item_price;
         this.currency = currency;
-        this.shortDesc = shortDesc;
         this.imageUrl = item_image;
-        this.rating = rating;
+        this.rating = item_rating;
         this.favStatus = favStatus;
         this.cartStatus = cartStatus;
     }

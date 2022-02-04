@@ -33,14 +33,13 @@ public class FavoriteFragment extends Fragment {
     private FavoriteViewModel favoriteViewModel;
     private FragmentFavoriteBinding binding;
 
-    private RecyclerView recyclerView;
     private FavDB favDB;
+    private RecyclerView recyclerView;
     private List<FavItem> favItemList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
-
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

@@ -29,19 +29,21 @@ public class ShoppingCartFragment extends Fragment {
 
     private ShoppingCartViewModel shoppingCartViewModel;
     private FragmentCartBinding binding;
+
+    private String currency;
     private Button btnCheckOut;
     private TextView subTotal;
     private TextView shipCost;
     private TextView total;
     private TextView emptyCart;
 
-    private FavDB favDB;
-    private List<CartItem> cartItemList;
-    private RecyclerView recyclerView;
     private double subTotalCost;
     private double totalCost;
-    private String currency;
+
+    private FavDB favDB;
     private Controller controller;
+    private List<CartItem> cartItemList;
+    private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

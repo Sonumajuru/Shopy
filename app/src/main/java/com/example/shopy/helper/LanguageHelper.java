@@ -3,7 +3,6 @@ package com.example.shopy.helper;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;

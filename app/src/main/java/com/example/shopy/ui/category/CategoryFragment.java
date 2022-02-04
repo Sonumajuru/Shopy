@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import com.example.shopy.R;
 import com.example.shopy.adapter.CategoryAdapter;
 import com.example.shopy.databinding.FragmentCategoryBinding;
+import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
@@ -26,21 +27,24 @@ public class CategoryFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
     private FragmentCategoryBinding binding;
+    private FirebaseApp firebaseApp;
 
-    private ListView list;
     private CategoryAdapter adapter;
-    private ArrayList<Product> arraylist;
-    private ArrayList<Product> productList;
     private Product product;
 
+    private ListView list;
+    private ArrayList<Product> arraylist;
+    private ArrayList<Product> productList;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-
         binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        firebaseApp = new FirebaseApp();
         product = new Product();
         arraylist = new ArrayList<>();
         productList = new ArrayList<>();
@@ -62,8 +66,7 @@ public class CategoryFragment extends Fragment {
 
     private void getUserData()
     {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("Product");
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("Product");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
