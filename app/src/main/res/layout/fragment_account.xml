@@ -49,7 +49,7 @@
             android:id="@+id/AddPayment_Btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Payment"
+            android:text="@string/add_payment"
             app:layout_constraintStart_toStartOf="@+id/manage_Btn"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/orderBtn"

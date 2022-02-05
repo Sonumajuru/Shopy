@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.example.shopy.R;
 import org.jetbrains.annotations.NotNull;
 
 public class ShoppingCartViewModel extends AndroidViewModel {
@@ -22,14 +23,14 @@ public class ShoppingCartViewModel extends AndroidViewModel {
     public LiveData<String> getStatusText()
     {
         int unicode = 0x1F60A;
-        emptyCart.setValue("You are one step away " + getEmojiByUnicode(unicode));
+        emptyCart.setValue(app.getString(R.string.one_step_away) + " "+ getEmojiByUnicode(unicode));
         return emptyCart;
     }
 
     public LiveData<String> getCartText()
     {
         int unicode = 0x1F62D;
-        emptyCart.setValue("Your shopping cart is empty " + getEmojiByUnicode(unicode));
+        emptyCart.setValue(app.getString(R.string.empty_cart) + " "+ getEmojiByUnicode(unicode));
         return emptyCart;
     }
 

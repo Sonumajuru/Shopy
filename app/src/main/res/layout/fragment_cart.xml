@@ -56,7 +56,7 @@
     <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Subtotal"
+            android:text="@string/subtotal"
             android:id="@+id/textView6"
             app:layout_constraintBaseline_toBaselineOf="@+id/subtotal"
             app:layout_constraintEnd_toStartOf="@+id/subtotal"
@@ -79,7 +79,7 @@
     <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Shipping Cost"
+            android:text="@string/shipping_cost"
             android:id="@+id/textView7"
             app:layout_constraintEnd_toStartOf="@+id/shipping_cost"
             app:layout_constraintBottom_toTopOf="@+id/textView8"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:textStyle="bold"
-            android:text="Total"
+            android:text="@string/total"
             android:id="@+id/textView8"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="40dp"
@@ -141,7 +141,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:text="Checkout"/>
+                android:text="@string/checkout"/>
 
     </LinearLayout>
 

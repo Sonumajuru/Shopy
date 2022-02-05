@@ -18,15 +18,15 @@ public class CategoryAdapter extends BaseAdapter {
 
     // Declare Variables
 
-    Context mContext;
-    LayoutInflater inflater;
+    private Context cxt;
+    private LayoutInflater inflater;
     private final List<Product> productNamesList;
     private final ArrayList<Product> arraylist;
 
     public CategoryAdapter(Context context, List<Product> productNamesList) {
-        mContext = context;
+        cxt = context;
         this.productNamesList = productNamesList;
-        inflater = LayoutInflater.from(mContext);
+        inflater = LayoutInflater.from(cxt);
         this.arraylist = new ArrayList<>();
         this.arraylist.addAll(productNamesList);
     }
@@ -50,6 +50,34 @@ public class CategoryAdapter extends BaseAdapter {
         return position;
     }
 
+    private String getTranslation(String text)
+    {
+        switch (text) {
+            case "Books":
+                text = cxt.getString(R.string.books);
+                break;
+            case "Clothing":
+                text = cxt.getString(R.string.clothing);
+                break;
+            case "Computers":
+                text = cxt.getString(R.string.computer);
+                break;
+            case "Electronic":
+                text = cxt.getString(R.string.electronics);
+                break;
+            case "Games":
+                text = cxt.getString(R.string.games);
+                break;
+            case "Home Appliances":
+                text = cxt.getString(R.string.home_appliance);
+                break;
+            case "Phones":
+                text = cxt.getString(R.string.phones);
+                break;
+        }
+        return text;
+    }
+
     @SuppressLint("InflateParams")
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
@@ -63,7 +91,7 @@ public class CategoryAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(productNamesList.get(position).getCategory());
+        holder.name.setText(getTranslation(productNamesList.get(position).getCategory()));
         return view;
     }
 

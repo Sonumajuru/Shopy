@@ -66,10 +66,18 @@
     <string name="latest_offers">Latest Offers</string>
     <string name="firstname">Firstname</string>
     <string name="registered_since">Registered Since</string>
-    <string name="Profile">title_profile</string>
+    <string name="title_profile">Profile</string>
     <string name="feeling_lucky">Feel Lucky</string>
     <string name="black_friday">Black-Friday</string>
     <string name="discounts">Discounts</string>
     <string name="hot_deals">Hot-Deals</string>
     <string name="njangi_deals">Njangi-Deals</string>
+    <string name="welcome_back">"Welcome back "</string>
+    <string name="add_payment">Add Payment</string>
+    <string name="one_step_away">You are one step away</string>
+    <string name="empty_cart">Your shopping cart is empty</string>
+    <string name="checkout">Checkout</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="shipping_cost">Shipping Cost</string>
+    <string name="total">Total</string>
 </resources>
