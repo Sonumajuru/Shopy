@@ -25,7 +25,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private static final String TAG = "HomeAdapter";
     private final List<Product> productList;
     private final Context mCtx;
-    private FragmentCallback callback;
+    private final FragmentCallback callback;
 
     public HomeAdapter(Context context, List<Product> productList, FragmentCallback callback) {
         mCtx = context;

@@ -67,4 +67,18 @@
     <string name="latest_offers">Dernières offres</string>
     <string name="firstname">Prénom</string>
     <string name="registered_since">Inscrit depuis</string>
+    <string name="feeling_lucky">Chanceux</string>
+    <string name="black_friday">Black-Friday</string>
+    <string name="discounts">Discounts</string>
+    <string name="hot_deals">Hot-Deals</string>
+    <string name="njangi_deals">Njangi-Deals</string>
+    <string name="title_profile">Profil</string>
+    <string name="welcome_back">Content de te revoir</string>
+    <string name="add_payment">Mode de paiement</string>
+    <string name="one_step_away">Vous êtes à un pas</string>
+    <string name="empty_cart">Votre panier est vide</string>
+    <string name="checkout">Validé</string>
+    <string name="total">Total</string>
+    <string name="shipping_cost">Frais de port</string>
+    <string name="subtotal">Sous-total</string>
 </resources>

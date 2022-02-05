@@ -1,19 +1,20 @@
 package com.example.shopy.ui.category;
 
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.shopy.R;
+import org.jetbrains.annotations.NotNull;
 
-public class CategoryViewModel extends ViewModel {
+public class CategoryViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final Application app;
 
-    public CategoryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is category fragment");
-    }
-
-    public LiveData<String> getText() {
-        return mText;
+    public CategoryViewModel(@NonNull @NotNull Application application) {
+        super(application);
+        app = (Application) application.getApplicationContext();
     }
 }

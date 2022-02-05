@@ -3,11 +3,9 @@ package com.example.shopy.ui.account;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.UnderlineSpan;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
@@ -43,7 +42,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FirebaseApp firebaseApp;
 
     private Button btnOrder;
-    private Button btnInvoice;
     private Button btnManageItem;
     private Button btnSettings;
     private Button btnSignOut;
@@ -65,14 +63,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnOrder = binding.orderBtn;
         username = binding.userName;
         userEmail = binding.userEmail;
-        btnInvoice = binding.invoiceBtn;
-        btnManageItem = binding.addRemoveBtn;
+        btnManageItem = binding.manageBtn;
         btnSettings = binding.settingsBtn;
         btnSignOut = binding.signOutBtn;
         linearLayout = binding.supportLayout;
 
         btnOrder.setOnClickListener(this);
-        btnInvoice.setOnClickListener(this);
         btnManageItem.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
@@ -105,13 +101,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         {
             case orderBtn:
                 break;
-            case invoice_Btn:
-                break;
-            case add_remove_Btn:
-                navController.navigate(navigation_product);
+            case manage_Btn:
+                Navigation.findNavController(v).navigate(R.id.navigation_product);
                 break;
             case settings_Btn:
-                navController.navigate(R.id.navigation_register);
+                Navigation.findNavController(v).navigate(R.id.navigation_register);
                 break;
             case sign_out_Btn:
                 accountViewModel.signOut(navHostFragment);

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
 
@@ -18,17 +19,19 @@ public class CategoryAdapter extends BaseAdapter {
 
     // Declare Variables
 
-    Context mContext;
-    LayoutInflater inflater;
+    private final Context cxt;
+    private final Controller controller;
+    private final LayoutInflater inflater;
     private final List<Product> productNamesList;
     private final ArrayList<Product> arraylist;
 
     public CategoryAdapter(Context context, List<Product> productNamesList) {
-        mContext = context;
+        cxt = context;
         this.productNamesList = productNamesList;
-        inflater = LayoutInflater.from(mContext);
+        inflater = LayoutInflater.from(cxt);
         this.arraylist = new ArrayList<>();
         this.arraylist.addAll(productNamesList);
+        controller = Controller.getInstance(context);
     }
 
     public static class ViewHolder {
@@ -63,7 +66,7 @@ public class CategoryAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(productNamesList.get(position).getCategory());
+        holder.name.setText(controller.getTranslation(productNamesList.get(position).getCategory()));
         return view;
     }
 
