@@ -102,4 +102,32 @@ public class Controller {
     public void removeBadge() {
         getNavView().removeView(getNotificationsBadge());
     }
+
+    public String getTranslation(String text)
+    {
+        switch (text) {
+            case "Books":
+                text = mContext.getString(R.string.books);
+                break;
+            case "Clothing":
+                text = mContext.getString(R.string.clothing);
+                break;
+            case "Computers":
+                text = mContext.getString(R.string.computer);
+                break;
+            case "Electronic":
+                text = mContext.getString(R.string.electronics);
+                break;
+            case "Games":
+                text = mContext.getString(R.string.games);
+                break;
+            case "Home Appliances":
+                text = mContext.getString(R.string.home_appliance);
+                break;
+            case "Phones":
+                text = mContext.getString(R.string.phones);
+                break;
+        }
+        return text;
+    }
 }

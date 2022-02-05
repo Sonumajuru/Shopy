@@ -23,7 +23,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final List<CartItem> cartItemList;
     private final Context mCtx;
     private FavDB favDB;
-    private Controller controller;
+    private final Controller controller;
     private int count;
     public FragmentCallback callback;
 

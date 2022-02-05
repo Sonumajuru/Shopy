@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.Controller;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.model.ParentModel;
@@ -18,10 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.MyViewHolder> {
-    private final ArrayList<ParentModel> parentModelArrayList;
-    private final List<Product> productList;
+
     public Context cxt;
+    private final Controller controller;
     private final FragmentCallback callback;
+    private final List<Product> productList;
+    private final ArrayList<ParentModel> parentModelArrayList;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView category;
@@ -40,6 +43,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         this.productList = productList;
         this.cxt = context;
         this.callback = callback;
+        controller = Controller.getInstance(context);
     }
 
     @NotNull
@@ -54,34 +58,6 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         return parentModelArrayList.size();
     }
 
-    private String getTranslation(String text)
-    {
-        switch (text) {
-            case "Books":
-                text = cxt.getString(R.string.books);
-                break;
-            case "Clothing":
-                text = cxt.getString(R.string.clothing);
-                break;
-            case "Computers":
-                text = cxt.getString(R.string.computer);
-                break;
-            case "Electronic":
-                text = cxt.getString(R.string.electronics);
-                break;
-            case "Games":
-                text = cxt.getString(R.string.games);
-                break;
-            case "Home Appliances":
-                text = cxt.getString(R.string.home_appliance);
-                break;
-            case "Phones":
-                text = cxt.getString(R.string.phones);
-                break;
-        }
-        return text;
-    }
-
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
@@ -90,7 +66,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         holder.childRecyclerView.setLayoutManager(layoutManager);
         holder.childRecyclerView.setHasFixedSize(true);
 
-        holder.category.setText(getTranslation(currentItem.getCategory()));
+        holder.category.setText(controller.getTranslation(currentItem.getCategory()));
         ArrayList<Product> arrayList = new ArrayList<>();
 
         // added the first child row
