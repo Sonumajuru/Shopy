@@ -112,6 +112,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/chat_whatsapp"
+                android:gravity="center"
+                android:linksClickable="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="40dp"/>
 
@@ -120,6 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/email_njangi_support_com"
+                android:gravity="center"
                 android:autoLink="email|web"
                 android:linksClickable="true"
                 android:layout_marginStart="10dp"
