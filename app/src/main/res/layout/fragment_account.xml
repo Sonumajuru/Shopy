@@ -41,19 +41,9 @@
             android:layout_height="wrap_content"
             android:text="@string/order"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/invoice_Btn"
+            app:layout_constraintStart_toStartOf="@+id/AddPayment_Btn"
             android:layout_marginTop="100dp"
-            app:layout_constraintEnd_toEndOf="@+id/invoice_Btn"/>
-
-    <Button
-            android:id="@+id/invoice_Btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/invoice"
-            app:layout_constraintStart_toStartOf="@+id/manage_Btn"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/orderBtn"
-            app:layout_constraintEnd_toEndOf="@+id/manage_Btn"/>
+            app:layout_constraintEnd_toEndOf="@+id/AddPayment_Btn"/>
 
     <Button
             android:id="@+id/AddPayment_Btn"
@@ -62,7 +52,7 @@
             android:text="Add Payment"
             app:layout_constraintStart_toStartOf="@+id/manage_Btn"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/invoice_Btn"
+            app:layout_constraintTop_toBottomOf="@+id/orderBtn"
             app:layout_constraintEnd_toEndOf="@+id/manage_Btn"/>
 
     <Button

@@ -43,12 +43,6 @@
             tools:layout="@layout/fragment_order"/>
 
     <fragment
-            android:id="@+id/navigation_invoice"
-            android:name="com.example.shopy.ui.invoice.InvoiceFragment"
-            android:label="@string/title_invoice"
-            tools:layout="@layout/fragment_invoice"/>
-
-    <fragment
             android:id="@+id/navigation_register"
             android:name="com.example.shopy.ui.register.RegisterFragment"
             android:label="@string/title_setting"

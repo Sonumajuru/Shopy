@@ -36,7 +36,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private SuggestionsDatabase database;
 
     private ListView list;
-    private Map<String, Integer> map;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
 
@@ -46,7 +45,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        map = new HashMap<>();
         product = new Product();
         arraylist = new ArrayList<>();
         productList = new ArrayList<>();
@@ -72,6 +70,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
             String lastSearch = product.getTitle();
 
             // hashmap to store the frequency of element
+            Map<String, Integer> map = new HashMap<>();
+
             for (Product value : productList) {
                 String title = value.getTitle();
                 Integer count = map.get(title);
@@ -181,6 +181,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private void getSearch(String mySearch)
     {
         // hashmap to store the frequency of element
+        Map<String, Integer> map = new HashMap<>();
+
         for (Product value : productList) {
             String title = value.getTitle();
             Integer count = map.get(title);
@@ -190,13 +192,15 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         // displaying the occurrence of elements in the arraylist
         for (Map.Entry<String, Integer> val : map.entrySet()) {
             System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
-            if (mySearch.equals(val.getKey()))
+            if (mySearch.equals(val.getKey().toUpperCase())
+                    || mySearch.equals(val.getKey().toLowerCase())
+                    || mySearch.equals(val.getKey()))
             {
                 if (val.getValue() == 1)
                 {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("product", product);
-//                    Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+                    Navigation.findNavController(requireView()).navigate(R.id.navigation_detail, bundle);
                 }
                 else
                 {
@@ -211,7 +215,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     bundle.putParcelableArrayList(requireActivity()
                             .getResources()
                             .getString(R.string.feeling_lucky), tempList);
-//                    Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+                    Navigation.findNavController(requireView()).navigate(R.id.navigation_product_overview, bundle);
                 }
                 searchView.setQuery("", false);
                 searchView.setIconified(true);
