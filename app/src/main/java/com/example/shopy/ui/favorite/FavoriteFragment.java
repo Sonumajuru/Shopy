@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.interfaces.FragmentCallback;
@@ -22,6 +23,7 @@ import com.example.shopy.databinding.FragmentFavoriteBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
 import com.google.firebase.auth.FirebaseAuth;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class FavoriteFragment extends Fragment {
     private FavDB favDB;
     private RecyclerView recyclerView;
     private List<FavItem> favItemList;
+    private FavAdapter favAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -54,6 +57,9 @@ public class FavoriteFragment extends Fragment {
             // user loged in already
             loadData();
         }
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallBack);
+        itemTouchHelper.attachToRecyclerView(recyclerView); // Setting swipe to recycleview
 
         return root;
     }
@@ -107,9 +113,28 @@ public class FavoriteFragment extends Fragment {
             }
         };
 
-        FavAdapter favAdapter = new FavAdapter(favItemList, requireActivity(), callback);
+        favAdapter = new FavAdapter(favItemList, requireActivity(), callback);
         recyclerView.setAdapter(favAdapter);
     }
+
+    // Remove Item after Swipe
+    private final ItemTouchHelper.SimpleCallback simpleCallBack = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+            final int position = viewHolder.getAdapterPosition(); // get swiped position
+            final FavItem favItem = favItemList.get(position);
+            if (direction == ItemTouchHelper.LEFT){ // Left swipe
+                favAdapter.notifyItemRemoved(position); // Item removed from recycleView
+                favItemList.remove(position); // The remove the item
+                favDB.remove_fav(favItem.getKey_id()); // remove item from DB
+            }
+        }
+    };
 
     @Override
     public void onDestroyView() {

@@ -36,10 +36,9 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private SuggestionsDatabase database;
 
     private ListView list;
+    private Map<String, Integer> map;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
-
-    private String lastSearch;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -47,6 +46,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        map = new HashMap<>();
         product = new Product();
         arraylist = new ArrayList<>();
         productList = new ArrayList<>();
@@ -69,10 +69,9 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
         list.setOnItemClickListener((parent, view, position, id) -> {
             product = arraylist.get(position);
-            lastSearch = product.getTitle();
+            String lastSearch = product.getTitle();
 
             // hashmap to store the frequency of element
-            Map<String, Integer> map = new HashMap<>();
             for (Product value : productList) {
                 String title = value.getTitle();
                 Integer count = map.get(title);
@@ -175,7 +174,50 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         //           do something on text submit
         // -------------------------------------------------------
         database.insertSuggestion(query);
+        getSearch(query);
         return false;
+    }
+
+    private void getSearch(String mySearch)
+    {
+        // hashmap to store the frequency of element
+        for (Product value : productList) {
+            String title = value.getTitle();
+            Integer count = map.get(title);
+            map.put(title, (count == null) ? 1 : count + 1);
+        }
+
+        // displaying the occurrence of elements in the arraylist
+        for (Map.Entry<String, Integer> val : map.entrySet()) {
+            System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
+            if (mySearch.equals(val.getKey()))
+            {
+                if (val.getValue() == 1)
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("product", product);
+//                    Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);
+                }
+                else
+                {
+                    ArrayList<Product> tempList = new ArrayList<>();
+                    for (Product product : productList) {
+                        if (mySearch.equals(product.getTitle())) {
+                            tempList.add(product);
+                        }
+                    }
+                    //Get all items > 2 in a list and submit into parceableList
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(requireActivity()
+                            .getResources()
+                            .getString(R.string.feeling_lucky), tempList);
+//                    Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+                }
+                searchView.setQuery("", false);
+                searchView.setIconified(true);
+                searchView.clearFocus();
+            }
+        }
     }
 
     @Override

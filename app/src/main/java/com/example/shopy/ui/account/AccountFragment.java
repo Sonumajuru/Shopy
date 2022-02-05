@@ -3,11 +3,9 @@ package com.example.shopy.ui.account;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.UnderlineSpan;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +64,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         username = binding.userName;
         userEmail = binding.userEmail;
         btnInvoice = binding.invoiceBtn;
-        btnManageItem = binding.addRemoveBtn;
+        btnManageItem = binding.manageBtn;
         btnSettings = binding.settingsBtn;
         btnSignOut = binding.signOutBtn;
         linearLayout = binding.supportLayout;
@@ -107,7 +105,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 break;
             case invoice_Btn:
                 break;
-            case add_remove_Btn:
+            case manage_Btn:
                 navController.navigate(navigation_product);
                 break;
             case settings_Btn:
