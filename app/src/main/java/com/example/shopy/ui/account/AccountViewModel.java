@@ -39,7 +39,7 @@ public class AccountViewModel extends AndroidViewModel {
         whatsAppNum = new MutableLiveData<>();
         appVersion = new MutableLiveData<>();
         emailSender.setValue("njangi@support.com");
-        whatsAppNum.setValue("Chat: WhatsApp");
+        whatsAppNum.setValue("WhatsApp");
     }
 
     public void setLocale(Activity activity, String languageCode)

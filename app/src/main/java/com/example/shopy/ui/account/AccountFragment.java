@@ -1,8 +1,13 @@
 package com.example.shopy.ui.account;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.UnderlineSpan;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +50,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView username;
     private TextView userEmail;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
@@ -71,19 +76,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnManageItem.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
-//        TextView appVersion = binding.appVersion;
-//        emailSender.setText(Html.fromHtml("<a href=\"malito:njangi@support.com\">Email: njangi@support.com</a>"));
-//        whatsAppNum.setText(Html.fromHtml("Chat: "+ "<a href=\"\">WhatsApp</a>"));
 
         final TextView emailSender = binding.emailText;
         accountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
-            emailSender.setText(s);
+            emailSender.setText(setupHyperlink(s));
+            emailSender.setLinkTextColor(Color.BLACK);
             emailSender.setMovementMethod(LinkMovementMethod.getInstance());
         });
 
         final TextView whatsAppNum = binding.chatTel;
         accountViewModel.getChat().observe(getViewLifecycleOwner(), s -> {
-            whatsAppNum.setText(s);
+            whatsAppNum.setText(setupHyperlink(s));
             whatsAppNum.setOnClickListener(view -> accountViewModel.support(requireActivity()));
         });
 
@@ -149,6 +152,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+    }
+
+    private SpannableString setupHyperlink(String linkTextView) {
+        SpannableString content = new SpannableString(linkTextView);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        return content;
     }
 
     @Override
