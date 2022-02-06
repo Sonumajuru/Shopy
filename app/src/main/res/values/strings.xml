@@ -80,4 +80,5 @@
     <string name="subtotal">Subtotal</string>
     <string name="shipping_cost">Shipping Cost</string>
     <string name="total">Total</string>
+    <string name="registration">Registration</string>
 </resources>

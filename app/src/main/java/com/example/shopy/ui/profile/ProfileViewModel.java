@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.example.shopy.R;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.User;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +53,7 @@ public class ProfileViewModel extends AndroidViewModel {
                 idNumber.setValue(user.getTelNumber());
                 idCountryText.setValue(user.getCountry());
                 idAddress.setValue(user.getAddress());
-                idSince.setValue(user.getEmail());
+                idSince.setValue(app.getString(R.string.registration) + " " + user.getDate());
             }
 
             @Override

@@ -56,7 +56,7 @@ public class CategoryFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putString(requireActivity().getResources().getString(R.string.category), product.getCategory());
-            Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+            Navigation.findNavController(view).navigate(R.id.navigation_overview, bundle);
         });
 
         getUserData();
