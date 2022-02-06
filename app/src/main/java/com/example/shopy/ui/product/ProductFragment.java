@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.shopy.Controller;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ public class ProductFragment extends Fragment {
 
     private ProductViewModel productViewModel;
     private FragmentProductBinding binding;
+    private Controller controller;
 
     private ImageView imageView;
     private ImageView btnChoose;
@@ -84,6 +86,7 @@ public class ProductFragment extends Fragment {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         product = new Product();
+        controller = Controller.getInstance(requireActivity());
 
         imageView = binding.imgViewProduct;
         btnChoose = binding.btnChoose;
@@ -159,7 +162,7 @@ public class ProductFragment extends Fragment {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                            product = new Product(String.valueOf(maxId+1), userId, title, category, price,
+                            product = new Product(String.valueOf(maxId+1), userId, title, controller.getDefaultTranslation(category), price,
                                     currency, description, uri.toString(), rating,"0");
                             mDatabase.push().setValue(product);
                         });
