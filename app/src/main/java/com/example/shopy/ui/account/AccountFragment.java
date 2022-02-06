@@ -130,14 +130,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 AccountFragment.this.user.setAddress(dataSnapshot.getValue(User.class).getAddress());
                 AccountFragment.this.user.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
                 AccountFragment.this.user.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                AccountFragment.this.user.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
-                AccountFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 AccountFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 AccountFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
                 AccountFragment.this.user.setTelNumber(dataSnapshot.getValue(User.class).getTelNumber());
                 username.setText(AccountFragment.this.user.getName());
                 userEmail.setText(AccountFragment.this.user.getEmail());
-                btnManageItem.setEnabled(!Objects.requireNonNull(dataSnapshot.getValue(User.class)).isBuyer());
                 accountViewModel.setLocale(requireActivity(), dataSnapshot.getValue(User.class).getLanguage());
             }
 

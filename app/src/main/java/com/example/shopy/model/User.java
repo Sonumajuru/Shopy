@@ -9,8 +9,6 @@ public class User {
     private String address;
     private String language;
     private String country;
-    private boolean buyer;
-    private boolean seller;
     private String email;
     private String password;
     private String telNumber;
@@ -72,22 +70,6 @@ public class User {
         this.country = country;
     }
 
-    public boolean isBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(boolean buyer) {
-        this.buyer = buyer;
-    }
-
-    public boolean isSeller() {
-        return seller;
-    }
-
-    public void setSeller(boolean seller) {
-        this.seller = seller;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -125,7 +107,7 @@ public class User {
     }
 
     public User(String name, String surname, boolean male, boolean female, String address, String language,
-                String country, boolean buyer, boolean seller, String email, String password, String telNumber, String deviceToken)
+                String country, String email, String password, String telNumber, String deviceToken)
     {
         this.name = name;
         this.surname = surname;
@@ -134,8 +116,6 @@ public class User {
         this.address = address;
         this.language = language;
         this.country = country;
-        this.buyer = buyer;
-        this.seller = seller;
         this.email = email;
         this.password = password;
         this.telNumber = telNumber;
