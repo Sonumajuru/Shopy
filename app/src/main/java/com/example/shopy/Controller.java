@@ -1,12 +1,15 @@
 package com.example.shopy;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Locale;
 
 public class Controller {
 
@@ -115,7 +118,7 @@ public class Controller {
             case "Computers":
                 text = mContext.getString(R.string.computer);
                 break;
-            case "Electronic":
+            case "Electronics":
                 text = mContext.getString(R.string.electronics);
                 break;
             case "Games":
@@ -126,6 +129,40 @@ public class Controller {
                 break;
             case "Phones":
                 text = mContext.getString(R.string.phones);
+                break;
+        }
+        return text;
+    }
+
+    public String translate(Locale locale, int resId) {
+        Configuration config = new Configuration(mContext.getResources().getConfiguration());
+        config.setLocale(locale);
+        return (String) mContext.createConfigurationContext(config).getText(resId);
+    }
+
+    public String getDefaultTranslation(String text)
+    {
+        switch (text) {
+            case "Livres":
+                text = "Books";
+                break;
+            case "Vêtements":
+                text = "Clothing";
+                break;
+            case "Ordinateur":
+                text = "Computers";
+                break;
+            case "Électronique":
+                text = "Electronics";
+                break;
+            case "Jeux":
+                text = "Games";
+                break;
+            case "Appareils Ménagers":
+                text = "Home Appliances";
+                break;
+            case "Téléphone":
+                text = "Phones";
                 break;
         }
         return text;
