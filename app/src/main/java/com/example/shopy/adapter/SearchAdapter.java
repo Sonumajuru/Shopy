@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.model.Product;
 
@@ -18,11 +19,13 @@ public class SearchAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
+    private final Controller controller;
     private final List<Product> productNamesList;
     private final ArrayList<Product> arraylist;
 
     public SearchAdapter(Context context, List<Product> productNamesList) {
         mContext = context;
+        controller = Controller.getInstance(context);
         this.productNamesList = productNamesList;
         inflater = LayoutInflater.from(mContext);
         this.arraylist = new ArrayList<>();
@@ -30,7 +33,7 @@ public class SearchAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        TextView name;
+        TextView title;
     }
 
     @Override
@@ -57,14 +60,15 @@ public class SearchAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.list_view_items, null);
             // Locate the TextViews in listview_item.xml
-            holder.name = view.findViewById(R.id.name);
+            holder.title = view.findViewById(R.id.name);
             view.setTag(holder);
         }
         else {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText(productNamesList.get(position).getTitle());
+        controller.setTextLength(holder.title);
+        holder.title.setText(productNamesList.get(position).getTitle());
         return view;
     }
 

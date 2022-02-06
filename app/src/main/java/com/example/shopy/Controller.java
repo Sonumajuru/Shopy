@@ -2,6 +2,7 @@ package com.example.shopy;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -166,5 +167,13 @@ public class Controller {
                 break;
         }
         return text;
+    }
+
+    public void setTextLength(TextView title)
+    {
+        int maxLength = 15;
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(maxLength);
+        title.setFilters(fArray);
     }
 }

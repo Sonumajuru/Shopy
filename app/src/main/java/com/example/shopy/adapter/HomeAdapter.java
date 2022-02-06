@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.Product;
@@ -23,12 +24,14 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private static final String TAG = "HomeAdapter";
-    private final List<Product> productList;
     private final Context mCtx;
+    private final Controller controller;
     private final FragmentCallback callback;
+    private final List<Product> productList;
 
     public HomeAdapter(Context context, List<Product> productList, FragmentCallback callback) {
         mCtx = context;
+        controller = Controller.getInstance(context);
         this.productList = productList;
         this.callback = callback;
     }
@@ -40,7 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
-    @SuppressLint({"RecyclerView", "SetTextI18n"})
+    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale"})
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
@@ -48,9 +51,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.image);
-
         holder.title.setText(product.getTitle());
-        holder.price.setText(product.getPrice() + " " + product.getCurrency());
+        holder.price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
 
         holder.image.setOnClickListener(view -> {
             Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
@@ -66,7 +68,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return productList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
         TextView title, price;
@@ -76,6 +78,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             image = itemView.findViewById(R.id.image_view);
             title = itemView.findViewById(R.id.title);
             price = itemView.findViewById(R.id.price);
+
+            controller.setTextLength(title);
         }
     }
 }

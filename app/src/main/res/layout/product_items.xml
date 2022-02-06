@@ -53,7 +53,7 @@
                     android:scaleY=".7"
                     android:transformPivotX="0dp"
                     android:transformPivotY="0dp"
-                    android:isIndicator="false"
+                    android:isIndicator="true"
                     android:backgroundTint="@color/black"
                     android:progressTint="@color/royal_orange"
                     style="?android:attr/ratingBarStyleIndicator"
