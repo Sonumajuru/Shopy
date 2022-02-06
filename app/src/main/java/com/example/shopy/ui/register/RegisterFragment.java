@@ -37,8 +37,6 @@ public class RegisterFragment extends Fragment {
     private EditText address;
     private Spinner country;
     private Spinner language;
-    private CheckBox userBuyer;
-    private CheckBox userSeller;
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputRetypePassword;
@@ -73,8 +71,6 @@ public class RegisterFragment extends Fragment {
         address = binding.txtAddress;
         language = binding.language;
         country = binding.country;
-        userBuyer = binding.buyer;
-        userSeller = binding.seller;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
         inputRetypePassword = binding.txtPhone;
@@ -94,8 +90,6 @@ public class RegisterFragment extends Fragment {
             String address  = this.address.getText().toString().trim();
             String language = this.language.getSelectedItem().toString();
             String country = this.country.getSelectedItem().toString();
-            boolean buyer = userBuyer.isChecked();
-            boolean seller = userSeller.isChecked();
             String retypePassword = inputRetypePassword.getText().toString().trim();
 
             formCheck(name, surname, address, email, password);
@@ -119,7 +113,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
-                                        buyer, seller, email, password, retypePassword, deviceToken);
+                                        email, password, retypePassword, deviceToken);
 
                                 registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
@@ -139,7 +133,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
-                                        buyer, seller, email, password, retypePassword, deviceToken);
+                                         email, password, retypePassword, deviceToken);
                                 registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
                             else
@@ -203,16 +197,6 @@ public class RegisterFragment extends Fragment {
                 male.setChecked(false);
             }
         });
-        userBuyer.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                userSeller.setChecked(false);
-            }
-        });
-        userSeller.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                userBuyer.setChecked(false);
-            }
-        });
     }
 
     private void getUserData()
@@ -234,8 +218,6 @@ public class RegisterFragment extends Fragment {
                 RegisterFragment.this.user.setAddress(dataSnapshot.getValue(User.class).getAddress());
                 RegisterFragment.this.user.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
                 RegisterFragment.this.user.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                RegisterFragment.this.user.setBuyer(dataSnapshot.getValue(User.class).isBuyer());
-                RegisterFragment.this.user.setSeller(dataSnapshot.getValue(User.class).isSeller());
                 RegisterFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
                 RegisterFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
                 RegisterFragment.this.user.setTelNumber(dataSnapshot.getValue(User.class).getTelNumber());
@@ -255,8 +237,6 @@ public class RegisterFragment extends Fragment {
                 int langPosition = languageAdapter.getPosition(dataSnapshot.getValue(User.class).getCountry());
                 language.setSelection(langPosition);
 
-                userBuyer.setChecked(RegisterFragment.this.user.isBuyer());
-                userSeller.setChecked(RegisterFragment.this.user.isSeller());
                 inputEmail.setText(RegisterFragment.this.user.getEmail());
                 inputPassword.setText(RegisterFragment.this.user.getPassword());
                 inputRetypePassword.setText(RegisterFragment.this.user.getTelNumber());
@@ -277,8 +257,6 @@ public class RegisterFragment extends Fragment {
         male.setEnabled(false);
         country.setEnabled(false);
         female.setEnabled(false);
-        userBuyer.setEnabled(false);
-        userSeller.setEnabled(false);
         inputEmail.setEnabled(false);
     }
 
