@@ -13,6 +13,7 @@ public class User {
     private String password;
     private String telNumber;
     private String deviceToken;
+    private String date;
 
     public String getName() {
         return name;
@@ -102,12 +103,20 @@ public class User {
         this.deviceToken = deviceToken;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
     public User(String name, String surname, boolean male, boolean female, String address, String language,
-                String country, String email, String password, String telNumber, String deviceToken)
+                String country, String email, String password, String telNumber, String deviceToken, String date)
     {
         this.name = name;
         this.surname = surname;
@@ -120,5 +129,6 @@ public class User {
         this.password = password;
         this.telNumber = telNumber;
         this.deviceToken = deviceToken;
+        this.date = date;
     }
 }

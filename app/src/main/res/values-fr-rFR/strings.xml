@@ -81,4 +81,5 @@
     <string name="total">Total</string>
     <string name="shipping_cost">Frais de port</string>
     <string name="subtotal">Sous-total</string>
+    <string name="registration">Inscription</string>
 </resources>

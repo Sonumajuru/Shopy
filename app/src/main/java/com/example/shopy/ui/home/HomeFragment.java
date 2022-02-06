@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                                 .findFragmentById(R.id.nav_host_fragment_activity_main);
                         assert navHostFragment != null;
                         NavController navController = navHostFragment.getNavController();
-                        navController.navigate(R.id.navigation_product_overview, bundle);
+                        navController.navigate(R.id.navigation_overview, bundle);
                     }
                 };
 

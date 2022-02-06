@@ -108,7 +108,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                         bundle.putParcelableArrayList(requireActivity()
                                 .getResources()
                                 .getString(R.string.feeling_lucky), tempList);
-                        Navigation.findNavController(view).navigate(R.id.navigation_product_overview, bundle);
+                        Navigation.findNavController(view).navigate(R.id.navigation_overview, bundle);
                         searchView.setQuery("", false);
                         searchView.setIconified(true);
                         searchView.clearFocus();
@@ -215,7 +215,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     bundle.putParcelableArrayList(requireActivity()
                             .getResources()
                             .getString(R.string.feeling_lucky), tempList);
-                    Navigation.findNavController(requireView()).navigate(R.id.navigation_product_overview, bundle);
+                    Navigation.findNavController(requireView()).navigate(R.id.navigation_overview, bundle);
                 }
                 searchView.setQuery("", false);
                 searchView.setIconified(true);

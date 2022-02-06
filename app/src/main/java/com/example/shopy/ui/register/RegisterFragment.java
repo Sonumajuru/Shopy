@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
 import com.example.shopy.helper.FirebaseApp;
@@ -22,6 +23,7 @@ import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +31,7 @@ public class RegisterFragment extends Fragment {
 
     private RegisterViewModel registerViewModel;
     private FragmentRegisterBinding binding;
+    private Controller controller;
 
     private EditText name;
     private EditText surname;
@@ -62,6 +65,7 @@ public class RegisterFragment extends Fragment {
 
         user = new User();
         List<String> langCode = new ArrayList<>();
+        controller = Controller.getInstance(requireActivity());
         firebaseApp = new FirebaseApp();
 
         name = binding.txtName;
@@ -91,6 +95,7 @@ public class RegisterFragment extends Fragment {
             String language = this.language.getSelectedItem().toString();
             String country = this.country.getSelectedItem().toString();
             String retypePassword = inputRetypePassword.getText().toString().trim();
+            String date = controller.getDate();
 
             formCheck(name, surname, address, email, password);
             String text = btnRegister.getText().toString();
@@ -113,7 +118,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
-                                        email, password, retypePassword, deviceToken);
+                                        email, password, retypePassword, deviceToken,date);
 
                                 registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
@@ -133,7 +138,7 @@ public class RegisterFragment extends Fragment {
                                 String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
-                                         email, password, retypePassword, deviceToken);
+                                         email, password, retypePassword, deviceToken, date);
                                 registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
                             }
                             else

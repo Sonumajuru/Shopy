@@ -67,8 +67,8 @@
             tools:layout="@layout/fragment_product"/>
 
     <fragment
-            android:id="@+id/navigation_product_overview"
-            android:name="com.example.shopy.ui.product_overview.ProductOverviewFragment"
+            android:id="@+id/navigation_overview"
+            android:name="com.example.shopy.ui.overview.OverviewFragment"
             android:label="@string/title_product_listing"
             tools:layout="@layout/fragment_overview"/>
 
