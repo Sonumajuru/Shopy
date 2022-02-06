@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.shopy.Controller;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
@@ -20,13 +21,16 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
+
     Context context;
-    private static List<FavItem> favItemList;
     private static FavDB favDB;
-    private FragmentCallback callback;
+    private final Controller controller;
+    private final FragmentCallback callback;
+    private static List<FavItem> favItemList;
 
     public FavAdapter(List<FavItem> favItemList, Context context, FragmentCallback callback) {
         this.context = context;
+        controller = Controller.getInstance(context);
         FavAdapter.favItemList = favItemList;
         this.callback = callback;
     }
@@ -72,14 +76,12 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.imageView);
             favBtn = itemView.findViewById(R.id.fav_btn);
 
-            favBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    final FavItem favItem = favItemList.get(position);
-                    favDB.remove_fav(favItem.getKey_id());
-                    removeItem(position);
-                }
+            controller.setTextLength(textViewTitle);
+            favBtn.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                final FavItem favItem = favItemList.get(position);
+                favDB.remove_fav(favItem.getKey_id());
+                removeItem(position);
             });
         }
     }

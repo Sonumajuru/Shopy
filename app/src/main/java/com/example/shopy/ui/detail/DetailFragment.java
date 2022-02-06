@@ -67,7 +67,7 @@ public class DetailFragment extends Fragment {
 
     private List<FavItem> favItemList;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,13 +93,15 @@ public class DetailFragment extends Fragment {
         ratingBar = binding.ratingBar;
         description = binding.description;
 
+        controller.setTextLength(title);
+
         assert getArguments() != null;
         product = getArguments().getParcelable("product");
         if (product != null)
         {
             Uri uri = Uri.parse(product.getImageUrl());
             Picasso.with(getActivity()).load(uri).into(productPhoto);
-            price.setText(product.getPrice() + " " + product.getCurrency());
+            price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
             ratingBar.setRating((float) product.getRating());
             description.setText(product.getShortDesc());

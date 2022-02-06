@@ -14,9 +14,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.shopy.interfaces.FragmentCallback;
+import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -27,15 +28,16 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private final Context mCtx;
-    //we are storing all the products in a list
-    private final List<Product> productList;
+    private FavDB favDB;
     public int clickedPos = -1;
     public FragmentCallback callback;
-    private FavDB favDB;
+    private final Controller controller;
+    private final List<Product> productList;
 
     //getting the context and product list with constructor
     public ProductAdapter(Context mCtx, List<Product> productList, FragmentCallback callback) {
         this.mCtx = mCtx;
+        controller = Controller.getInstance(mCtx);
         this.productList = productList;
         this.callback = callback;
     }
@@ -59,7 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    @SuppressLint({"RecyclerView", "SetTextI18n"})
+    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale"})
     public void onBindViewHolder(@NotNull ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Product product = productList.get(position);
@@ -69,7 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.textViewTitle.setText(product.getTitle());
         holder.textViewShortDesc.setText(product.getShortDesc());
         holder.textViewRating.setRating((float) product.getRating());
-        holder.textViewPrice.setText(product.getPrice() + " " + product.getCurrency());
+        holder.textViewPrice.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
         Uri uri = Uri.parse(product.getImageUrl());
         Picasso.with(mCtx).load(uri).into(holder.imageView);
 
@@ -112,7 +114,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    static class ProductViewHolder extends RecyclerView.ViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         RatingBar textViewRating;
         TextView textViewTitle, textViewShortDesc, textViewPrice;
@@ -127,6 +129,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
             favBtn = itemView.findViewById(R.id.fav_btn);
+
+            controller.setTextLength(textViewTitle);
         }
     }
 

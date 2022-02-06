@@ -42,7 +42,7 @@ public class ProductFragment extends Fragment {
     private Spinner category;
     private RatingBar ratingBar;
     private TextView inputCurrency;
-    private EditText inputName;
+    private EditText inputTitle;
     private EditText inputPrice;
     private EditText inputDescription;
 
@@ -93,7 +93,7 @@ public class ProductFragment extends Fragment {
         btnUpload = binding.btnUpload;
         btnView = binding.btnView;
         ratingBar = binding.ratingBar;
-        inputName = binding.txtName;
+        inputTitle = binding.txtName;
         category = binding.category;
         inputCurrency = binding.txtCurrency;
         inputDescription = binding.txtDescription;
@@ -148,7 +148,7 @@ public class ProductFragment extends Fragment {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            String title = inputName.getText().toString().trim();
+            String title = inputTitle.getText().toString().trim();
             String category = this.category.getSelectedItem().toString();
             double price = Double.parseDouble(inputPrice.getText().toString().trim());
             double rating = ratingBar.getRating();
