@@ -192,7 +192,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                         }
 
                         Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(requireActivity()
+                        bundle.putParcelableArrayList(requireContext()
                                 .getResources()
                                 .getString(R.string.feeling_lucky), tempList);
                         NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()

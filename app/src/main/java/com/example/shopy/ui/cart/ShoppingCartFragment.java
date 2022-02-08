@@ -53,7 +53,7 @@ public class ShoppingCartFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         cartItemList = new ArrayList<>();
-        controller = Controller.getInstance(requireActivity());
+        controller = Controller.getInstance(requireContext());
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
         recyclerView = binding.recyclerViewCart;
         btnCheckOut = binding.btnCheckout;
@@ -62,7 +62,7 @@ public class ShoppingCartFragment extends Fragment {
         total = binding.total;
         emptyCart = binding.emptyCart;
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         loadData();
         btnCheckOut.setOnClickListener(view -> {

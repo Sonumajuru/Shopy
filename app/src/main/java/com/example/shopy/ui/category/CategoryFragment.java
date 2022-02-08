@@ -55,7 +55,7 @@ public class CategoryFragment extends Fragment {
             String category = product.getCategory();
 
             Bundle bundle = new Bundle();
-            bundle.putString(requireActivity().getResources().getString(R.string.category), product.getCategory());
+            bundle.putString(requireContext().getResources().getString(R.string.category), product.getCategory());
             Navigation.findNavController(view).navigate(R.id.navigation_overview, bundle);
         });
 
@@ -86,7 +86,7 @@ public class CategoryFragment extends Fragment {
                 arraylist.addAll(set);
 
                 // Pass results to ListViewAdapter Class
-                adapter = new CategoryAdapter(requireActivity(), arraylist);
+                adapter = new CategoryAdapter(requireContext(), arraylist);
                 // Binds the Adapter to the ListView
                 list.setAdapter(adapter);
             }

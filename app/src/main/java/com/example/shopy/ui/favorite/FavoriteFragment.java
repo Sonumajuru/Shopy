@@ -113,7 +113,7 @@ public class FavoriteFragment extends Fragment {
             }
         };
 
-        favAdapter = new FavAdapter(favItemList, requireActivity(), callback);
+        favAdapter = new FavAdapter(favItemList, requireContext(), callback);
         recyclerView.setAdapter(favAdapter);
     }
 

@@ -41,10 +41,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private LinearLayout linearLayout;
     private FirebaseApp firebaseApp;
 
-    private Button btnOrder;
-    private Button btnManageItem;
-    private Button btnSettings;
-    private Button btnSignOut;
     private TextView username;
     private TextView userEmail;
 
@@ -60,13 +56,14 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         user = new User();
         firebaseApp = new FirebaseApp();
-        btnOrder = binding.orderBtn;
+        Button btnOrder = binding.orderBtn;
         username = binding.userName;
         userEmail = binding.userEmail;
-        btnManageItem = binding.manageBtn;
-        btnSettings = binding.settingsBtn;
-        btnSignOut = binding.signOutBtn;
+        Button btnManageItem = binding.manageBtn;
+        Button btnSettings = binding.settingsBtn;
+        Button btnSignOut = binding.signOutBtn;
         linearLayout = binding.supportLayout;
+        Button btnAddPay = binding.AddPaymentBtn;
 
         btnOrder.setOnClickListener(this);
         btnManageItem.setOnClickListener(this);
@@ -88,6 +85,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         final TextView appVersion = binding.appVersion;
         accountViewModel.getAppVersion().observe(getViewLifecycleOwner(), appVersion::setText);
+
+        btnAddPay.setOnClickListener(v -> Navigation.findNavController(v).navigate(navigation_bank));
 
         getUserData();
         return root;

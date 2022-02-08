@@ -52,11 +52,11 @@ public class OverviewFragment extends Fragment {
         //getting the recyclerview from xml
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         productList = new ArrayList<>();
 
         assert getArguments() != null;
-        category = getArguments().getString(requireActivity().getResources().getString(R.string.category));
+        category = getArguments().getString(requireContext().getResources().getString(R.string.category));
         if (category != null)
         {
             getUserData();
@@ -64,7 +64,7 @@ public class OverviewFragment extends Fragment {
         else
         {
             mList = new ArrayList<>();
-            mList = getArguments().getParcelableArrayList(requireActivity().getResources().getString(R.string.feeling_lucky));
+            mList = getArguments().getParcelableArrayList(requireContext().getResources().getString(R.string.feeling_lucky));
             getData();
         }
 
