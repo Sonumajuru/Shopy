@@ -86,7 +86,7 @@ public class ProductFragment extends Fragment {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         product = new Product();
-        controller = Controller.getInstance(requireActivity());
+        controller = Controller.getInstance(requireContext());
 
         imageView = binding.imgViewProduct;
         btnChoose = binding.btnChoose;
@@ -130,7 +130,7 @@ public class ProductFragment extends Fragment {
         {
             filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);
             }
             catch (IOException e)
@@ -160,7 +160,7 @@ public class ProductFragment extends Fragment {
                         progressDialog.dismiss();
 
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                            Toast.makeText(requireActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Uploaded", Toast.LENGTH_SHORT).show();
                             String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                             product = new Product(String.valueOf(maxId+1), userId, title, controller.getDefaultTranslation(category), price,
                                     currency, description, uri.toString(), rating,"0");
@@ -169,7 +169,7 @@ public class ProductFragment extends Fragment {
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();
-                        Toast.makeText(requireActivity(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     })
                     .addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());

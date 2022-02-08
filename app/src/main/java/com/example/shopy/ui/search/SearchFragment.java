@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         product = new Product();
         arraylist = new ArrayList<>();
         productList = new ArrayList<>();
-        database = new SuggestionsDatabase(requireActivity());
+        database = new SuggestionsDatabase(requireContext());
         searchView = binding.search;
         list = binding.listview;
         list.setVisibility(View.INVISIBLE);
@@ -62,7 +62,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         searchView.requestFocus(1);
 
         // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) requireContext().getSystemService(Context.SEARCH_SERVICE);
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
         list.setOnItemClickListener((parent, view, position, id) -> {
@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                         }
                         //Get all items > 2 in a list and submit into parceableList
                         Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(requireActivity()
+                        bundle.putParcelableArrayList(requireContext()
                                 .getResources()
                                 .getString(R.string.feeling_lucky), tempList);
                         Navigation.findNavController(view).navigate(R.id.navigation_overview, bundle);
@@ -141,7 +141,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 arraylist.addAll(set);
 
                 // Pass results to ListViewAdapter Class
-                adapter = new SearchAdapter(requireActivity(), arraylist);
+                adapter = new SearchAdapter(requireContext(), arraylist);
                 // Binds the Adapter to the ListView
                 list.setAdapter(adapter);
             }
@@ -212,7 +212,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                     }
                     //Get all items > 2 in a list and submit into parceableList
                     Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(requireActivity()
+                    bundle.putParcelableArrayList(requireContext()
                             .getResources()
                             .getString(R.string.feeling_lucky), tempList);
                     Navigation.findNavController(requireView()).navigate(R.id.navigation_overview, bundle);
@@ -237,7 +237,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 String[] columns = new String[] {SuggestionsDatabase.FIELD_SUGGESTION };
                 int[] columnTextId = new int[] { android.R.id.text1};
 
-                SuggestionAdapter simple = new SuggestionAdapter(requireActivity().getBaseContext(),
+                SuggestionAdapter simple = new SuggestionAdapter(requireContext(),
                         android.R.layout.simple_list_item_1
                         , cursor
                         , columns

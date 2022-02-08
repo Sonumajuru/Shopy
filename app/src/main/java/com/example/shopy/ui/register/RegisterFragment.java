@@ -65,7 +65,7 @@ public class RegisterFragment extends Fragment {
 
         user = new User();
         List<String> langCode = new ArrayList<>();
-        controller = Controller.getInstance(requireActivity());
+        controller = Controller.getInstance(requireContext());
         firebaseApp = new FirebaseApp();
 
         name = binding.txtName;
@@ -108,14 +108,14 @@ public class RegisterFragment extends Fragment {
                             // If sign in succeeds the auth state listener will be notified and logic to handle the
                             // signed-in user can be handled in the listener.
                             if (!task.isSuccessful()) {
-                                Toast.makeText(requireActivity(), "Authentication failed." + task.getException(),
+                                Toast.makeText(requireContext(), "Authentication failed." + task.getException(),
                                         Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
                                 String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                 @SuppressLint("HardwareIds")
-                                String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
+                                String deviceToken = Settings.Secure.getString(requireContext().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
                                         email, password, retypePassword, deviceToken,date);
@@ -135,7 +135,7 @@ public class RegisterFragment extends Fragment {
                             {
                                 String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                 @SuppressLint("HardwareIds")
-                                String deviceToken = Settings.Secure.getString(requireActivity().getApplicationContext()
+                                String deviceToken = Settings.Secure.getString(requireContext().getApplicationContext()
                                         .getContentResolver(), Settings.Secure.ANDROID_ID);
                                 user = new User(name, surname, male, female, address, language, country,
                                          email, password, retypePassword, deviceToken, date);
@@ -143,7 +143,7 @@ public class RegisterFragment extends Fragment {
                             }
                             else
                             {
-                                Toast.makeText(requireActivity(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
                             }
                         });
             }
@@ -155,7 +155,7 @@ public class RegisterFragment extends Fragment {
                 // On selecting a spinner item
                 String item = adapter.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-//                Toast.makeText(requireActivity(),"Selected Country : " + item, Toast.LENGTH_LONG).show();
+//                Toast.makeText(requireContext(),"Selected Country : " + item, Toast.LENGTH_LONG).show();
             }
 
             @Override

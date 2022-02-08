@@ -76,7 +76,7 @@ public class DetailFragment extends Fragment {
         binding = FragmentDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        controller = Controller.getInstance(requireActivity());
+        controller = Controller.getInstance(requireContext());
         firebaseApp = new FirebaseApp();
         product = new Product();
         favItemList = new ArrayList<>();
