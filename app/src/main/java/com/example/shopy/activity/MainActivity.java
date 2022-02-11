@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.example.shopy.Controller;
+import com.example.shopy.helper.DeviceType;
 import com.example.shopy.R;
 import com.example.shopy.databinding.ActivityMainBinding;
 import com.example.shopy.helper.LanguageHelper;
@@ -26,6 +28,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         com.example.shopy.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Controller controller = new Controller(this);
+        if (controller.getDeviceType() == DeviceType.Phone)
+        {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavHostFragment navHostFragment = (NavHostFragment)

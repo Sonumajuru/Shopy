@@ -1,11 +1,15 @@
 package com.example.shopy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.text.InputFilter;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import com.example.shopy.helper.DeviceType;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -184,5 +188,22 @@ public class Controller {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate currentdate = LocalDate.now();
         return formatter.format(currentdate);
+    }
+
+    public DeviceType getDeviceType() {
+        Display display = ((Activity)   this.mContext).getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+
+        float widthInches = metrics.widthPixels / metrics.xdpi;
+        float heightInches = metrics.heightPixels / metrics.ydpi;
+        double diagonalInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
+        if (diagonalInches >= 7.0) {
+            return DeviceType.Tablet;
+        }
+        else
+        {
+            return DeviceType.Phone;
+        }
     }
 }
