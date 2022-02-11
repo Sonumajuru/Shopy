@@ -128,6 +128,7 @@ public class ShoppingCartFragment extends Fragment {
             shoppingCartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
+                btnCheckOut.setEnabled(true);
             });
             for (CartItem cartItem : cartItemList) {
                 subTotalCost += cartItem.getPrice();
@@ -139,6 +140,7 @@ public class ShoppingCartFragment extends Fragment {
             shoppingCartViewModel.getCartText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
+                btnCheckOut.setEnabled(false);
             });
         }
         subTotal.setText(subTotalCost + " " +currency);

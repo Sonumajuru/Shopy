@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +20,8 @@ import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentLoginBinding;
 import com.example.shopy.helper.FirebaseApp;
 
+import static com.example.shopy.R.id.navigation_home;
+
 public class LoginFragment extends Fragment {
 
     private LoginViewModel loginViewModel;
@@ -26,6 +29,7 @@ public class LoginFragment extends Fragment {
     private EditText inputEmail;
     private EditText inputPassword;
     private NavHostFragment navHostFragment;
+    private NavOptions navOption;
     private FirebaseApp firebaseApp;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -37,6 +41,8 @@ public class LoginFragment extends Fragment {
         navHostFragment = (NavHostFragment) requireActivity()
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
+        //here the R.id refer to the fragment one wants to pop back once pressed back from the newly  navigated fragment
+        navOption = new NavOptions.Builder().setPopUpTo(R.id.navigation_login, true).build();
 
         firebaseApp = new FirebaseApp();
         TextView signUp = binding.txtSignUp;
@@ -63,23 +69,25 @@ public class LoginFragment extends Fragment {
                         }
                         else
                         {
-                            loginViewModel.goToAccount(navHostFragment);
+                            loginViewModel.goToAccount(navHostFragment, navOption);
                         }
                     });
         });
         signUp.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.navigation_register);
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                //setEnabled(false); // call this to disable listener
+                //remove(); // call to remove listener
+                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(requireView()).navigate(navigation_home);
+            }
+        });
 
         return root;
-    }
-
-    private void popUp()
-    {
-        //here the R.id refer to the fragment one wants to pop back once pressed back from the newly  navigated fragment
-        NavOptions navOption = new NavOptions.Builder().setPopUpTo(R.id.navigation_home, true).build();
-        //now how to navigate to new fragment
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_account, null, navOption);
     }
 
     private void formCheck(String email, String password)
@@ -102,7 +110,7 @@ public class LoginFragment extends Fragment {
             }
             else
             {
-                loginViewModel.goToAccount(navHostFragment);
+                loginViewModel.goToAccount(navHostFragment, navOption);
             }
         });
     }

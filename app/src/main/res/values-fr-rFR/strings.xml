@@ -8,7 +8,7 @@
     <string name="title_account">Compte</string>
     <string name="title_order">Commande</string>
     <string name="title_invoice">Facture</string>
-    <string name="title_setting">Réglage</string>
+    <string name="title_login">Connexion</string>
     <string name="title_category">Catégorie</string>
     <string name="title_create_user">Créer un utilisateur</string>
     <string name="order">Commandes</string>

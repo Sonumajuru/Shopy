@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -87,6 +88,16 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         accountViewModel.getAppVersion().observe(getViewLifecycleOwner(), appVersion::setText);
 
         btnAddPay.setOnClickListener(v -> Navigation.findNavController(v).navigate(navigation_bank));
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        //setEnabled(false); // call this to disable listener
+                        //remove(); // call to remove listener
+                        //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(requireView()).navigate(navigation_home);
+                    }
+                });
 
         getUserData();
         return root;

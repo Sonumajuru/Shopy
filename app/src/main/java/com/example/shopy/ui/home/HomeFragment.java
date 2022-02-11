@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -18,12 +19,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import com.example.shopy.helper.FirebaseApp;
-import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.adapter.SliderAdapter;
 import com.example.shopy.databinding.FragmentHomeBinding;
+import com.example.shopy.helper.FirebaseApp;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
@@ -96,6 +97,16 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             timer.cancel();
             timer.purge();
             Navigation.findNavController(v).navigate(R.id.navigation_detail, randomPick());
+        });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                //setEnabled(false); // call this to disable listener
+                //remove(); // call to remove listener
+                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
+                requireActivity().moveTaskToBack(true);
+            }
         });
 
         return root;

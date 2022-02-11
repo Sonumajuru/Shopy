@@ -46,7 +46,6 @@ public class HomeViewModel extends AndroidViewModel {
 
             @Override
             public void onCancelled(@NotNull DatabaseError databaseError) {
-
             }
         });
     }
