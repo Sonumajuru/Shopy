@@ -41,7 +41,7 @@ public class HomeViewModel extends AndroidViewModel {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
-                mTitle.setValue(app.getString(R.string.welcome_back) + " " + Objects.requireNonNull(dataSnapshot.getValue(User.class)).getName());
+                mTitle.setValue(app.getString(R.string.welcome_back) + " " + Objects.requireNonNull(dataSnapshot.getValue(User.class)).getFirstName());
             }
 
             @Override

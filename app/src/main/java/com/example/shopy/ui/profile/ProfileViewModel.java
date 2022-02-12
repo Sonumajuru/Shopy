@@ -47,8 +47,8 @@ public class ProfileViewModel extends AndroidViewModel {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
 
-                idProfileName.setValue(user.getName()
-                        + " " + user.getSurname());
+                idProfileName.setValue(user.getFirstName()
+                        + " " + user.getLastName());
                 idEmail.setValue(user.getEmail());
                 idNumber.setValue(user.getTelNumber());
                 idCountryText.setValue(user.getCountry());

@@ -23,6 +23,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.helper.FirebaseApp;
+import com.example.shopy.model.ParentModel;
+import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
@@ -127,26 +129,18 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/").getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase
+                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("User");
+        ref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
-                String email = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail();
-                AccountFragment.this.user.setName(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getName());
-                AccountFragment.this.user.setSurname(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getSurname());
-                AccountFragment.this.user.setMale(Objects.requireNonNull(dataSnapshot.getValue(User.class)).isMale());
-                AccountFragment.this.user.setFemale(Objects.requireNonNull(dataSnapshot.getValue(User.class)).isFemale());
-                AccountFragment.this.user.setAddress(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getAddress());
-                AccountFragment.this.user.setLanguage(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getLanguage());
-                AccountFragment.this.user.setCountry(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getCountry());
-                AccountFragment.this.user.setEmail(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getEmail());
-                AccountFragment.this.user.setPassword(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getPassword());
-                AccountFragment.this.user.setTelNumber(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getTelNumber());
-                AccountFragment.this.user.setDate(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getDate());
-                username.setText(AccountFragment.this.user.getName());
-                userEmail.setText(AccountFragment.this.user.getEmail());
-                accountViewModel.setLocale(requireActivity(), Objects.requireNonNull(dataSnapshot.getValue(User.class)).getLanguage());
+                user = dataSnapshot.getValue(User.class);
+                assert user != null;
+                username.setText(user.getFirstName());
+                userEmail.setText(user.getEmail());
+                accountViewModel.setLocale(requireActivity(), user.getLanguage());
             }
 
             @Override

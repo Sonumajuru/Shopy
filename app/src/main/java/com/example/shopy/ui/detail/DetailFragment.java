@@ -264,9 +264,9 @@ public class DetailFragment extends Fragment {
                 assert user != null;
                 Resources res = getResources();
                 @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-                String text = String.format(res.getString(R.string.product_owner), user.getName());
+                String text = String.format(res.getString(R.string.product_owner), user.getFirstName());
                 productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                productOwner.setText(text + ": " + user.getName());
+                productOwner.setText(text + ": " + user.getFirstName());
             }
 
             @Override

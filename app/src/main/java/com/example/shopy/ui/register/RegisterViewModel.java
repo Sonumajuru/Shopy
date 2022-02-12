@@ -12,8 +12,6 @@ import androidx.navigation.NavHost;
 import com.example.shopy.R;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.helper.LanguageHelper;
-import com.example.shopy.model.User;
-import com.google.firebase.database.DatabaseReference;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -90,12 +88,11 @@ public class RegisterViewModel extends AndroidViewModel {
         });
     }
 
-    public void goToAccount(String userId, User user, NavHost navHostFragment, DatabaseReference mDatabase)
+    public void goToAccount(NavHost navHostFragment)
     {
         if (navHostFragment != null)
         {
             firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
-                mDatabase.child(userId).setValue(user);
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_account);
             });

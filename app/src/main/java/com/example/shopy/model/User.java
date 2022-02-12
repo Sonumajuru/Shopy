@@ -2,8 +2,8 @@ package com.example.shopy.model;
 
 public class User {
 
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private boolean male;
     private boolean female;
     private String address;
@@ -12,23 +12,23 @@ public class User {
     private String email;
     private String password;
     private String telNumber;
-    private String deviceToken;
+    private String uniqueID;
     private String date;
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public boolean isMale() {
@@ -95,12 +95,12 @@ public class User {
         this.telNumber = telNumber;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
+    public String getUniqueID() {
+        return uniqueID;
     }
 
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
+    public void setUniqueID(String uniqueID) {
+        this.uniqueID = uniqueID;
     }
 
     public String getDate() {
@@ -115,11 +115,11 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String name, String surname, boolean male, boolean female, String address, String language,
-                String country, String email, String password, String telNumber, String deviceToken, String date)
+    public User(String firstName, String lastName, boolean male, boolean female, String address, String language,
+                String country, String email, String password, String telNumber, String uniqueID, String date)
     {
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.male = male;
         this.female = female;
         this.address = address;
@@ -128,7 +128,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.telNumber = telNumber;
-        this.deviceToken = deviceToken;
+        this.uniqueID = uniqueID;
         this.date = date;
     }
 }

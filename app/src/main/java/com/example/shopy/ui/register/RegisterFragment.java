@@ -1,8 +1,7 @@
 package com.example.shopy.ui.register;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class RegisterFragment extends Fragment {
 
@@ -45,6 +41,8 @@ public class RegisterFragment extends Fragment {
     private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
     private FirebaseApp firebaseApp;
+    private DatabaseReference mDatabase;
+    private ProgressBar progressBar;
 
     private User user;
     private Button btnRegister;
@@ -59,11 +57,10 @@ public class RegisterFragment extends Fragment {
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
 
-        DatabaseReference mDatabase = FirebaseDatabase
+        mDatabase = FirebaseDatabase
                 .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("User");
 
-        user = new User();
         List<String> langCode = new ArrayList<>();
         controller = Controller.getInstance(requireContext());
         firebaseApp = new FirebaseApp();
@@ -79,16 +76,19 @@ public class RegisterFragment extends Fragment {
         inputPassword = binding.txtPassword;
         inputRetypePassword = binding.txtPhone;
         btnRegister = binding.btnRegister;
+        progressBar = binding.progressBar;
 
         registerViewModel.setCountryAdapter(country);
         registerViewModel.getLanguages(country, language, langCode);
         onCheckBoxSelection();
+        checkIfSignedIn();
+
         btnRegister.setOnClickListener(v -> {
 
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
-            String name = this.name.getText().toString().trim();
-            String surname = this.surname.getText().toString().trim();
+            String firstName = this.name.getText().toString().trim();
+            String lastName = this.surname.getText().toString().trim();
             boolean male = this.male.isChecked();
             boolean female = this.female.isChecked();
             String address  = this.address.getText().toString().trim();
@@ -96,31 +96,40 @@ public class RegisterFragment extends Fragment {
             String country = this.country.getSelectedItem().toString();
             String retypePassword = inputRetypePassword.getText().toString().trim();
             String date = controller.getDate();
+            String uniqueID = UUID.randomUUID().toString();
 
-            formCheck(name, surname, address, email, password);
+            progressBar.setVisibility(View.VISIBLE);
+            formCheck(firstName, lastName, address, email, password);
             String text = btnRegister.getText().toString();
             if (!text.equals(getString(R.string.update)))
             {
                 if (email.isEmpty() || password.isEmpty()) return;
                 firebaseApp.getAuth().createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(requireActivity(), task -> {
-                            // If sign in fails, display a message to the user.
-                            // If sign in succeeds the auth state listener will be notified and logic to handle the
-                            // signed-in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
+                        .addOnCompleteListener(task ->
+                        {
+                            if (!task.isSuccessful())
+                            {
                                 Toast.makeText(requireContext(), "Authentication failed." + task.getException(),
                                         Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                             else
                             {
-                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                                @SuppressLint("HardwareIds")
-                                String deviceToken = Settings.Secure.getString(requireContext().getApplicationContext()
-                                        .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                user = new User(name, surname, male, female, address, language, country,
-                                        email, password, retypePassword, deviceToken,date);
+                                String userId = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
+                                user = new User(firstName, lastName, male, female, address, language, country,
+                                        email, password, retypePassword, uniqueID, date);
+                                mDatabase.child(userId).setValue(user);
 
-                                registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
+//                                final Handler handler = new Handler();
+//                                handler.postDelayed(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        // Do something after 5s = 5000ms
+//
+                                        registerViewModel.goToAccount(navHostFragment);
+                                        progressBar.setVisibility(View.GONE);
+//                                    }
+//                                }, 5000);
                             }
                         });
             }
@@ -134,16 +143,16 @@ public class RegisterFragment extends Fragment {
                             if (task.isSuccessful())
                             {
                                 String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                                @SuppressLint("HardwareIds")
-                                String deviceToken = Settings.Secure.getString(requireContext().getApplicationContext()
-                                        .getContentResolver(), Settings.Secure.ANDROID_ID);
-                                user = new User(name, surname, male, female, address, language, country,
-                                         email, password, retypePassword, deviceToken, date);
-                                registerViewModel.goToAccount(userId, user, navHostFragment, mDatabase);
+                                user = new User(firstName, lastName, male, female, address, language, country,
+                                         email, password, retypePassword, uniqueID, date);
+                                mDatabase.child(userId).setValue(user);
+                                progressBar.setVisibility(View.GONE);
+                                registerViewModel.goToAccount(navHostFragment);
                             }
                             else
                             {
                                 Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
             }
@@ -206,45 +215,34 @@ public class RegisterFragment extends Fragment {
 
     private void getUserData()
     {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
-        String userid = Objects.requireNonNull(user).getUid();
-        DatabaseReference reference = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUser fbUser = firebaseApp.getAuth().getCurrentUser();
+        if (fbUser == null) return;
+        String userid = fbUser.getUid();
+        mDatabase.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
-                RegisterFragment.this.user.setName(dataSnapshot.getValue(User.class).getName());
-                RegisterFragment.this.user.setSurname(dataSnapshot.getValue(User.class).getSurname());
-                RegisterFragment.this.user.setMale(dataSnapshot.getValue(User.class).isMale());
-                RegisterFragment.this.user.setFemale(dataSnapshot.getValue(User.class).isFemale());
-                RegisterFragment.this.user.setAddress(dataSnapshot.getValue(User.class).getAddress());
-                RegisterFragment.this.user.setLanguage(dataSnapshot.getValue(User.class).getLanguage());
-                RegisterFragment.this.user.setCountry(dataSnapshot.getValue(User.class).getCountry());
-                RegisterFragment.this.user.setEmail(dataSnapshot.getValue(User.class).getEmail());
-                RegisterFragment.this.user.setPassword(dataSnapshot.getValue(User.class).getPassword());
-                RegisterFragment.this.user.setTelNumber(dataSnapshot.getValue(User.class).getTelNumber());
+                user = dataSnapshot.getValue(User.class);
+                assert user != null;
 
                 disAbleControls();
-                name.setText(RegisterFragment.this.user.getName());
-                surname.setText(RegisterFragment.this.user.getSurname());
-                male.setChecked(RegisterFragment.this.user.isMale());
-                female.setChecked(RegisterFragment.this.user.isFemale());
-                address.setText(RegisterFragment.this.user.getAddress());
+                name.setText(user.getFirstName());
+                surname.setText(user.getLastName());
+                male.setChecked(user.isMale());
+                female.setChecked(user.isFemale());
+                address.setText(user.getAddress());
 
                 ArrayAdapter<String> countryAdapter = (ArrayAdapter<String>) country.getAdapter();
-                int countryPosition = countryAdapter.getPosition(dataSnapshot.getValue(User.class).getCountry());
+                int countryPosition = countryAdapter.getPosition(user.getCountry());
                 country.setSelection(countryPosition);
 
                 ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
-                int langPosition = languageAdapter.getPosition(dataSnapshot.getValue(User.class).getCountry());
+                int langPosition = languageAdapter.getPosition(user.getCountry());
                 language.setSelection(langPosition);
 
-                inputEmail.setText(RegisterFragment.this.user.getEmail());
-                inputPassword.setText(RegisterFragment.this.user.getPassword());
-                inputRetypePassword.setText(RegisterFragment.this.user.getTelNumber());
+                inputEmail.setText(user.getEmail());
+                inputPassword.setText(user.getPassword());
+                inputRetypePassword.setText(user.getTelNumber());
                 btnRegister.setText(R.string.update);
             }
 
@@ -265,9 +263,7 @@ public class RegisterFragment extends Fragment {
         inputEmail.setEnabled(false);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void checkIfSignedIn() {
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
             if (firebaseApp.getAuth().getCurrentUser() == null) {
             }

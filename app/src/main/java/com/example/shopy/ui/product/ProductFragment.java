@@ -53,6 +53,7 @@ public class ProductFragment extends Fragment {
     private Product product;
     private final int PICK_IMAGE_REQUEST = 22;
     private long maxId;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -98,6 +99,7 @@ public class ProductFragment extends Fragment {
         inputCurrency = binding.txtCurrency;
         inputDescription = binding.txtDescription;
         inputPrice = binding.txtPrice;
+        progressBar = binding.progressBar;
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> uploadImage());
@@ -144,9 +146,7 @@ public class ProductFragment extends Fragment {
     {
         if(filePath != null)
         {
-            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
+            progressBar.setVisibility(View.VISIBLE);
 
             String title = inputTitle.getText().toString().trim();
             String category = this.category.getSelectedItem().toString();
@@ -157,7 +157,7 @@ public class ProductFragment extends Fragment {
 
             StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
-                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             Toast.makeText(requireContext(), "Uploaded", Toast.LENGTH_SHORT).show();
@@ -168,12 +168,12 @@ public class ProductFragment extends Fragment {
                         });
                     })
                     .addOnFailureListener(e -> {
-                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     })
                     .addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        progressBar.setProgress((int)progress);
                     });
         }
     }
