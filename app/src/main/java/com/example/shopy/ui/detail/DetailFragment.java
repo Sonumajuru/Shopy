@@ -24,6 +24,7 @@ import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.helper.FirebaseApp;
+import com.example.shopy.helper.PrefManager;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
@@ -36,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.shopy.R.id.navigation_login;
 import static com.example.shopy.R.id.navigation_profile;
@@ -48,6 +50,7 @@ public class DetailFragment extends Fragment {
     private FavDB favDB;
     private FirebaseApp firebaseApp;
     private Controller controller;
+    private PrefManager prefManager;
 
     private Product product;
     private FavItem favItem;
@@ -77,6 +80,7 @@ public class DetailFragment extends Fragment {
         View root = binding.getRoot();
 
         controller = Controller.getInstance(requireContext());
+        prefManager = new PrefManager(requireContext());
         firebaseApp = new FirebaseApp();
         product = new Product();
         favItemList = new ArrayList<>();
@@ -180,14 +184,39 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
+                counter = counter + 1;
+                controller.addBadge(counter);
                 if (product != null)
                 {
-                    counter = counter + 1;
-                    controller.addBadge(counter);
-                    favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
-                            product.getImageUrl(), product.getId(),
-                            "0", product.getPrice(), product.getRating(),
-                            product.getCurrency(), product.getUuid(), product.getCategory(), "1");
+//                    if (Objects.equals(prefManager.getProductPrefs(), product.getId()))
+//                    {
+//
+//                    }
+                    favDB.insertIntoTheDatabase(product.getTitle(),
+                            product.getShortDesc(),
+                            product.getImageUrl(),
+                            product.getId(),
+                            "0",
+                            product.getPrice(),
+                            product.getRating(),
+                            product.getCurrency(),
+                            product.getUuid(),
+                            product.getCategory(), "1");
+                    saveProdDetails(product.getId(), product.getUuid(), product.getTitle());
+                }
+                else
+                {
+                    favDB.insertIntoTheDatabase(favItem.getTitle(),
+                            favItem.getShortDesc(),
+                            favItem.getImageUrl(),
+                            favItem.getKey_id(),
+                            "0",
+                            favItem.getPrice(),
+                            favItem.getRating(),
+                            favItem.getCurrency(),
+                            favItem.getUuid(),
+                            favItem.getCategory(), "1");
+                    saveProdDetails(favItem.getKey_id(), favItem.getUuid(), favItem.getTitle());
                 }
             }
             else
@@ -275,6 +304,10 @@ public class DetailFragment extends Fragment {
             }
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void saveProdDetails(String id, String uuid, String name) {
+        prefManager.saveProductDetails(id, uuid, name);
     }
 
     @Override
