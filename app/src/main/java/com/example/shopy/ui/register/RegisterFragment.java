@@ -1,7 +1,6 @@
 package com.example.shopy.ui.register;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class RegisterFragment extends Fragment {
 
@@ -119,17 +121,8 @@ public class RegisterFragment extends Fragment {
                                 user = new User(firstName, lastName, male, female, address, language, country,
                                         email, password, retypePassword, uniqueID, date);
                                 mDatabase.child(userId).setValue(user);
-
-//                                final Handler handler = new Handler();
-//                                handler.postDelayed(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        // Do something after 5s = 5000ms
-//
-                                        registerViewModel.goToAccount(navHostFragment);
-                                        progressBar.setVisibility(View.GONE);
-//                                    }
-//                                }, 5000);
+                                registerViewModel.goToAccount(navHostFragment);
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
             }
@@ -215,35 +208,43 @@ public class RegisterFragment extends Fragment {
 
     private void getUserData()
     {
-        FirebaseUser fbUser = firebaseApp.getAuth().getCurrentUser();
-        if (fbUser == null) return;
-        String userid = fbUser.getUid();
-        mDatabase.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        if (firebaseApp.getAuth().getCurrentUser() == null) return;
+        String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
+        DatabaseReference ref = FirebaseDatabase
+                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("User");
+        ref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 user = dataSnapshot.getValue(User.class);
-                assert user != null;
 
-                disAbleControls();
-                name.setText(user.getFirstName());
-                surname.setText(user.getLastName());
-                male.setChecked(user.isMale());
-                female.setChecked(user.isFemale());
-                address.setText(user.getAddress());
+                if (user != null)
+                {
+                    disAbleControls();
+                    name.setText(user.getFirstName());
+                    surname.setText(user.getLastName());
+                    male.setChecked(user.isMale());
+                    female.setChecked(user.isFemale());
+                    address.setText(user.getAddress());
 
-                ArrayAdapter<String> countryAdapter = (ArrayAdapter<String>) country.getAdapter();
-                int countryPosition = countryAdapter.getPosition(user.getCountry());
-                country.setSelection(countryPosition);
+                    ArrayAdapter<String> countryAdapter = (ArrayAdapter<String>) country.getAdapter();
+                    int countryPosition = countryAdapter.getPosition(user.getCountry());
+                    country.setSelection(countryPosition);
 
-                ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
-                int langPosition = languageAdapter.getPosition(user.getCountry());
-                language.setSelection(langPosition);
+                    ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
+                    int langPosition = languageAdapter.getPosition(user.getCountry());
+                    language.setSelection(langPosition);
 
-                inputEmail.setText(user.getEmail());
-                inputPassword.setText(user.getPassword());
-                inputRetypePassword.setText(user.getTelNumber());
-                btnRegister.setText(R.string.update);
+                    inputEmail.setText(user.getEmail());
+                    inputPassword.setText(user.getPassword());
+                    inputRetypePassword.setText(user.getTelNumber());
+                    btnRegister.setText(R.string.update);
+                }
+                else
+                {
+                    getUserData();
+                }
             }
 
             @Override

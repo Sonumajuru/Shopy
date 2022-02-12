@@ -16,15 +16,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentAccountBinding;
 import com.example.shopy.helper.FirebaseApp;
-import com.example.shopy.model.ParentModel;
-import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
@@ -101,6 +98,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
+
         getUserData();
         return root;
     }
@@ -108,7 +106,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        NavController navController = navHostFragment.getNavController();
         switch (v.getId())
         {
             case orderBtn:
@@ -137,12 +134,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                username.setText(user.getFirstName());
-                userEmail.setText(user.getEmail());
-                accountViewModel.setLocale(requireActivity(), user.getLanguage());
+                if (user != null)
+                {
+                    username.setText(user.getFirstName());
+                    userEmail.setText(user.getEmail());
+                    accountViewModel.setLocale(requireActivity(), user.getLanguage());
+                }
+                else
+                {
+                    getUserData();
+                }
             }
-
             @Override
             public void onCancelled(@NotNull DatabaseError databaseError) {
 
