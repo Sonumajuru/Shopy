@@ -21,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-import static com.example.shopy.R.id.navigation_login;
-
 public class AccountViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> emailSender;
@@ -76,10 +74,6 @@ public class AccountViewModel extends AndroidViewModel {
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
             NavController navController = navHostFragment.getNavController();
             if (firebaseApp.getAuth().getCurrentUser() == null) {
-                navController.navigate(navigation_login);
-            }
-            else
-            {
                 navController.navigate(R.id.navigation_account);
             }
         });

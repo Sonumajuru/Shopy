@@ -267,9 +267,11 @@ public class RegisterFragment extends Fragment {
     public void checkIfSignedIn() {
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
             if (firebaseApp.getAuth().getCurrentUser() == null) {
+                btnRegister.setText(R.string.save);
             }
             else
             {
+                btnRegister.setText(R.string.update);
                 getUserData();
             }
         });

@@ -8,6 +8,7 @@
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.16041666666666668" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.16927083333333334" />
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.21965579710144928" />
+        <entry key="app/src/main/res/drawable/anim_out.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/babayy.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/drawable/badge_view.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/bage_circle.xml" value="0.2234375" />

@@ -25,7 +25,7 @@
             tools:ignore="MenuTitle"/>
 
     <item
-            android:id="@+id/navigation_login"
+            android:id="@+id/navigation_account"
             android:icon="@drawable/ic_account_black_24"
             tools:ignore="MenuTitle"/>
 

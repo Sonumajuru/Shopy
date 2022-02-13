@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
@@ -43,6 +44,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private TextView username;
     private TextView userEmail;
+    private Button btnSignOut;
+
+    private boolean isConnected = false;
 
     @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -61,14 +65,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         userEmail = binding.userEmail;
         Button btnManageItem = binding.manageBtn;
         Button btnSettings = binding.settingsBtn;
-        Button btnSignOut = binding.signOutBtn;
+        btnSignOut = binding.signOutBtn;
         linearLayout = binding.supportLayout;
         Button btnAddPay = binding.AddPaymentBtn;
 
         btnOrder.setOnClickListener(this);
         btnManageItem.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
+        btnAddPay.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
+
+        checkIfSignedIn();
 
         final TextView emailSender = binding.emailText;
         accountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
@@ -86,19 +93,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         final TextView appVersion = binding.appVersion;
         accountViewModel.getAppVersion().observe(getViewLifecycleOwner(), appVersion::setText);
 
-        btnAddPay.setOnClickListener(v -> Navigation.findNavController(v).navigate(navigation_bank));
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-
-                        //setEnabled(false); // call this to disable listener
-                        //remove(); // call to remove listener
-                        //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
-                        Navigation.findNavController(requireView()).navigate(navigation_home);
-                    }
-                });
-
-
         getUserData();
         return root;
     }
@@ -110,14 +104,33 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         {
             case orderBtn:
                 break;
+            case AddPayment_Btn:
+                if (!checkIfSignedIn()) {
+                    getLogin();
+                } else {
+                    Navigation.findNavController(v).navigate(R.id.navigation_bank);
+                }
+                break;
             case manage_Btn:
-                Navigation.findNavController(v).navigate(R.id.navigation_product);
+                if (!checkIfSignedIn()) {
+                    getLogin();
+                } else {
+                    Navigation.findNavController(v).navigate(R.id.navigation_product);
+                }
                 break;
             case settings_Btn:
-                Navigation.findNavController(v).navigate(R.id.navigation_register);
+                if (!checkIfSignedIn()) {
+                    getLogin();
+                } else {
+                    Navigation.findNavController(v).navigate(R.id.navigation_register);
+                }
                 break;
             case sign_out_Btn:
-                accountViewModel.signOut(navHostFragment);
+                if(btnSignOut.getText().toString().equals(getString(R.string.login))) {
+                    getLogin();
+                } else {
+                    accountViewModel.signOut(navHostFragment);
+                }
                 break;
         }
     }
@@ -152,10 +165,41 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    private void getLogin()
+    {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(
+                R.id.navigation_login,
+                null,
+                new NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_up)
+                        .setExitAnim(R.anim.slide_down)
+                        .build()
+        );
+    }
+
     private SpannableString setupHyperlink(String linkTextView) {
         SpannableString content = new SpannableString(linkTextView);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         return content;
+    }
+
+    public boolean checkIfSignedIn() {
+        firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
+            if (firebaseApp.getAuth().getCurrentUser() == null) {
+                int unicode = 0x1F60A;
+                btnSignOut.setText(R.string.login);
+                username.setText(R.string.welcome);
+                userEmail.setText(R.string.not_signed_in);
+                isConnected = false;
+            }
+            else
+            {
+                btnSignOut.setText(R.string.sign_out);
+                isConnected = true;
+            }
+        });
+        return isConnected;
     }
 
     @Override

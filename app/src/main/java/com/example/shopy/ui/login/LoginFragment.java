@@ -76,16 +76,16 @@ public class LoginFragment extends Fragment {
         signUp.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.navigation_register);
         });
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-
-                //setEnabled(false); // call this to disable listener
-                //remove(); // call to remove listener
-                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(requireView()).navigate(navigation_home);
-            }
-        });
+//        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//
+//                //setEnabled(false); // call this to disable listener
+//                //remove(); // call to remove listener
+//                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
+//                Navigation.findNavController(requireView()).navigate(navigation_home);
+//            }
+//        });
 
         return root;
     }

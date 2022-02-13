@@ -20,21 +20,12 @@ import java.util.Locale;
 
 public class Controller {
 
-    private FirebaseAuth mAuth;
     private View notificationsBadge;
     private BottomNavigationMenuView bottomNavigationMenuView;
     private static Context mContext;
     private static volatile Controller instance;
     private int badgeCount;
     private BottomNavigationView navView;
-
-    public FirebaseAuth getmAuth() {
-        return mAuth;
-    }
-
-    public void setmAuth(FirebaseAuth mAuth) {
-        this.mAuth = mAuth;
-    }
 
     public View getNotificationsBadge() {
         return notificationsBadge;
