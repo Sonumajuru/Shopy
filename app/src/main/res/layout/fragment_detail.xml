@@ -12,6 +12,7 @@
             android:id="@+id/scrollView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,15 +29,23 @@
                     android:layout_marginTop="5dp"
                     android:orientation="vertical">
 
-                <ImageView
+                <HorizontalScrollView
                         android:id="@+id/photo"
-                        android:layout_width="match_parent"
-                        android:layout_height="270dp"
+                        android:layout_width="389dp"
+                        android:layout_height="231dp"
                         android:orientation="horizontal"
+                        android:layout_marginTop="20dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:transitionName="photoToAnimate"
-                        tools:src="@tools:sample/backgrounds/scenic"/>
+                        tools:ignore="SpeakableTextPresentCheck">
+
+                    <LinearLayout
+                            android:id="@+id/imageLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"/>
+
+                </HorizontalScrollView>
 
                 <TextView
                         android:id="@+id/product_Detail"
@@ -115,8 +124,8 @@
 
                 <TextView
                         android:id="@+id/description"
-                        android:layout_width="411dp"
-                        android:layout_height="127dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/description"
@@ -129,22 +138,21 @@
     </ScrollView>
 
     <LinearLayout
+            android:id="@+id/linearLayout"
             android:orientation="horizontal"
             android:layout_width="370dp"
-            android:layout_height="80dp"
-            android:id="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="50dp"
             android:layout_marginBottom="16dp"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="34dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="34dp">
+            android:layout_marginEnd="34dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
                 android:id="@+id/addToCartBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:text="@string/add_to_cart"/>

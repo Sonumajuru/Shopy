@@ -3,16 +3,19 @@ package com.example.shopy.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class FavItem implements Parcelable {
 
     private String key_id;
     private String uuid;
+    public String seller;
     private String title;
     private String category;
     private double price;
     private String currency;
-    private String shortDesc;
-    private String imageUrl;
+    private String description;
+    private List<String> images;
     private double rating;
     private String favStatus;
 
@@ -56,6 +59,14 @@ public class FavItem implements Parcelable {
         this.price = price;
     }
 
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
     public String getCurrency() {
         return currency;
     }
@@ -64,20 +75,20 @@ public class FavItem implements Parcelable {
         this.currency = currency;
     }
 
-    public String getShortDesc() {
-        return shortDesc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setShortDesc(String shortDesc) {
-        this.shortDesc = shortDesc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public double getRating() {
@@ -96,17 +107,18 @@ public class FavItem implements Parcelable {
         this.favStatus = favStatus;
     }
 
-    public FavItem(String item_title, String shortDesc, String key_id, String item_image,
+    public FavItem(String item_title, String seller, String description, String key_id, List<String> item_image,
                    double item_price, double item_rating, String currency, String uuid, String category) {
         this.key_id = key_id;
         this.title = item_title;
+        this.seller = seller;
         this.price = item_price;
         this.rating = item_rating;
         this.uuid = uuid;
         this.category = category;
-        this.shortDesc = shortDesc;
+        this.description = description;
         this.currency = currency;
-        this.imageUrl = item_image;
+        this.images = item_image;
     }
 
     public static final Creator<FavItem> CREATOR = new Creator<FavItem>() {
@@ -123,24 +135,26 @@ public class FavItem implements Parcelable {
 
     protected FavItem(Parcel in) {
         key_id = in.readString();
+        seller = in.readString();
         title = in.readString();
         category = in.readString();
         price = in.readDouble();
         currency = in.readString();
-        shortDesc = in.readString();
-        imageUrl = in.readString();
+        description = in.readString();
+        in.readList(images, Product.class.getClassLoader());
         rating = in.readDouble();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(key_id);
+        dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);
         dest.writeDouble(price);
         dest.writeString(currency);
-        dest.writeString(shortDesc);
-        dest.writeString(imageUrl);
+        dest.writeString(description);
+        dest.writeList(images);
         dest.writeDouble(rating);
     }
 

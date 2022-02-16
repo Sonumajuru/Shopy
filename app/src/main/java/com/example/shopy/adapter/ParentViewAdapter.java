@@ -75,10 +75,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Electronics"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -88,10 +89,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Clothing"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -102,10 +104,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Phones"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -116,10 +119,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Home Appliances"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -130,10 +134,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Games"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -144,10 +149,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Books"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }
@@ -158,10 +164,11 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                 if (product.getCategory().equals("Computers"))
                 {
                     arrayList.add(new Product(product.getId(), product.getUuid(),
-                            product.getTitle(), product.getCategory(),
-                            product.getPrice(), product.getCurrency(),
-                            product.getShortDesc(), product.getImageUrl(),
-                            product.getRating(), product.getFavStatus()));
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
                 }
             }
         }

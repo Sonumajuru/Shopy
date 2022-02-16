@@ -45,17 +45,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale"})
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
         Product product = productList.get(position);
 
-        Uri uri = Uri.parse(product.getImageUrl());
+        Uri uri = Uri.parse(product.getImages().get(0));
         Picasso.with(mCtx).load(uri).into(holder.image);
         holder.title.setText(product.getTitle());
         holder.price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
 
         holder.image.setOnClickListener(view -> {
-            Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImageUrl());
+            Log.d(TAG, "onClick: clicked on an image: " + productList.get(position).getImages());
             Bundle bundle = new Bundle();
             bundle.putParcelable("product", product);
             Navigation.findNavController(view).navigate(R.id.navigation_detail, bundle);

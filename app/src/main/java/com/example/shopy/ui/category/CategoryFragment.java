@@ -66,7 +66,7 @@ public class CategoryFragment extends Fragment {
 
     private void getUserData()
     {
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("Product");
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

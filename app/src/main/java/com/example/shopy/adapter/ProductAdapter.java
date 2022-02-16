@@ -69,12 +69,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         //binding the data with the viewHolder views
         holder.textViewTitle.setText(product.getTitle());
-        holder.textViewShortDesc.setText(product.getShortDesc());
+        holder.textViewShortDesc.setText(product.getDescription());
         holder.textViewRating.setRating((float) product.getRating());
         holder.textViewPrice.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
-        Uri uri = Uri.parse(product.getImageUrl());
-        Picasso.with(mCtx).load(uri).into(holder.imageView);
 
+        Uri uri = Uri.parse(product.getImages().get(0));
+        Picasso.with(mCtx).load(uri).into(holder.imageView);
         holder.favBtn.setOnClickListener(v -> {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -83,8 +83,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 if (product.getFavStatus().equals("0"))
                 {
                     product.setFavStatus("1");
-                    favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
-                            product.getImageUrl(), product.getId(), product.getFavStatus(),
+                    favDB.insertIntoTheDatabase(product.getTitle(), product.getDescription(), product.getSeller(),
+                            product.getImages().get(0), product.getId(), product.getFavStatus(),
                             product.getPrice(), product.getRating(), product.getCurrency(),
                             product.getUuid(), product.getCategory(), "0");
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);

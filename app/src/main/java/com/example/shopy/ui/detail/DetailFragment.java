@@ -5,15 +5,11 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,17 +23,12 @@ import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.helper.PrefManager;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
-import com.example.shopy.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.shopy.R.id.navigation_login;
 import static com.example.shopy.R.id.navigation_profile;
@@ -61,7 +52,7 @@ public class DetailFragment extends Fragment {
     private TextView productOwner;
     private RatingBar ratingBar;
     private ImageView favBtn;
-    private ImageView productPhoto;
+    private LinearLayout layout;
     private Button btnAddToCart;
 
     private int counter;
@@ -88,7 +79,6 @@ public class DetailFragment extends Fragment {
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
-        productPhoto = binding.photo;
         btnAddToCart = binding.addToCartBtn;
         productOwner = binding.productOwner;
         favBtn = binding.favBtn;
@@ -96,6 +86,7 @@ public class DetailFragment extends Fragment {
         title = binding.title;
         ratingBar = binding.ratingBar;
         description = binding.description;
+        layout = binding.imageLayout;
 
         controller.setTextLength(title);
 
@@ -103,25 +94,40 @@ public class DetailFragment extends Fragment {
         product = getArguments().getParcelable("product");
         if (product != null)
         {
-            Uri uri = Uri.parse(product.getImageUrl());
-            Picasso.with(getActivity()).load(uri).into(productPhoto);
+            for (int i = 0; i < product.getImages().size(); i++)
+            {
+                ImageView imgView = new ImageView(requireContext());
+                imgView.setAdjustViewBounds(true);
+                layout.addView(imgView);
+                Picasso.with(requireContext()).load(product.getImages().get(i)).into(imgView);
+            }
+
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
             ratingBar.setRating((float) product.getRating());
-            description.setText(product.getShortDesc());
-            getID(product.getUuid());
+            description.setText(product.getDescription());
+            Resources res = getResources();
+            @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
+            String text = String.format(res.getString(R.string.product_owner), product.getSeller());
+            productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            productOwner.setText(text + ": " + product.getSeller());
             uid = product.getUuid();
         }
         else
         {
             favItem = getArguments().getParcelable("favItem");
-            Uri uri = Uri.parse(favItem.getImageUrl());
-            Picasso.with(getActivity()).load(uri).into(productPhoto);
+            for (int i = 0; i < favItem.getImages().size(); i++)
+            {
+                ImageView imgView = new ImageView(requireContext());
+                imgView.setAdjustViewBounds(true);
+                layout.addView(imgView);
+                Picasso.with(requireContext()).load(favItem.getImages().get(i)).into(imgView);
+            }
+
             price.setText(favItem.getPrice() + " " + favItem.getCurrency());
             title.setText(favItem.getTitle());
             ratingBar.setRating((float) favItem.getRating());
-            description.setText(favItem.getShortDesc());
-            getID(favItem.getUuid());
+            description.setText(favItem.getDescription());
             uid = favItem.getUuid();
         }
 
@@ -144,10 +150,17 @@ public class DetailFragment extends Fragment {
                     if (product.getFavStatus().equals("0"))
                     {
                         product.setFavStatus("1");
-                        favDB.insertIntoTheDatabase(product.getTitle(), product.getShortDesc(),
-                                product.getImageUrl(), product.getId(),
-                                product.getFavStatus(), product.getPrice(), product.getRating(),
-                                product.getCurrency(), product.getUuid(), product.getCategory(), "false");
+                        favDB.insertIntoTheDatabase(product.getTitle(),
+                                product.getDescription(),
+                                product.getSeller(),
+                                product.getImages(),
+                                product.getId(),
+                                product.getFavStatus(),
+                                product.getPrice(),
+                                product.getRating(),
+                                product.getCurrency(),
+                                product.getUuid(),
+                                product.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     }
                     else
@@ -162,10 +175,17 @@ public class DetailFragment extends Fragment {
                     if (item_fav_status != null && item_fav_status.equals("0"))
                     {
                         favItem.setFavStatus("1");
-                        favDB.insertIntoTheDatabase(favItem.getTitle(), favItem.getShortDesc(),
-                                favItem.getImageUrl(), favItem.getKey_id(),
-                                favItem.getFavStatus(), favItem.getPrice(), favItem.getRating(),
-                                favItem.getCurrency(), favItem.getUuid(), favItem.getCategory(), "false");
+                        favDB.insertIntoTheDatabase(favItem.getTitle(),
+                                favItem.getDescription(),
+                                favItem.getCategory(),
+                                favItem.getImages(),
+                                favItem.getKey_id(),
+                                favItem.getFavStatus(),
+                                favItem.getPrice(),
+                                favItem.getRating(),
+                                favItem.getCurrency(),
+                                favItem.getUuid(),
+                                favItem.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     }
                     {
@@ -188,13 +208,10 @@ public class DetailFragment extends Fragment {
                 controller.addBadge(counter);
                 if (product != null)
                 {
-//                    if (Objects.equals(prefManager.getProductPrefs(), product.getId()))
-//                    {
-//
-//                    }
                     favDB.insertIntoTheDatabase(product.getTitle(),
-                            product.getShortDesc(),
-                            product.getImageUrl(),
+                            product.getDescription(),
+                            product.getSeller(),
+                            product.getImages(),
                             product.getId(),
                             "0",
                             product.getPrice(),
@@ -207,8 +224,9 @@ public class DetailFragment extends Fragment {
                 else
                 {
                     favDB.insertIntoTheDatabase(favItem.getTitle(),
-                            favItem.getShortDesc(),
-                            favItem.getImageUrl(),
+                            favItem.getDescription(),
+                            favItem.getSeller(),
+                            favItem.getImages(),
                             favItem.getKey_id(),
                             "0",
                             favItem.getPrice(),
@@ -243,14 +261,15 @@ public class DetailFragment extends Fragment {
                 item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
+                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE)));
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, desc, id, image, price, rating, currency, uuid, category);
+                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
+                FavItem favItem = new FavItem(title, seller, desc, id, image, price, rating, currency, uuid, category);
                 favItemList.add(favItem);
             }
         } finally {
@@ -279,31 +298,6 @@ public class DetailFragment extends Fragment {
                 favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
             }
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void getID(String uid)
-    {
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("User").child(uid).getRef();
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                Resources res = getResources();
-                @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-                String text = String.format(res.getString(R.string.product_owner), user.getFirstName());
-                productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                productOwner.setText(text + ": " + user.getFirstName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
-            }
-        };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
 
     private void saveProdDetails(String id, String uuid, String name) {

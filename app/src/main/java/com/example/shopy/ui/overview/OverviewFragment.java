@@ -74,7 +74,7 @@ public class OverviewFragment extends Fragment {
     private void getUserData()
     {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("Product");
+        DatabaseReference eventsRef = rootRef.child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

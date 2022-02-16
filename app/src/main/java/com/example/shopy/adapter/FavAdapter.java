@@ -53,7 +53,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         holder.textViewRating.setRating((float) favItemList.get(position).getRating());
         holder.textViewPrice.setText(favItemList.get(position).getPrice() + " " + favItemList.get(position).getCurrency());
 
-        Picasso.with(context).load(favItemList.get(position).getImageUrl()).into(holder.imageView);
+        Picasso.with(context).load(favItemList.get(position).getImages().get(0)).into(holder.imageView);
         holder.imageView.setOnClickListener(v -> {
             callback.onItemClicked(position, favItem);
         });

@@ -14,6 +14,7 @@ public class FavDB extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
     public static String ITEM_TITLE = "itemTitle";
+    public static String ITEM_SELLER = "itemSeller";
     public static String ITEM_PRICE =  "itemPrice";
     public static String ITEM_RATING =  "itemRating";
     public static String ITEM_CURRENCY =  "itemCurrency";
@@ -25,7 +26,7 @@ public class FavDB extends SQLiteOpenHelper {
     public static String CART_STATUS = "cStatus";
     // dont forget write this spaces
     private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-            + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT," + ITEM_PRICE
+            + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT,"+ ITEM_SELLER + " TEXT," + ITEM_PRICE
             + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING + " TEXT," + CART_STATUS
             + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE + " TEXT," + ITEM_CATEGORY
             + " TEXT," + ITEM_DESCRIPTION + " TEXT," + FAVORITE_STATUS+" TEXT)";
@@ -56,7 +57,7 @@ public class FavDB extends SQLiteOpenHelper {
     }
 
     // insert data into database
-    public void insertIntoTheDatabase(String item_title, String desc, String item_image, String id,
+    public void insertIntoTheDatabase(String item_title, String desc, String seller, String item_image, String id,
                                       String fav_status, double item_price, double item_rating,
                                       String currency, String uuid, String category, String cart_status) {
         SQLiteDatabase db;
@@ -72,6 +73,7 @@ public class FavDB extends SQLiteOpenHelper {
         cv.put(CART_STATUS, cart_status);
         cv.put(ITEM_UUID, uuid);
         cv.put(KEY_ID, id);
+        cv.put(ITEM_SELLER, seller);
         cv.put(FAVORITE_STATUS, fav_status);
         db.insert(TABLE_NAME,null, cv);
         Log.d("FavDB Status", item_title + ", favstatus - "+fav_status+" - . " + cv);

@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.shopy.R.id.navigation_detail;
@@ -75,14 +76,15 @@ public class FavoriteFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
+                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE)));
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
+                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, desc, id, image, price, rating, currency, uuid, category);
+                FavItem favItem = new FavItem(title, seller, desc, id, image, price, rating, currency, uuid, category);
                 favItemList.add(favItem);
             }
         } finally {

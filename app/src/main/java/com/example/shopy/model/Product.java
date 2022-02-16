@@ -2,19 +2,24 @@ package com.example.shopy.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Product implements Parcelable {
 
     private String id;
     private String uuid;
+    public String seller;
     private String title;
     private String category;
     private double price;
     private String currency;
-    private String shortDesc;
-    private String imageUrl;
+    private String description;
+    private List<String> images;
     private double rating;
     private String favStatus;
     private List<Product> productList;
@@ -59,24 +64,32 @@ public class Product implements Parcelable {
         this.price = price;
     }
 
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
     public String getCurrency() {
         return currency;
     }
 
-    public String getShortDesc() {
-        return shortDesc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setShortDesc(String shortDesc) {
-        this.shortDesc = shortDesc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public double getRating() {
@@ -106,17 +119,18 @@ public class Product implements Parcelable {
     public Product() {
     }
 
-    public Product(String id, String uuid, String title, String category, double price, String currency,
-                   String shortDesc, String imageUrl, double rating, String favStatus) {
+    public Product(String id, String uuid, String seller, String title, String category, double price, String currency,
+                   String description, List<String> images, double rating, String favStatus) {
 
         this.id = id;
         this.uuid = uuid;
         this.title = title;
+        this.seller = seller;
         this.category = category;
         this.price = price;
         this.currency = currency;
-        this.shortDesc = shortDesc;
-        this.imageUrl = imageUrl;
+        this.description = description;
+        this.images = images;
         this.rating = rating;
         this.favStatus = favStatus;
         productList = new ArrayList<>();
@@ -136,29 +150,50 @@ public class Product implements Parcelable {
 
     protected Product(Parcel in) {
         id = in.readString();
+        seller = in.readString();
         title = in.readString();
         category = in.readString();
         price = in.readDouble();
         currency = in.readString();
-        shortDesc = in.readString();
-        imageUrl = in.readString();
+        description = in.readString();
+        in.readList(images, Product.class.getClassLoader());
         rating = in.readDouble();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(id);
+        dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);
         dest.writeDouble(price);
         dest.writeString(currency);
-        dest.writeString(shortDesc);
-        dest.writeString(imageUrl);
+        dest.writeString(description);
+        dest.writeList(images);
         dest.writeDouble(rating);
     }
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    // [START post_to_map]
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("uuid", uuid);
+        result.put("seller", seller);
+        result.put("title", title);
+        result.put("category", category);
+        result.put("price", price);
+        result.put("currency", currency);
+        result.put("description", description);
+        result.put("images", images);
+        result.put("rating", rating);
+        result.put("favStatus", favStatus);
+
+        return result;
     }
 }

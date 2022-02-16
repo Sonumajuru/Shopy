@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     @SuppressLint("NotifyDataSetChanged")
     private void getProducts()
     {
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("Product");
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
