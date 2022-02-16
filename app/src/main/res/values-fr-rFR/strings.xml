@@ -83,9 +83,9 @@
     <string name="subtotal">Sous-total</string>
     <string name="registration">Inscription</string>
     <string name="title_bank">Banque</string>
-    <string name="products">Mon stock</string>
     <string name="choose">Choisir</string>
     <string name="welcome">Bienvenue</string>
     <string name="not_signed_in">Vous n\'êtes pas connecté</string>
     <string name="upload">Monter</string>
+    <string name="stocks">Actions</string>
 </resources>
