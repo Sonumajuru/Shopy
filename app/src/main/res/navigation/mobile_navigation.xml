@@ -93,7 +93,7 @@
     <fragment
             android:id="@+id/navigation_bank"
             android:name="com.example.shopy.ui.bank.BankFragment"
-            android:label="@string/Bank"
+            android:label="@string/title_bank"
             tools:layout="@layout/fragment_bank"/>
 
 </navigation>

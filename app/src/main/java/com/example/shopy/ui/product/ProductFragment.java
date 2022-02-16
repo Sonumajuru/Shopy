@@ -1,6 +1,6 @@
 package com.example.shopy.ui.product;
 
-import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,9 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -35,10 +37,9 @@ public class ProductFragment extends Fragment {
     private FragmentProductBinding binding;
     private Controller controller;
 
-    private ImageView imageView;
-    private ImageView btnChoose;
-    private ImageView btnUpload;
-    private ImageView btnView;
+    private Button btnChoose;
+    private Button btnUpload;
+    private Button btnView;
     private Spinner category;
     private RatingBar ratingBar;
     private TextView inputCurrency;
@@ -46,7 +47,8 @@ public class ProductFragment extends Fragment {
     private EditText inputPrice;
     private EditText inputDescription;
 
-    private Uri filePath;
+    private Uri imageUri;
+    private ArrayList<Uri> fileUris;
     private DatabaseReference mDatabase;
     private StorageReference storageReference;
 
@@ -54,6 +56,7 @@ public class ProductFragment extends Fragment {
     private final int PICK_IMAGE_REQUEST = 22;
     private long maxId;
     private ProgressBar progressBar;
+    private LinearLayout layout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -89,7 +92,6 @@ public class ProductFragment extends Fragment {
         product = new Product();
         controller = Controller.getInstance(requireContext());
 
-        imageView = binding.imgViewProduct;
         btnChoose = binding.btnChoose;
         btnUpload = binding.btnUpload;
         btnView = binding.btnView;
@@ -100,6 +102,7 @@ public class ProductFragment extends Fragment {
         inputDescription = binding.txtDescription;
         inputPrice = binding.txtPrice;
         progressBar = binding.progressBar;
+        layout = binding.imageLayout;
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> uploadImage());
@@ -121,30 +124,63 @@ public class ProductFragment extends Fragment {
     {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null )
-        {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (IOException e)
+        try {
+            fileUris = new ArrayList<>();
+            if(resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST)
             {
-                e.printStackTrace();
+                if(data.getClipData() != null)
+                {
+                    int count = data.getClipData().getItemCount();
+                    for(int i = 0; i < count; i++) {
+                        //do something with the image (save it to some directory or whatever you need to do with it here)
+                        ClipData.Item item = data.getClipData().getItemAt(i);
+                        Uri uri = item.getUri();
+                        fileUris.add(uri); /// add the images to list
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), fileUris.get(i)); //pass    the images with position
+//                        imageView.setImageBitmap(bitmap);
+                    }
+                    imageSet();
+                }
+                else if(data.getData() != null) {
+                    imageUri = data.getData();
+                    //do something with the image (save it to some directory or whatever you need to do with it here)
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
+//                    imageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void imageSet()
+    {
+        for(int i=0; i < fileUris.size(); i++)
+        {
+            if (i >= 4) return;
+            else {
+                ImageView imgView = new ImageView(requireContext());
+                imgView.setAdjustViewBounds(true);
+                layout.addView(imgView);
+                Picasso.with(requireContext()).load(fileUris.get(i)).into(imgView);
             }
         }
     }
 
     private void uploadImage()
     {
-        if(filePath != null)
+        if(imageUri != null)
         {
             progressBar.setVisibility(View.VISIBLE);
 
@@ -156,7 +192,7 @@ public class ProductFragment extends Fragment {
             String currency = inputCurrency.getText().toString().trim();
 
             StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
+            ref.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
                         progressBar.setVisibility(View.GONE);
 
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {

@@ -94,7 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartItemList.size();
     }
 
-    static class CartViewHolder extends RecyclerView.ViewHolder{
+    public class CartViewHolder extends RecyclerView.ViewHolder{
         private final ImageView image;
         private final ImageView deletbtn;
         private final ImageView minusbtn;
@@ -112,6 +112,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             minusbtn = itemView.findViewById(R.id.idMinusICon);
             plusbtn = itemView.findViewById(R.id.idPlusIcon);
             deletbtn = itemView.findViewById(R.id.idDeleteICon);
+
+            controller.setTextLength(prname);
         }
     }
 }

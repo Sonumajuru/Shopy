@@ -22,7 +22,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-            <RelativeLayout
+            <HorizontalScrollView
                     android:id="@+id/layout_image"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
@@ -31,17 +31,13 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp">
 
-                <ImageView
-                        android:id="@+id/imgView_product"
-                        android:layout_width="match_parent"
+                <LinearLayout
+                        android:id="@+id/imageLayout"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:contentDescription="@string/product_image"
-                        tools:layout_conversion_absoluteHeight="300dp"
-                        tools:layout_editor_absoluteY="20dp"
-                        tools:layout_editor_absoluteX="10dp"
-                        tools:layout_conversion_absoluteWidth="392dp"/>
+                        android:orientation="horizontal"/>
 
-            </RelativeLayout>
+            </HorizontalScrollView>
 
             <ProgressBar
                     android:id="@+id/progressBar"
@@ -61,32 +57,29 @@
                     android:layout_marginEnd="5dp"
                     android:gravity="center">
 
-                <ImageView
+                <Button
                         android:id="@+id/btnChoose"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="48dp"
                         android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_normal_background"
-                        android:src="@drawable/ic_choose_file_black_24"/>
+                        android:text="@string/choose"
+                        android:layout_weight="1"/>
 
-                <ImageView
+                <Button
                         android:id="@+id/btnUpload"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="48dp"
                         android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_normal_background"
-                        android:src="@drawable/ic_file_upload_black_24"/>
+                        android:text="@string/upload"
+                        android:layout_weight="1"/>
 
-                <ImageView
+                <Button
                         android:id="@+id/btnView"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="48dp"
                         android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_normal_background"
-                        android:src="@drawable/ic_folder_open_black_24"/>
+                        android:text="@string/stocks"
+                        android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -216,7 +209,7 @@
                 <EditText
                         android:id="@+id/txt_Description"
                         android:layout_width="match_parent"
-                        android:layout_height="125dp"
+                        android:layout_height="105dp"
                         android:inputType="textImeMultiLine|textMultiLine"
                         android:hint="@string/description"
                         android:gravity="top|start"

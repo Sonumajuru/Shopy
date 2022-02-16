@@ -81,7 +81,10 @@
     <string name="shipping_cost">Shipping Cost</string>
     <string name="total">Total</string>
     <string name="registration">Registration</string>
-    <string name="Bank">title_bank</string>
+    <string name="title_bank">Bank</string>
     <string name="not_signed_in">You are not signed in</string>
     <string name="welcome">Welcome</string>
+    <string name="choose">Choose</string>
+    <string name="upload">Upload</string>
+    <string name="stocks">My Stock</string>
 </resources>
