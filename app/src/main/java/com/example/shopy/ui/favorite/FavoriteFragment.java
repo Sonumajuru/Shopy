@@ -24,10 +24,13 @@ import com.example.shopy.db.FavDB;
 import com.example.shopy.model.FavItem;
 import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.shopy.R.id.navigation_detail;
 
@@ -40,6 +43,7 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<FavItem> favItemList;
     private FavAdapter favAdapter;
+    private List<String> images;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -49,6 +53,7 @@ public class FavoriteFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         favItemList = new ArrayList<>();
+        images = new ArrayList<>();
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -66,7 +71,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     @SuppressLint("Range")
-    private void loadData() {
+    private void loadData(){
         if (favItemList != null) {
             favItemList.clear();
         }
@@ -76,7 +81,11 @@ public class FavoriteFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE)));
+                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
+                JSONArray jArray = json.optJSONArray("images");
+                for (int i = 0; i < jArray.length(); i++) {
+                    images.add(jArray.optString(i));  //<< jget value from jArray
+                }
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
@@ -84,9 +93,11 @@ public class FavoriteFragment extends Fragment {
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, seller, desc, id, image, price, rating, currency, uuid, category);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category);
                 favItemList.add(favItem);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (cursor != null && cursor.isClosed())
                 cursor.close();

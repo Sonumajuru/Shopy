@@ -22,6 +22,9 @@ import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -33,6 +36,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public FragmentCallback callback;
     private final Controller controller;
     private final List<Product> productList;
+    private JSONObject json;
+    private String imageList;
 
     //getting the context and product list with constructor
     public ProductAdapter(Context mCtx, List<Product> productList, FragmentCallback callback) {
@@ -40,6 +45,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         controller = Controller.getInstance(mCtx);
         this.productList = productList;
         this.callback = callback;
+        json = new JSONObject();
     }
 
     @SuppressLint("InflateParams")
@@ -82,11 +88,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 //User is Logged in
                 if (product.getFavStatus().equals("0"))
                 {
+                    try {
+                        json.put("images", new JSONArray(product.getImages()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    imageList = json.toString();
                     product.setFavStatus("1");
                     favDB.insertIntoTheDatabase(product.getTitle(), product.getDescription(), product.getSeller(),
-                            product.getImages().get(0), product.getId(), product.getFavStatus(),
+                            imageList, product.getId(), product.getFavStatus(),
                             product.getPrice(), product.getRating(), product.getCurrency(),
-                            product.getUuid(), product.getCategory(), "0");
+                            product.getUuid(), product.getCategory(), product.getFavStatus());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                 }
                 else

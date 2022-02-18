@@ -23,6 +23,7 @@ import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.CartItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShoppingCartFragment extends Fragment {
@@ -82,16 +83,17 @@ public class ShoppingCartFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE));
+                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
+                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String cartStatus = cursor.getString(cursor.getColumnIndex(FavDB.CART_STATUS));
                 this.currency = currency;
-                CartItem cartItem = new CartItem(title, desc, id, image, price, rating, currency, uuid, category, cartStatus);
+                CartItem cartItem = new CartItem(title, seller, desc, id, image, price, rating, currency, uuid, category, cartStatus);
                 cartItemList.add(cartItem);
             }
         } finally {

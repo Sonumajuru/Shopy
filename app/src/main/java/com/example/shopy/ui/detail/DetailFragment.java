@@ -15,20 +15,30 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
+import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.helper.PrefManager;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.FavItem;
+import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.shopy.R.id.navigation_login;
 import static com.example.shopy.R.id.navigation_profile;
@@ -43,6 +53,7 @@ public class DetailFragment extends Fragment {
     private Controller controller;
     private PrefManager prefManager;
 
+    private JSONObject json;
     private Product product;
     private FavItem favItem;
 
@@ -58,7 +69,8 @@ public class DetailFragment extends Fragment {
     private int counter;
     private String uid;
     private String item_fav_status = null;
-
+    private String imageList;
+    private List<String> images;
     private List<FavItem> favItemList;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
@@ -76,6 +88,8 @@ public class DetailFragment extends Fragment {
         product = new Product();
         favItemList = new ArrayList<>();
         favDB = new FavDB(getActivity());
+        json = new JSONObject();
+        images = new ArrayList<>();
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
@@ -106,16 +120,18 @@ public class DetailFragment extends Fragment {
             title.setText(product.getTitle());
             ratingBar.setRating((float) product.getRating());
             description.setText(product.getDescription());
+            uid = product.getUuid();
+
             Resources res = getResources();
             @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
             String text = String.format(res.getString(R.string.product_owner), product.getSeller());
             productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             productOwner.setText(text + ": " + product.getSeller());
-            uid = product.getUuid();
         }
         else
         {
             favItem = getArguments().getParcelable("favItem");
+
             for (int i = 0; i < favItem.getImages().size(); i++)
             {
                 ImageView imgView = new ImageView(requireContext());
@@ -124,11 +140,17 @@ public class DetailFragment extends Fragment {
                 Picasso.with(requireContext()).load(favItem.getImages().get(i)).into(imgView);
             }
 
-            price.setText(favItem.getPrice() + " " + favItem.getCurrency());
+            price.setText(String.format("%.2f", favItem.getPrice()) + " " + favItem.getCurrency());
             title.setText(favItem.getTitle());
             ratingBar.setRating((float) favItem.getRating());
             description.setText(favItem.getDescription());
             uid = favItem.getUuid();
+
+            Resources res = getResources();
+            @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
+            String text = String.format(res.getString(R.string.product_owner), favItem.getSeller());
+            productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            productOwner.setText(text + ": " + favItem.getSeller());
         }
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -149,11 +171,18 @@ public class DetailFragment extends Fragment {
                 {
                     if (product.getFavStatus().equals("0"))
                     {
+                        try {
+                            json.put("images", new JSONArray(product.getImages()));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        imageList = json.toString();
+
                         product.setFavStatus("1");
                         favDB.insertIntoTheDatabase(product.getTitle(),
                                 product.getDescription(),
                                 product.getSeller(),
-                                product.getImages(),
+                                imageList,
                                 product.getId(),
                                 product.getFavStatus(),
                                 product.getPrice(),
@@ -174,11 +203,17 @@ public class DetailFragment extends Fragment {
                 {
                     if (item_fav_status != null && item_fav_status.equals("0"))
                     {
+                        try {
+                            json.put("images", new JSONArray(favItem.getImages()));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        imageList = json.toString();
                         favItem.setFavStatus("1");
                         favDB.insertIntoTheDatabase(favItem.getTitle(),
                                 favItem.getDescription(),
                                 favItem.getCategory(),
-                                favItem.getImages(),
+                                imageList,
                                 favItem.getKey_id(),
                                 favItem.getFavStatus(),
                                 favItem.getPrice(),
@@ -204,14 +239,20 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
+                try {
+                    json.put("images", new JSONArray(product.getImages()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 counter = counter + 1;
                 controller.addBadge(counter);
                 if (product != null)
                 {
+                    imageList = json.toString();
                     favDB.insertIntoTheDatabase(product.getTitle(),
                             product.getDescription(),
                             product.getSeller(),
-                            product.getImages(),
+                            imageList,
                             product.getId(),
                             "0",
                             product.getPrice(),
@@ -226,7 +267,7 @@ public class DetailFragment extends Fragment {
                     favDB.insertIntoTheDatabase(favItem.getTitle(),
                             favItem.getDescription(),
                             favItem.getSeller(),
-                            favItem.getImages(),
+                            imageList,
                             favItem.getKey_id(),
                             "0",
                             favItem.getPrice(),
@@ -261,7 +302,11 @@ public class DetailFragment extends Fragment {
                 item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE)));
+                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
+                JSONArray jArray = json.optJSONArray("images");
+                for (int i = 0; i < jArray.length(); i++) {
+                    images.add(jArray.optString(i));  //<< jget value from jArray
+                }
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
@@ -269,9 +314,11 @@ public class DetailFragment extends Fragment {
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                FavItem favItem = new FavItem(title, seller, desc, id, image, price, rating, currency, uuid, category);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category);
                 favItemList.add(favItem);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (cursor != null && cursor.isClosed())
                 cursor.close();

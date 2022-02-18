@@ -3,16 +3,19 @@ package com.example.shopy.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class CartItem implements Parcelable {
 
     private String key_id;
     private String uuid;
+    public String seller;
     private String title;
     private String category;
     private double price;
     private String currency;
-    private String shortDesc;
-    private String imageUrl;
+    private String description;
+    private List<String> images;
     private double rating;
     private String favStatus;
     private String cartStatus;
@@ -57,6 +60,14 @@ public class CartItem implements Parcelable {
         this.price = price;
     }
 
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
     public String getCurrency() {
         return currency;
     }
@@ -65,20 +76,20 @@ public class CartItem implements Parcelable {
         this.currency = currency;
     }
 
-    public String getShortDesc() {
-        return shortDesc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setShortDesc(String shortDesc) {
-        this.shortDesc = shortDesc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public double getRating() {
@@ -108,16 +119,17 @@ public class CartItem implements Parcelable {
     public CartItem() {
     }
 
-    public CartItem(String item_title, String shortDesc, String key_id, String item_image,
+    public CartItem(String item_title, String seller, String description, String key_id, List<String> item_image,
                     double item_price, double item_rating, String currency, String uuid, String category, String cartStatus) {
         this.uuid = uuid;
         this.title = item_title;
-        this.shortDesc = shortDesc;
+        this.seller = seller;
+        this.description = description;
         this.key_id = key_id;
         this.category = category;
         this.price = item_price;
         this.currency = currency;
-        this.imageUrl = item_image;
+        this.images = item_image;
         this.rating = item_rating;
         this.favStatus = favStatus;
         this.cartStatus = cartStatus;
@@ -137,12 +149,13 @@ public class CartItem implements Parcelable {
 
     protected CartItem(Parcel in) {
         key_id = in.readString();
+        seller = in.readString();
         title = in.readString();
         category = in.readString();
         price = in.readDouble();
         currency = in.readString();
-        shortDesc = in.readString();
-        imageUrl = in.readString();
+        description = in.readString();
+        in.readList(images, Product.class.getClassLoader());
         rating = in.readDouble();
         cartStatus = in.readString();
     }
@@ -150,12 +163,13 @@ public class CartItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(key_id);
+        dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);
         dest.writeDouble(price);
         dest.writeString(currency);
-        dest.writeString(shortDesc);
-        dest.writeString(imageUrl);
+        dest.writeString(description);
+        dest.writeList(images);
         dest.writeDouble(rating);
         dest.writeString(cartStatus);
     }

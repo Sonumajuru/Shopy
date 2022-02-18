@@ -50,7 +50,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.prname.setText(cartItem.getTitle());
         holder.prprice.setText(cartItem.getPrice() + " " + cartItem.getCurrency());
-        Uri uri = Uri.parse(cartItem.getImageUrl());
+        Uri uri = Uri.parse(cartItem.getImages().get(0));
         Picasso.with(mCtx).load(uri).into(holder.image);
         count = controller.getBadgeCount();
         holder.prqtty.setText(String.valueOf(count));

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.List;
+
 public class FavDB extends SQLiteOpenHelper {
 
     private static int DB_VERSION = 1;
@@ -62,21 +64,21 @@ public class FavDB extends SQLiteOpenHelper {
                                       String currency, String uuid, String category, String cart_status) {
         SQLiteDatabase db;
         db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(ITEM_TITLE, item_title);
-        cv.put(ITEM_IMAGE, item_image);
-        cv.put(ITEM_PRICE, item_price);
-        cv.put(ITEM_RATING, item_rating);
-        cv.put(ITEM_CURRENCY, currency);
-        cv.put(ITEM_DESCRIPTION, desc);
-        cv.put(ITEM_CATEGORY, category);
-        cv.put(CART_STATUS, cart_status);
-        cv.put(ITEM_UUID, uuid);
-        cv.put(KEY_ID, id);
-        cv.put(ITEM_SELLER, seller);
-        cv.put(FAVORITE_STATUS, fav_status);
-        db.insert(TABLE_NAME,null, cv);
-        Log.d("FavDB Status", item_title + ", favstatus - "+fav_status+" - . " + cv);
+        ContentValues values = new ContentValues();
+        values.put(ITEM_TITLE, item_title);
+        values.put(ITEM_IMAGE, item_image);
+        values.put(ITEM_PRICE, item_price);
+        values.put(ITEM_RATING, item_rating);
+        values.put(ITEM_CURRENCY, currency);
+        values.put(ITEM_DESCRIPTION, desc);
+        values.put(ITEM_CATEGORY, category);
+        values.put(CART_STATUS, cart_status);
+        values.put(ITEM_UUID, uuid);
+        values.put(KEY_ID, id);
+        values.put(ITEM_SELLER, seller);
+        values.put(FAVORITE_STATUS, fav_status);
+        db.insert(TABLE_NAME,null, values);
+        Log.d("FavDB Status", item_title + ", favstatus - "+fav_status+" - . " + values);
     }
 
     // read all data
