@@ -111,7 +111,8 @@ public class DetailFragment extends Fragment {
             for (int i = 0; i < product.getImages().size(); i++)
             {
                 ImageView imgView = new ImageView(requireContext());
-                imgView.setAdjustViewBounds(true);
+                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
                 layout.addView(imgView);
                 Picasso.with(requireContext()).load(product.getImages().get(i)).into(imgView);
             }
@@ -135,7 +136,8 @@ public class DetailFragment extends Fragment {
             for (int i = 0; i < favItem.getImages().size(); i++)
             {
                 ImageView imgView = new ImageView(requireContext());
-                imgView.setAdjustViewBounds(true);
+                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
                 layout.addView(imgView);
                 Picasso.with(requireContext()).load(favItem.getImages().get(i)).into(imgView);
             }

@@ -18,11 +18,25 @@
 <!--    </item>-->
 <!--</layer-list>-->
 
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--&lt;!&ndash;    <item android:drawable="@drawable/splash_background"/>&ndash;&gt;-->
+<!--    <item android:drawable="@color/app_background"/>-->
+<!--    <item android:gravity="center"-->
+<!--          android:width="300dp"-->
+<!--          android:height="300dp"-->
+<!--          android:drawable="@drawable/logo" />-->
+<!--</layer-list>-->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<!--    <item android:drawable="@drawable/splash_background"/>-->
+
     <item android:drawable="@color/app_background"/>
     <item android:gravity="center"
           android:width="300dp"
           android:height="300dp"
           android:drawable="@drawable/logo" />
+
+<!--    <item-->
+<!--            android:drawable="@drawable/ic_company_mark"-->
+<!--            android:gravity="bottom|center" />-->
+
 </layer-list>

@@ -164,7 +164,8 @@ public class ProductFragment extends Fragment {
             if (i >= 4) return;
             else {
                 ImageView imgView = new ImageView(requireContext());
-                imgView.setAdjustViewBounds(true);
+                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
                 layout.addView(imgView);
                 Picasso.with(requireContext()).load(fileUris.get(i)).into(imgView);
             }
