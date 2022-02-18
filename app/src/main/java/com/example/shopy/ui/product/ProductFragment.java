@@ -75,26 +75,6 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        mDatabase = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("ProductDB");
-//                .child("Njangi-Deals");
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
-                    maxId = snapshot.getChildrenCount();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
-
         // instance for firebase storage and StorageReference
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -202,6 +182,24 @@ public class ProductFragment extends Fragment {
         String description = inputDescription.getText().toString().trim();
         String currency = inputCurrency.getText().toString().trim();
 
+        mDatabase = FirebaseDatabase
+                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("ProductDB");
+//                .child("Njangi-Deals");
+        mDatabase.child("products").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                {
+                    maxId = snapshot.getChildrenCount();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
         String key = mDatabase.child("products").push().getKey();
 
         for (Uri file : fileUris)
@@ -251,12 +249,9 @@ public class ProductFragment extends Fragment {
                     });
 
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            }).addOnFailureListener(e -> {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         }
     }

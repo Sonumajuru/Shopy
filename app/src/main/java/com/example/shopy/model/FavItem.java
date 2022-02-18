@@ -108,7 +108,7 @@ public class FavItem implements Parcelable {
     }
 
     public FavItem(String item_title, String seller, String description, String key_id, List<String> item_image,
-                   double item_price, double item_rating, String currency, String uuid, String category) {
+                   double item_price, double item_rating, String currency, String uuid, String category, String favStatus) {
         this.key_id = key_id;
         this.title = item_title;
         this.seller = seller;
@@ -119,6 +119,7 @@ public class FavItem implements Parcelable {
         this.description = description;
         this.currency = currency;
         this.images = item_image;
+        this.favStatus = favStatus;
     }
 
     public static final Creator<FavItem> CREATOR = new Creator<FavItem>() {

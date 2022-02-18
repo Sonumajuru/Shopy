@@ -310,11 +310,12 @@ public class DetailFragment extends Fragment {
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
+                String favStatus = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus);
                 favItemList.add(favItem);
             }
         } catch (JSONException e) {

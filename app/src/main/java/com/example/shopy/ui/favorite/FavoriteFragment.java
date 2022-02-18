@@ -43,7 +43,6 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<FavItem> favItemList;
     private FavAdapter favAdapter;
-    private List<String> images;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -53,7 +52,6 @@ public class FavoriteFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         favItemList = new ArrayList<>();
-        images = new ArrayList<>();
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -77,11 +75,13 @@ public class FavoriteFragment extends Fragment {
         }
         SQLiteDatabase db = favDB.getReadableDatabase();
         Cursor cursor = favDB.select_all_favorite_list();
+
         try {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
+                List<String> images = new ArrayList<>();
                 JSONArray jArray = json.optJSONArray("images");
                 for (int i = 0; i < jArray.length(); i++) {
                     images.add(jArray.optString(i));  //<< jget value from jArray
@@ -89,11 +89,12 @@ public class FavoriteFragment extends Fragment {
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
+                String favStatus = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus);
                 favItemList.add(favItem);
             }
         } catch (JSONException e) {

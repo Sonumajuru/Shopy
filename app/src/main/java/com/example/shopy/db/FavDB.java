@@ -26,7 +26,7 @@ public class FavDB extends SQLiteOpenHelper {
     public static String ITEM_UUID = "itemUuid";
     public static String FAVORITE_STATUS = "fStatus";
     public static String CART_STATUS = "cStatus";
-    // dont forget write this spaces
+    // don't forget write this spaces
     private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
             + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT,"+ ITEM_SELLER + " TEXT," + ITEM_PRICE
             + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING + " TEXT," + CART_STATUS
