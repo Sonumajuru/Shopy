@@ -19,16 +19,14 @@ public class CategoryAdapter extends BaseAdapter {
 
     // Declare Variables
 
-    private final Context cxt;
     private final Controller controller;
     private final LayoutInflater inflater;
     private final List<Product> productNamesList;
     private final ArrayList<Product> arraylist;
 
     public CategoryAdapter(Context context, List<Product> productNamesList) {
-        cxt = context;
         this.productNamesList = productNamesList;
-        inflater = LayoutInflater.from(cxt);
+        inflater = LayoutInflater.from(context);
         this.arraylist = new ArrayList<>();
         this.arraylist.addAll(productNamesList);
         controller = Controller.getInstance(context);

@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
-    private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
 
     private SearchView searchView;
@@ -41,7 +40,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

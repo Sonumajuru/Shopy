@@ -40,7 +40,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private User user;
     private NavHost navHostFragment;
-    private LinearLayout linearLayout;
     private FirebaseApp firebaseApp;
 
     private TextView username;
@@ -67,7 +66,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         Button btnManageItem = binding.manageBtn;
         Button btnSettings = binding.settingsBtn;
         btnSignOut = binding.signOutBtn;
-        linearLayout = binding.supportLayout;
+        LinearLayout linearLayout = binding.supportLayout;
         Button btnAddPay = binding.AddPaymentBtn;
 
         btnOrder.setOnClickListener(this);
@@ -98,9 +97,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleOnBackPressed() {
 
-                //setEnabled(false); // call this to disable listener
-                //remove(); // call to remove listener
-                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(requireView()).navigate(navigation_home);
             }
         });

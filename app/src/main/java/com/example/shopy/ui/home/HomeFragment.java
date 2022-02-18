@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment implements FragmentCallback {
 
-    private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private FragmentActivity objects;
 
@@ -62,7 +61,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -102,9 +101,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             @Override
             public void handleOnBackPressed() {
 
-                //setEnabled(false); // call this to disable listener
-                //remove(); // call to remove listener
-                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
                 requireActivity().moveTaskToBack(true);
             }
         });

@@ -1,7 +1,7 @@
 package com.example.shopy.model;
 
 public class ParentModel {
-    private String category;
+    private final String category;
 
     public ParentModel(String category) {
         this.category = category;

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,8 +18,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentLoginBinding;
 import com.example.shopy.helper.FirebaseApp;
-
-import static com.example.shopy.R.id.navigation_home;
 
 public class LoginFragment extends Fragment {
 
@@ -76,16 +73,6 @@ public class LoginFragment extends Fragment {
         signUp.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.navigation_register);
         });
-//        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//
-//                //setEnabled(false); // call this to disable listener
-//                //remove(); // call to remove listener
-//                //Toast.makeText(getContext(), "Listing for back press from this fragment", Toast.LENGTH_SHORT).show();
-//                Navigation.findNavController(requireView()).navigate(navigation_home);
-//            }
-//        });
 
         return root;
     }

@@ -36,16 +36,12 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProductFragment extends Fragment {
 
-    private ProductViewModel productViewModel;
     private FragmentProductBinding binding;
     private Controller controller;
 
     private User user;
     private FirebaseApp firebaseApp;
 
-    private Button btnChoose;
-    private Button btnUpload;
-    private Button btnView;
     private Spinner category;
     private RatingBar ratingBar;
     private TextView inputCurrency;
@@ -53,7 +49,6 @@ public class ProductFragment extends Fragment {
     private EditText inputPrice;
     private EditText inputDescription;
 
-    private Uri imageUri;
     private List<Uri> fileUris;
     private List<String> uploadedImages;
     private DatabaseReference mDatabase;
@@ -71,7 +66,7 @@ public class ProductFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -84,9 +79,9 @@ public class ProductFragment extends Fragment {
         firebaseApp = new FirebaseApp();
         controller = Controller.getInstance(requireContext());
 
-        btnChoose = binding.btnChoose;
-        btnUpload = binding.btnUpload;
-        btnView = binding.btnView;
+        Button btnChoose = binding.btnChoose;
+        Button btnUpload = binding.btnUpload;
+        Button btnView = binding.btnView;
         ratingBar = binding.ratingBar;
         inputTitle = binding.txtName;
         category = binding.category;
@@ -144,7 +139,7 @@ public class ProductFragment extends Fragment {
                     getImages();
                 }
                 else if(data.getData() != null) {
-                    imageUri = data.getData();
+                    Uri imageUri = data.getData();
                     //do something with the image (save it to some directory or whatever you need to do with it here)
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
 //                    imageView.setImageBitmap(bitmap);

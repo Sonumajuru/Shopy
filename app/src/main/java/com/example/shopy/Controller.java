@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.example.shopy.helper.DeviceType;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -182,7 +181,7 @@ public class Controller {
     }
 
     public DeviceType getDeviceType() {
-        Display display = ((Activity)   this.mContext).getWindowManager().getDefaultDisplay();
+        Display display = ((Activity)   mContext).getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
 

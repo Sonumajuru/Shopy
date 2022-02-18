@@ -15,41 +15,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
-import com.example.shopy.adapter.ParentViewAdapter;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.helper.PrefManager;
-import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.FavItem;
-import com.example.shopy.model.ParentModel;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.shopy.R.id.navigation_login;
 import static com.example.shopy.R.id.navigation_profile;
 
 public class DetailFragment extends Fragment {
 
-    private DetailViewModel detailViewModel;
     private FragmentDetailBinding binding;
 
     private FavDB favDB;
-    private FirebaseApp firebaseApp;
     private Controller controller;
     private PrefManager prefManager;
 
@@ -57,14 +47,7 @@ public class DetailFragment extends Fragment {
     private Product product;
     private FavItem favItem;
 
-    private TextView price;
-    private TextView title;
-    private TextView description;
-    private TextView productOwner;
-    private RatingBar ratingBar;
     private ImageView favBtn;
-    private LinearLayout layout;
-    private Button btnAddToCart;
 
     private int counter;
     private String uid;
@@ -78,13 +61,13 @@ public class DetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
+        DetailViewModel detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         binding = FragmentDetailBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         controller = Controller.getInstance(requireContext());
         prefManager = new PrefManager(requireContext());
-        firebaseApp = new FirebaseApp();
+        FirebaseApp firebaseApp = new FirebaseApp();
         product = new Product();
         favItemList = new ArrayList<>();
         favDB = new FavDB(getActivity());
@@ -93,14 +76,14 @@ public class DetailFragment extends Fragment {
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
-        btnAddToCart = binding.addToCartBtn;
-        productOwner = binding.productOwner;
+        Button btnAddToCart = binding.addToCartBtn;
+        TextView productOwner = binding.productOwner;
         favBtn = binding.favBtn;
-        price = binding.priceOfProduct;
-        title = binding.title;
-        ratingBar = binding.ratingBar;
-        description = binding.description;
-        layout = binding.imageLayout;
+        TextView price = binding.priceOfProduct;
+        TextView title = binding.title;
+        RatingBar ratingBar = binding.ratingBar;
+        TextView description = binding.description;
+        LinearLayout layout = binding.imageLayout;
 
         controller.setTextLength(title);
 

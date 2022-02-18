@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 public class CategoryFragment extends Fragment {
 
-    private CategoryViewModel categoryViewModel;
     private FragmentCategoryBinding binding;
     private FirebaseApp firebaseApp;
 
@@ -40,7 +39,7 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

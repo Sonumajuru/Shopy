@@ -14,23 +14,18 @@ import com.example.shopy.databinding.FragmentBankBinding;
 
 public class BankFragment extends Fragment {
 
-    private BankViewModel bankViewModel;
     private FragmentBankBinding binding;
-
-    private CardForm cardForm;
-    private Button btnAddPay;
-    private Button btnCancel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        bankViewModel = new ViewModelProvider(this).get(BankViewModel.class);
+        BankViewModel bankViewModel = new ViewModelProvider(this).get(BankViewModel.class);
         binding = FragmentBankBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        cardForm = binding.cardForm;
-        btnAddPay = binding.btnSave;
-        btnCancel = binding.btnCancel;
+        CardForm cardForm = binding.cardForm;
+        Button btnAddPay = binding.btnSave;
+        Button btnCancel = binding.btnCancel;
 
         cardForm.cardRequired(true)
                 .expirationRequired(true)

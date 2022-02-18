@@ -16,11 +16,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.R;
 import com.example.shopy.adapter.FavAdapter;
 import com.example.shopy.databinding.FragmentFavoriteBinding;
 import com.example.shopy.db.FavDB;
+import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.FavItem;
 import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
@@ -30,13 +30,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.shopy.R.id.navigation_detail;
 
 public class FavoriteFragment extends Fragment {
 
-    private FavoriteViewModel favoriteViewModel;
     private FragmentFavoriteBinding binding;
 
     private FavDB favDB;
@@ -46,7 +44,7 @@ public class FavoriteFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
+        FavoriteViewModel favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

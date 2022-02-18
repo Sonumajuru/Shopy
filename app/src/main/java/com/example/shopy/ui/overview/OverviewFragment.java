@@ -28,9 +28,6 @@ import static com.example.shopy.R.id.navigation_detail;
 
 public class OverviewFragment extends Fragment {
 
-    private OverviewViewModel overviewViewModel;
-    private FragmentOverviewBinding binding;
-
     //a list to store all the products
     private List<Product> productList;
 
@@ -45,8 +42,8 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
-        binding = FragmentOverviewBinding.inflate(inflater, container, false);
+        OverviewViewModel overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+        com.example.shopy.databinding.FragmentOverviewBinding binding = FragmentOverviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //getting the recyclerview from xml

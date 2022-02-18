@@ -36,7 +36,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public FragmentCallback callback;
     private final Controller controller;
     private final List<Product> productList;
-    private JSONObject json;
+    private final JSONObject json;
     private String imageList;
 
     //getting the context and product list with constructor

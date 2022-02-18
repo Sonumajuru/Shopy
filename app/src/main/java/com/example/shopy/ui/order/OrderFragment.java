@@ -12,8 +12,6 @@ import com.example.shopy.R;
 
 public class OrderFragment extends Fragment {
 
-    private OrderViewModel orderViewModel;
-
     public static OrderFragment newInstance() {
         return new OrderFragment();
     }
@@ -27,7 +25,7 @@ public class OrderFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        OrderViewModel orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         // TODO: Use the ViewModel
     }
 
