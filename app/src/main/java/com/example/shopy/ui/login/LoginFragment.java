@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,8 +18,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentLoginBinding;
 import com.example.shopy.helper.FirebaseApp;
-
-import static com.example.shopy.R.id.navigation_home;
 
 public class LoginFragment extends Fragment {
 

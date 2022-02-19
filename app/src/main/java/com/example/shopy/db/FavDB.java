@@ -11,8 +11,8 @@ import java.util.List;
 
 public class FavDB extends SQLiteOpenHelper {
 
-    private static int DB_VERSION = 1;
-    private static String DATABASE_NAME = "NJangiDB";
+    private static final int DB_VERSION = 1;
+    private static final String DATABASE_NAME = "NJangiDB";
     private static final String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
     public static String ITEM_TITLE = "itemTitle";
@@ -27,7 +27,7 @@ public class FavDB extends SQLiteOpenHelper {
     public static String FAVORITE_STATUS = "fStatus";
     public static String CART_STATUS = "cStatus";
     // don't forget write this spaces
-    private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
             + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT,"+ ITEM_SELLER + " TEXT," + ITEM_PRICE
             + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING + " TEXT," + CART_STATUS
             + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE + " TEXT," + ITEM_CATEGORY

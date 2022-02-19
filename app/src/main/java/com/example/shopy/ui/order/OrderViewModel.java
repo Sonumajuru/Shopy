@@ -1,14 +1,19 @@
 package com.example.shopy.ui.order;
 
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import org.jetbrains.annotations.NotNull;
 
-public class OrderViewModel extends ViewModel {
+public class OrderViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public OrderViewModel() {
+    public OrderViewModel(@NonNull @NotNull Application application) {
+        super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is order fragment");
     }

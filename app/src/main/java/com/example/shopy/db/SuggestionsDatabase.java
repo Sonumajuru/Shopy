@@ -14,8 +14,8 @@ public class SuggestionsDatabase {
     public final static String FIELD_ID = "_id";
     public final static String FIELD_SUGGESTION = "suggestion";
 
-    private SQLiteDatabase db;
-    private Helper helper;
+    private final SQLiteDatabase db;
+    private final Helper helper;
 
     public SuggestionsDatabase(Context context) {
         helper = new Helper(context, DB_SUGGESTION, null, 1);

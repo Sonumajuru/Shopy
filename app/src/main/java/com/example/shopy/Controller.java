@@ -182,7 +182,7 @@ public class Controller {
     }
 
     public DeviceType getDeviceType() {
-        Display display = ((Activity)   this.mContext).getWindowManager().getDefaultDisplay();
+        Display display = ((Activity)   mContext).getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
 

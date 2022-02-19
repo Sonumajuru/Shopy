@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ShoppingCartFragment extends Fragment {
+public class CartFragment extends Fragment {
 
-    private ShoppingCartViewModel shoppingCartViewModel;
+    private CartViewModel cartViewModel;
     private FragmentCartBinding binding;
 
     private String currency;
@@ -48,7 +48,7 @@ public class ShoppingCartFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        shoppingCartViewModel = new ViewModelProvider(this).get(ShoppingCartViewModel.class);
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -127,7 +127,7 @@ public class ShoppingCartFragment extends Fragment {
     {
         if (cartItemList.size() > 0)
         {
-            shoppingCartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {
+            cartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
                 btnCheckOut.setEnabled(true);
@@ -139,7 +139,7 @@ public class ShoppingCartFragment extends Fragment {
         }
         else
         {
-            shoppingCartViewModel.getCartText().observe(getViewLifecycleOwner(), s -> {
+            cartViewModel.getCartText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
                 btnCheckOut.setEnabled(false);
