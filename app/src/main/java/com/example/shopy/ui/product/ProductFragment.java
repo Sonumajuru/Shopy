@@ -99,7 +99,10 @@ public class ProductFragment extends Fragment {
         tabLayout = binding.tabDots;
 
         btnChoose.setOnClickListener(v -> chooseImage());
-        btnUpload.setOnClickListener(v -> publishProduct());
+        if (!fieldCheck())
+        {
+            btnUpload.setOnClickListener(v -> publishProduct());
+        }
 
         ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
@@ -180,6 +183,7 @@ public class ProductFragment extends Fragment {
         String description = inputDescription.getText().toString().trim();
         String currency = inputCurrency.getText().toString().trim();
 
+
         mDatabase = FirebaseDatabase
                 .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("ProductDB");
@@ -252,6 +256,14 @@ public class ProductFragment extends Fragment {
                 Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         }
+    }
+
+    private boolean fieldCheck()
+    {
+        return inputTitle.getText().toString().isEmpty()
+                || inputPrice.getText().toString().isEmpty()
+                || inputDescription.getText().toString().isEmpty()
+                || fileUris.isEmpty();
     }
 
     private void getUserData()
