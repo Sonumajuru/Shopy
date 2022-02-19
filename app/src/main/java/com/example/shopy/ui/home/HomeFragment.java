@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         Button btnFeelLucky = binding.luckBtn;
         Button btnCategory = binding.categoryBtn;
         recyclerView = root.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
         parentLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(parentLayoutManager);
 

@@ -2,14 +2,17 @@ package com.example.shopy.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
@@ -27,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -56,6 +61,19 @@ public class MainActivity extends AppCompatActivity {
         {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        ConnectivityManager m = (ConnectivityManager) getSystemService(Service.CONNECTIVITY_SERVICE);
+        m.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                Log.e(TAG, "onAvailable: ");
+            }
+
+            @Override
+            public void onLost(Network network) {
+                Log.e(TAG, "onLost: ");
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavHostFragment navHostFragment = (NavHostFragment)

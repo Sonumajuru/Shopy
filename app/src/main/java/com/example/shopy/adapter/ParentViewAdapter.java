@@ -64,7 +64,6 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         ParentModel currentItem = parentModelArrayList.get(position);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(cxt, LinearLayoutManager.HORIZONTAL, false);
         holder.childRecyclerView.setLayoutManager(layoutManager);
-        holder.childRecyclerView.setHasFixedSize(true);
 
         holder.category.setText(controller.getTranslation(currentItem.getCategory()));
         ArrayList<Product> arrayList = new ArrayList<>();
