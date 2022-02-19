@@ -48,7 +48,7 @@ public class OverviewFragment extends Fragment {
 
         //getting the recyclerview from xml
         recyclerView = binding.recyclerView;
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         productList = new ArrayList<>();
 

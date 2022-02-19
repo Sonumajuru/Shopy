@@ -21,6 +21,9 @@ import com.example.shopy.databinding.FragmentCartBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.CartItem;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,8 +86,12 @@ public class CartFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                List<String> image = Collections.singletonList(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
-                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
+                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
+                List<String> images = new ArrayList<>();
+                JSONArray jArray = json.optJSONArray("images");
+                for (int i = 0; i < jArray.length(); i++) {
+                    images.add(jArray.optString(i));  //<< jget value from jArray
+                }                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
@@ -93,9 +100,11 @@ public class CartFragment extends Fragment {
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String cartStatus = cursor.getString(cursor.getColumnIndex(FavDB.CART_STATUS));
                 this.currency = currency;
-                CartItem cartItem = new CartItem(title, seller, desc, id, image, price, rating, currency, uuid, category, cartStatus);
+                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus);
                 cartItemList.add(cartItem);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (cursor != null && cursor.isClosed())
                 cursor.close();

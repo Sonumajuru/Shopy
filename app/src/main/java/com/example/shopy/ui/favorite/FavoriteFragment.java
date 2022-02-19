@@ -51,7 +51,7 @@ public class FavoriteFragment extends Fragment {
         favDB = new FavDB(getActivity());
         favItemList = new ArrayList<>();
         recyclerView = binding.recyclerView;
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
@@ -129,7 +129,8 @@ public class FavoriteFragment extends Fragment {
     }
 
     // Remove Item after Swipe
-    private final ItemTouchHelper.SimpleCallback simpleCallBack = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private final ItemTouchHelper.SimpleCallback simpleCallBack
+            = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
             return false;

@@ -59,7 +59,8 @@ public class DetailFragment extends Fragment {
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
 
         DetailViewModel detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         binding = FragmentDetailBinding.inflate(inflater, container, false);
