@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
@@ -64,8 +65,8 @@ public class ProductFragment extends Fragment {
     private long maxId;
     private ProgressBar progressBar;
     private String seller;
-    ImagePagerAdapter imagePagerAdapter;
-    ViewPager viewPager;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -95,6 +96,7 @@ public class ProductFragment extends Fragment {
         inputPrice = binding.txtPrice;
         progressBar = binding.progressBar;
         viewPager = binding.imageLayout;
+        tabLayout = binding.tabDots;
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> publishProduct());
@@ -162,8 +164,9 @@ public class ProductFragment extends Fragment {
         List<String> targetList = new ArrayList<>();
         fileUris.forEach(uri -> targetList.add(uri.toString()));
 
-        imagePagerAdapter = new ImagePagerAdapter(requireContext(), targetList);
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), targetList);
         viewPager.setAdapter(imagePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager, true);
     }
 
     private void publishProduct()

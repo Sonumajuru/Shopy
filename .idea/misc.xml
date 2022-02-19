@@ -10,6 +10,7 @@
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/drawable/anim_out.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/babayy.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/background_tab.xml" value="0.1921875" />
         <entry key="app/src/main/res/drawable/badge_view.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/bage_circle.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/btn_background_blue.xml" value="0.25052083333333336" />
@@ -18,6 +19,7 @@
         <entry key="app/src/main/res/drawable/btn_normal_background.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/button_background.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/button_background_white.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/drawable/default_dot.xml" value="0.1921875" />
         <entry key="app/src/main/res/drawable/error_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/ic_account_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_baseline_baby_changing_station_24.xml" value="0.1859375" />
@@ -44,11 +46,13 @@
         <entry key="app/src/main/res/drawable/normal_text_background.xml" value="0.203125" />
         <entry key="app/src/main/res/drawable/searchBar_background.xml" value="0.171875" />
         <entry key="app/src/main/res/drawable/search_bar_background.xml" value="0.30277777777777776" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1921875" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/splash_centered.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/drawable/splash_night.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/splash_theme.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1921875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/badge_layout.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/blank_fragment.xml" value="0.16927083333333334" />

@@ -28,6 +28,7 @@ import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.helper.PrefManager;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +90,7 @@ public class DetailFragment extends Fragment {
         TextView title = binding.title;
         RatingBar ratingBar = binding.ratingBar;
         TextView description = binding.description;
+        TabLayout tabLayout = binding.tabDots;
         favBtn = binding.favBtn;
 
         controller.setTextLength(title);
@@ -100,6 +102,7 @@ public class DetailFragment extends Fragment {
         {
             imagePagerAdapter = new ImagePagerAdapter(requireContext(), product.getImages());
             viewPager.setAdapter(imagePagerAdapter);
+            tabLayout.setupWithViewPager(viewPager, true);
 
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());

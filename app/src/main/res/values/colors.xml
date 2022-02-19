@@ -7,6 +7,7 @@
     <color name="teal_700">#018786</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#0000FFFF</color>
     <color name="middle_blue">#7ED4E6</color>
     <color name="baby_blue">#89CFF0</color>
     <color name="sky_blue">#77B5FE</color>
