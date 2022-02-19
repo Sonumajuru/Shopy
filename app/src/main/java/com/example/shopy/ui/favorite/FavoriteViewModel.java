@@ -1,14 +1,19 @@
 package com.example.shopy.ui.favorite;
 
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import org.jetbrains.annotations.NotNull;
 
-public class FavoriteViewModel extends ViewModel {
+public class FavoriteViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public FavoriteViewModel() {
+    public FavoriteViewModel(@NonNull @NotNull Application application) {
+        super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is favorite fragment");
     }

@@ -56,7 +56,6 @@ public class FavoriteFragment extends Fragment {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
         {
-            // user loged in already
             loadData();
         }
 

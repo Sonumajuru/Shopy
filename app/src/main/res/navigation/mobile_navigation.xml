@@ -20,7 +20,7 @@
 
     <fragment
             android:id="@+id/navigation_cart"
-            android:name="com.example.shopy.ui.cart.ShoppingCartFragment"
+            android:name="com.example.shopy.ui.cart.CartFragment"
             android:label="@string/title_shopping_cart"
             tools:layout="@layout/fragment_cart"/>
 

@@ -8,12 +8,12 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.shopy.R;
 import org.jetbrains.annotations.NotNull;
 
-public class ShoppingCartViewModel extends AndroidViewModel {
+public class CartViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> emptyCart;
     private final Application app;
 
-    public ShoppingCartViewModel(@NonNull @NotNull Application application) {
+    public CartViewModel(@NonNull @NotNull Application application) {
         super(application);
         app = (Application) application.getApplicationContext();
         emptyCart = new MutableLiveData<>();
