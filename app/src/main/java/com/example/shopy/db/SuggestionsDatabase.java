@@ -14,11 +14,10 @@ public class SuggestionsDatabase {
     public final static String FIELD_ID = "_id";
     public final static String FIELD_SUGGESTION = "suggestion";
 
-    private SQLiteDatabase db;
-    private Helper helper;
+    private final SQLiteDatabase db;
 
     public SuggestionsDatabase(Context context) {
-        helper = new Helper(context, DB_SUGGESTION, null, 1);
+        Helper helper = new Helper(context, DB_SUGGESTION, null, 1);
         db = helper.getWritableDatabase();
     }
 
