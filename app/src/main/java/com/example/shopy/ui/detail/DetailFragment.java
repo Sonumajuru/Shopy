@@ -9,14 +9,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.viewpager.widget.ViewPager;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
+import com.example.shopy.adapter.ImagePagerAdapter;
 import com.example.shopy.databinding.FragmentDetailBinding;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.helper.FirebaseApp;
@@ -24,7 +29,6 @@ import com.example.shopy.helper.PrefManager;
 import com.example.shopy.model.FavItem;
 import com.example.shopy.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,12 +59,12 @@ public class DetailFragment extends Fragment {
     private String imageList;
     private List<String> images;
     private List<FavItem> favItemList;
+    private boolean isImageFitToScreen;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         DetailViewModel detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         binding = FragmentDetailBinding.inflate(inflater, container, false);
@@ -77,29 +81,25 @@ public class DetailFragment extends Fragment {
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
+        ImagePagerAdapter imagePagerAdapter;
+        ViewPager viewPager = binding.imagePager;
         Button btnAddToCart = binding.addToCartBtn;
         TextView productOwner = binding.productOwner;
-        favBtn = binding.favBtn;
         TextView price = binding.priceOfProduct;
         TextView title = binding.title;
         RatingBar ratingBar = binding.ratingBar;
         TextView description = binding.description;
-        LinearLayout layout = binding.imageLayout;
+        favBtn = binding.favBtn;
 
         controller.setTextLength(title);
 
         assert getArguments() != null;
         product = getArguments().getParcelable("product");
+
         if (product != null)
         {
-            for (int i = 0; i < product.getImages().size(); i++)
-            {
-                ImageView imgView = new ImageView(requireContext());
-                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                layout.addView(imgView);
-                Picasso.with(requireContext()).load(product.getImages().get(i)).into(imgView);
-            }
+            imagePagerAdapter = new ImagePagerAdapter(requireContext(), product.getImages());
+            viewPager.setAdapter(imagePagerAdapter);
 
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
@@ -116,15 +116,8 @@ public class DetailFragment extends Fragment {
         else
         {
             favItem = getArguments().getParcelable("favItem");
-
-            for (int i = 0; i < favItem.getImages().size(); i++)
-            {
-                ImageView imgView = new ImageView(requireContext());
-                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                layout.addView(imgView);
-                Picasso.with(requireContext()).load(favItem.getImages().get(i)).into(imgView);
-            }
+            imagePagerAdapter = new ImagePagerAdapter(requireContext(), favItem.getImages());
+            viewPager.setAdapter(imagePagerAdapter);
 
             price.setText(String.format("%.2f", favItem.getPrice()) + " " + favItem.getCurrency());
             title.setText(favItem.getTitle());

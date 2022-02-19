@@ -14,19 +14,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 import com.example.shopy.Controller;
+import com.example.shopy.adapter.ImagePagerAdapter;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.Product;
 import com.example.shopy.model.User;
-import com.google.android.gms.tasks.*;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -59,8 +63,9 @@ public class ProductFragment extends Fragment {
     private final int PICK_IMAGE_REQUEST = 22;
     private long maxId;
     private ProgressBar progressBar;
-    private LinearLayout layout;
     private String seller;
+    ImagePagerAdapter imagePagerAdapter;
+    ViewPager viewPager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -89,7 +94,7 @@ public class ProductFragment extends Fragment {
         inputDescription = binding.txtDescription;
         inputPrice = binding.txtPrice;
         progressBar = binding.progressBar;
-        layout = binding.imageLayout;
+        viewPager = binding.imageLayout;
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> publishProduct());
@@ -154,17 +159,11 @@ public class ProductFragment extends Fragment {
 
     private void getImages()
     {
-        for(int i=0; i < fileUris.size(); i++)
-        {
-            if (i >= 4) return;
-            else {
-                ImageView imgView = new ImageView(requireContext());
-                imgView.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                layout.addView(imgView);
-                Picasso.with(requireContext()).load(fileUris.get(i)).into(imgView);
-            }
-        }
+        List<String> targetList = new ArrayList<>();
+        fileUris.forEach(uri -> targetList.add(uri.toString()));
+
+        imagePagerAdapter = new ImagePagerAdapter(requireContext(), targetList);
+        viewPager.setAdapter(imagePagerAdapter);
     }
 
     private void publishProduct()
