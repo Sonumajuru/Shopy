@@ -1,6 +1,7 @@
 package com.example.shopy.ui.cart;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,15 +20,15 @@ import com.example.shopy.R;
 import com.example.shopy.adapter.CartAdapter;
 import com.example.shopy.databinding.FragmentCartBinding;
 import com.example.shopy.db.FavDB;
+import com.example.shopy.helper.PrefManager;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.CartItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CartFragment extends Fragment {
 
@@ -47,6 +48,7 @@ public class CartFragment extends Fragment {
     private FavDB favDB;
     private Controller controller;
     private List<CartItem> cartItemList;
+    private List<CartItem> newCartItemList;
     private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,6 +59,7 @@ public class CartFragment extends Fragment {
 
         favDB = new FavDB(getActivity());
         cartItemList = new ArrayList<>();
+        newCartItemList = new ArrayList<>();
         controller = Controller.getInstance(requireContext());
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
         recyclerView = binding.recyclerViewCart;
@@ -100,7 +103,7 @@ public class CartFragment extends Fragment {
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String cartStatus = cursor.getString(cursor.getColumnIndex(FavDB.CART_STATUS));
                 this.currency = currency;
-                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus);
+                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus, 0);
                 cartItemList.add(cartItem);
             }
         } catch (JSONException e) {
@@ -110,6 +113,34 @@ public class CartFragment extends Fragment {
                 cursor.close();
             db.close();
         }
+
+        // hashmap to store the frequency of element
+        Map<String, Integer> map = new HashMap<>();
+
+        for (CartItem value : cartItemList) {
+            String id = value.getKey_id();
+            Integer count = map.get(id);
+            map.put(id, (count == null) ? 1 : count + 1);
+        }
+
+        List<CartItem> tempList = new ArrayList<>();
+        for (Map.Entry<String, Integer> val : map.entrySet()) {
+            System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
+            for (CartItem value : cartItemList)
+            {
+                if (val.getKey().equals(value.getKey_id()))
+                {
+                    value.setQuantity(val.getValue());
+                    tempList.add(value);
+                }
+            }
+        }
+
+        TreeSet<CartItem> set = tempList.stream()
+                .collect(Collectors.toCollection(() ->
+                        new TreeSet<>(Comparator.comparing(CartItem::getKey_id))));
+
+        newCartItemList.addAll(set);
 
         updateScreen();
 
@@ -127,21 +158,21 @@ public class CartFragment extends Fragment {
                 updateScreen();
             }
         };
-        CartAdapter cartAdapter = new CartAdapter(cartItemList, getActivity(), callback);
+        CartAdapter cartAdapter = new CartAdapter(newCartItemList, getActivity(), callback);
         recyclerView.setAdapter(cartAdapter);
     }
 
     @SuppressLint("SetTextI18n")
     private void updateScreen()
     {
-        if (cartItemList.size() > 0)
+        if (newCartItemList.size() > 0)
         {
             cartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
                 btnCheckOut.setEnabled(true);
             });
-            for (CartItem cartItem : cartItemList) {
+            for (CartItem cartItem : newCartItemList) {
                 subTotalCost += cartItem.getPrice();
                 totalCost += cartItem.getPrice() + 0;
             }
@@ -160,6 +191,8 @@ public class CartFragment extends Fragment {
         if (totalCost == 0)
         {
             controller.removeBadge();
+            PrefManager prefManager = new PrefManager(requireContext());
+            prefManager.clearPref();
         }
     }
 

@@ -19,6 +19,15 @@ public class CartItem implements Parcelable {
     private double rating;
     private String favStatus;
     private String cartStatus;
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getKey_id() {
         return key_id;
@@ -120,7 +129,7 @@ public class CartItem implements Parcelable {
     }
 
     public CartItem(String item_title, String seller, String description, String key_id, List<String> item_image,
-                    double item_price, double item_rating, String currency, String uuid, String category, String cartStatus) {
+                    double item_price, double item_rating, String currency, String uuid, String category, String cartStatus, int quantity) {
         this.uuid = uuid;
         this.title = item_title;
         this.seller = seller;
@@ -133,6 +142,7 @@ public class CartItem implements Parcelable {
         this.rating = item_rating;
         this.favStatus = favStatus;
         this.cartStatus = cartStatus;
+        this.quantity = quantity;
     }
 
     public static final Creator<CartItem> CREATOR = new Creator<CartItem>() {
@@ -158,6 +168,7 @@ public class CartItem implements Parcelable {
         in.readList(images, Product.class.getClassLoader());
         rating = in.readDouble();
         cartStatus = in.readString();
+        quantity = in.readInt();
     }
 
     @Override
@@ -172,6 +183,7 @@ public class CartItem implements Parcelable {
         dest.writeList(images);
         dest.writeDouble(rating);
         dest.writeString(cartStatus);
+        dest.writeInt(quantity);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.shopy.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -60,8 +61,7 @@ public class FavDB extends SQLiteOpenHelper {
     public void insertIntoTheDatabase(String item_title, String desc, String seller, String item_image, String id,
                                       String fav_status, double item_price, double item_rating,
                                       String currency, String uuid, String category, String cart_status) {
-        SQLiteDatabase db;
-        db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ITEM_TITLE, item_title);
         values.put(ITEM_IMAGE, item_image);

@@ -221,15 +221,24 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                try {
-                    json.put("images", new JSONArray(product.getImages()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (prefManager.getQuantity() != 0)
+                {
+                    counter = prefManager.getQuantity() + 1;
+                    controller.addBadge(counter);
                 }
-                counter = counter + 1;
-                controller.addBadge(counter);
+                else
+                {
+                    counter = counter + 1;
+                    controller.addBadge(counter);
+                }
+
                 if (product != null)
                 {
+                    try {
+                        json.put("images", new JSONArray(product.getImages()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     imageList = json.toString();
                     favDB.insertIntoTheDatabase(product.getTitle(),
                             product.getDescription(),
@@ -242,10 +251,16 @@ public class DetailFragment extends Fragment {
                             product.getCurrency(),
                             product.getUuid(),
                             product.getCategory(), "1");
-                    saveProdDetails(product.getId(), product.getUuid(), product.getTitle());
+                    saveProdDetails(counter);
                 }
                 else
                 {
+                    try {
+                        json.put("images", new JSONArray(favItem.getImages()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    imageList = json.toString();
                     favDB.insertIntoTheDatabase(favItem.getTitle(),
                             favItem.getDescription(),
                             favItem.getSeller(),
@@ -257,7 +272,7 @@ public class DetailFragment extends Fragment {
                             favItem.getCurrency(),
                             favItem.getUuid(),
                             favItem.getCategory(), "1");
-                    saveProdDetails(favItem.getKey_id(), favItem.getUuid(), favItem.getTitle());
+                    saveProdDetails(counter);
                 }
             }
             else
@@ -330,8 +345,8 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private void saveProdDetails(String id, String uuid, String name) {
-        prefManager.saveProductDetails(id, uuid, name);
+    private void saveProdDetails(int quantity) {
+        prefManager.saveQuantity(quantity);
     }
 
     @Override
