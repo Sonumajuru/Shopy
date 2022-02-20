@@ -87,4 +87,5 @@
     <string name="choose">Choose</string>
     <string name="upload">Upload</string>
     <string name="stocks">Stocks</string>
+    <string name="Image">title_image</string>
 </resources>

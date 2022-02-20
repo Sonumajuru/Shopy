@@ -2,23 +2,25 @@ package com.example.shopy.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.PagerAdapter;
 import com.example.shopy.R;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImagePagerAdapter extends PagerAdapter {
-    private Context context;
-    private List<String> images;
-    private LayoutInflater layoutInflater;
+    private final Context context;
+    private final List<String> images;
+    private final LayoutInflater layoutInflater;
 
     public ImagePagerAdapter(Context context, List<String> images) {
         this.context = context;
@@ -36,6 +38,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @NotNull
     @Override
     public Object instantiateItem(@NotNull ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.image_item, container, false);
@@ -47,11 +50,11 @@ public class ImagePagerAdapter extends PagerAdapter {
         container.addView(itemView);
 
         //listening to image click
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "you clicked image " + (position + 1), Toast.LENGTH_LONG).show();
-            }
+        imageView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("images", (ArrayList<String>) images);
+            Navigation.findNavController(v).navigate(R.id.navigation_image, bundle);
+//                Toast.makeText(context, "you clicked image " + (position + 1), Toast.LENGTH_LONG).show();
         });
 
         return itemView;

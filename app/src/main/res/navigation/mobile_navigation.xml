@@ -96,4 +96,10 @@
             android:label="@string/title_bank"
             tools:layout="@layout/fragment_bank"/>
 
+    <fragment
+            android:id="@+id/navigation_image"
+            android:name="com.example.shopy.ui.image.ImageFragment"
+            android:label="@string/Image"
+            tools:layout="@layout/fragment_image"/>
+
 </navigation>
