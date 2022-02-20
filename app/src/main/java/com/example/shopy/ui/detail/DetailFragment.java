@@ -60,7 +60,6 @@ public class DetailFragment extends Fragment {
     private String imageList;
     private List<String> images;
     private List<FavItem> favItemList;
-    private boolean isImageFitToScreen;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override

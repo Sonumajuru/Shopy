@@ -59,32 +59,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.minusbtn.setOnClickListener(v -> {
             count = count - 1;
             if (count < 0) count = 0;
-            controller.setBadgeCount(count);
-            controller.addBadge(count);
+            cartItem.setQuantity(count);
+
+            for (CartItem item : cartItemList) {
+                if (item != cartItem)
+                {
+                    controller.setBadgeCount(count + item.getQuantity());
+                    controller.addBadge(count + item.getQuantity());
+                }
+            }
+
             holder.prqtty.setText(String.valueOf(count));
-            resetProduct(count, position, cartItem);
+            resetProduct(position, cartItem);
         });
         holder.plusbtn.setOnClickListener(v -> {
             count = count + 1;
             if (count < 0) count = 0;
-            controller.setBadgeCount(count);
-            controller.addBadge(count);
+            cartItem.setQuantity(count);
+
+            for (CartItem item : cartItemList) {
+                if (item != cartItem)
+                {
+                    controller.setBadgeCount(count + item.getQuantity());
+                    controller.addBadge(count + item.getQuantity());
+                }
+            }
+
             holder.prqtty.setText(String.valueOf(count));
-            resetProduct(count, position, cartItem);
+            resetProduct(position, cartItem);
         });
         holder.deletbtn.setOnClickListener(v -> {
-            resetProduct(0, position, cartItem);
+            resetProduct(position, cartItem);
         });
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void resetProduct(int count, int position, CartItem cartItem)
+    private void resetProduct(int position, CartItem cartItem)
     {
-        if (count == 0)
+        if (cartItem.getQuantity() == 0)
         {
             cartItemList.get(position).setCartStatus("0");
             favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
+            controller.addBadge(controller.getBadgeCount() + count);
             callback.onItemClicked(position, cartItem);
             notifyDataSetChanged();
         }
