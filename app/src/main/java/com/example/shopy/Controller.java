@@ -112,8 +112,17 @@ public class Controller {
             case "Clothing":
                 text = mContext.getString(R.string.clothing);
                 break;
+            case "Shoes":
+                text = mContext.getString(R.string.shoes);
+                break;
+            case "Motorbike":
+                text = mContext.getString(R.string.motorbike);
+                break;
             case "Computers":
                 text = mContext.getString(R.string.computer);
+                break;
+            case "Cars":
+                text = mContext.getString(R.string.cars);
                 break;
             case "Electronics":
                 text = mContext.getString(R.string.electronics);

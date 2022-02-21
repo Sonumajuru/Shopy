@@ -99,7 +99,7 @@
     <fragment
             android:id="@+id/navigation_image"
             android:name="com.example.shopy.ui.image.ImageFragment"
-            android:label="@string/Image"
+            android:label="@string/title_image"
             tools:layout="@layout/fragment_image"/>
 
 </navigation>

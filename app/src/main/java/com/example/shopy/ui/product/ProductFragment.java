@@ -99,10 +99,7 @@ public class ProductFragment extends Fragment {
         tabLayout = binding.tabDots;
 
         btnChoose.setOnClickListener(v -> chooseImage());
-        if (!fieldCheck())
-        {
-            btnUpload.setOnClickListener(v -> publishProduct());
-        }
+        btnUpload.setOnClickListener(v -> publishProduct());
 
         ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
@@ -174,8 +171,9 @@ public class ProductFragment extends Fragment {
 
     private void publishProduct()
     {
-        progressBar.setVisibility(View.VISIBLE);
+        if (fieldCheck()) return;
 
+        progressBar.setVisibility(View.VISIBLE);
         String title = inputTitle.getText().toString().trim();
         String category = this.category.getSelectedItem().toString();
         double price = Double.parseDouble(inputPrice.getText().toString().trim());

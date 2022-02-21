@@ -172,6 +172,52 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
             }
         }
 
+        // added in seventh child row
+        if (parentModelArrayList.get(position).getCategory().equals("Cars")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Cars"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
+                }
+            }
+        }
+
+        // added in eight child row
+        if (parentModelArrayList.get(position).getCategory().equals("Motorbike")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Motorbike"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
+                }
+            }
+        }
+
+        // added in ninth child row
+        if (parentModelArrayList.get(position).getCategory().equals("Shoes")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Shoes"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus()));
+                }
+            }
+        }
+
+
         HomeAdapter childRecyclerViewAdapter = new HomeAdapter(holder.childRecyclerView.getContext(), arrayList, callback);
         holder.childRecyclerView.setAdapter(childRecyclerViewAdapter);
     }

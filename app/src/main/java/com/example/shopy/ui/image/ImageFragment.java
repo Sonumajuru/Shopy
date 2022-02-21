@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import com.example.shopy.adapter.ImagePagerAdapter;
 import com.example.shopy.databinding.FragmentImageBinding;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class ImageFragment extends Fragment {
 
     private ImageViewModel imageViewModel;
     private FragmentImageBinding binding;
+    private TabLayout tabLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,7 +29,9 @@ public class ImageFragment extends Fragment {
         View root = binding.getRoot();
 
         ImagePagerAdapter imagePagerAdapter;
+        tabLayout = binding.tabDots;
         ViewPager viewPager = binding.imagePager;
+        tabLayout.setupWithViewPager(viewPager, true);
 
         assert getArguments() != null;
         List<String> images = getArguments().getStringArrayList("images");

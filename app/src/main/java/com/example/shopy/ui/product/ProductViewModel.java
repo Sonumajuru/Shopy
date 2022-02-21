@@ -37,11 +37,14 @@ public class ProductViewModel extends AndroidViewModel {
         String[] ProductCategories = new String[]{app.getApplicationContext()
                 .getString(R.string.electronics), app.getApplicationContext()
                 .getString(R.string.computer), app.getApplicationContext()
+                .getString(R.string.games), app.getApplicationContext()
                 .getString(R.string.home_appliance), app.getApplicationContext()
                 .getString(R.string.phones), app.getApplicationContext()
                 .getString(R.string.clothing), app.getApplicationContext()
+                .getString(R.string.shoes), app.getApplicationContext()
                 .getString(R.string.books), app.getApplicationContext()
-                .getString(R.string.games)};
+                .getString(R.string.cars), app.getApplicationContext()
+                .getString(R.string.motorbike)};
 
         final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);

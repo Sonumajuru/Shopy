@@ -110,10 +110,9 @@ public class DetailFragment extends Fragment {
             uid = product.getUuid();
 
             Resources res = getResources();
-            @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-            String text = String.format(res.getString(R.string.product_owner), product.getSeller());
+            String text = res.getString(R.string.product_owner);
             productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            productOwner.setText(text + ": " + product.getSeller());
+            productOwner.setText(text);
         }
         else
         {
@@ -129,9 +128,9 @@ public class DetailFragment extends Fragment {
 
             Resources res = getResources();
             @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-            String text = String.format(res.getString(R.string.product_owner), favItem.getSeller());
+            String text = res.getString(R.string.product_owner);
             productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            productOwner.setText(text + ": " + favItem.getSeller());
+            productOwner.setText(text);
         }
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)

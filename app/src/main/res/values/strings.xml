@@ -43,9 +43,12 @@
     <string name="Buyer">Buyer</string>
     <string name="Seller">Seller</string>
     <string name="price">Price</string>
+    <string name="shoes">Shoes</string>
     <string name="description">Description</string>
     <string name="product_image">Product Image</string>
     <string name="electronics">Electronics</string>
+    <string name="cars">Cars</string>
+    <string name="motorbike">Motorbike</string>
     <string name="clothing">Clothing</string>
     <string name="computer">Computers</string>
     <string name="home_appliance">Home Appliances</string>
@@ -59,7 +62,7 @@
     <string name="rating">Rating</string>
     <string name="title_product_listing">Product Listing</string>
     <string name="title_product_detail">Product Details</string>
-    <string name="product_owner">Sold By</string>
+    <string name="product_owner">Seller Info</string>
     <string name="overview">Overview</string>
     <string name="chat_whatsapp">Chat: WhatsApp</string>
     <string name="email_njangi_support_com">Email: your@company.com</string>
@@ -87,5 +90,5 @@
     <string name="choose">Choose</string>
     <string name="upload">Upload</string>
     <string name="stocks">Stocks</string>
-    <string name="Image">title_image</string>
+    <string name="title_image">Image</string>
 </resources>

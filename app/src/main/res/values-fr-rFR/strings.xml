@@ -58,7 +58,7 @@
     <string name="rating">Évaluation</string>
     <string name="title_product_listing">Liste de produits</string>
     <string name="title_product_detail">Détails du produit</string>
-    <string name="product_owner">Vente par</string>
+    <string name="product_owner">Info sur le vendeur</string>
     <string name="clothing">Vêtements</string>
     <string name="title">Titre</string>
     <string name="overview">Aperçu</string>
@@ -73,7 +73,7 @@
     <string name="hot_deals">Hot-Deals</string>
     <string name="njangi_deals">Njangi-Deals</string>
     <string name="title_profile">Profil</string>
-    <string name="welcome_back">Content de te revoir</string>
+    <string name="welcome_back">Content de vous revoir</string>
     <string name="add_payment">Mode de paiement</string>
     <string name="one_step_away">Vous êtes à un pas</string>
     <string name="empty_cart">Votre panier est vide</string>
@@ -88,4 +88,8 @@
     <string name="not_signed_in">Vous n\'êtes pas connecté</string>
     <string name="upload">Monter</string>
     <string name="stocks">Actions</string>
+    <string name="cars">Voitures</string>
+    <string name="title_image">Image</string>
+    <string name="shoes">Chaussures</string>
+    <string name="motorbike">Moto</string>
 </resources>
