@@ -25,6 +25,7 @@ public class Controller {
     private static volatile Controller instance;
     private int badgeCount;
     private BottomNavigationView navView;
+    private boolean IsFragVisible;
 
     public View getNotificationsBadge() {
         return notificationsBadge;
@@ -189,6 +190,11 @@ public class Controller {
         return formatter.format(currentdate);
     }
 
+    public boolean getIsFragVisible()
+    {
+        return IsFragVisible;
+    }
+
     public DeviceType getDeviceType() {
         Display display = ((Activity)   mContext).getWindowManager().getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -204,5 +210,9 @@ public class Controller {
         {
             return DeviceType.Phone;
         }
+    }
+
+    public void setIsFragVisible(boolean visible) {
+        IsFragVisible = visible;
     }
 }
