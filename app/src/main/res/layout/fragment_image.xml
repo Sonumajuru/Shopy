@@ -8,7 +8,6 @@
         tools:context=".ui.image.ImageFragment"
         android:id="@+id/frameLayout2">
 
-
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/imagePager"
             android:layout_width="0dp"

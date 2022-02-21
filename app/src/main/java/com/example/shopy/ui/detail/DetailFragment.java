@@ -93,45 +93,38 @@ public class DetailFragment extends Fragment {
         favBtn = binding.favBtn;
 
         controller.setTextLength(title);
-
         assert getArguments() != null;
         product = getArguments().getParcelable("product");
 
         if (product != null)
         {
             imagePagerAdapter = new ImagePagerAdapter(requireContext(), product.getImages());
-            viewPager.setAdapter(imagePagerAdapter);
-            tabLayout.setupWithViewPager(viewPager, true);
 
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
             ratingBar.setRating((float) product.getRating());
             description.setText(product.getDescription());
             uid = product.getUuid();
-
-            Resources res = getResources();
-            String text = res.getString(R.string.product_owner);
-            productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            productOwner.setText(text);
         }
         else
         {
             favItem = getArguments().getParcelable("favItem");
             imagePagerAdapter = new ImagePagerAdapter(requireContext(), favItem.getImages());
-            viewPager.setAdapter(imagePagerAdapter);
 
             price.setText(String.format("%.2f", favItem.getPrice()) + " " + favItem.getCurrency());
             title.setText(favItem.getTitle());
             ratingBar.setRating((float) favItem.getRating());
             description.setText(favItem.getDescription());
             uid = favItem.getUuid();
-
-            Resources res = getResources();
-            @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-            String text = res.getString(R.string.product_owner);
-            productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            productOwner.setText(text);
         }
+
+        viewPager.setAdapter(imagePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager, true);
+
+        Resources res = getResources();
+        String text = res.getString(R.string.product_owner);
+        productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        productOwner.setText(text);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
         {

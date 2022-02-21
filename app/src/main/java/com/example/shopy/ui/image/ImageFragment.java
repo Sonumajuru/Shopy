@@ -1,9 +1,12 @@
 package com.example.shopy.ui.image;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,15 +34,20 @@ public class ImageFragment extends Fragment {
         ImagePagerAdapter imagePagerAdapter;
         tabLayout = binding.tabDots;
         ViewPager viewPager = binding.imagePager;
-        tabLayout.setupWithViewPager(viewPager, true);
 
         assert getArguments() != null;
         List<String> images = getArguments().getStringArrayList("images");
 
         imagePagerAdapter = new ImagePagerAdapter(requireContext(), images);
         viewPager.setAdapter(imagePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager, true);
 
         return root;
+    }
+
+    private void getImageHeight()
+    {
+
     }
 
     @Override
