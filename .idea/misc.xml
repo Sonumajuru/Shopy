@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/anim_out.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/babayy.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/drawable/background_tab.xml" value="0.1921875" />
+        <entry key="app/src/main/res/drawable/background_text.xml" value="0.2609375" />
         <entry key="app/src/main/res/drawable/badge_view.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/bage_circle.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/btn_background_blue.xml" value="0.25052083333333336" />
@@ -81,6 +82,7 @@
         <entry key="app/src/main/res/layout/fragment_product_overview.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.24094202898550723" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_reset.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_shopping_cart.xml" value="0.2028985507246377" />

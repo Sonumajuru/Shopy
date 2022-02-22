@@ -9,16 +9,20 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
 import com.example.shopy.databinding.FragmentRegisterBinding;
 import com.example.shopy.helper.FirebaseApp;
 import com.example.shopy.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +83,7 @@ public class RegisterFragment extends Fragment {
         inputRetypePassword = binding.txtPhone;
         btnRegister = binding.btnRegister;
         progressBar = binding.progressBar;
+        TextView delete = binding.textDelAcct;
 
         registerViewModel.setCountryAdapter(country);
         registerViewModel.getLanguages(country, language, langCode);
@@ -150,6 +155,25 @@ public class RegisterFragment extends Fragment {
                         });
             }
         });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            delete.setVisibility(View.VISIBLE);
+            delete.setOnClickListener(v -> {
+
+                Objects.requireNonNull(firebaseApp.getAuth()
+                        .getCurrentUser())
+                        .delete().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.navigation_login);
+                    } else {
+                        Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            });
+        }
         language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v, int position, long id)

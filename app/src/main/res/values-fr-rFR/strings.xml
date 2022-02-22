@@ -25,7 +25,7 @@
     <string name="login">Connexion</string>
     <string name="sign_up">Pas de compte? S\'inscrire</string>
     <string name="email">E-mail</string>
-    <string name="surname">Prénom</string>
+    <string name="surname">Nom</string>
     <string name="address">Adresse</string>
     <string name="male">Masculin</string>
     <string name="female">Féminin</string>
@@ -92,4 +92,7 @@
     <string name="title_image">Image</string>
     <string name="shoes">Chaussures</string>
     <string name="motorbike">Moto</string>
+    <string name="forgot_password">Mot de passe oublié?</string>
+    <string name="reset_text">Veuillez fournir votre identifiant de Njangi \n pour réinitialisation du mot de passe.</string>
+    <string name="delete_account">Supprimer compte</string>
 </resources>

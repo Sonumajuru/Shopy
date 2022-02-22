@@ -91,4 +91,7 @@
     <string name="upload">Upload</string>
     <string name="stocks">Stocks</string>
     <string name="title_image">Image</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_text">Please provide your Njangi Email id \n for password reset instructions.</string>
+    <string name="delete_account">Delete Account</string>
 </resources>

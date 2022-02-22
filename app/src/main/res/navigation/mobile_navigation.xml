@@ -102,4 +102,10 @@
             android:label="@string/title_image"
             tools:layout="@layout/fragment_image"/>
 
+    <fragment
+            android:id="@+id/navigation_reset"
+            android:name="com.example.shopy.ui.reset.ResetFragment"
+            android:label="title_reset"
+            tools:layout="@layout/fragment_reset"/>
+
 </navigation>
