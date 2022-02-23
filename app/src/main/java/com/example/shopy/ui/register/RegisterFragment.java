@@ -230,6 +230,7 @@ public class RegisterFragment extends Fragment {
         if (password.length() < 6) {
             inputPassword.setError("");
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private void onCheckBoxSelection()
