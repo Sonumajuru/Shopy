@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class BankViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
 
-
     public BankViewModel(@NonNull @NotNull Application application) {
         super(application);
     }

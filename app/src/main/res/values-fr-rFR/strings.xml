@@ -99,4 +99,8 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="confirm">Êtes-vous sûr?</string>
+    <string name="update_product">Mettre à jour</string>
+    <string name="delete_product">Supprimer</string>
+    <string name="title_stock">Actions</string>
+    <string name="title_reset">Réinitialiser</string>
 </resources>

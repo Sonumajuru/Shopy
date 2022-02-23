@@ -28,6 +28,7 @@ import static com.example.shopy.R.id.navigation_detail;
 
 public class OverviewFragment extends Fragment {
 
+    FragmentOverviewBinding binding;
     //a list to store all the products
     private List<Product> productList;
 
@@ -43,7 +44,7 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         OverviewViewModel overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
-        com.example.shopy.databinding.FragmentOverviewBinding binding = FragmentOverviewBinding.inflate(inflater, container, false);
+        binding = FragmentOverviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //getting the recyclerview from xml
@@ -103,7 +104,7 @@ public class OverviewFragment extends Fragment {
                         navController.navigate(navigation_detail, bundle);
                     }
                 };
-                adapter = new ProductAdapter(getActivity(), productList, callback);
+                adapter = new ProductAdapter(getActivity(), OverviewFragment.this, productList, callback);
 
                 //setting adapter to recyclerview
                 recyclerView.setAdapter(adapter);
@@ -141,9 +142,15 @@ public class OverviewFragment extends Fragment {
                 navController.navigate(navigation_detail, bundle);
             }
         };
-        adapter = new ProductAdapter(getActivity(), productList, callback);
+        adapter = new ProductAdapter(getActivity(), OverviewFragment.this, productList, callback);
 
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -105,7 +105,13 @@
     <fragment
             android:id="@+id/navigation_reset"
             android:name="com.example.shopy.ui.reset.ResetFragment"
-            android:label="title_reset"
+            android:label="@string/title_reset"
             tools:layout="@layout/fragment_reset"/>
+
+    <fragment
+            android:id="@+id/navigation_stock"
+            android:name="com.example.shopy.ui.stock.StockFragment"
+            android:label="@string/title_stock"
+            tools:layout="@layout/fragment_stock"/>
 
 </navigation>

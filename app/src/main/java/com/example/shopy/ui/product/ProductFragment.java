@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 import com.example.shopy.Controller;
+import com.example.shopy.R;
 import com.example.shopy.adapter.ImagePagerAdapter;
 import com.example.shopy.databinding.FragmentProductBinding;
 import com.example.shopy.helper.FirebaseApp;
@@ -30,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,7 +59,7 @@ public class ProductFragment extends Fragment {
     private List<String> uploadedImages;
     private DatabaseReference mDatabase;
     private StorageReference storageReference;
-    private StorageTask mUploadTask;
+    private UploadTask uploadTask; // Formerly StorageTask
 
     private Product product;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -100,6 +101,7 @@ public class ProductFragment extends Fragment {
 
         btnChoose.setOnClickListener(v -> chooseImage());
         btnUpload.setOnClickListener(v -> publishProduct());
+        btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_stock));
 
         ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
@@ -205,17 +207,17 @@ public class ProductFragment extends Fragment {
         for (Uri file : fileUris)
         {
             StorageReference photoRef = storageReference.child("images/" + file.getLastPathSegment());
-            mUploadTask = photoRef.putFile(file);
+            uploadTask = photoRef.putFile(file);
 
-            mUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    mUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                         @Override
                         public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                             if (!task.isSuccessful()) {
-                                throw task.getException();
+                                throw Objects.requireNonNull(task.getException());
 
                             }
                             // Continue with the task to get the download URL

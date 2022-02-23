@@ -6,12 +6,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopy.Controller;
@@ -19,6 +20,7 @@ import com.example.shopy.R;
 import com.example.shopy.db.FavDB;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.Product;
+import com.example.shopy.ui.stock.StockFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
@@ -38,13 +40,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private final List<Product> productList;
     private final JSONObject json;
     private String imageList;
+    private Fragment fragment;
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, List<Product> productList, FragmentCallback callback) {
+    public ProductAdapter(Context mCtx, Fragment fragment, List<Product> productList, FragmentCallback callback) {
         this.mCtx = mCtx;
         controller = Controller.getInstance(mCtx);
         this.productList = productList;
         this.callback = callback;
+        this.fragment = fragment;
         json = new JSONObject();
     }
 
@@ -67,11 +71,36 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale"})
+    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale", "ResourceType"})
     public void onBindViewHolder(@NotNull ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Product product = productList.get(position);
         readCursorData(product, holder);
+
+        if (fragment instanceof StockFragment)
+        {
+            holder.txtMore.setVisibility(View.VISIBLE);
+            holder.txtMore.setOnClickListener(v -> {
+//                callback.onItemClicked(position, product);
+                // Initializing the popup menu and giving the reference as current context
+                PopupMenu popupMenu = new PopupMenu(mCtx, holder.txtMore);
+                popupMenu.setGravity(Gravity.END);
+
+                // Inflating popup menu from popup_menu.xml file
+                popupMenu.getMenuInflater().inflate(R.xml.popup_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        // Toast message on menu item clicked
+                        Toast.makeText(mCtx, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                // Showing the popup menu
+                popupMenu.setForceShowIcon(true);
+                popupMenu.show();
+            });
+        }
 
         //binding the data with the viewHolder views
         holder.textViewTitle.setText(product.getTitle());
@@ -129,7 +158,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         RatingBar textViewRating;
-        TextView textViewTitle, textViewShortDesc, textViewPrice;
+        TextView textViewTitle, textViewShortDesc, textViewPrice, txtMore;
         ImageView imageView, favBtn;
 
         public ProductViewHolder(View itemView) {
@@ -140,6 +169,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewRating = itemView.findViewById(R.id.ratingBar);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
             imageView = itemView.findViewById(R.id.imageView);
+            txtMore = itemView.findViewById(R.id.txtMore);
             favBtn = itemView.findViewById(R.id.fav_btn);
 
             controller.setTextLength(textViewTitle);

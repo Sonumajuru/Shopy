@@ -92,10 +92,14 @@
     <string name="upload">Upload</string>
     <string name="stocks">Stocks</string>
     <string name="title_image">Image</string>
+    <string name="title_stock">Stock</string>
+    <string name="title_reset">Reset</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="reset_text">Please provide your Njangi Email id \n for password reset instructions.</string>
     <string name="delete_account">Delete Account</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirm">Are you sure?</string>
+    <string name="update_product">Update</string>
+    <string name="delete_product">Delete</string>
 </resources>

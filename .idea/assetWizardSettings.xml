@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/access_time/baseline_access_time_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx/icons/material/materialicons/update/baseline_update_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,7 +33,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_registered_time_24" />
+                            <entry key="outputName" value="ic_update_black_24" />
                           </map>
                         </option>
                       </PersistentState>
