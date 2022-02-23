@@ -1,5 +1,6 @@
 package com.example.shopy.ui.register;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -161,17 +163,31 @@ public class RegisterFragment extends Fragment {
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(v -> {
 
-                Objects.requireNonNull(firebaseApp.getAuth()
-                        .getCurrentUser())
-                        .delete().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
-                        Navigation.findNavController(v).navigate(R.id.navigation_login);
-                    } else {
-                        Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            Objects.requireNonNull(firebaseApp.getAuth()
+                                            .getCurrentUser())
+                                    .delete().addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
+                                            Navigation.findNavController(v).navigate(R.id.navigation_login);
+                                        } else {
+                                            Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            break;
 
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage(R.string.confirm).setPositiveButton(R.string.yes, dialogClickListener)
+                        .setNegativeButton(R.string.no, dialogClickListener).show();
             });
         }
         language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

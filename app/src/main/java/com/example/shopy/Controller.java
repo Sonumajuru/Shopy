@@ -116,6 +116,9 @@ public class Controller {
             case "Shoes":
                 text = mContext.getString(R.string.shoes);
                 break;
+            case "Hairs":
+                text = mContext.getString(R.string.hairs);
+                break;
             case "Motorbike":
                 text = mContext.getString(R.string.motorbike);
                 break;

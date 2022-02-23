@@ -44,6 +44,7 @@ public class ProductViewModel extends AndroidViewModel {
                 .getString(R.string.shoes), app.getApplicationContext()
                 .getString(R.string.books), app.getApplicationContext()
                 .getString(R.string.cars), app.getApplicationContext()
+                .getString(R.string.hairs),app.getApplicationContext()
                 .getString(R.string.motorbike)};
 
         final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));

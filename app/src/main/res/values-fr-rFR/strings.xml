@@ -95,4 +95,8 @@
     <string name="forgot_password">Mot de passe oublié?</string>
     <string name="reset_text">Veuillez fournir votre identifiant de Njangi \n pour réinitialisation du mot de passe.</string>
     <string name="delete_account">Supprimer compte</string>
+    <string name="hairs">Mèches</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="confirm">Êtes-vous sûr?</string>
 </resources>

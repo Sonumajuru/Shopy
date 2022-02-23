@@ -48,6 +48,7 @@
     <string name="product_image">Product Image</string>
     <string name="electronics">Electronics</string>
     <string name="cars">Cars</string>
+    <string name="hairs">Hairs</string>
     <string name="motorbike">Motorbike</string>
     <string name="clothing">Clothing</string>
     <string name="computer">Computers</string>
@@ -94,4 +95,7 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="reset_text">Please provide your Njangi Email id \n for password reset instructions.</string>
     <string name="delete_account">Delete Account</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirm">Are you sure?</string>
 </resources>

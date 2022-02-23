@@ -18,14 +18,13 @@ import java.util.List;
 
 public class ImageFragment extends Fragment {
 
-    private ImageViewModel imageViewModel;
     private FragmentImageBinding binding;
     private Controller controller;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
+        ImageViewModel imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
         binding = FragmentImageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
