@@ -157,6 +157,11 @@ public class CartFragment extends Fragment {
                 totalCost = 0;
                 updateScreen();
             }
+
+            @Override
+            public void onItemClicked(int position, Object object, int id) {
+
+            }
         };
         CartAdapter cartAdapter = new CartAdapter(newCartItemList, getActivity(), callback);
         recyclerView.setAdapter(cartAdapter);

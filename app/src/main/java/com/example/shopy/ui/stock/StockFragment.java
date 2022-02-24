@@ -1,9 +1,11 @@
 package com.example.shopy.ui.stock;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,7 +19,6 @@ import com.example.shopy.adapter.ProductAdapter;
 import com.example.shopy.databinding.FragmentStockBinding;
 import com.example.shopy.interfaces.FragmentCallback;
 import com.example.shopy.model.Product;
-import com.example.shopy.ui.overview.OverviewFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
@@ -94,6 +95,20 @@ public class StockFragment extends Fragment {
                             NavController navController = navHostFragment.getNavController();
                             navController.navigate(navigation_detail, bundle);
                         }
+
+                        @SuppressLint("NonConstantResourceId")
+                        @Override
+                        public void onItemClicked(int position, Object object, int id) {
+
+                            Product product = (Product) object;
+                            if (id == R.id.update)
+                            {
+                                Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                            } else if (id == R.id.delete) {
+                                deleteProd(product);
+                                Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     };
                     adapter = new ProductAdapter(getActivity(), StockFragment.this, productList, callback);
 
@@ -105,6 +120,48 @@ public class StockFragment extends Fragment {
             @Override
             public void onCancelled(@NotNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void deleteProd(Product product)
+    {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = mDatabase
+                .child("ProductDB")
+                .child("products")
+                .equalTo(product.getProdId());;
+
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+//                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
+
+        Query query = mDatabase
+                .child("ProductDB")
+                .child("user-products")
+                .equalTo(product.getProdId());;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError databaseError) {
+//                Log.e(TAG, "onCancelled", databaseError.toException());
             }
         });
     }

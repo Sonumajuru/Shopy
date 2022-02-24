@@ -12,8 +12,10 @@ import java.util.Map;
 public class Product implements Parcelable {
 
     private String id;
+    private String prodId;
     private String uuid;
-    public String seller;
+    private String seller;
+    private String store;
     private String title;
     private String category;
     private double price;
@@ -30,6 +32,14 @@ public class Product implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProdId() {
+        return prodId;
+    }
+
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
     }
 
     public String getUuid() {
@@ -66,6 +76,14 @@ public class Product implements Parcelable {
 
     public String getSeller() {
         return seller;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
     }
 
     public void setSeller(String seller) {
@@ -120,9 +138,10 @@ public class Product implements Parcelable {
     }
 
     public Product(String id, String uuid, String seller, String title, String category, double price, String currency,
-                   String description, List<String> images, double rating, String favStatus) {
+                   String description, List<String> images, double rating, String favStatus, String prodId, String store) {
 
         this.id = id;
+        this.prodId = prodId;
         this.uuid = uuid;
         this.title = title;
         this.seller = seller;
@@ -133,6 +152,7 @@ public class Product implements Parcelable {
         this.images = images;
         this.rating = rating;
         this.favStatus = favStatus;
+        this.store = store;
         productList = new ArrayList<>();
     }
 
@@ -150,6 +170,7 @@ public class Product implements Parcelable {
 
     protected Product(Parcel in) {
         id = in.readString();
+        prodId = in.readString();
         seller = in.readString();
         title = in.readString();
         category = in.readString();
@@ -163,6 +184,7 @@ public class Product implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(id);
+        dest.writeString(prodId);
         dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);
@@ -183,6 +205,7 @@ public class Product implements Parcelable {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
+        result.put("prodID", prodId);
         result.put("uuid", uuid);
         result.put("seller", seller);
         result.put("title", title);
@@ -193,6 +216,7 @@ public class Product implements Parcelable {
         result.put("images", images);
         result.put("rating", rating);
         result.put("favStatus", favStatus);
+        result.put("store", store);
 
         return result;
     }

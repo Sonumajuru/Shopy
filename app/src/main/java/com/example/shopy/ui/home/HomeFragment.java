@@ -54,7 +54,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private SliderAdapter sliderAdapter;
     private ParentViewAdapter parentViewAdapter;
 
-    private List<DataSnapshot> dataSnapshotList;
     private ArrayList<ParentModel> categoryList;
     private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
@@ -72,7 +71,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         sliderList = new ArrayList<>();
         offerList = new ArrayList<>();
         timer = new java.util.Timer();
-        dataSnapshotList = new Stack<>();
         page = binding.viewPager;
         Button btnFeelLucky = binding.luckBtn;
         Button btnCategory = binding.categoryBtn;
@@ -81,7 +79,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         recyclerView.setLayoutManager(parentLayoutManager);
 
         getProducts();
-        getSpecialOffers();
 
         homeViewModel.getUserName();
         final TextView title = binding.textHome;
@@ -94,6 +91,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         btnFeelLucky.setOnClickListener(v -> {
             timer.cancel();
             timer.purge();
+            if (productList.size() == 0) return;
             Navigation.findNavController(v).navigate(R.id.navigation_detail, randomPick());
         });
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
@@ -119,6 +117,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     assert product != null;
                     parentModelArrayList.add(new ParentModel(product.getCategory()));
                     productList.add(product);
+                    offerList.add(product.getStore());
                 }
 
                 TreeSet<ParentModel> set = parentModelArrayList.stream()
@@ -137,12 +136,18 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     public void onItemClicked(int position, Object object) {
 
                     }
+
+                    @Override
+                    public void onItemClicked(int position, Object object, int id) {
+
+                    }
                 };
 
                 parentLayoutManager = new LinearLayoutManager(getActivity());
                 parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
                 recyclerView.setAdapter(parentViewAdapter);
                 parentViewAdapter.notifyDataSetChanged();
+                getSpecialOffers();
             }
 
             @Override
@@ -156,74 +161,60 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     @SuppressLint("NotifyDataSetChanged")
     private void getSpecialOffers()
     {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("Feeling Lucky");
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        callback = new FragmentCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void doSomething() {
 
-                for (DataSnapshot parentDS : dataSnapshot.getChildren()) {
-                    String key = parentDS.getKey();
-                    dataSnapshotList.add(parentDS);
+                timer.cancel();
+                timer.purge();
+            }
 
-                    for (DataSnapshot ds : parentDS.getChildren()) {
-//                        key = ds.getKey();
-                        product = ds.getValue(Product.class);
-                        sliderList.add(product);
+            @Override
+            public void onItemClicked(int position, Object object) {
+
+                String offer  = (String) object;
+                ArrayList<Product> tempList = new ArrayList<>();
+
+                for (Product value : productList)
+                {
+                    if (!offer.isEmpty() && offer.equals(value.getStore())) {
+                        tempList.add(value);
                     }
-                    offerList.add(key);
                 }
 
-                callback = new FragmentCallback() {
-                    @Override
-                    public void doSomething() {
-
-                        timer.cancel();
-                        timer.purge();
-                    }
-
-                    @Override
-                    public void onItemClicked(int position, Object object) {
-                        // Handle Object of list item here
-                        String offer  = (String) object;
-                        ArrayList<Product> tempList = new ArrayList<>();
-
-                        for (DataSnapshot snapshot : dataSnapshotList) {
-                            if (offer.equals(snapshot.getKey())) {
-                                for (DataSnapshot ds : snapshot.getChildren()) {
-                                    product = ds.getValue(Product.class);
-                                    tempList.add(product);
-                                }
-                            }
-                        }
-
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(requireContext()
-                                .getResources()
-                                .getString(R.string.feeling_lucky), tempList);
-                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                                .findFragmentById(R.id.nav_host_fragment_activity_main);
-                        assert navHostFragment != null;
-                        NavController navController = navHostFragment.getNavController();
-                        navController.navigate(R.id.navigation_overview, bundle);
-                    }
-                };
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(requireContext()
+                        .getResources()
+                        .getString(R.string.feeling_lucky), tempList);
+                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment_activity_main);
+                assert navHostFragment != null;
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.navigation_overview, bundle);
 
                 sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
                 page.setAdapter(sliderAdapter);
                 objects = requireActivity();
 
                 // sliderTimer
-                timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
+                timer.scheduleAtFixedRate(new sliderTimer(),3000,6000);
+                timer.cancel();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            public void onItemClicked(int position, Object object, int id) {
+
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+
+        sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
+        page.setAdapter(sliderAdapter);
+        objects = requireActivity();
+
+        // sliderTimer
+        timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
     }
+
 
     public Bundle randomPick() {
         Random rand = new Random();
@@ -239,6 +230,11 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     @Override
     public void onItemClicked(int position, Object object) {
+
+    }
+
+    @Override
+    public void onItemClicked(int position, Object object, int id) {
 
     }
 

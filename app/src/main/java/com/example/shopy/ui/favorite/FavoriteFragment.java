@@ -122,6 +122,11 @@ public class FavoriteFragment extends Fragment {
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(navigation_detail, bundle);
             }
+
+            @Override
+            public void onItemClicked(int position, Object object, int id) {
+
+            }
         };
 
         favAdapter = new FavAdapter(favItemList, requireContext(), callback);

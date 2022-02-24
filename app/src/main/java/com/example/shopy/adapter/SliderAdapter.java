@@ -34,16 +34,16 @@ public class SliderAdapter extends PagerAdapter {
 
         String slider = offerList.get(position);
 
-        if (slider.equals(mCtx.getResources().getString(R.string.black_friday))) {
+        if (slider.equals("Fokou")) {
             imageView.setBackgroundResource(R.drawable.black_friday);
         }
-        else if (slider.equals(mCtx.getResources().getString(R.string.discounts))) {
+        else if (slider.equals("Nikki")) {
             imageView.setBackgroundResource(R.drawable.discounts);
         }
-        else if (slider.equals(mCtx.getResources().getString(R.string.hot_deals))) {
+        else if (slider.equals("Shoprite")) {
             imageView.setBackgroundResource(R.drawable.hot_deals);
         }
-        else if (slider.equals(mCtx.getResources().getString(R.string.njangi_deals))) {
+        else if (slider.equals("Njangi")) {
             imageView.setBackgroundResource(R.drawable.njangi_day);
         }
 

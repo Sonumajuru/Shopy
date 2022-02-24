@@ -45,10 +45,11 @@ public class ProductViewModel extends AndroidViewModel {
                 .getString(R.string.books), app.getApplicationContext()
                 .getString(R.string.cars), app.getApplicationContext()
                 .getString(R.string.hairs),app.getApplicationContext()
+                .getString(R.string.cosmetics),app.getApplicationContext()
                 .getString(R.string.motorbike)};
 
-        final List<String> countryList = new ArrayList<>(Arrays.asList(ProductCategories));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, countryList);
+        final List<String> categoryList = new ArrayList<>(Arrays.asList(ProductCategories));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, categoryList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;
     }

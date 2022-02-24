@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -40,7 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private final List<Product> productList;
     private final JSONObject json;
     private String imageList;
-    private Fragment fragment;
+    private final Fragment fragment;
 
     //getting the context and product list with constructor
     public ProductAdapter(Context mCtx, Fragment fragment, List<Product> productList, FragmentCallback callback) {
@@ -81,19 +82,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         {
             holder.txtMore.setVisibility(View.VISIBLE);
             holder.txtMore.setOnClickListener(v -> {
-//                callback.onItemClicked(position, product);
                 // Initializing the popup menu and giving the reference as current context
-                PopupMenu popupMenu = new PopupMenu(mCtx, holder.txtMore);
+                Context wrapper = new ContextThemeWrapper(mCtx, R.xml.popup_menu);
+                PopupMenu popupMenu = new PopupMenu(wrapper, holder.txtMore);
                 popupMenu.setGravity(Gravity.END);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    popupMenu.getMenu().setGroupDividerEnabled(true);
+                }
 
                 // Inflating popup menu from popup_menu.xml file
                 popupMenu.getMenuInflater().inflate(R.xml.popup_menu, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         // Toast message on menu item clicked
-                        Toast.makeText(mCtx, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
+                        int id = menuItem.getItemId();
+                        switch(id)
+                        {
+                            case R.id.update:
+                            case R.id.delete:
+                                callback.onItemClicked(position, product, id);
+//                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
                     }
                 });
                 // Showing the popup menu

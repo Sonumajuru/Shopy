@@ -110,6 +110,9 @@ public class Controller {
             case "Books":
                 text = mContext.getString(R.string.books);
                 break;
+            case "Cosmetics":
+                text = mContext.getString(R.string.cosmetics);
+                break;
             case "Clothing":
                 text = mContext.getString(R.string.clothing);
                 break;
@@ -139,6 +142,49 @@ public class Controller {
                 break;
             case "Phones":
                 text = mContext.getString(R.string.phones);
+                break;
+        }
+        return text;
+    }
+
+    public String getCategoryTranslation(String text)
+    {
+        switch (text) {
+            case "Livres":
+                text = "Books";
+                break;
+            case "Produits de beauté":
+                text = "Cosmetics";
+                break;
+            case "Vêtements":
+                text = "Clothing";
+                break;
+            case "Chaussures":
+                text = "Shoes";
+                break;
+            case "Mèches":
+                text = "Hairs";
+                break;
+            case "Moto":
+                text = "Motorbike";
+                break;
+            case "Ordinateur":
+                text = "Computers";
+                break;
+            case "Voitures":
+                text = "Cars";
+                break;
+            case "Électronique":
+                text = "Electronics";
+                break;
+            case "Jeux":
+                text = "Games";
+                break;
+            case "Appareils Ménagers":
+                text = "Home Appliances";
+                break;
+            case "Téléphone":
+                text = "Phones";
                 break;
         }
         return text;

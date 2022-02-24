@@ -78,7 +78,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(),product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -92,7 +93,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -107,7 +109,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -122,7 +125,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -137,7 +141,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -152,7 +157,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -167,7 +173,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -182,7 +189,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -197,7 +205,8 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
@@ -212,11 +221,13 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
 
+        // added in tenth child row
         if (parentModelArrayList.get(position).getCategory().equals("Hairs")) {
             for (Product product : productList) {
                 if (product.getCategory().equals("Hairs"))
@@ -226,11 +237,27 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus()));
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
                 }
             }
         }
 
+        // added in eleventh child row
+        if (parentModelArrayList.get(position).getCategory().equals("Cosmetics")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Cosmetics"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus(), product.getProdId(),
+                            product.getStore()));
+                }
+            }
+        }
 
         HomeAdapter childRecyclerViewAdapter = new HomeAdapter(holder.childRecyclerView.getContext(), arrayList, callback);
         holder.childRecyclerView.setAdapter(childRecyclerViewAdapter);

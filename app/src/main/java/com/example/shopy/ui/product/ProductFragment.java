@@ -177,17 +177,16 @@ public class ProductFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
         String title = inputTitle.getText().toString().trim();
-        String category = this.category.getSelectedItem().toString();
+        String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
         double price = Double.parseDouble(inputPrice.getText().toString().trim());
         double rating = ratingBar.getRating();
         String description = inputDescription.getText().toString().trim();
         String currency = inputCurrency.getText().toString().trim();
 
-
         mDatabase = FirebaseDatabase
                 .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("ProductDB");
-//                .child("Njangi-Deals");
+
         mDatabase.child("products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -237,7 +236,7 @@ public class ProductFragment extends Fragment {
                                 String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                 product = new Product(String.valueOf(maxId+1), uuid, seller, title,
                                         controller.getDefaultTranslation(category), price,
-                                        currency, description, uploadedImages, rating,"0");
+                                        currency, description, uploadedImages, rating,"0", key, "");
 
                                 Map<String, Object> productValues = product.toMap();
 
