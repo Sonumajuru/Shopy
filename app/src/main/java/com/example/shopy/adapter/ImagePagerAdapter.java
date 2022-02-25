@@ -62,23 +62,20 @@ public class ImagePagerAdapter extends PagerAdapter {
 //            holder.txtMore.setVisibility(View.VISIBLE);
         }
 
-        if (fragment instanceof ProductFragment)
+        if (!(fragment instanceof ProductFragment))
         {
-            imageView.setOnClickListener(null);
-        }
-
-        //Disable click for product fragment
-        //listening to image click
-        imageView.setOnClickListener(v -> {
-            if (!controller.getIsFragVisible())
-            {
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("images", (ArrayList<String>) images);
-                Navigation.findNavController(v).navigate(R.id.navigation_image, bundle);
-                controller.setIsFragVisible(true);
+            //listening to image click
+            imageView.setOnClickListener(v -> {
+                if (!controller.getIsFragVisible())
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("images", (ArrayList<String>) images);
+                    Navigation.findNavController(v).navigate(R.id.navigation_image, bundle);
+                    controller.setIsFragVisible(true);
 //               Toast.makeText(context, "you clicked image " + (position + 1), Toast.LENGTH_LONG).show();
-            }
-        });
+                }
+            });
+        }
 
         return itemView;
     }
