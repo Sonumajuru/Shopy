@@ -12,7 +12,7 @@ import java.util.Map;
 public class Product implements Parcelable {
 
     private String id;
-    private String prodId;
+    private String prodID;
     private String uuid;
     private String seller;
     private String store;
@@ -34,12 +34,12 @@ public class Product implements Parcelable {
         this.id = id;
     }
 
-    public String getProdId() {
-        return prodId;
+    public String getProdID() {
+        return prodID;
     }
 
-    public void setProdId(String prodId) {
-        this.prodId = prodId;
+    public void setProdID(String prodID) {
+        this.prodID = prodID;
     }
 
     public String getUuid() {
@@ -138,10 +138,10 @@ public class Product implements Parcelable {
     }
 
     public Product(String id, String uuid, String seller, String title, String category, double price, String currency,
-                   String description, List<String> images, double rating, String favStatus, String prodId, String store) {
+                   String description, List<String> images, double rating, String favStatus, String prodID, String store) {
 
         this.id = id;
-        this.prodId = prodId;
+        this.prodID = prodID;
         this.uuid = uuid;
         this.title = title;
         this.seller = seller;
@@ -170,7 +170,7 @@ public class Product implements Parcelable {
 
     protected Product(Parcel in) {
         id = in.readString();
-        prodId = in.readString();
+        prodID = in.readString();
         seller = in.readString();
         title = in.readString();
         category = in.readString();
@@ -184,7 +184,7 @@ public class Product implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(id);
-        dest.writeString(prodId);
+        dest.writeString(prodID);
         dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);
@@ -205,7 +205,7 @@ public class Product implements Parcelable {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
-        result.put("prodID", prodId);
+        result.put("prodID", prodID);
         result.put("uuid", uuid);
         result.put("seller", seller);
         result.put("title", title);

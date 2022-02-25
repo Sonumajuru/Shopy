@@ -39,7 +39,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     //a list to store all the products
     private List<Product> productList;
-    private List<Product> sliderList;
     private List<String> offerList;
 
     //the recyclerview
@@ -51,7 +50,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private ViewPager page;
     private Product product;
 
-    private SliderAdapter sliderAdapter;
     private ParentViewAdapter parentViewAdapter;
 
     private ArrayList<ParentModel> categoryList;
@@ -68,7 +66,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
         categoryList = new ArrayList<>();
-        sliderList = new ArrayList<>();
         offerList = new ArrayList<>();
         timer = new java.util.Timer();
         page = binding.viewPager;
@@ -117,7 +114,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     assert product != null;
                     parentModelArrayList.add(new ParentModel(product.getCategory()));
                     productList.add(product);
-                    offerList.add(product.getStore());
+                    if (!product.getStore().isEmpty())
+                    {
+                        offerList.add(product.getStore());
+                    }
                 }
 
                 TreeSet<ParentModel> set = parentModelArrayList.stream()
@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
                 for (Product value : productList)
                 {
-                    if (!offer.isEmpty() && offer.equals(value.getStore())) {
+                    if (offer.equals(value.getStore())) {
                         tempList.add(value);
                     }
                 }
@@ -192,12 +192,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_overview, bundle);
 
-                sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
-                page.setAdapter(sliderAdapter);
-                objects = requireActivity();
-
-                // sliderTimer
-                timer.scheduleAtFixedRate(new sliderTimer(),3000,6000);
                 timer.cancel();
             }
 
@@ -207,14 +201,17 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             }
         };
 
-        sliderAdapter = new SliderAdapter(getActivity(), sliderList, offerList, callback);
+        Set<String> offers = new LinkedHashSet<>(offerList);
+        offerList.clear();
+        offerList.addAll(offers);
+
+        SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), offerList, callback);
         page.setAdapter(sliderAdapter);
         objects = requireActivity();
 
         // sliderTimer
         timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
     }
-
 
     public Bundle randomPick() {
         Random rand = new Random();

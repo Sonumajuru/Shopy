@@ -101,8 +101,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         switch(id)
                         {
                             case R.id.update:
+                                callback.onItemClicked(position, product, id);
+//                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                             case R.id.delete:
                                 callback.onItemClicked(position, product, id);
+                                removeAt(position);
 //                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 return true;
                             default:
@@ -162,6 +165,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             String title = product.getTitle();
             callback.onItemClicked(position, product);
         });
+    }
+
+    public void removeAt(int position) {
+        productList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, productList.size());
     }
 
     @Override

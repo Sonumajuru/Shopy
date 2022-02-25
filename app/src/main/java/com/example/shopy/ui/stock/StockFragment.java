@@ -105,8 +105,7 @@ public class StockFragment extends Fragment {
                             {
                                 Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
                             } else if (id == R.id.delete) {
-                                deleteProd(product);
-                                Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                                deleteTask(product.getProdID());
                             }
                         }
                     };
@@ -124,46 +123,61 @@ public class StockFragment extends Fragment {
         });
     }
 
-    private void deleteProd(Product product)
-    {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        Query applesQuery = mDatabase
-                .child("ProductDB")
-                .child("products")
-                .equalTo(product.getProdId());;
+    private void deleteTask (final String prodId){
 
-        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
+        try
+        {
+            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("ProductDB").child("products");
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot ds :dataSnapshot.getChildren()){
+                        Product product = ds.getValue(Product.class);
+                        assert product != null;
+                        if (product.getProdID().equals(prodId))
+                        {
+                            ds.getRef().removeValue();
+                            break;
+                        }
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-//                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        Query query = mDatabase
-                .child("ProductDB")
-                .child("user-products")
-                .equalTo(product.getProdId());;
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-//                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+            });
+
+            dbRef = FirebaseDatabase.getInstance().getReference()
+                    .child("ProductDB")
+                    .child("user-products")
+                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot ds :dataSnapshot.getChildren()){
+                        Product product = ds.getValue(Product.class);
+                        assert product != null;
+                        if (product.getProdID().equals(prodId))
+                        {
+                            ds.getRef().removeValue();
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -19,7 +19,7 @@ public class SliderAdapter extends PagerAdapter {
     private final List<String> offerList;
     private final FragmentCallback callback;
 
-    public SliderAdapter(Context mCtx, List<Product> sliderList, List<String> offerList, FragmentCallback callback) {
+    public SliderAdapter(Context mCtx, List<String> offerList, FragmentCallback callback) {
         this.mCtx = mCtx;
         this.offerList = offerList;
         this.callback = callback;
@@ -34,17 +34,20 @@ public class SliderAdapter extends PagerAdapter {
 
         String slider = offerList.get(position);
 
-        if (slider.equals("Fokou")) {
-            imageView.setBackgroundResource(R.drawable.black_friday);
-        }
-        else if (slider.equals("Nikki")) {
-            imageView.setBackgroundResource(R.drawable.discounts);
-        }
-        else if (slider.equals("Shoprite")) {
-            imageView.setBackgroundResource(R.drawable.hot_deals);
-        }
-        else if (slider.equals("Njangi")) {
-            imageView.setBackgroundResource(R.drawable.njangi_day);
+        // Example of top shop companies should display here
+        switch (slider) {
+            case "Fokou":
+                imageView.setBackgroundResource(R.drawable.black_friday);
+                break;
+            case "Nikki":
+                imageView.setBackgroundResource(R.drawable.discounts);
+                break;
+            case "Shoprite":
+                imageView.setBackgroundResource(R.drawable.hot_deals);
+                break;
+            case "Njangi":
+                imageView.setBackgroundResource(R.drawable.njangi_day);
+                break;
         }
 
         imageView.setOnClickListener(view1 -> callback.onItemClicked(position, slider));

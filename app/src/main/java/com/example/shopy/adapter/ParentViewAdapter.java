@@ -78,7 +78,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(),product.getProdId(),
+                            product.getFavStatus(),product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -93,7 +93,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -109,7 +109,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -125,7 +125,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -141,7 +141,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -157,7 +157,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -173,7 +173,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -189,7 +189,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -205,7 +205,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -221,7 +221,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -237,7 +237,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
@@ -253,7 +253,7 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
                             product.getCategory(), product.getPrice(),
                             product.getCurrency(), product.getDescription(),
                             product.getImages(), product.getRating(),
-                            product.getFavStatus(), product.getProdId(),
+                            product.getFavStatus(), product.getProdID(),
                             product.getStore()));
                 }
             }
