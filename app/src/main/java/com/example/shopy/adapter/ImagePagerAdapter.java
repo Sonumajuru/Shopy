@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.PagerAdapter;
 import com.example.shopy.Controller;
 import com.example.shopy.R;
+import com.example.shopy.ui.product.ProductFragment;
+import com.example.shopy.ui.stock.StockFragment;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,11 +26,13 @@ public class ImagePagerAdapter extends PagerAdapter {
     private final List<String> images;
     private final LayoutInflater layoutInflater;
     private final Controller controller;
+    private final Fragment fragment;
 
-    public ImagePagerAdapter(Context context, List<String> images) {
+    public ImagePagerAdapter(Context context, Fragment fragment, List<String> images) {
         this.context = context;
         controller = Controller.getInstance(context);
         this.images = images;
+        this.fragment = fragment;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -52,6 +57,17 @@ public class ImagePagerAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
+        if (fragment instanceof StockFragment)
+        {
+//            holder.txtMore.setVisibility(View.VISIBLE);
+        }
+
+        if (fragment instanceof ProductFragment)
+        {
+            imageView.setOnClickListener(null);
+        }
+
+        //Disable click for product fragment
         //listening to image click
         imageView.setOnClickListener(v -> {
             if (!controller.getIsFragVisible())

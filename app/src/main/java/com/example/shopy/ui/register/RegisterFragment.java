@@ -171,10 +171,11 @@ public class RegisterFragment extends Fragment {
                                             .getCurrentUser())
                                     .delete().addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
+
                                             Navigation.findNavController(v).navigate(R.id.navigation_login);
                                         } else {
-                                            Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                             break;

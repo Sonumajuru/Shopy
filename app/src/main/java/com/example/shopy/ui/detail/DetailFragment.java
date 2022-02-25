@@ -98,7 +98,7 @@ public class DetailFragment extends Fragment {
 
         if (product != null)
         {
-            imagePagerAdapter = new ImagePagerAdapter(requireContext(), product.getImages());
+            imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, product.getImages());
 
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
@@ -109,7 +109,7 @@ public class DetailFragment extends Fragment {
         else
         {
             favItem = getArguments().getParcelable("favItem");
-            imagePagerAdapter = new ImagePagerAdapter(requireContext(), favItem.getImages());
+            imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, favItem.getImages());
 
             price.setText(String.format("%.2f", favItem.getPrice()) + " " + favItem.getCurrency());
             title.setText(favItem.getTitle());

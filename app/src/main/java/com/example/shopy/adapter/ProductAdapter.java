@@ -81,6 +81,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (fragment instanceof StockFragment)
         {
             holder.txtMore.setVisibility(View.VISIBLE);
+            holder.favBtn.setVisibility(View.GONE);
             holder.txtMore.setOnClickListener(v -> {
                 // Initializing the popup menu and giving the reference as current context
                 Context wrapper = new ContextThemeWrapper(mCtx, R.xml.popup_menu);
@@ -103,6 +104,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             case R.id.update:
                                 callback.onItemClicked(position, product, id);
 //                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                return true;
                             case R.id.delete:
                                 callback.onItemClicked(position, product, id);
                                 removeAt(position);

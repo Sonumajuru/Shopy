@@ -54,14 +54,13 @@ public class ProductFragment extends Fragment {
     private EditText inputTitle;
     private EditText inputPrice;
     private EditText inputDescription;
-
     private List<Uri> fileUris;
     private List<String> uploadedImages;
-    private DatabaseReference mDatabase;
-    private StorageReference storageReference;
     private UploadTask uploadTask; // Formerly StorageTask
-
     private Product product;
+    private DatabaseReference mDatabase;
+    private  StorageReference storageReference;
+
     private final int PICK_IMAGE_REQUEST = 22;
     private long maxId;
     private ProgressBar progressBar;
@@ -78,12 +77,10 @@ public class ProductFragment extends Fragment {
         View root = binding.getRoot();
 
         // instance for firebase storage and StorageReference
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+
         user = new User();
-        product = new Product();
-        uploadedImages = new ArrayList<>();
         firebaseApp = new FirebaseApp();
+        storageReference = FirebaseStorage.getInstance().getReference();
         controller = Controller.getInstance(requireContext());
 
         Button btnChoose = binding.btnChoose;
@@ -166,7 +163,7 @@ public class ProductFragment extends Fragment {
         List<String> targetList = new ArrayList<>();
         fileUris.forEach(uri -> targetList.add(uri.toString()));
 
-        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), targetList);
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList);
         viewPager.setAdapter(imagePagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
     }
@@ -174,6 +171,8 @@ public class ProductFragment extends Fragment {
     private void publishProduct()
     {
         if (fieldCheck()) return;
+        product = new Product();
+        uploadedImages = new ArrayList<>();
 
         progressBar.setVisibility(View.VISIBLE);
         String title = inputTitle.getText().toString().trim();
@@ -255,6 +254,7 @@ public class ProductFragment extends Fragment {
                 Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         }
+
     }
 
     private boolean fieldCheck()

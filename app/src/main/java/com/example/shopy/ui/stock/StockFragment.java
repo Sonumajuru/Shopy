@@ -103,9 +103,10 @@ public class StockFragment extends Fragment {
                             Product product = (Product) object;
                             if (id == R.id.update)
                             {
+
                                 Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
                             } else if (id == R.id.delete) {
-                                deleteTask(product.getProdID());
+                                deleteProduct(product.getProdID());
                             }
                         }
                     };
@@ -123,7 +124,7 @@ public class StockFragment extends Fragment {
         });
     }
 
-    private void deleteTask (final String prodId){
+    private void deleteProduct(final String prodId){
 
         try
         {
