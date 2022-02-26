@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.njangi.shop.R.id.navigation_login;
 import static com.njangi.shop.R.id.navigation_profile;
@@ -292,7 +293,7 @@ public class DetailFragment extends Fragment {
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 JSONArray jArray = json.optJSONArray("images");
-                for (int i = 0; i < jArray.length(); i++) {
+                for (int i = 0; i < Objects.requireNonNull(jArray).length(); i++) {
                     images.add(jArray.optString(i));  //<< jget value from jArray
                 }
                 double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
