@@ -24,6 +24,7 @@ import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,6 +111,7 @@ public class StockFragment extends Fragment {
                             }
                         }
                     };
+                    Collections.reverse(productList);
                     adapter = new ProductAdapter(getActivity(), StockFragment.this, productList, callback);
 
                     //setting adapter to recyclerview

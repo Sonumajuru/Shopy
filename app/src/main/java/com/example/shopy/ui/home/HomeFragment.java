@@ -143,6 +143,8 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     }
                 };
 
+                Collections.reverse(productList);
+
                 parentLayoutManager = new LinearLayoutManager(getActivity());
                 parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
                 recyclerView.setAdapter(parentViewAdapter);

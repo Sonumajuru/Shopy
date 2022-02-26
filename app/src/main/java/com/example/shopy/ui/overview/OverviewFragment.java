@@ -22,6 +22,7 @@ import com.example.shopy.model.Product;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.shopy.R.id.navigation_detail;
@@ -85,6 +86,7 @@ public class OverviewFragment extends Fragment {
                     }
                 }
 
+                Collections.reverse(productList);
                 callback = new FragmentCallback() {
                     @Override
                     public void doSomething() {
