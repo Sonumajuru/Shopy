@@ -1,6 +1,8 @@
 package com.njangi.shop.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.njangi.shop.helper.FirebaseApp;
 import com.njangi.shop.interfaces.FragmentCallback;
 import com.njangi.shop.model.ParentModel;
 import com.njangi.shop.model.Product;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -110,6 +113,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     if (trendingList.size() == 0) return;
 
                     mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), 30));
                     recyclerView.setLayoutManager(mGridLayoutManager);
 
                     homeAdapter = new HomeAdapter(getContext(), trendingList, callback);
@@ -152,6 +156,19 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         });
 
         return root;
+    }
+
+    public static class DividerItemDecoration extends RecyclerView.ItemDecoration {
+        int spacing;
+        public DividerItemDecoration(Context context, int spacing) {
+            this.spacing=spacing;
+        }
+        @Override
+        public void getItemOffsets(Rect outRect, @NotNull View view,
+                                   @NotNull RecyclerView parent,
+                                   @NotNull RecyclerView.State state) {
+            outRect.bottom=spacing;
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
