@@ -109,7 +109,7 @@
         <entry key="app/src/main/res/layout/parent_recyclerview_home.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/parent_recyclerview_items.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/preview_image.xml" value="0.17760416666666667" />
-        <entry key="app/src/main/res/layout/product_items.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/product_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view_items.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/slider_layout.xml" value="0.2296875" />

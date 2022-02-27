@@ -61,13 +61,11 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private Product product;
 
     private ParentViewAdapter parentViewAdapter;
-    private HomeAdapter homeAdapter;
     private ProgressBar progressBar;
 
     private ArrayList<ParentModel> categoryList;
     private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
-    private GridLayoutManager mGridLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -87,8 +85,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         recyclerView = binding.recyclerView;
         TabLayout tabLayout = binding.tabLayout;
 
-//        recyclerView.setVisibility(View.GONE);
-        // Add above text View Offer
         tabLayout.addTab(tabLayout.newTab().setText(R.string.recent).setId(1));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.trending).setId(2));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.category).setId(3));
@@ -100,27 +96,14 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
                 if (tab.getId() == 1)
                 {
-                    parentLayoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(parentLayoutManager);
-
-                    parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
-                    recyclerView.setAdapter(parentViewAdapter);
-                    parentViewAdapter.notifyDataSetChanged();
+                    if (productList.size() == 0) return;
+                    getRecent();
                 }
                 else if (tab.getId() == 2)
                 {
                     // Display only Trending Products
                     if (trendingList.size() == 0) return;
-
-                    final int totalSize = trendingList.size();
-                    mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), 30));
-
-                    recyclerView.setLayoutManager(mGridLayoutManager);
-
-                    homeAdapter = new HomeAdapter(getContext(), trendingList, callback);
-                    recyclerView.setAdapter(homeAdapter);
-                    homeAdapter.notifyDataSetChanged();
+                    getTrending();
                 }
                 else
                 {
@@ -141,9 +124,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             }
         });
 
-        parentLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(parentLayoutManager);
-
         getProducts();
 
         homeViewModel.getUserName();
@@ -160,6 +140,120 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         return root;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void getRecent() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        productList = new ArrayList<>();
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    product = ds.getValue(Product.class);
+                    assert product != null;
+                    parentModelArrayList.add(new ParentModel(product.getCategory()));
+                    productList.add(product);
+                }
+
+                TreeSet<ParentModel> set = parentModelArrayList.stream()
+                        .collect(Collectors.toCollection(() ->
+                                new TreeSet<>(Comparator.comparing(ParentModel::getCategory))));
+                categoryList.addAll(set);
+
+                callback = new FragmentCallback() {
+                    @Override
+                    public void doSomething() {
+                        timer.cancel();
+                        timer.purge();
+                    }
+
+                    @Override
+                    public void onItemClicked(int position, Object object) {
+
+                    }
+
+                    @Override
+                    public void onItemClicked(int position, Object object, int id) {
+
+                    }
+                };
+
+                Collections.reverse(productList);
+
+                parentLayoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(parentLayoutManager);
+                parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
+
+                recyclerView.setAdapter(parentViewAdapter);
+                parentViewAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public void getTrending() {
+
+        progressBar.setVisibility(View.VISIBLE);
+        trendingList = new ArrayList<>();
+        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    product = ds.getValue(Product.class);
+                    assert product != null;
+                    parentModelArrayList.add(new ParentModel(product.getCategory()));
+                    if (product.getTrending() != null && product.getTrending().equals("1")) {
+                        trendingList.add(product);
+                    }
+                }
+
+                callback = new FragmentCallback() {
+                    @Override
+                    public void doSomething() {
+                        timer.cancel();
+                        timer.purge();
+                    }
+
+                    @Override
+                    public void onItemClicked(int position, Object object) {
+
+                    }
+
+                    @Override
+                    public void onItemClicked(int position, Object object, int id) {
+
+                    }
+                };
+
+                Collections.reverse(trendingList);
+
+                GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+                recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), 30));
+                recyclerView.setLayoutManager(mGridLayoutManager);
+
+                HomeAdapter homeAdapter = new HomeAdapter(getContext(), trendingList, callback);
+                recyclerView.setAdapter(homeAdapter);
+                homeAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+            }
+        };
+        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
     public static class DividerItemDecoration extends RecyclerView.ItemDecoration {
         int spacing;
         public DividerItemDecoration(Context context, int spacing) {
@@ -174,8 +268,8 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void getProducts()
-    {
+    private void getProducts() {
+        progressBar.setVisibility(View.VISIBLE);
         DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -185,7 +279,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     assert product != null;
                     parentModelArrayList.add(new ParentModel(product.getCategory()));
                     productList.add(product);
-                    progressBar.setVisibility(View.VISIBLE);
                     if (!product.getStore().isEmpty())
                     {
                         offerList.add(product.getStore());
@@ -224,7 +317,9 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 }
 
                 parentLayoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(parentLayoutManager);
                 parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
+
                 recyclerView.setAdapter(parentViewAdapter);
                 parentViewAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
