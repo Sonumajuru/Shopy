@@ -235,7 +235,7 @@ public class ProductFragment extends Fragment {
                                 String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                 product = new Product(String.valueOf(maxId+1), uuid, seller, title,
                                         controller.getDefaultTranslation(category), price,
-                                        currency, description, uploadedImages, rating,"0", key, "");
+                                        currency, description, uploadedImages, rating,"0", key, "", "0");
 
                                 Map<String, Object> productValues = product.toMap();
 

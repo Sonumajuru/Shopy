@@ -15,73 +15,69 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginTop="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="1dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/category_Btn"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            tools:ignore="SpeakableTextPresentCheck"/>
+
+    <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/tab_background"
+            app:tabSelectedTextColor="@color/white"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            tools:ignore="SpeakableTextPresentCheck">
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:scaleX="0.80"
+            android:scaleY="0.80"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:layout_marginTop="5dp"
+            android:indeterminateTint="@color/dark_grey"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             />
 
-    <Button
-            android:id="@+id/luck_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/feeling_lucky"
-            android:layout_marginTop="1dp"
-            app:layout_constraintTop_toBottomOf="@+id/viewPager"
-            app:layout_constraintEnd_toStartOf="@+id/category_Btn"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="51dp"/>
-
-    <Button
-            android:id="@+id/category_Btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/category"
-            app:layout_constraintTop_toBottomOf="@+id/viewPager"
-            app:layout_constraintStart_toEndOf="@+id/luck_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"
-            android:layout_marginEnd="30dp"/>
-
     <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:id="@+id/nestedScrollView2"
-            app:layout_constraintTop_toBottomOf="@+id/category_Btn"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp"
                 android:paddingBottom="20dp">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/latest_offers"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
@@ -89,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/farnel_grey"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </FrameLayout>
 
     </androidx.core.widget.NestedScrollView>
 

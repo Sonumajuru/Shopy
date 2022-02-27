@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -16,10 +16,17 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.njangi.shop.R;
+import com.njangi.shop.adapter.HomeAdapter;
 import com.njangi.shop.adapter.ParentViewAdapter;
 import com.njangi.shop.adapter.SliderAdapter;
 import com.njangi.shop.databinding.FragmentHomeBinding;
@@ -27,7 +34,6 @@ import com.njangi.shop.helper.FirebaseApp;
 import com.njangi.shop.interfaces.FragmentCallback;
 import com.njangi.shop.model.ParentModel;
 import com.njangi.shop.model.Product;
-import com.google.firebase.database.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +45,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
     //a list to store all the products
     private List<Product> productList;
+    private List<Product> trendingList;
     private List<String> offerList;
 
     //the recyclerview
@@ -51,10 +58,13 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private Product product;
 
     private ParentViewAdapter parentViewAdapter;
+    private HomeAdapter homeAdapter;
+    private ProgressBar progressBar;
 
     private ArrayList<ParentModel> categoryList;
     private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -65,13 +75,66 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         firebaseApp = new FirebaseApp();
         parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
+        trendingList = new ArrayList<>();
         categoryList = new ArrayList<>();
         offerList = new ArrayList<>();
         timer = new java.util.Timer();
+        progressBar = binding.progressBar;
         page = binding.viewPager;
-        Button btnFeelLucky = binding.luckBtn;
-        Button btnCategory = binding.categoryBtn;
-        recyclerView = root.findViewById(R.id.recyclerView);
+        recyclerView = binding.recyclerView;
+        TabLayout tabLayout = binding.tabLayout;
+
+//        recyclerView.setVisibility(View.GONE);
+        // Add above text View Offer
+        tabLayout.addTab(tabLayout.newTab().setText("Recent").setId(1));
+        tabLayout.addTab(tabLayout.newTab().setText("Trending").setId(2));
+        tabLayout.addTab(tabLayout.newTab().setText("Category").setId(3));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if (tab.getId() == 1)
+                {
+                    parentLayoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(parentLayoutManager);
+
+                    parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
+                    recyclerView.setAdapter(parentViewAdapter);
+                    parentViewAdapter.notifyDataSetChanged();
+                }
+                else if (tab.getId() == 2)
+                {
+                    // Display only Trending Products
+                    if (trendingList.size() == 0) return;
+
+                    mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+                    recyclerView.setLayoutManager(mGridLayoutManager);
+
+                    homeAdapter = new HomeAdapter(getContext(), trendingList, callback);
+                    recyclerView.setAdapter(homeAdapter);
+                    homeAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    timer.cancel();
+                    timer.purge();
+                    Navigation.findNavController(requireView()).navigate(R.id.navigation_category);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         parentLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(parentLayoutManager);
 
@@ -80,17 +143,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         homeViewModel.getUserName();
         final TextView title = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), title::setText);
-        btnCategory.setOnClickListener(v -> {
-            timer.cancel();
-            timer.purge();
-            Navigation.findNavController(v).navigate(R.id.navigation_category);
-        });
-        btnFeelLucky.setOnClickListener(v -> {
-            timer.cancel();
-            timer.purge();
-            if (productList.size() == 0) return;
-            Navigation.findNavController(v).navigate(R.id.navigation_detail, randomPick());
-        });
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -114,6 +166,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     assert product != null;
                     parentModelArrayList.add(new ParentModel(product.getCategory()));
                     productList.add(product);
+                    progressBar.setVisibility(View.VISIBLE);
                     if (!product.getStore().isEmpty())
                     {
                         offerList.add(product.getStore());
@@ -145,10 +198,17 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
                 Collections.reverse(productList);
 
+                for (Product value : productList) {
+                    if (value.getTrending() != null && value.getTrending().equals("1")) {
+                        trendingList.add(value);
+                    }
+                }
+
                 parentLayoutManager = new LinearLayoutManager(getActivity());
                 parentViewAdapter = new ParentViewAdapter(categoryList, productList, getActivity(), callback);
                 recyclerView.setAdapter(parentViewAdapter);
                 parentViewAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
                 getSpecialOffers();
             }
 
@@ -213,14 +273,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
         // sliderTimer
         timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
-    }
-
-    public Bundle randomPick() {
-        Random rand = new Random();
-        Product randomElement = productList.get(rand.nextInt(productList.size()));
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("product", randomElement);
-        return bundle;
     }
 
     @Override

@@ -59,6 +59,7 @@
         <entry key="app/src/main/res/drawable/splash_night.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/splash_theme.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/tab_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1921875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/badge_layout.xml" value="0.20729166666666668" />
@@ -112,6 +113,7 @@
         <entry key="app/src/main/res/layout/product_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view_items.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/slider_layout.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/tab_layout.xml" value="0.22644927536231885" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19166666666666668" />

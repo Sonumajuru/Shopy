@@ -13,13 +13,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0831b5fe-4a45-4c68-bbb8-3b7bdcd1e69f" name="Changes" comment="Fixed seller info click once">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tab_background.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/adapter/ParentViewAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/adapter/ParentViewAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/ui/home/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/ui/home/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/ui/product/ProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/njangi/shop/ui/product/ProductFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,9 +69,9 @@
         <option value="valueResourceFile" />
         <option value="Enum" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -112,6 +123,10 @@
     <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/androidx.viewpager/viewpager/1.0.0/db045f92188b9d247d5f556866f8861ab68528f0/viewpager-1.0.0-sources.jar!/androidx/viewpager/widget/ViewPager.java_ViewPager_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.github.travijuu/numberpicker/1.0.7/5934fd944fbeaa37ef284017b759c2a05681a3ee/numberpicker-1.0.7-sources.jar!/com/travijuu/numberpicker/library/NumberPicker.java_NumberPicker_DIMENSIONS" value="1080&#10;1920" />
     <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.github.travijuu/numberpicker/1.0.7/5934fd944fbeaa37ef284017b759c2a05681a3ee/numberpicker-1.0.7-sources.jar!/com/travijuu/numberpicker/library/NumberPicker.java_SELECTED" value="NumberPicker" />
+    <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.5.0/8d3b87c7463f55053836b805e014cb238f64757a/material-1.5.0-sources.jar!/com/google/android/material/tabs/TabLayout.java_SELECTED" value="TabLayout" />
+    <property name="android-custom-view/Users/simononumajuru/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.5.0/8d3b87c7463f55053836b805e014cb238f64757a/material-1.5.0-sources.jar!/com/google/android/material/tabs/TabLayout.java_TabLayout_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/simononumajuru/IntelliJIDEAProjects/Shopy/app/src/main/java/com/njangi/shop/helper/CamomileSpinner.java_CamomileSpinner_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/simononumajuru/IntelliJIDEAProjects/Shopy/app/src/main/java/com/njangi/shop/helper/CamomileSpinner.java_SELECTED" value="CamomileSpinner" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.53185034" />

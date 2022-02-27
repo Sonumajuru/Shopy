@@ -24,6 +24,8 @@ public class Product implements Parcelable {
     private List<String> images;
     private double rating;
     private String favStatus;
+    private String trending;
+
     private List<Product> productList;
 
     public String getId() {
@@ -126,6 +128,14 @@ public class Product implements Parcelable {
         this.favStatus = favStatus;
     }
 
+    public String getTrending() {
+        return trending;
+    }
+
+    public void setTrending(String trending) {
+        this.trending = trending;
+    }
+
     public List<Product> getProductList() {
         return productList;
     }
@@ -138,7 +148,7 @@ public class Product implements Parcelable {
     }
 
     public Product(String id, String uuid, String seller, String title, String category, double price, String currency,
-                   String description, List<String> images, double rating, String favStatus, String prodID, String store) {
+                   String description, List<String> images, double rating, String favStatus, String prodID, String store, String trending) {
 
         this.id = id;
         this.prodID = prodID;
@@ -153,6 +163,7 @@ public class Product implements Parcelable {
         this.rating = rating;
         this.favStatus = favStatus;
         this.store = store;
+        this.trending = trending;
         productList = new ArrayList<>();
     }
 
@@ -172,6 +183,7 @@ public class Product implements Parcelable {
         id = in.readString();
         prodID = in.readString();
         seller = in.readString();
+        trending = in.readString();
         title = in.readString();
         category = in.readString();
         price = in.readDouble();
@@ -186,6 +198,7 @@ public class Product implements Parcelable {
         dest.writeString(id);
         dest.writeString(prodID);
         dest.writeString(seller);
+        dest.writeString(trending);
         dest.writeString(title);
         dest.writeString(category);
         dest.writeDouble(price);
@@ -217,6 +230,7 @@ public class Product implements Parcelable {
         result.put("rating", rating);
         result.put("favStatus", favStatus);
         result.put("store", store);
+        result.put("trending", trending);
 
         return result;
     }
