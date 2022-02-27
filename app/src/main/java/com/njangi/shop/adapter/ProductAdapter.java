@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -147,6 +148,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             product.getPrice(), product.getRating(), product.getCurrency(),
                             product.getUuid(), product.getCategory(), product.getFavStatus());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                    Toast.makeText(mCtx, product.getTitle() + " Added to favorite!",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

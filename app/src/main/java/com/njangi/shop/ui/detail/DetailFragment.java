@@ -1,20 +1,20 @@
 package com.njangi.shop.ui.detail;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -165,6 +165,8 @@ public class DetailFragment extends Fragment {
                                 product.getUuid(),
                                 product.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                        Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
+                                Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
@@ -196,7 +198,10 @@ public class DetailFragment extends Fragment {
                                 favItem.getUuid(),
                                 favItem.getCategory(), "false");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                        Toast.makeText(getActivity(), favItem.getTitle() + " Added to favorite!",
+                                Toast.LENGTH_SHORT).show();
                     }
+                    else
                     {
                         favItem.setFavStatus("0");
                         favDB.remove_fav(favItem.getKey_id());
