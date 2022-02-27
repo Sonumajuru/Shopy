@@ -272,7 +272,14 @@ public class RegisterFragment extends Fragment {
                     country.setSelection(countryPosition);
 
                     ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
-                    int langPosition = languageAdapter.getPosition(user.getCountry());
+                    int langPosition = 0;
+                    for (int i = 0; i < languageAdapter.getCount(); i++)
+                    {
+                        if (languageAdapter.getItem(i).equals(user.getLanguage()))
+                        {
+                            langPosition = i;
+                        }
+                    }
                     language.setSelection(langPosition);
 
                     inputEmail.setText(user.getEmail());
