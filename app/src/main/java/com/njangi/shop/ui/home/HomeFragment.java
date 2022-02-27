@@ -112,8 +112,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                     // Display only Trending Products
                     if (trendingList.size() == 0) return;
 
+                    final int totalSize = trendingList.size();
                     mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
                     recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), 30));
+
                     recyclerView.setLayoutManager(mGridLayoutManager);
 
                     homeAdapter = new HomeAdapter(getContext(), trendingList, callback);
@@ -167,7 +169,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         public void getItemOffsets(Rect outRect, @NotNull View view,
                                    @NotNull RecyclerView parent,
                                    @NotNull RecyclerView.State state) {
-            outRect.bottom=spacing;
+            outRect.bottom = spacing;
         }
     }
 

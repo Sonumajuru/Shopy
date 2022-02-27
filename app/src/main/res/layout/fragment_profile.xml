@@ -83,10 +83,11 @@
                     android:text="johndoe@gmail.com"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:textAlignment="center"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idMailImage"
-                    app:layout_constraintHorizontal_bias="0.370"
+                    app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="20dp"
@@ -94,7 +95,7 @@
 
             <View
                     android:id="@+id/idView"
-                    android:layout_width="368dp"
+                    android:layout_width="0dp"
                     android:layout_height="1dp"
                     style="@style/Divider"
                     android:background="@color/black"
@@ -128,7 +129,7 @@
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idPhone"
-                    app:layout_constraintHorizontal_bias="0.250"
+                    app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintTop_toBottomOf="@+id/idView"
                     android:layout_marginBottom="36dp"
                     app:layout_constraintBottom_toTopOf="@+id/idCountryText"/>
@@ -167,7 +168,7 @@
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idCountry"
-                    app:layout_constraintHorizontal_bias="0.200"
+                    app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintTop_toBottomOf="@+id/idNumber"
                     android:layout_marginBottom="37dp"
                     app:layout_constraintBottom_toTopOf="@+id/idAdd"/>
@@ -210,7 +211,7 @@
                     android:layout_marginTop="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idAdd"
-                    app:layout_constraintHorizontal_bias="0.560"
+                    app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintTop_toBottomOf="@+id/idView3"/>
 
             <View
@@ -248,7 +249,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/idRegSince"
                     app:layout_constraintTop_toBottomOf="@+id/idView4"
-                    app:layout_constraintHorizontal_bias="0.329"
+                    app:layout_constraintHorizontal_bias="0.1"
                     android:layout_marginTop="15dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
