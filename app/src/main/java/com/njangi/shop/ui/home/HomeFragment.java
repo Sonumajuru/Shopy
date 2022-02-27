@@ -89,9 +89,9 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
 //        recyclerView.setVisibility(View.GONE);
         // Add above text View Offer
-        tabLayout.addTab(tabLayout.newTab().setText("Recent").setId(1));
-        tabLayout.addTab(tabLayout.newTab().setText("Trending").setId(2));
-        tabLayout.addTab(tabLayout.newTab().setText("Category").setId(3));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.recent).setId(1));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.trending).setId(2));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.category).setId(3));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @SuppressLint("NotifyDataSetChanged")

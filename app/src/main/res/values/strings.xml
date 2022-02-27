@@ -103,4 +103,6 @@
     <string name="confirm">Are you sure?</string>
     <string name="update_product">Update</string>
     <string name="delete_product">Delete</string>
+    <string name="recent">Recent</string>
+    <string name="trending">Trending</string>
 </resources>

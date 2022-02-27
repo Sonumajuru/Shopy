@@ -104,4 +104,6 @@
     <string name="title_stock">Actions</string>
     <string name="title_reset">Réinitialiser</string>
     <string name="cosmetics">Produits de beauté</string>
+    <string name="recent">Récent</string>
+    <string name="trending">Tendance</string>
 </resources>

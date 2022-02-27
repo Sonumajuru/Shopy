@@ -26,6 +26,7 @@
             android:background="@color/transparent"
             app:tabBackground="@drawable/tab_selector"
             app:tabGravity="center"
+            android:layout_marginBottom="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabIndicatorHeight="0dp"
             app:layout_constraintStart_toStartOf="parent"

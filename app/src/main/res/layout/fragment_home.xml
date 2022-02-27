@@ -17,7 +17,9 @@
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="377dp"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView2"/>
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
@@ -49,13 +51,13 @@
     </com.google.android.material.tabs.TabLayout>
 
     <ProgressBar
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:scaleX="0.80"
             android:scaleY="0.80"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/progressBar"
             android:layout_marginTop="5dp"
             android:indeterminateTint="@color/dark_grey"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout"
@@ -66,18 +68,18 @@
     <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView2"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:paddingBottom="20dp">
+                android:padding="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
