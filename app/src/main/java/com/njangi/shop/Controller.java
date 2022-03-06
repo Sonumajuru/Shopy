@@ -141,6 +141,12 @@ public class Controller {
             case "Home Appliances":
                 text = mContext.getString(R.string.home_appliance);
                 break;
+            case "Accessories":
+                text = mContext.getString(R.string.babyandtoys);
+                break;
+            case "Baby and Toys":
+                text = mContext.getString(R.string.accessories);
+                break;
             case "Phones":
                 text = mContext.getString(R.string.phones);
                 break;
@@ -159,6 +165,12 @@ public class Controller {
                 break;
             case "Vêtements":
                 text = "Clothing";
+                break;
+            case "Accessoires":
+                text = "Accessories";
+                break;
+            case "Bébé et Jouets":
+                text = "Baby and Toys";
                 break;
             case "Chaussures":
                 text = "Shoes";

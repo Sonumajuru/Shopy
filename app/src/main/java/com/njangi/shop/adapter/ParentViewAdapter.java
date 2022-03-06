@@ -259,6 +259,38 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
             }
         }
 
+        // added in twelfth child row
+        if (parentModelArrayList.get(position).getCategory().equals("Baby and Toys")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Baby and Toys"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus(), product.getProdID(),
+                            product.getStore(), product.getTrending()));
+                }
+            }
+        }
+
+        // added in thirteenth child row
+        if (parentModelArrayList.get(position).getCategory().equals("Accessories")) {
+            for (Product product : productList) {
+                if (product.getCategory().equals("Accessories"))
+                {
+                    arrayList.add(new Product(product.getId(), product.getUuid(),
+                            product.getSeller(), product.getTitle(),
+                            product.getCategory(), product.getPrice(),
+                            product.getCurrency(), product.getDescription(),
+                            product.getImages(), product.getRating(),
+                            product.getFavStatus(), product.getProdID(),
+                            product.getStore(), product.getTrending()));
+                }
+            }
+        }
+
         HomeAdapter childRecyclerViewAdapter = new HomeAdapter(holder.childRecyclerView.getContext(), arrayList, callback);
         holder.childRecyclerView.setAdapter(childRecyclerViewAdapter);
     }

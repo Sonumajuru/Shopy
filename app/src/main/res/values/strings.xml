@@ -47,6 +47,8 @@
     <string name="description">Description</string>
     <string name="product_image">Product Image</string>
     <string name="electronics">Electronics</string>
+    <string name="accessories">Accessories</string>
+    <string name="babyandtoys">Baby and Toys</string>
     <string name="cars">Cars</string>
     <string name="hairs">Hairs</string>
     <string name="motorbike">Motorbike</string>

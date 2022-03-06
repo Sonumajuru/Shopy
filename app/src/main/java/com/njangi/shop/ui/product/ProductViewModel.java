@@ -45,6 +45,8 @@ public class ProductViewModel extends AndroidViewModel {
                 .getString(R.string.books), app.getApplicationContext()
                 .getString(R.string.cars), app.getApplicationContext()
                 .getString(R.string.hairs),app.getApplicationContext()
+                .getString(R.string.babyandtoys),app.getApplicationContext()
+                .getString(R.string.accessories),app.getApplicationContext()
                 .getString(R.string.cosmetics),app.getApplicationContext()
                 .getString(R.string.motorbike)};
 
