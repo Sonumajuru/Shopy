@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -13,8 +14,8 @@ import androidx.navigation.Navigation;
 import androidx.viewpager.widget.PagerAdapter;
 import com.njangi.shop.Controller;
 import com.njangi.shop.R;
+import com.njangi.shop.interfaces.FragmentCallback;
 import com.njangi.shop.ui.product.ProductFragment;
-import com.njangi.shop.ui.stock.StockFragment;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +28,14 @@ public class ImagePagerAdapter extends PagerAdapter {
     private final LayoutInflater layoutInflater;
     private final Controller controller;
     private final Fragment fragment;
+    public FragmentCallback callback;
 
-    public ImagePagerAdapter(Context context, Fragment fragment, List<String> images) {
+    public ImagePagerAdapter(Context context, Fragment fragment, List<String> images, FragmentCallback callback) {
         this.context = context;
         controller = Controller.getInstance(context);
         this.images = images;
         this.fragment = fragment;
+        this.callback = callback;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -57,14 +60,16 @@ public class ImagePagerAdapter extends PagerAdapter {
 
         container.addView(itemView);
 
-        if (fragment instanceof StockFragment)
-        {
-//            holder.txtMore.setVisibility(View.VISIBLE);
+        if (fragment instanceof ProductFragment) {
+            ImageButton del = itemView.findViewById(R.id.delButton);
+            del.setVisibility(View.VISIBLE);
+            del.setOnClickListener(v -> {
+//                Toast.makeText(context, "you clicked image " + (position), Toast.LENGTH_LONG).show();
+                callback.onItemClicked(position, null);
+            });
         }
 
-        if (!(fragment instanceof ProductFragment))
-        {
-            //listening to image click
+        if (!(fragment instanceof ProductFragment)) {
             imageView.setOnClickListener(v -> {
                 if (!controller.getIsFragVisible())
                 {
@@ -72,7 +77,7 @@ public class ImagePagerAdapter extends PagerAdapter {
                     bundle.putStringArrayList("images", (ArrayList<String>) images);
                     Navigation.findNavController(v).navigate(R.id.navigation_image, bundle);
                     controller.setIsFragVisible(true);
-//               Toast.makeText(context, "you clicked image " + (position + 1), Toast.LENGTH_LONG).show();
+//               Toast.makeText(context, "you clicked image " + (position), Toast.LENGTH_LONG).show();
                 }
             });
         }

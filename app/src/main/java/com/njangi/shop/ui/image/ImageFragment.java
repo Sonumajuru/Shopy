@@ -36,7 +36,7 @@ public class ImageFragment extends Fragment {
         assert getArguments() != null;
         List<String> images = getArguments().getStringArrayList("images");
 
-        imagePagerAdapter = new ImagePagerAdapter(requireContext(), ImageFragment.this, images);
+        imagePagerAdapter = new ImagePagerAdapter(requireContext(), ImageFragment.this, images, null);
         viewPager.setAdapter(imagePagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
 

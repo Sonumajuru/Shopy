@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.njangi.shop.R.id.navigation_detail;
+import static com.njangi.shop.R.id.navigation_product;
 
 public class OverviewFragment extends Fragment {
 
@@ -95,15 +97,10 @@ public class OverviewFragment extends Fragment {
                     @Override
                     public void onItemClicked(int position, Object object) {
 
-                        // Handle Object of list item here
                         Product product = (Product) object;
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("product", product);
-                        NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                                .findFragmentById(R.id.nav_host_fragment_activity_main);
-                        assert navHostFragment != null;
-                        NavController navController = navHostFragment.getNavController();
-                        navController.navigate(navigation_detail, bundle);
+                        Navigation.findNavController(requireView()).navigate(navigation_detail, bundle);
                     }
 
                     @Override
@@ -142,11 +139,7 @@ public class OverviewFragment extends Fragment {
                 Product product = (Product) object;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("product", product);
-                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment_activity_main);
-                assert navHostFragment != null;
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(navigation_detail, bundle);
+                Navigation.findNavController(requireView()).navigate(navigation_detail, bundle);
             }
 
             @Override

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.njangi.shop.R.id.navigation_detail;
+import static com.njangi.shop.R.id.*;
 
 public class StockFragment extends Fragment {
 
@@ -86,15 +87,10 @@ public class StockFragment extends Fragment {
                         @Override
                         public void onItemClicked(int position, Object object) {
 
-                            // Handle Object of list item here
                             Product product = (Product) object;
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("product", product);
-                            NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                                    .findFragmentById(R.id.nav_host_fragment_activity_main);
-                            assert navHostFragment != null;
-                            NavController navController = navHostFragment.getNavController();
-                            navController.navigate(navigation_detail, bundle);
+                            Navigation.findNavController(requireView()).navigate(navigation_detail, bundle);
                         }
 
                         @SuppressLint("NonConstantResourceId")
@@ -102,10 +98,11 @@ public class StockFragment extends Fragment {
                         public void onItemClicked(int position, Object object, int id) {
 
                             Product product = (Product) object;
-                            if (id == R.id.update)
-                            {
-
-                                Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                            if (id == R.id.update) {
+//                                Toast.makeText(getContext(), "Clicked " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable("product", product);
+                                Navigation.findNavController(requireView()).navigate(navigation_product, bundle);
                             } else if (id == R.id.delete) {
                                 deleteProduct(product.getProdID());
                             }

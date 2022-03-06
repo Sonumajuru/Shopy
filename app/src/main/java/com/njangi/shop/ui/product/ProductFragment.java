@@ -1,5 +1,6 @@
 package com.njangi.shop.ui.product;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import com.njangi.shop.R;
 import com.njangi.shop.adapter.ImagePagerAdapter;
 import com.njangi.shop.databinding.FragmentProductBinding;
 import com.njangi.shop.helper.FirebaseApp;
+import com.njangi.shop.interfaces.FragmentCallback;
 import com.njangi.shop.model.Product;
 import com.njangi.shop.model.User;
 import com.google.android.gms.tasks.Continuation;
@@ -67,7 +69,9 @@ public class ProductFragment extends Fragment {
     private String seller;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private List<String> newImageList;
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -75,8 +79,6 @@ public class ProductFragment extends Fragment {
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        // instance for firebase storage and StorageReference
 
         user = new User();
         firebaseApp = new FirebaseApp();
@@ -96,20 +98,79 @@ public class ProductFragment extends Fragment {
         viewPager = binding.imageLayout;
         tabLayout = binding.tabDots;
 
-        btnChoose.setOnClickListener(v -> chooseImage());
-        btnUpload.setOnClickListener(v -> publishProduct());
-        btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_stock));
 
-        ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
+        Bundle bundle = getArguments();
+        if(bundle !=null)
+        {
+            product = getArguments().getParcelable("product");
+            // TODO: Load images
+            //    - Update product in DB using ProdID
+            //    - Add Image (Choose) - Update (Upload) - Cancel (Stocks)
+
+            ratingBar.setRating((float) product.getRating());
+            ratingBar.setEnabled(false);
+            inputTitle.setText(product.getTitle());
+
+            ArrayAdapter<String> categoryAdapter = productViewModel.getAdapter();
+            int categoryPosition = 0;
+            for (int i = 0; i < categoryAdapter.getCount(); i++)
+            {
+                if (categoryAdapter.getItem(i).equals(product.getCategory()))
+                {
+                    categoryPosition = i;
+                }
+            }
+            category.setAdapter(productViewModel.getAdapter());
+            category.setSelection(categoryPosition);
+            category.setEnabled(false);
+            inputCurrency.setText(product.getCurrency());
+            inputCurrency.setEnabled(false);
+            inputDescription.setText(product.getDescription());
+            inputPrice.setText(String.format("%.2f", product.getPrice()));
+
+            // Handle Object of list item here
+            FragmentCallback callback = new FragmentCallback() {
+                @Override
+                public void doSomething() {
+                }
+
+                @Override
+                public void onItemClicked(int position, Object object)
+                {
+                    newImageList = new ArrayList<>();
+                    for (int i = 0; i < product.getImages().size(); i++) {
+                        if (i == position) {
+                            product.getImages().remove(position);
+                        }
+                        newImageList.add(product.getImages().toString());
+                    }
+                    setViewPager(this);
+                }
+
+                @Override
+                public void onItemClicked(int position, Object object, int id) {
+
+                }
+            };
+            setViewPager(callback);
+        }
+        else
+        {
+            btnChoose.setOnClickListener(v -> chooseImage());
+            btnUpload.setOnClickListener(v -> publishProduct());
+            btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_stock));
+
+            ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
-        });
+            });
 
-        getUserData();
-        productViewModel.getCurrency();
-        category.setAdapter(productViewModel.getAdapter());
-        productViewModel.getText().observe(getViewLifecycleOwner(), s -> {
-            inputCurrency.setText(s);
-        });
+            getUserData();
+            productViewModel.getCurrency();
+            category.setAdapter(productViewModel.getAdapter());
+            productViewModel.getText().observe(getViewLifecycleOwner(), s -> {
+                inputCurrency.setText(s);
+            });
+        }
 
         return root;
     }
@@ -163,7 +224,7 @@ public class ProductFragment extends Fragment {
         List<String> targetList = new ArrayList<>();
         fileUris.forEach(uri -> targetList.add(uri.toString()));
 
-        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList);
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList, null);
         viewPager.setAdapter(imagePagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
     }
@@ -291,6 +352,14 @@ public class ProductFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setViewPager(FragmentCallback callback)
+    {
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(),
+                ProductFragment.this, product.getImages(), callback);
+        viewPager.setAdapter(imagePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager, true);
     }
 
     @Override
