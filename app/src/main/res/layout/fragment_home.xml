@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.njangi.shop.ui.home.HomeFragment"
+        tools:context="com.genesistech.njangi.ui.home.HomeFragment"
         android:id="@+id/relativeLayout10">
 
     <TextView

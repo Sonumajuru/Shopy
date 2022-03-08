@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.njangi.shop.ui.bank.BankFragment">
+        tools:context="com.genesistech.njangi.ui.bank.BankFragment">
 
     <com.braintreepayments.cardform.view.CardForm
       android:id="@+id/card_form"

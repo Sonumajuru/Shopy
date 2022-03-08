@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.njangi.shop.ui.reset.ResetFragment"
+        tools:context="com.genesistech.njangi.ui.reset.ResetFragment"
         android:id="@+id/frameLayout5">
 
     <LinearLayout

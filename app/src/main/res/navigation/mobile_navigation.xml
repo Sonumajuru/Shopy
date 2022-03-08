@@ -8,55 +8,55 @@
 
     <fragment
             android:id="@+id/navigation_home"
-            android:name="com.njangi.shop.ui.home.HomeFragment"
+            android:name="com.genesistech.njangi.ui.home.HomeFragment"
             android:label="@string/title_home"
             tools:layout="@layout/fragment_home"/>
 
     <fragment
             android:id="@+id/navigation_search"
-            android:name="com.njangi.shop.ui.search.SearchFragment"
+            android:name="com.genesistech.njangi.ui.search.SearchFragment"
             android:label="@string/title_search"
             tools:layout="@layout/fragment_search"/>
 
     <fragment
             android:id="@+id/navigation_cart"
-            android:name="com.njangi.shop.ui.cart.CartFragment"
+            android:name="com.genesistech.njangi.ui.cart.CartFragment"
             android:label="@string/title_shopping_cart"
             tools:layout="@layout/fragment_cart"/>
 
     <fragment
             android:id="@+id/navigation_favorite"
-            android:name="com.njangi.shop.ui.favorite.FavoriteFragment"
+            android:name="com.genesistech.njangi.ui.favorite.FavoriteFragment"
             android:label="@string/title_favorite"
             tools:layout="@layout/fragment_favorite"/>
 
     <fragment
             android:id="@+id/navigation_account"
-            android:name="com.njangi.shop.ui.account.AccountFragment"
+            android:name="com.genesistech.njangi.ui.account.AccountFragment"
             android:label="@string/title_account"
             tools:layout="@layout/fragment_account"/>
 
     <fragment
             android:id="@+id/navigation_order"
-            android:name="com.njangi.shop.ui.order.OrderFragment"
+            android:name="com.genesistech.njangi.ui.order.OrderFragment"
             android:label="@string/title_order"
             tools:layout="@layout/fragment_order"/>
 
     <fragment
             android:id="@+id/navigation_register"
-            android:name="com.njangi.shop.ui.register.RegisterFragment"
+            android:name="com.genesistech.njangi.ui.register.RegisterFragment"
             android:label="@string/title_create_user"
             tools:layout="@layout/fragment_register"/>
 
     <fragment
             android:id="@+id/navigation_category"
-            android:name="com.njangi.shop.ui.category.CategoryFragment"
+            android:name="com.genesistech.njangi.ui.category.CategoryFragment"
             android:label="@string/title_category"
             tools:layout="@layout/fragment_category"/>
 
     <fragment
             android:id="@+id/navigation_login"
-            android:name="com.njangi.shop.ui.login.LoginFragment"
+            android:name="com.genesistech.njangi.ui.login.LoginFragment"
             android:label="@string/title_login"
             tools:layout="@layout/fragment_login">
         <action
@@ -68,49 +68,49 @@
 
     <fragment
             android:id="@+id/navigation_product"
-            android:name="com.njangi.shop.ui.product.ProductFragment"
+            android:name="com.genesistech.njangi.ui.product.ProductFragment"
             android:label="@string/title_manage_product"
             tools:layout="@layout/fragment_product"/>
 
     <fragment
             android:id="@+id/navigation_overview"
-            android:name="com.njangi.shop.ui.overview.OverviewFragment"
+            android:name="com.genesistech.njangi.ui.overview.OverviewFragment"
             android:label="@string/title_product_listing"
             tools:layout="@layout/fragment_overview"/>
 
     <fragment
             android:id="@+id/navigation_detail"
-            android:name="com.njangi.shop.ui.detail.DetailFragment"
+            android:name="com.genesistech.njangi.ui.detail.DetailFragment"
             android:label="@string/title_product_detail"
             tools:layout="@layout/fragment_detail"/>
 
     <fragment
             android:id="@+id/navigation_profile"
-            android:name="com.njangi.shop.ui.profile.ProfileFragment"
+            android:name="com.genesistech.njangi.ui.profile.ProfileFragment"
             android:label="@string/title_profile"
             tools:layout="@layout/fragment_profile"/>
 
     <fragment
             android:id="@+id/navigation_bank"
-            android:name="com.njangi.shop.ui.bank.BankFragment"
+            android:name="com.genesistech.njangi.ui.bank.BankFragment"
             android:label="@string/title_bank"
             tools:layout="@layout/fragment_bank"/>
 
     <fragment
             android:id="@+id/navigation_image"
-            android:name="com.njangi.shop.ui.image.ImageFragment"
+            android:name="com.genesistech.njangi.ui.image.ImageFragment"
             android:label="@string/title_image"
             tools:layout="@layout/fragment_image"/>
 
     <fragment
             android:id="@+id/navigation_reset"
-            android:name="com.njangi.shop.ui.reset.ResetFragment"
+            android:name="com.genesistech.njangi.ui.reset.ResetFragment"
             android:label="@string/title_reset"
             tools:layout="@layout/fragment_reset"/>
 
     <fragment
             android:id="@+id/navigation_stock"
-            android:name="com.njangi.shop.ui.stock.StockFragment"
+            android:name="com.genesistech.njangi.ui.stock.StockFragment"
             android:label="@string/title_stock"
             tools:layout="@layout/fragment_stock"/>
 

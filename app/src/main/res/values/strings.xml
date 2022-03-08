@@ -92,6 +92,7 @@
     <string name="not_signed_in">You are not signed in</string>
     <string name="welcome">Welcome</string>
     <string name="choose">Choose</string>
+    <string name="image">Image</string>
     <string name="upload">Upload</string>
     <string name="stocks">Stocks</string>
     <string name="title_image">Image</string>
