@@ -140,7 +140,7 @@ public class FavoriteFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-            final int position = viewHolder.getAdapterPosition(); // get swiped position
+            final int position = viewHolder.getAbsoluteAdapterPosition(); // get swiped position
             final FavItem favItem = favItemList.get(position);
             if (direction == ItemTouchHelper.LEFT){ // Left swipe
                 favAdapter.notifyItemRemoved(position); // Item removed from recycleView

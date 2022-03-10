@@ -140,7 +140,6 @@ public class CartItem implements Parcelable {
         this.currency = currency;
         this.images = item_image;
         this.rating = item_rating;
-        this.favStatus = favStatus;
         this.cartStatus = cartStatus;
         this.quantity = quantity;
     }

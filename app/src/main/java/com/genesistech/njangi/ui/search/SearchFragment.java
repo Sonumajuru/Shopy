@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,11 +24,11 @@ import com.google.firebase.database.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
+public class SearchFragment extends Fragment{
 
     private FragmentSearchBinding binding;
 
-    private SearchView searchView;
+    private androidx.appcompat.widget.SearchView searchView;
     private Product product;
     private SearchAdapter adapter;
     private SuggestionsDatabase database;
@@ -55,8 +54,65 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         getUserData();
 
         searchView.setOnClickListener(v -> searchView.setIconified(false));
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // -------------------------------------------------------
+                //           Lines responsible to save the query
+                //           do something on text submit
+                // -------------------------------------------------------
+                database.insertSuggestion(query);
+                getSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty())
+                {
+                    list.setVisibility(View.VISIBLE);
+                    adapter.filter(newText);
+                    Cursor cursor = database.getSuggestions(newText);
+                    if(cursor.getCount() != 0)
+                    {
+                        String[] columns = new String[] {SuggestionsDatabase.FIELD_SUGGESTION };
+                        int[] columnTextId = new int[] { android.R.id.text1};
+
+                        SuggestionAdapter simple = new SuggestionAdapter(requireContext(),
+                                android.R.layout.simple_list_item_1
+                                , cursor
+                                , columns
+                                ,columnTextId
+                                , 0);
+
+//                        searchView.setSuggestionsAdapter(simple);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                } else {
+                    list.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+            }
+        });
+        searchView.setOnSuggestionListener(new androidx.appcompat.widget.SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                SQLiteCursor cursor = (SQLiteCursor) searchView.getSuggestionsAdapter().getItem(position);
+                int indexColumnSuggestion = cursor.getColumnIndex( SuggestionsDatabase.FIELD_SUGGESTION);
+                searchView.setQuery(cursor.getString(indexColumnSuggestion), false);
+                return true;
+            }
+        });
         searchView.setQueryRefinementEnabled(true);
         searchView.requestFocus(1);
 
@@ -153,30 +209,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    @Override
-    public boolean onSuggestionSelect(int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int position) {
-        SQLiteCursor cursor = (SQLiteCursor) searchView.getSuggestionsAdapter().getItem(position);
-        int indexColumnSuggestion = cursor.getColumnIndex( SuggestionsDatabase.FIELD_SUGGESTION);
-        searchView.setQuery(cursor.getString(indexColumnSuggestion), false);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        // -------------------------------------------------------
-        //           Lines responsible to save the query
-        //           do something on text submit
-        // -------------------------------------------------------
-        database.insertSuggestion(query);
-        getSearch(query);
-        return false;
-    }
-
     private void getSearch(String mySearch)
     {
         // hashmap to store the frequency of element
@@ -220,40 +252,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 searchView.setIconified(true);
                 searchView.clearFocus();
             }
-        }
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-
-        if(!newText.isEmpty())
-        {
-            list.setVisibility(View.VISIBLE);
-            adapter.filter(newText);
-            Cursor cursor = database.getSuggestions(newText);
-            if(cursor.getCount() != 0)
-            {
-                String[] columns = new String[] {SuggestionsDatabase.FIELD_SUGGESTION };
-                int[] columnTextId = new int[] { android.R.id.text1};
-
-                SuggestionAdapter simple = new SuggestionAdapter(requireContext(),
-                        android.R.layout.simple_list_item_1
-                        , cursor
-                        , columns
-                        ,columnTextId
-                        , 0);
-
-                searchView.setSuggestionsAdapter(simple);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        } else {
-            list.setVisibility(View.INVISIBLE);
-            return false;
         }
     }
 

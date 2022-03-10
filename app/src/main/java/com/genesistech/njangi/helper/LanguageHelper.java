@@ -22,9 +22,9 @@ public class LanguageHelper {
         Locale.setDefault(locale);
 
         Resources res = context.getResources();
-        Configuration cfg = new Configuration(res.getConfiguration());
-        cfg.locale = locale;
-        res.updateConfiguration(cfg, res.getDisplayMetrics());
+        Configuration config = new Configuration(res.getConfiguration());
+        config.setLocale(locale);
+        res.updateConfiguration(config, res.getDisplayMetrics());
     }
 
     /**

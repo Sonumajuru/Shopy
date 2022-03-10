@@ -93,26 +93,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
                 // Inflating popup menu from popup_menu.xml file
                 popupMenu.getMenuInflater().inflate(R.xml.popup_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @SuppressLint("NonConstantResourceId")
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        // Toast message on menu item clicked
-                        int id = menuItem.getItemId();
-                        switch(id)
-                        {
-                            case R.id.update:
-                                callback.onItemClicked(position, product, id);
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    // Toast message on menu item clicked
+                    int id = menuItem.getItemId();
+                    switch(id)
+                    {
+                        case R.id.update:
+                            callback.onItemClicked(position, product, id);
 //                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                return true;
-                            case R.id.delete:
-                                callback.onItemClicked(position, product, id);
-                                removeAt(position);
+                            return true;
+                        case R.id.delete:
+                            callback.onItemClicked(position, product, id);
+                            removeAt(position);
 //                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                return true;
-                            default:
-                                return false;
-                        }
+                            return true;
+                        default:
+                            return false;
                     }
                 });
                 // Showing the popup menu
@@ -165,7 +161,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         });
         holder.imageView.setOnClickListener(v -> {
-            clickedPos = holder.getAdapterPosition();
+            clickedPos = holder.getAbsoluteAdapterPosition();
             String title = product.getTitle();
             callback.onItemClicked(position, product);
         });

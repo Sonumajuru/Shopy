@@ -71,12 +71,8 @@ public class LoginFragment extends Fragment {
                         }
                     });
         });
-        signUp.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.navigation_register);
-        });
-        forget.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.navigation_reset);
-        });
+        signUp.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.navigation_register));
+        forget.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.navigation_reset));
 
         return root;
     }

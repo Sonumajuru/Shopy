@@ -22,7 +22,7 @@ import java.util.List;
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
 
-    Context context;
+    private final Context context;
     private static FavDB favDB;
     private final Controller controller;
     private final FragmentCallback callback;
@@ -54,9 +54,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         holder.textViewPrice.setText(favItemList.get(position).getPrice() + " " + favItemList.get(position).getCurrency());
 
         Picasso.with(context).load(favItemList.get(position).getImages().get(0)).into(holder.imageView);
-        holder.imageView.setOnClickListener(v -> {
-            callback.onItemClicked(position, favItem);
-        });
+        holder.imageView.setOnClickListener(v -> callback.onItemClicked(position, favItem));
     }
 
     @Override
@@ -78,7 +76,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
 
             controller.setTextLength(textViewTitle);
             favBtn.setOnClickListener(view -> {
-                int position = getAdapterPosition();
+                int position = getAbsoluteAdapterPosition();
                 final FavItem favItem = favItemList.get(position);
                 favDB.remove_fav(favItem.getKey_id());
                 removeItem(position);

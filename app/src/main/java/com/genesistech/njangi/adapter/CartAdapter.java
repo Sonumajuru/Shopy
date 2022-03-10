@@ -88,9 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.prqtty.setText(String.valueOf(count));
             resetProduct(position, cartItem);
         });
-        holder.deletbtn.setOnClickListener(v -> {
-            resetProduct(position, cartItem);
-        });
+        holder.deletbtn.setOnClickListener(v -> resetProduct(position, cartItem));
     }
 
     @SuppressLint("NotifyDataSetChanged")
