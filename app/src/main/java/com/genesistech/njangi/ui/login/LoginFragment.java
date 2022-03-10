@@ -97,10 +97,7 @@ public class LoginFragment extends Fragment {
     public void onStart() {
         super.onStart();
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
-            if (firebaseApp.getAuth().getCurrentUser() == null) {
-            }
-            else
-            {
+            if (firebaseApp.getAuth().getCurrentUser() != null) {
                 loginViewModel.goToAccount(navHostFragment, navOption);
             }
         });

@@ -82,9 +82,8 @@ public class CartFragment extends Fragment {
         if (cartItemList != null) {
             cartItemList.clear();
         }
-        SQLiteDatabase db = favDB.getReadableDatabase();
-        Cursor cursor = favDB.select_all_cart_list();
-        try {
+        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
+            Cursor cursor = favDB.select_all_cart_list();
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
@@ -110,10 +109,6 @@ public class CartFragment extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-            if (cursor != null && cursor.isClosed())
-                cursor.close();
-            db.close();
         }
 
         // hashmap to store the frequency of element

@@ -286,9 +286,8 @@ public class DetailFragment extends Fragment {
     @SuppressLint("Range")
     private void getFav()
     {
-        SQLiteDatabase db = favDB.getReadableDatabase();
-        Cursor cursor = favDB.select_all_favorite_list();
-        try {
+        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
+            Cursor cursor = favDB.select_all_favorite_list();
             while (cursor.moveToNext()) {
                 item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
@@ -311,10 +310,6 @@ public class DetailFragment extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-            if (cursor != null && cursor.isClosed())
-                cursor.close();
-            db.close();
         }
 
         if (product != null)

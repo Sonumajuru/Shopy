@@ -214,32 +214,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private void readCursorData(Product product, ProductViewHolder holder) {
         Cursor cursor = favDB.read_all_data(product.getId());
-        SQLiteDatabase db = favDB.getReadableDatabase();
-        try {
+        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
             while (cursor.moveToNext()) {
                 @SuppressLint("Range")
                 String item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 product.setFavStatus(item_fav_status);
 
                 //check fav status
-                if (FirebaseAuth.getInstance().getCurrentUser() != null)
-                {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     if (item_fav_status != null && item_fav_status.equals("1")) {
                         holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-                    }
-                    else if (item_fav_status != null && item_fav_status.equals("0")) {
+                    } else if (item_fav_status != null && item_fav_status.equals("0")) {
                         holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                     }
-                }
-                else
-                {
+                } else {
                     holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                 }
             }
         } finally {
             if (cursor != null && cursor.isClosed())
                 cursor.close();
-            db.close();
         }
     }
 }
