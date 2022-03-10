@@ -72,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale", "ResourceType"})
+    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale", "ResourceType", "NonConstantResourceId"})
     public void onBindViewHolder(@NotNull ProductViewHolder holder, int position) {
         //getting the product of the specified position
         Product product = productList.get(position);
@@ -100,12 +100,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     {
                         case R.id.update:
                             callback.onItemClicked(position, product, id);
-//                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                             return true;
                         case R.id.delete:
                             callback.onItemClicked(position, product, id);
                             removeAt(position);
-//                                Toast.makeText(mCtx, "Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                             return true;
                         default:
                             return false;

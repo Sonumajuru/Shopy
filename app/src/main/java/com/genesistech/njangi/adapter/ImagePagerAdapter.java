@@ -64,7 +64,6 @@ public class ImagePagerAdapter extends PagerAdapter {
             ImageButton del = itemView.findViewById(R.id.delButton);
             del.setVisibility(View.VISIBLE);
             del.setOnClickListener(v -> {
-//                Toast.makeText(context, "you clicked image " + (position), Toast.LENGTH_LONG).show();
                 callback.onItemClicked(position, null);
             });
         }

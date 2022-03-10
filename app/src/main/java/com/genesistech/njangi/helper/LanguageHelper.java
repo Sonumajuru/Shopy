@@ -24,7 +24,8 @@ public class LanguageHelper {
         Resources res = context.getResources();
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
-        res.updateConfiguration(config, res.getDisplayMetrics());
+        context.createConfigurationContext(config);
+//        res.updateConfiguration(config, res.getDisplayMetrics());
     }
 
     /**

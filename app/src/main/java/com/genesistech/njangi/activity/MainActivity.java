@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
         Resources resources = activity.getResources();
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        activity.createConfigurationContext(config);
+//        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
     @SuppressLint("ObsoleteSdkInt")

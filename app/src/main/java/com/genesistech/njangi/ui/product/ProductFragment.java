@@ -179,21 +179,21 @@ public class ProductFragment extends Fragment {
             getUserData();
             productViewModel.getCurrency();
             category.setAdapter(productViewModel.getAdapter());
-            productViewModel.getText().observe(getViewLifecycleOwner(), s -> {
-                inputCurrency.setText(s);
-            });
+            productViewModel.getText().observe(getViewLifecycleOwner(), s -> inputCurrency.setText(s));
         }
 
         return root;
     }
 
-    private void chooseImage()
-    {
+    private void chooseImage() {
         Intent intent = new Intent();
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
+
+//        Intent chooserIntent = Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST;
+//        startActivity(chooserIntent);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
@@ -225,24 +225,78 @@ public class ProductFragment extends Fragment {
                 }
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void getImages()
-    {
+    private void getImages() {
         List<String> targetList = new ArrayList<>();
         fileUris.forEach(uri -> targetList.add(uri.toString()));
 
-        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList, null);
-        viewPager.setAdapter(imagePagerAdapter);
-        tabLayout.setupWithViewPager(viewPager, true);
+        // Handle Object of list item here
+        FragmentCallback callback = new FragmentCallback() {
+            @Override
+            public void doSomething() {
+            }
+
+            @Override
+            public void onItemClicked(int position, Object object)
+            {
+                newImageList = new ArrayList<>();
+                fileUris = new ArrayList<>();
+                for (int i = 0; i < targetList.size(); i++) {
+                    if (i == position) {
+                        targetList.remove(position);
+                    }
+                    newImageList.add(targetList.toString());
+                }
+                setyViewPager(this, targetList);
+                for (String s : targetList) {
+                    fileUris.add(Uri.parse(s));
+                }
+            }
+
+            @Override
+            public void onItemClicked(int position, Object object, int id) {
+
+            }
+        };
+        setyViewPager(callback, targetList);
+
+//        FragmentCallback callback = new FragmentCallback() {
+//            @Override
+//            public void doSomething() {
+//            }
+//
+//            @Override
+//            public void onItemClicked(int position, Object object)
+//            {
+//                newImageList = new ArrayList<>();
+//                fileUris = new Stack<>();
+//                for (int i = 0; i < targetList.size(); i++) {
+//                    if (i == position) {
+//                        targetList.remove(position);
+//                    }
+//                    newImageList.add(targetList.toString());
+//                }
+//                for (String s : targetList) {
+//                    fileUris.add(Uri.parse(s));
+//                }
+//            }
+//
+//            @Override
+//            public void onItemClicked(int position, Object object, int id) {
+//
+//            }
+//        };
+//
+//        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList, callback);
+//        viewPager.setAdapter(imagePagerAdapter);
+//        tabLayout.setupWithViewPager(viewPager, true);
     }
 
-    private void publishProduct()
-    {
+    private void publishProduct() {
         if (fieldCheck()) return;
         if (fileUris == null) return;
         if (fileUris.size() == 0) return;
@@ -318,8 +372,7 @@ public class ProductFragment extends Fragment {
         }
     }
 
-    private void updateProduct()
-    {
+    private void updateProduct() {
         if (fieldCheck()) return;
         if (fileUris == null) return;
         if (fileUris.size() == 0) return;
@@ -380,15 +433,13 @@ public class ProductFragment extends Fragment {
         }
     }
 
-    private boolean fieldCheck()
-    {
+    private boolean fieldCheck() {
         return inputTitle.getText().toString().isEmpty()
                 || inputPrice.getText().toString().isEmpty()
                 || inputDescription.getText().toString().isEmpty();
     }
 
-    private void getUserData()
-    {
+    private void getUserData() {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
         DatabaseReference ref = FirebaseDatabase
@@ -415,8 +466,14 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    private void setViewPager(FragmentCallback callback)
-    {
+    private void setyViewPager(FragmentCallback callback, List<String> targetList) {
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(),
+                ProductFragment.this, targetList, callback);
+        viewPager.setAdapter(imagePagerAdapter);
+        tabLayout.setupWithViewPager(viewPager, true);
+    }
+
+    private void setViewPager(FragmentCallback callback) {
         ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(),
                 ProductFragment.this, product.getImages(), callback);
         viewPager.setAdapter(imagePagerAdapter);

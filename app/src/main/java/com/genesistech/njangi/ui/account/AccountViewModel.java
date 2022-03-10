@@ -47,7 +47,7 @@ public class AccountViewModel extends AndroidViewModel {
         Resources resources = activity.getResources();
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        activity.createConfigurationContext(config);
 
         LanguageHelper.storeUserLanguage(app, String.valueOf(locale));
         LanguageHelper.updateLanguage(app, String.valueOf(locale));
