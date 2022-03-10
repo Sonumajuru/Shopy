@@ -91,5 +91,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // FlutterWave SDK
-//    implementation 'com.github.Flutter-wave:rave-android:1.0.40'
 }

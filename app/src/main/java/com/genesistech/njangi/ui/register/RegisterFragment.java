@@ -194,8 +194,6 @@ public class RegisterFragment extends Fragment {
             {
                 // On selecting a spinner item
                 String item = adapter.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-//                Toast.makeText(requireContext(),"Selected Country : " + item, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -267,20 +265,25 @@ public class RegisterFragment extends Fragment {
                     female.setChecked(user.isFemale());
                     address.setText(user.getAddress());
 
-                    ArrayAdapter<String> countryAdapter = (ArrayAdapter<String>) country.getAdapter();
-                    int countryPosition = countryAdapter.getPosition(user.getCountry());
-                    country.setSelection(countryPosition);
+                    SpinnerAdapter countryAdapter = country.getAdapter();
+                    int countryPos = 0;
+                    for (int i = 0; i < countryAdapter.getCount(); i++) {
+                        if (countryAdapter.getItem(i).equals(user.getCountry())) {
+                            countryPos = i;
+                        }
+                    }
+                    country.setSelection(countryPos);
 
-                    ArrayAdapter<String> languageAdapter = (ArrayAdapter<String>) language.getAdapter();
-                    int langPosition = 0;
+                    SpinnerAdapter languageAdapter = language.getAdapter();
+                    int langPos = 0;
                     for (int i = 0; i < languageAdapter.getCount(); i++)
                     {
                         if (languageAdapter.getItem(i).equals(user.getLanguage()))
                         {
-                            langPosition = i;
+                            langPos = i;
                         }
                     }
-                    language.setSelection(langPosition);
+                    language.setSelection(langPos);
 
                     inputEmail.setText(user.getEmail());
                     inputPassword.setText(user.getPassword());
