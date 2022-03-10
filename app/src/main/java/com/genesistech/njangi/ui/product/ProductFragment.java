@@ -255,7 +255,7 @@ public class ProductFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
         String title = inputTitle.getText().toString().trim();
-        String category = controller.getTranslation(this.category.getSelectedItem().toString());
+        String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
         double price = Double.parseDouble(inputPrice.getText().toString().trim());
         double rating = ratingBar.getRating();
         String description = inputDescription.getText().toString().trim();
@@ -304,7 +304,7 @@ public class ProductFragment extends Fragment {
 
                     String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     product = new Product(String.valueOf(maxId+1), uuid, seller, title,
-                            controller.getTranslation(category), price,
+                            controller.getCategoryTranslation(category), price,
                             currency, description, uploadedImages, rating,"0", key, "", "0");
 
                     Map<String, Object> productValues = product.toMap();
@@ -332,7 +332,7 @@ public class ProductFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
         String title = inputTitle.getText().toString().trim();
-        String category = controller.getTranslation(this.category.getSelectedItem().toString());
+        String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
         double price = Double.parseDouble(inputPrice.getText().toString().trim());
         String description = inputDescription.getText().toString().trim();
 
@@ -363,7 +363,7 @@ public class ProductFragment extends Fragment {
                     uploadedImages.add(downloadUrl.toString());
 
                     product = new Product(product.getId(), product.getUuid(),
-                            product.getSeller(), title, controller.getTranslation(category),
+                            product.getSeller(), title, controller.getCategoryTranslation(category),
                             price, product.getCurrency(), description, uploadedImages,
                             product.getRating(),"0", product.getProdID(),
                             "", "0");

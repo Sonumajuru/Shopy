@@ -158,45 +158,59 @@ public class Controller {
     {
         switch (text) {
             case "Livres":
+            case "Books":
                 text = "Books";
                 break;
             case "Produits de beauté":
+            case "Cosmetics":
                 text = "Cosmetics";
                 break;
             case "Vêtements":
+            case "Clothing":
                 text = "Clothing";
                 break;
             case "Accessoires":
+            case "Accessories":
                 text = "Accessories";
                 break;
             case "Bébé et Jouets":
+            case "Baby and Toys":
                 text = "Baby and Toys";
                 break;
             case "Chaussures":
+            case "Shoes":
                 text = "Shoes";
                 break;
             case "Mèches":
+            case "Hairs":
                 text = "Hairs";
                 break;
             case "Moto":
+            case "Motorbike":
                 text = "Motorbike";
                 break;
             case "Ordinateur":
+            case "Computers":
                 text = "Computers";
                 break;
             case "Voitures":
+            case "Cars":
                 text = "Cars";
                 break;
             case "Électronique":
+            case "Electronics":
                 text = "Electronics";
                 break;
             case "Jeux":
+            case "Games":
                 text = "Games";
                 break;
             case "Appareils Ménagers":
+            case "Home Appliances":
                 text = "Home Appliances";
                 break;
             case "Téléphone":
+            case "Phones":
                 text = "Phones";
                 break;
         }
