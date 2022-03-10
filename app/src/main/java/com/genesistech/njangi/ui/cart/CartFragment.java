@@ -91,9 +91,12 @@ public class CartFragment extends Fragment {
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 List<String> images = new ArrayList<>();
                 JSONArray jArray = json.optJSONArray("images");
-                for (int i = 0; i < jArray.length(); i++) {
-                    images.add(jArray.optString(i));  //<< jget value from jArray
-                }                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
+                if (jArray != null) {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        images.add(jArray.optString(i));  //<< jget value from jArray
+                    }
+                }
+                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
                 double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
                 String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
                 String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));

@@ -168,11 +168,7 @@ public class RegisterFragment extends Fragment {
                                             .getCurrentUser())
                                     .delete().addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-//                                            Toast.makeText(requireActivity(), "Profile is deleted!", Toast.LENGTH_SHORT).show();
-
                                             Navigation.findNavController(v).navigate(R.id.navigation_login);
-                                        } else {
-//                                            Toast.makeText(requireActivity(), "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                             break;
@@ -192,8 +188,6 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v, int position, long id)
             {
-                // On selecting a spinner item
-                String item = adapter.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -206,7 +200,7 @@ public class RegisterFragment extends Fragment {
         return root;
     }
 
-    private void formCheck(String username, String lastname, String addr, String email, String password)
+    private void formCheck(String username, String lastname, String address, String email, String password)
     {
         if (TextUtils.isEmpty(username)) {
             name.setError("");
@@ -214,8 +208,8 @@ public class RegisterFragment extends Fragment {
         if (TextUtils.isEmpty(lastname)) {
             surname.setError("");
         }
-        if (TextUtils.isEmpty(addr)) {
-            address.setError("");
+        if (TextUtils.isEmpty(address)) {
+            this.address.setError("");
         }
         if (TextUtils.isEmpty(email)) {
             inputEmail.setError("");
