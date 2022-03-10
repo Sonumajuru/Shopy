@@ -17,12 +17,11 @@ import com.genesistech.njangi.helper.FirebaseApp;
 
 public class ResetFragment extends Fragment {
 
-    private ResetViewModel resetViewModel;
     private FragmentResetBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        resetViewModel = new ViewModelProvider(this).get(ResetViewModel.class);
+        ResetViewModel resetViewModel = new ViewModelProvider(this).get(ResetViewModel.class);
         binding = FragmentResetBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

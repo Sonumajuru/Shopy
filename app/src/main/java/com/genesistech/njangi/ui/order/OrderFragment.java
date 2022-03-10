@@ -12,7 +12,6 @@ import com.genesistech.njangi.R;
 public class OrderFragment extends Fragment {
 
     private OrderViewModel orderViewModel;
-    private OrderFragment binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -23,6 +22,6 @@ public class OrderFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        OrderFragment binding = null;
     }
 }

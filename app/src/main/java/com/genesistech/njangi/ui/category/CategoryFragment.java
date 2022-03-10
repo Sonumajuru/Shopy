@@ -75,7 +75,6 @@ public class CategoryFragment extends Fragment {
                     productList.add(product);
                 }
 
-                ;
                 Set<Product> set = productList.stream()
                         .collect(Collectors.toCollection(() ->
                                 new TreeSet<>(Comparator.comparing(Product::getCategory))));

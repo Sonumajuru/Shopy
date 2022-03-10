@@ -1,25 +1,22 @@
 package com.genesistech.njangi.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
-import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.R;
+import com.genesistech.njangi.interfaces.FragmentCallback;
 
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter {
 
-    private final Context mCtx;
     private final List<String> offerList;
     private final FragmentCallback callback;
 
-    public SliderAdapter(Context mCtx, List<String> offerList, FragmentCallback callback) {
-        this.mCtx = mCtx;
+    public SliderAdapter(List<String> offerList, FragmentCallback callback) {
         this.offerList = offerList;
         this.callback = callback;
     }

@@ -67,7 +67,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         RatingBar textViewRating;
         TextView textViewTitle, textViewPrice;
-        ImageView imageView, favBtn;;
+        ImageView imageView, favBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);

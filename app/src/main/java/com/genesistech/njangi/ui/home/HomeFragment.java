@@ -381,7 +381,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         offerList.clear();
         offerList.addAll(offers);
 
-        SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), offerList, callback);
+        SliderAdapter sliderAdapter = new SliderAdapter(offerList, callback);
         page.setAdapter(sliderAdapter);
         objects = requireActivity();
 
