@@ -77,7 +77,7 @@
                         android:layout_marginTop="10dp"
                         android:textSize="18sp"
                         android:textStyle="bold|italic"
-                        tools:text="John Doe"/>
+                        android:hint="John Doe"/>
 
                 <TextView
                         android:id="@+id/priceOfProduct"
@@ -87,7 +87,7 @@
                         android:layout_marginTop="10dp"
                         android:textIsSelectable="true"
                         android:textSize="24sp"
-                        tools:text="2500 + CFA"/>
+                        android:hint="2500 + CFA"/>
 
                 <TextView
                         android:id="@+id/title"
@@ -96,7 +96,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:textIsSelectable="true"
-                        android:text="@string/title"
+                        android:hint="@string/title"
                         android:textSize="20sp"/>
 
                 <RelativeLayout
@@ -111,7 +111,7 @@
                             android:id="@+id/txt_Rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/rating"
+                            android:hint="@string/rating"
                             android:textIsSelectable="true"
                             android:textSize="18sp"
                             android:autofillHints="Currency"/>
@@ -137,7 +137,7 @@
                         android:layout_marginTop="16dp"
                         android:textIsSelectable="true"
                         android:singleLine="false"
-                        android:text="@string/description"
+                        android:hint="@string/description"
                         android:textSize="20sp"/>
 
             </LinearLayout>
