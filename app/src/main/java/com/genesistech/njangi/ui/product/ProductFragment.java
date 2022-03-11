@@ -65,7 +65,6 @@ public class ProductFragment extends Fragment {
     private String seller;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private List<String> newImageList;
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -144,13 +143,11 @@ public class ProductFragment extends Fragment {
                 @Override
                 public void onItemClicked(int position, Object object)
                 {
-                    newImageList = new ArrayList<>();
                     fileUris = new ArrayList<>();
                     for (int i = 0; i < product.getImages().size(); i++) {
                         if (i == position) {
                             product.getImages().remove(position);
                         }
-                        newImageList.add(product.getImages().toString());
                     }
                     setViewPager(this);
                     for (int i = 0; i < product.getImages().size(); i++) {
@@ -243,13 +240,11 @@ public class ProductFragment extends Fragment {
             @Override
             public void onItemClicked(int position, Object object)
             {
-                newImageList = new ArrayList<>();
                 fileUris = new ArrayList<>();
                 for (int i = 0; i < targetList.size(); i++) {
                     if (i == position) {
                         targetList.remove(position);
                     }
-                    newImageList.add(targetList.toString());
                 }
                 setyViewPager(this, targetList);
                 for (String s : targetList) {
@@ -263,37 +258,6 @@ public class ProductFragment extends Fragment {
             }
         };
         setyViewPager(callback, targetList);
-
-//        FragmentCallback callback = new FragmentCallback() {
-//            @Override
-//            public void doSomething() {
-//            }
-//
-//            @Override
-//            public void onItemClicked(int position, Object object)
-//            {
-//                newImageList = new ArrayList<>();
-//                fileUris = new Stack<>();
-//                for (int i = 0; i < targetList.size(); i++) {
-//                    if (i == position) {
-//                        targetList.remove(position);
-//                    }
-//                    newImageList.add(targetList.toString());
-//                }
-//                for (String s : targetList) {
-//                    fileUris.add(Uri.parse(s));
-//                }
-//            }
-//
-//            @Override
-//            public void onItemClicked(int position, Object object, int id) {
-//
-//            }
-//        };
-//
-//        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(), ProductFragment.this, targetList, callback);
-//        viewPager.setAdapter(imagePagerAdapter);
-//        tabLayout.setupWithViewPager(viewPager, true);
     }
 
     private void publishProduct() {
