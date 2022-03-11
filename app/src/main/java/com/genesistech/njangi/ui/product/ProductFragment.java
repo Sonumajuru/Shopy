@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -297,7 +298,10 @@ public class ProductFragment extends Fragment {
     }
 
     private void publishProduct() {
-        if (fieldCheck()) return;
+        if (fieldCheck()) {
+            Toast.makeText(requireActivity(), "Some fields are empty..", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (fileUris == null) return;
         if (fileUris.size() == 0) return;
         product = new Product();
@@ -339,7 +343,6 @@ public class ProductFragment extends Fragment {
             uploadTask.addOnSuccessListener(taskSnapshot -> uploadTask.continueWithTask(task -> {
                 if (!task.isSuccessful()) {
                     throw Objects.requireNonNull(task.getException());
-
                 }
                 // Continue with the task to get the download URL
                 return photoRef.getDownloadUrl();
@@ -373,63 +376,54 @@ public class ProductFragment extends Fragment {
     }
 
     private void updateProduct() {
-        if (fieldCheck()) return;
+        if (fieldCheck()) {
+            Toast.makeText(requireActivity(), "Some fields are empty..", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (fileUris == null) return;
         if (fileUris.size() == 0) return;
-        product = new Product();
         uploadedImages = new ArrayList<>();
 
-        progressBar.setVisibility(View.VISIBLE);
-        String title = inputTitle.getText().toString().trim();
-        String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
-        double price = Double.parseDouble(inputPrice.getText().toString().trim());
-        String description = inputDescription.getText().toString().trim();
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+            String title = inputTitle.getText().toString().trim();
+            String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
+            double price = Double.parseDouble(inputPrice.getText().toString().trim()); /*Fix double */
+            String description = inputDescription.getText().toString().trim();
 
-        mDatabase = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("ProductDB");
+            mDatabase = FirebaseDatabase
+                    .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("ProductDB").child("products").child(product.getProdID());
 
-        for (Uri file : fileUris)
-        {
-            StorageReference photoRef = storageReference.child("images/" + file.getLastPathSegment());
-            uploadTask = photoRef.putFile(file);
-
-            uploadTask.addOnSuccessListener(taskSnapshot -> uploadTask.continueWithTask(task ->
+            for (Uri file : fileUris)
             {
-                if (!task.isSuccessful()) {
-                    throw Objects.requireNonNull(task.getException());
+                uploadedImages.add(String.valueOf(file));
+                product = new Product(product.getId(), product.getUuid(), product.getSeller(), title,
+                        category, price, product.getCurrency(), description,
+                        uploadedImages, product.getRating(),product.getFavStatus(),
+                        product.getProdID(), product.getStore(), product.getTrending());
 
-                }
-                // Continue with the task to get the download URL
-                return photoRef.getDownloadUrl();
+                Map<String, Object> productValues = product.toMap();
 
-            }).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    Uri downloadUrl = task.getResult();
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        progressBar.setVisibility(View.GONE);
+                        // adding a map to our database.
+                        mDatabase.updateChildren(productValues);
+                    }
 
-                    assert downloadUrl != null;
-                    uploadedImages.add(downloadUrl.toString());
-
-                    product = new Product(product.getId(), product.getUuid(),
-                            product.getSeller(), title, controller.getCategoryTranslation(category),
-                            price, product.getCurrency(), description, uploadedImages,
-                            product.getRating(),"0", product.getProdID(),
-                            "", "0");
-
-                    Map<String, Object> productValues = product.toMap();
-
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/products/" + product.getProdID(), productValues);
-                    childUpdates.put("/user-products/" + product.getUuid() + "/" + product.getProdID(),
-                            productValues);
-
-                    mDatabase.updateChildren(childUpdates);
-                }
-            })).addOnFailureListener(e -> {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // displaying a failure message on toast.
+                        Toast.makeText(requireActivity(), "Fail to update product..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            Navigation.findNavController(requireView()).popBackStack();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

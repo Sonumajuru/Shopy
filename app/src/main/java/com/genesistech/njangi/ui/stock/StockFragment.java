@@ -59,11 +59,9 @@ public class StockFragment extends Fragment {
 
     private void getUserData()
     {
+        String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("ProductDB").child("user-products")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance()
-                        .getCurrentUser())
-                        .getUid())
+        mDatabase.child("ProductDB").child("products")
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
@@ -72,7 +70,10 @@ public class StockFragment extends Fragment {
                     for(DataSnapshot ds : dataSnapshot.getChildren()) {
                         product = ds.getValue(Product.class);
                         assert product != null;
-                        productList.add(product);
+                        if (uuid.equals(product.getUuid()))
+                        {
+                            productList.add(product);
+                        }
                     }
 
                     callback = new FragmentCallback() {
@@ -124,31 +125,6 @@ public class StockFragment extends Fragment {
         try
         {
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("ProductDB").child("products");
-            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot ds :dataSnapshot.getChildren()){
-                        Product product = ds.getValue(Product.class);
-                        assert product != null;
-                        if (product.getProdID().equals(prodId))
-                        {
-                            ds.getRef().removeValue();
-                            break;
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-            });
-
-            dbRef = FirebaseDatabase.getInstance().getReference()
-                    .child("ProductDB")
-                    .child("user-products")
-                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
