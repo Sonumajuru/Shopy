@@ -72,6 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.prqtty.setText(String.valueOf(count));
             resetProduct(position, cartItem);
         });
+
         holder.plusbtn.setOnClickListener(v -> {
             count = count + 1;
             if (count < 0) count = 0;
@@ -88,7 +89,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.prqtty.setText(String.valueOf(count));
             resetProduct(position, cartItem);
         });
-        holder.deletbtn.setOnClickListener(v -> resetProduct(position, cartItem));
+
+        holder.deletbtn.setOnClickListener(v -> deleteProduct(position, cartItem));
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -103,6 +105,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             callback.onItemClicked(position, cartItem);
             notifyDataSetChanged();
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void deleteProduct(int position, CartItem cartItem)
+    {
+        cartItemList.get(position).setCartStatus("0");
+        favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
+//                cartItemList.remove(position);
+        controller.addBadge(controller.getBadgeCount() + count);
+        callback.onItemClicked(position, cartItem);
+        notifyDataSetChanged();
     }
 
     @Override
