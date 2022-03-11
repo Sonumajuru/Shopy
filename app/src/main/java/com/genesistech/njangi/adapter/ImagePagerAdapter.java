@@ -63,9 +63,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         if (fragment instanceof ProductFragment) {
             ImageButton del = itemView.findViewById(R.id.delButton);
             del.setVisibility(View.VISIBLE);
-            del.setOnClickListener(v -> {
-                callback.onItemClicked(position, null);
-            });
+            del.setOnClickListener(v -> callback.onItemClicked(position, null));
         }
 
         if (!(fragment instanceof ProductFragment)) {

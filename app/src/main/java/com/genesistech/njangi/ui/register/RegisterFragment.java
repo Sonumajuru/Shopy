@@ -18,6 +18,10 @@ import com.genesistech.njangi.R;
 import com.genesistech.njangi.databinding.FragmentRegisterBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -132,24 +136,36 @@ public class RegisterFragment extends Fragment {
             }
             else
             {
-                FirebaseUser currentUser = firebaseApp.getAuth().getCurrentUser();
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                AuthCredential credential = EmailAuthProvider.getCredential(this.user.getEmail(), this.user.getPassword());
+
+                // Prompt the user to re-provide their sign-in credentials
                 assert currentUser != null;
-                currentUser.updatePassword(password)
-                        .addOnCompleteListener(task ->
-                        {
-                            if (task.isSuccessful())
-                            {
-                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                                user = new User(firstName, lastName, male, female, address, language, country,
-                                         email, password, retypePassword, uniqueID, date);
-                                mDatabase.child(userId).setValue(user);
-                                progressBar.setVisibility(View.GONE);
-                                registerViewModel.goToAccount(navHostFragment);
-                            }
-                            else
-                            {
-                                Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
+                currentUser.reauthenticate(credential)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    currentUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                                                user = new User(firstName, lastName, male, female, address, language, country,
+                                                        email, password, retypePassword, uniqueID, date);
+                                                mDatabase.child(userId).setValue(user);
+                                                progressBar.setVisibility(View.GONE);
+                                                registerViewModel.goToAccount(navHostFragment);
+                                            } else {
+                                                Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
                             }
                         });
             }

@@ -254,8 +254,7 @@ public class Controller {
         if (diagonalInches >= 7.0) {
             return DeviceType.Tablet;
         }
-        else
-        {
+        else {
             return DeviceType.Phone;
         }
     }
