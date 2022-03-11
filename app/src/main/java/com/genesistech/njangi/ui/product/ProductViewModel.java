@@ -99,7 +99,7 @@ public class ProductViewModel extends AndroidViewModel {
 
     public LiveData<String> getTextChoose()
     {
-        btnChoose.setValue(app.getString(R.string.choose));
+        btnChoose.setValue(app.getString(R.string.photos));
         return btnChoose;
     }
 
@@ -117,7 +117,7 @@ public class ProductViewModel extends AndroidViewModel {
     public LiveData<String> getTextStock(boolean user)
     {
         if (user) {
-            btnStock.setValue(app.getString(R.string.stocks));
+            btnStock.setValue(app.getString(R.string.boutique));
         }
         else {
             btnStock.setValue(app.getString(R.string.cancel));

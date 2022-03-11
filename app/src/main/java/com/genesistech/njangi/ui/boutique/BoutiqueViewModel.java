@@ -1,14 +1,14 @@
-package com.genesistech.njangi.ui.stock;
+package com.genesistech.njangi.ui.boutique;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class StockViewModel extends AndroidViewModel {
+public class BoutiqueViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
 
-    public StockViewModel(@NonNull @NotNull Application application) {
+    public BoutiqueViewModel(@NonNull @NotNull Application application) {
         super(application);
     }
 }

@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,7 +170,7 @@ public class ProductFragment extends Fragment {
             productViewModel.getTextUpload(true).observe(getViewLifecycleOwner(), btnUpload::setText);
             productViewModel.getTextStock(true).observe(getViewLifecycleOwner(), btnView::setText);
             btnUpload.setOnClickListener(v -> publishProduct());
-            btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_stock));
+            btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_boutique));
 
             ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();

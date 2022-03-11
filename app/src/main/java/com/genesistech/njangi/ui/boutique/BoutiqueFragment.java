@@ -1,4 +1,4 @@
-package com.genesistech.njangi.ui.stock;
+package com.genesistech.njangi.ui.boutique;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -27,9 +27,9 @@ import java.util.Objects;
 
 import static com.genesistech.njangi.R.id.*;
 
-public class StockFragment extends Fragment {
+public class BoutiqueFragment extends Fragment {
 
-    private StockViewModel stockViewModel;
+    private BoutiqueViewModel stockViewModel;
     private FragmentStockBinding binding;
 
     //a list to store all the products
@@ -106,7 +106,7 @@ public class StockFragment extends Fragment {
                         }
                     };
                     Collections.reverse(productList);
-                    adapter = new ProductAdapter(getActivity(), StockFragment.this, productList, callback);
+                    adapter = new ProductAdapter(getActivity(), BoutiqueFragment.this, productList, callback);
 
                     //setting adapter to recyclerview
                     recyclerView.setAdapter(adapter);

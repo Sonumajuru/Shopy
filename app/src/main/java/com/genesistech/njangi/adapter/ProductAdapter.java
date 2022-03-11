@@ -21,7 +21,7 @@ import com.genesistech.njangi.R;
 import com.genesistech.njangi.db.FavDB;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
-import com.genesistech.njangi.ui.stock.StockFragment;
+import com.genesistech.njangi.ui.boutique.BoutiqueFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +78,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
         readCursorData(product, holder);
 
-        if (fragment instanceof StockFragment)
+        if (fragment instanceof BoutiqueFragment)
         {
             holder.txtMore.setVisibility(View.VISIBLE);
             holder.favBtn.setVisibility(View.GONE);

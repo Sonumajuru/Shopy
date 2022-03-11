@@ -91,10 +91,10 @@
     <string name="title_bank">Bank</string>
     <string name="not_signed_in">You are not signed in</string>
     <string name="welcome">Welcome</string>
-    <string name="choose">Choose</string>
+    <string name="photos">Photos</string>
     <string name="image">Image</string>
     <string name="upload">Upload</string>
-    <string name="stocks">Stocks</string>
+    <string name="boutique">Boutique</string>
     <string name="title_image">Image</string>
     <string name="title_stock">Stock</string>
     <string name="title_reset">Reset</string>
@@ -108,4 +108,5 @@
     <string name="delete_product">Delete</string>
     <string name="recent">Recent</string>
     <string name="trending">Trending</string>
+    <string name="stocks">Boutique</string>
 </resources>
