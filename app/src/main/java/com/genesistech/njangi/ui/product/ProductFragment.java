@@ -25,7 +25,6 @@ import com.genesistech.njangi.databinding.FragmentProductBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
-import com.genesistech.njangi.model.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -42,7 +41,6 @@ public class ProductFragment extends Fragment {
     private Controller controller;
     private ProductViewModel productViewModel;
 
-    private User user;
     private FirebaseApp firebaseApp;
 
     private Spinner category;
@@ -74,14 +72,13 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        user = new User();
         firebaseApp = new FirebaseApp();
         storageReference = FirebaseStorage.getInstance().getReference();
         controller = Controller.getInstance(requireContext());
 
         Button btnChoose = binding.btnChoose;
         Button btnUpload = binding.btnUpload;
-        Button btnView = binding.btnView;
+        Button btnBoutique = binding.btnBoutique;
         ratingBar = binding.ratingBar;
         inputTitle = binding.txtName;
         category = binding.category;
@@ -100,8 +97,8 @@ public class ProductFragment extends Fragment {
             fileUris = new ArrayList<>();
             isUpdating = true;
             productViewModel.getTextUpload(false).observe(getViewLifecycleOwner(), btnUpload::setText);
-            productViewModel.getTextStock(false).observe(getViewLifecycleOwner(), btnView::setText);
-            btnView.setOnClickListener(v -> {
+            productViewModel.getTextStock(false).observe(getViewLifecycleOwner(), btnBoutique::setText);
+            btnBoutique.setOnClickListener(v -> {
                 Navigation.findNavController(v).popBackStack();
                 ratingBar.setRating(0);
                 inputTitle.setText("");
@@ -167,9 +164,17 @@ public class ProductFragment extends Fragment {
         }
         else {
             productViewModel.getTextUpload(true).observe(getViewLifecycleOwner(), btnUpload::setText);
-            productViewModel.getTextStock(true).observe(getViewLifecycleOwner(), btnView::setText);
+            productViewModel.getTextStock(true).observe(getViewLifecycleOwner(), btnBoutique::setText);
             btnUpload.setOnClickListener(v -> publishProduct());
-            btnView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.navigation_boutique));
+            btnBoutique.setOnClickListener(v -> {
+                Navigation.findNavController(v).navigate(R.id.navigation_boutique);
+                ratingBar.setRating(0);
+                inputTitle.setText("");
+                category.setSelection(0);
+                inputCurrency.setText("");
+                inputDescription.setText("");
+                inputPrice.setText("");
+            });
 
             ratingBar.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();

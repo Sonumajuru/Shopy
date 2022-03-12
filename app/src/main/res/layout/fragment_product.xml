@@ -76,7 +76,7 @@
                         android:layout_weight="1"/>
 
                 <Button
-                        android:id="@+id/btnView"
+                        android:id="@+id/btnBoutique"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_margin="5dp"

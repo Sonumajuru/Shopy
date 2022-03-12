@@ -73,6 +73,7 @@
         <entry key="app/src/main/res/layout/favourites_view.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_bank.xml" value="0.16485507246376813" />
+        <entry key="app/src/main/res/layout/fragment_boutique.xml" value="0.14739583333333334" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_createuser.xml" value="0.2028985507246377" />

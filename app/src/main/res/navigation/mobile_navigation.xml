@@ -112,6 +112,6 @@
             android:id="@+id/navigation_boutique"
             android:name="com.genesistech.njangi.ui.boutique.BoutiqueFragment"
             android:label="@string/title_stock"
-            tools:layout="@layout/fragment_stock"/>
+            tools:layout="@layout/fragment_boutique"/>
 
 </navigation>

@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.ProductAdapter;
-import com.genesistech.njangi.databinding.FragmentStockBinding;
+import com.genesistech.njangi.databinding.FragmentBoutiqueBinding;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,8 +27,8 @@ import static com.genesistech.njangi.R.id.*;
 
 public class BoutiqueFragment extends Fragment {
 
-    private BoutiqueViewModel stockViewModel;
-    private FragmentStockBinding binding;
+    private BoutiqueViewModel boutiqueViewModel;
+    private FragmentBoutiqueBinding binding;
 
     //a list to store all the products
     private List<Product> productList;
@@ -44,9 +42,10 @@ public class BoutiqueFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentStockBinding.inflate(inflater, container, false);
+        binding = FragmentBoutiqueBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        productList = new ArrayList<>();
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         getUserData();
@@ -56,7 +55,6 @@ public class BoutiqueFragment extends Fragment {
 
     private void getUserData()
     {
-        productList = new ArrayList<>();
         String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("ProductDB").child("products")
@@ -111,6 +109,7 @@ public class BoutiqueFragment extends Fragment {
 
                     //setting adapter to recyclerview
                     recyclerView.setAdapter(adapter);
+                    productList = new ArrayList<>();
                 }
             }
 
