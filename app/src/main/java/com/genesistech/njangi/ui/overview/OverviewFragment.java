@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.ProductAdapter;
@@ -28,16 +29,15 @@ import static com.genesistech.njangi.R.id.navigation_detail;
 public class OverviewFragment extends Fragment {
 
     FragmentOverviewBinding binding;
-    //a list to store all the products
-    private List<Product> productList;
+    private ProductAdapter adapter;
+    private FragmentCallback callback;
+    private FirebaseApp firebaseApp;
 
-    //the recyclerview
+    private List<Product> productList;
     private RecyclerView recyclerView;
     private Product product;
     private String category;
     private ArrayList<Parcelable> mList;
-    private ProductAdapter adapter;
-    private FragmentCallback callback;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -46,9 +46,8 @@ public class OverviewFragment extends Fragment {
         binding = FragmentOverviewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //getting the recyclerview from xml
+        firebaseApp = new FirebaseApp();
         recyclerView = binding.recyclerView;
-//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         productList = new ArrayList<>();
 
@@ -68,10 +67,7 @@ public class OverviewFragment extends Fragment {
         return root;
     }
 
-    private void getUserData()
-    {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference eventsRef = rootRef.child("ProductDB").child("products");
+    private void getUserData() {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -115,11 +111,13 @@ public class OverviewFragment extends Fragment {
 //                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("ProductDB")
+                .child("products").addListenerForSingleValueEvent(valueEventListener);
     }
 
-    private void getData()
-    {
+    private void getData() {
         for (Parcelable parcelable : mList) {
             productList.add((Product) parcelable);
         }

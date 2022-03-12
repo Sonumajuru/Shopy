@@ -40,6 +40,7 @@ public class ProductFragment extends Fragment {
 
     private FragmentProductBinding binding;
     private Controller controller;
+    private FirebaseApp firebaseApp;
     private ProductViewModel productViewModel;
 
     private Spinner category;
@@ -50,9 +51,8 @@ public class ProductFragment extends Fragment {
     private EditText inputDescription;
     private List<Uri> fileUris;
     private List<String> uploadedImages;
-    private UploadTask uploadTask; // Formerly StorageTask
+    private UploadTask uploadTask;
     private Product product;
-    private DatabaseReference mDatabase;
     private  StorageReference storageReference;
 
     private long maxId;
@@ -71,7 +71,7 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        FirebaseApp firebaseApp = new FirebaseApp();
+        firebaseApp = new FirebaseApp();
         storageReference = FirebaseStorage.getInstance().getReference();
         controller = Controller.getInstance(requireContext());
 
@@ -280,11 +280,7 @@ public class ProductFragment extends Fragment {
             String description = inputDescription.getText().toString().trim();
             String currency = inputCurrency.getText().toString().trim();
 
-            mDatabase = FirebaseDatabase
-                    .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                    .getReference("ProductDB");
-
-            mDatabase.child("products").addValueEventListener(new ValueEventListener() {
+            firebaseApp.getFirebaseDB().getReference("ProductDB").child("products").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                     if (snapshot.exists())
@@ -298,7 +294,7 @@ public class ProductFragment extends Fragment {
 
                 }
             });
-            String key = mDatabase.child("products").push().getKey();
+            String key = firebaseApp.getFirebaseDB().getReference("ProductDB").child("products").push().getKey();
 
             for (Uri file : fileUris)
             {
@@ -332,7 +328,9 @@ public class ProductFragment extends Fragment {
                         childUpdates.put("/products/" + key, productValues);
                         childUpdates.put("/user-products/" + uuid + "/" + key, productValues);
 
-                        mDatabase.updateChildren(childUpdates);
+                        firebaseApp.getFirebaseDB()
+                                .getReference()
+                                .child("ProductDB").updateChildren(childUpdates);
                     }
                 })).addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
@@ -361,10 +359,6 @@ public class ProductFragment extends Fragment {
             double price = Double.parseDouble(inputPrice.getText().toString().trim()); /*Fix double */
             String description = inputDescription.getText().toString().trim();
 
-            mDatabase = FirebaseDatabase
-                    .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                    .getReference("ProductDB").child("products").child(product.getProdID());
-
             for (Uri file : fileUris)
             {
                 final StorageReference ref = storageReference.child("images/" + file.getLastPathSegment());
@@ -392,7 +386,10 @@ public class ProductFragment extends Fragment {
 
                         progressBar.setVisibility(View.GONE);
                         // adding a map to our database.
-                        mDatabase.updateChildren(productValues);
+                        firebaseApp.getFirebaseDB()
+                                .getReference("ProductDB")
+                                .child("products")
+                                .child(product.getProdID()).updateChildren(productValues);
                     }
                 }).addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
@@ -403,7 +400,12 @@ public class ProductFragment extends Fragment {
                             product.getProdID(), product.getStore(), product.getTrending());
 
                     Map<String, Object> productValues = product.toMap();
-                    mDatabase.updateChildren(productValues);
+                    firebaseApp.getFirebaseDB()
+                            .getReference()
+                            .child("ProductDB")
+                            .child("products")
+                            .child(product.getProdID()).updateChildren(productValues);
+
                 });
             }
             Toast.makeText(requireActivity(), "Updated product..", Toast.LENGTH_SHORT).show();

@@ -35,6 +35,7 @@ public class RegisterFragment extends Fragment {
     private RegisterViewModel registerViewModel;
     private FragmentRegisterBinding binding;
     private Controller controller;
+    private FirebaseApp firebaseApp;
 
     private EditText name;
     private EditText surname;
@@ -47,15 +48,12 @@ public class RegisterFragment extends Fragment {
     private EditText inputPassword;
     private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
-    private FirebaseApp firebaseApp;
-    private DatabaseReference mDatabase;
     private ProgressBar progressBar;
 
     private User user;
     private Button btnRegister;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -63,10 +61,6 @@ public class RegisterFragment extends Fragment {
         navHostFragment = (NavHostFragment) requireActivity()
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_main);
-
-        mDatabase = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
 
         List<String> langCode = new ArrayList<>();
         controller = Controller.getInstance(requireContext());
@@ -115,8 +109,7 @@ public class RegisterFragment extends Fragment {
                 firebaseApp.getAuth().createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task ->
                         {
-                            if (!task.isSuccessful())
-                            {
+                            if (!task.isSuccessful()) {
                                 Toast.makeText(requireContext(), "Authentication failed." + task.getException(),
                                         Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
@@ -126,7 +119,10 @@ public class RegisterFragment extends Fragment {
                                 String userId = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
                                 user = new User(firstName, lastName, male, female, address, language, country,
                                         email, password, retypePassword, uniqueID, date);
-                                mDatabase.child(userId).setValue(user);
+                                firebaseApp.getFirebaseDB()
+                                        .getReference()
+                                        .child("User")
+                                        .child(userId).setValue(user);
                                 registerViewModel.goToAccount(navHostFragment);
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -147,7 +143,10 @@ public class RegisterFragment extends Fragment {
                                         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                         user = new User(firstName, lastName, male, female, address, language, country,
                                                 email, password, retypePassword, uniqueID, date);
-                                        mDatabase.child(userId).setValue(user);
+                                        firebaseApp.getFirebaseDB()
+                                                .getReference()
+                                                .child("User")
+                                                .child(userId).setValue(user);
                                         progressBar.setVisibility(View.GONE);
                                         registerViewModel.goToAccount(navHostFragment);
                                     } else {
@@ -163,8 +162,7 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null)
-        {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(v -> {
 
@@ -201,15 +199,13 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
-
             }
         });
 
         return root;
     }
 
-    private void formCheck(String username, String lastname, String address, String email, String password)
-    {
+    private void formCheck(String username, String lastname, String address, String email, String password) {
         if (TextUtils.isEmpty(username)) {
             name.setError("");
         }
@@ -231,8 +227,7 @@ public class RegisterFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void onCheckBoxSelection()
-    {
+    private void onCheckBoxSelection() {
         male.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 female.setChecked(false);
@@ -245,21 +240,20 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-    private void getUserData()
-    {
+    private void getUserData() {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
-        DatabaseReference ref = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        ref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User")
+                .child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 user = dataSnapshot.getValue(User.class);
 
-                if (user != null)
-                {
+                if (user != null) {
+
                     disAbleControls();
                     name.setText(user.getFirstName());
                     surname.setText(user.getLastName());
@@ -278,10 +272,8 @@ public class RegisterFragment extends Fragment {
 
                     SpinnerAdapter languageAdapter = language.getAdapter();
                     int langPos = 0;
-                    for (int i = 0; i < languageAdapter.getCount(); i++)
-                    {
-                        if (languageAdapter.getItem(i).equals(user.getLanguage()))
-                        {
+                    for (int i = 0; i < languageAdapter.getCount(); i++) {
+                        if (languageAdapter.getItem(i).equals(user.getLanguage())) {
                             langPos = i;
                         }
                     }
@@ -291,21 +283,18 @@ public class RegisterFragment extends Fragment {
                     inputPassword.setText(user.getPassword());
                     inputRetypePassword.setText(user.getTelNumber());
                 }
-                else
-                {
+                else {
                     getUserData();
                 }
             }
 
             @Override
             public void onCancelled(@NotNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    private void disAbleControls()
-    {
+    private void disAbleControls() {
         name.setEnabled(false);
         surname.setEnabled(false);
         male.setEnabled(false);

@@ -34,22 +34,18 @@ public class RegisterViewModel extends AndroidViewModel {
         firebaseApp = new FirebaseApp();
     }
 
-    public void setCountryAdapter(Spinner country)
-    {
+    public void setCountryAdapter(Spinner country) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, getCountryList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         country.setAdapter(adapter);
     }
 
-    private List<String> getCountryList()
-    {
+    private List<String> getCountryList() {
         List<String> countriesList = new ArrayList<>();
         String[] locales = Locale.getISOCountries();
 
-        for (String countryCode : locales)
-        {
-            if (countryCode.equals("CM") || countryCode.equals("NG")|| countryCode.equals("GH"))
-            {
+        for (String countryCode : locales) {
+            if (countryCode.equals("CM") || countryCode.equals("NG")|| countryCode.equals("GH")) {
                 Locale obj = new Locale("", countryCode);
                 countriesList.add(obj.getDisplayCountry(Locale.ENGLISH));
                 Collections.sort(countriesList);
@@ -59,8 +55,7 @@ public class RegisterViewModel extends AndroidViewModel {
         return countriesList;
     }
 
-    public LiveData<String> getButtonText(boolean user)
-    {
+    public LiveData<String> getButtonText(boolean user) {
         if (user) {
             btnText.setValue(app.getString(R.string.update));
         }
@@ -70,15 +65,13 @@ public class RegisterViewModel extends AndroidViewModel {
         return btnText;
     }
 
-    public void setLanguage(Spinner language, List<String> langCode)
-    {
+    public void setLanguage(Spinner language, List<String> langCode) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, langCode);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         language.setAdapter(adapter);
     }
 
-    public void getLanguages(Spinner country, Spinner language, List<String> langCode)
-    {
+    public void getLanguages(Spinner country, Spinner language, List<String> langCode) {
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -103,10 +96,8 @@ public class RegisterViewModel extends AndroidViewModel {
         });
     }
 
-    public void goToAccount(NavHost navHostFragment)
-    {
-        if (navHostFragment != null)
-        {
+    public void goToAccount(NavHost navHostFragment) {
+        if (navHostFragment != null) {
             firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_account);

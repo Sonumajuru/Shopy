@@ -40,8 +40,7 @@ public class AccountViewModel extends AndroidViewModel {
         whatsAppNum.setValue("WhatsApp");
     }
 
-    public void setLocale(Activity activity, String languageCode)
-    {
+    public void setLocale(Activity activity, String languageCode) {
         Locale locale = new Locale(languageCode.substring(0,2));
         Locale.setDefault(locale);
         Resources resources = activity.getResources();
@@ -53,8 +52,7 @@ public class AccountViewModel extends AndroidViewModel {
         LanguageHelper.updateLanguage(app, String.valueOf(locale));
     }
 
-    public void support(Activity activity)
-    {
+    public void support(Activity activity) {
         String contact = "+237 666305349"; // use country code with your phone number
         String url = "https://api.whatsapp.com/send?phone=" + contact;
         try {
@@ -68,8 +66,7 @@ public class AccountViewModel extends AndroidViewModel {
         }
     }
 
-    public void signOut(NavHost navHostFragment)
-    {
+    public void signOut(NavHost navHostFragment) {
         firebaseApp.getAuth().signOut();
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
             NavController navController = navHostFragment.getNavController();

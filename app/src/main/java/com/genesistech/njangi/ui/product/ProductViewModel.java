@@ -39,8 +39,7 @@ public class ProductViewModel extends AndroidViewModel {
         seller = "";
     }
 
-    public ArrayAdapter<String> getAdapter()
-    {
+    public ArrayAdapter<String> getAdapter() {
         // Make ENUM for Categories or Strings of ID R.id.String
         String[] ProductCategories = new String[]{app.getApplicationContext()
                 .getString(R.string.electronics), app.getApplicationContext()
@@ -64,14 +63,12 @@ public class ProductViewModel extends AndroidViewModel {
         return adapter;
     }
 
-    public void getCurrency()
-    {
+    public void getCurrency() {
         FirebaseUser user = firebaseApp.getAuth().getCurrentUser();
         String userid = Objects.requireNonNull(user).getUid();
-        DatabaseReference reference = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User").child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {

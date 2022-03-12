@@ -39,7 +39,6 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public void getUserData(String uid)
     {
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("User").child(uid).getRef();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
@@ -61,7 +60,10 @@ public class ProfileViewModel extends AndroidViewModel {
 //                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User")
+                .child(uid).getRef().addListenerForSingleValueEvent(valueEventListener);
     }
 
     public LiveData<String> getProfile()

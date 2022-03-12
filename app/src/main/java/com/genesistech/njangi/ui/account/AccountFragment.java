@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -39,8 +38,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FragmentAccountBinding binding;
 
     private User user;
-    private NavHost navHostFragment;
     private FirebaseApp firebaseApp;
+    private NavHost navHostFragment;
 
     private TextView username;
     private TextView userEmail;
@@ -49,8 +48,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private boolean isConnected = false;
 
     @SuppressLint({"SetTextI18n", "ResourceAsColor"})
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -66,7 +64,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         Button btnManageItem = binding.manageBtn;
         Button btnSettings = binding.settingsBtn;
         btnSignOut = binding.signOutBtn;
-        LinearLayout linearLayout = binding.supportLayout;
         Button btnAddPay = binding.AddPaymentBtn;
 
         btnOrder.setOnClickListener(this);
@@ -147,10 +144,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
-        DatabaseReference ref = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        ref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User")
+                .child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {

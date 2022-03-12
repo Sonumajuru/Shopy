@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.genesistech.njangi.R;
+import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,11 +19,13 @@ public class HomeViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mTitle;
     private final Application app;
+    private FirebaseApp firebaseApp;
 
     public HomeViewModel(@NonNull @NotNull Application application) {
         super(application);
         app = (Application) application.getApplicationContext();
         mTitle = new MutableLiveData<>();
+        firebaseApp = new FirebaseApp();
     }
 
     public LiveData<String> getText() {
@@ -34,10 +37,10 @@ public class HomeViewModel extends AndroidViewModel {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
         String userid = Objects.requireNonNull(user).getUid();
-        DatabaseReference reference = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User")
+                .child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {

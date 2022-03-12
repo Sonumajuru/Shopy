@@ -151,7 +151,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         parentModelArrayList = new ArrayList<>();
         categoryList = new ArrayList<>();
 
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -201,14 +200,16 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 //                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("ProductDB")
+                .child("products").addListenerForSingleValueEvent(valueEventListener);
     }
 
     public void getTrending() {
 
         progressBar.setVisibility(View.VISIBLE);
         trendingList = new ArrayList<>();
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -257,7 +258,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 //                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("ProductDB")
+                .child("products").addListenerForSingleValueEvent(valueEventListener);
     }
 
     public static class DividerItemDecoration extends RecyclerView.ItemDecoration {
@@ -276,7 +280,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     @SuppressLint("NotifyDataSetChanged")
     private void getProducts() {
         progressBar.setVisibility(View.VISIBLE);
-        DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -337,7 +340,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 //                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
             }
         };
-        eventsRef.addListenerForSingleValueEvent(valueEventListener);
+        firebaseApp
+                .getFirebaseDB()
+                .getReference()
+                .child("ProductDB").child("products").addListenerForSingleValueEvent(valueEventListener);
     }
 
     @SuppressLint("NotifyDataSetChanged")

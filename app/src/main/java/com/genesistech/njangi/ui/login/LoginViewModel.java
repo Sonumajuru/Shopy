@@ -17,8 +17,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public void goToAccount(NavHost navHostFragment, NavOptions navOption)
     {
-        if (navHostFragment != null)
-        {
+        if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
 //            navController.popBackStack(R.id.navigation_login, true);
             navController.navigate(R.id.navigation_account, null, navOption);

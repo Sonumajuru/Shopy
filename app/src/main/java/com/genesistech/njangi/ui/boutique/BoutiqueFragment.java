@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.ProductAdapter;
 import com.genesistech.njangi.databinding.FragmentBoutiqueBinding;
+import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,14 +31,13 @@ public class BoutiqueFragment extends Fragment {
     private BoutiqueViewModel boutiqueViewModel;
     private FragmentBoutiqueBinding binding;
 
-    //a list to store all the products
-    private List<Product> productList;
-
-    //the recyclerview
-    private RecyclerView recyclerView;
+    private FirebaseApp firebaseApp;
     private Product product;
     private ProductAdapter adapter;
     private FragmentCallback callback;
+
+    private List<Product> productList;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,6 +45,7 @@ public class BoutiqueFragment extends Fragment {
         binding = FragmentBoutiqueBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        firebaseApp = new FirebaseApp();
         productList = new ArrayList<>();
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -56,8 +57,10 @@ public class BoutiqueFragment extends Fragment {
     private void getUserData()
     {
         String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("ProductDB").child("products")
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("ProductDB")
+                .child("products")
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
@@ -122,8 +125,12 @@ public class BoutiqueFragment extends Fragment {
 
     private void deleteProduct(final String prodId, Product product){
         try {
-            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("ProductDB").child("products");
-            dbRef.child(prodId).removeValue((error, ref) -> Toast.makeText(requireActivity(), "Removed product..", Toast.LENGTH_SHORT).show());
+            firebaseApp
+                    .getFirebaseDB()
+                    .getReference()
+                    .child("ProductDB")
+                    .child("products")
+                    .child(prodId).removeValue((error, ref) -> Toast.makeText(requireActivity(), "Removed product..", Toast.LENGTH_SHORT).show());
         }
         catch (Exception e) {
             e.printStackTrace();
