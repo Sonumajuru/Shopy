@@ -120,7 +120,7 @@ public class ProductViewModel extends AndroidViewModel {
             btnStock.setValue(app.getString(R.string.boutique));
         }
         else {
-            btnStock.setValue(app.getString(R.string.cancel));
+            btnStock.setValue(app.getString(R.string.back));
         }
         return btnStock;
     }

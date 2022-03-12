@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,10 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.genesistech.njangi.R.id.*;
 
@@ -49,9 +47,7 @@ public class BoutiqueFragment extends Fragment {
         binding = FragmentStockBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //getting the recyclerview from xml
         recyclerView = binding.recyclerView;
-//        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         productList = new ArrayList<>();
         getUserData();
@@ -103,7 +99,7 @@ public class BoutiqueFragment extends Fragment {
                                 bundle.putParcelable("product", product);
                                 Navigation.findNavController(requireView()).navigate(navigation_product, bundle);
                             } else if (id == R.id.delete) {
-                                deleteProduct(product.getProdID());
+                                deleteProduct(product.getProdID(), product);
                             }
                         }
                     };
@@ -122,34 +118,12 @@ public class BoutiqueFragment extends Fragment {
         });
     }
 
-    private void deleteProduct(final String prodId){
-
-        try
-        {
+    private void deleteProduct(final String prodId, Product product){
+        try {
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("ProductDB").child("products");
-            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot ds :dataSnapshot.getChildren()){
-                        Product product = ds.getValue(Product.class);
-                        assert product != null;
-                        if (product.getProdID().equals(prodId))
-                        {
-                            ds.child(prodId).getRef().removeValue();
-                            break;
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-            });
+            dbRef.child(prodId).removeValue((error, ref) -> Toast.makeText(requireActivity(), "Removed product..", Toast.LENGTH_SHORT).show());
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

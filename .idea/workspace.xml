@@ -12,7 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0831b5fe-4a45-4c68-bbb8-3b7bdcd1e69f" name="Changes" comment="Removed unused imports codes">
+    <list default="true" id="0831b5fe-4a45-4c68-bbb8-3b7bdcd1e69f" name="Changes" comment="Updated method codes">
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
@@ -20,10 +20,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/boutique/BoutiqueFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/boutique/BoutiqueFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-fr-rFR/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-fr-rFR/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +35,7 @@
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/simononumajuru/.android/avd/Nexus_Tab_9.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[6e6defd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -221,13 +223,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1640017615332</updated>
-    </task>
-    <task id="LOCAL-00084" summary="Fixed Displaying of Login frgament when navigated to Account Fragment">
-      <created>1644751186265</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1644751186266</updated>
     </task>
     <task id="LOCAL-00085" summary="Changed names of files">
       <created>1645003907258</created>
@@ -565,7 +560,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647073410945</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="Updated method codes">
+      <created>1647080115654</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1647080115654</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -581,7 +583,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add check before deleting of account" />
     <MESSAGE value="Added Delete, deletes from cloud add pop up" />
     <MESSAGE value="Each product upload buttons is a new item" />
     <MESSAGE value="Latest added product is displayed first" />
@@ -606,7 +607,8 @@
     <MESSAGE value="Updated image selection intent due to API 30" />
     <MESSAGE value="Removed deprecated codes" />
     <MESSAGE value="Removed unused imports codes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed unused imports codes" />
+    <MESSAGE value="Updated method codes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated method codes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -618,7 +620,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductFragment.java</url>
-          <line>368</line>
+          <line>372</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -630,14 +632,6 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/adapter/CartAdapter.java</url>
           <line>59</line>
           <option name="timeStamp" value="95" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/product/ProductFragment.java</url>
-          <line>218</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="123" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

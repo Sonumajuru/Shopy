@@ -62,6 +62,7 @@ public class ProductFragment extends Fragment {
     private String seller;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private boolean isUpdating = false;
     ActivityResultLauncher<Intent> someActivityResultLauncher;
 
     @SuppressLint("DefaultLocale")
@@ -97,6 +98,7 @@ public class ProductFragment extends Fragment {
         btnChoose.setOnClickListener(v -> launchImageIntent());
         if(bundle !=null) {
             fileUris = new ArrayList<>();
+            isUpdating = true;
             productViewModel.getTextUpload(false).observe(getViewLifecycleOwner(), btnUpload::setText);
             productViewModel.getTextStock(false).observe(getViewLifecycleOwner(), btnView::setText);
             btnView.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
@@ -185,7 +187,10 @@ public class ProductFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
                         assert result.getData() != null;
-                        fileUris = new ArrayList<>();
+                        if (!isUpdating)
+                        {
+                            fileUris = new ArrayList<>();
+                        }
                         if( result.getData().getClipData() != null)
                         {
                             int count = result.getData().getClipData().getItemCount();
@@ -369,7 +374,7 @@ public class ProductFragment extends Fragment {
                     }
                 });
             }
-            Navigation.findNavController(requireView()).popBackStack();
+            Toast.makeText(requireActivity(), "Updated product..", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
             e.printStackTrace();
