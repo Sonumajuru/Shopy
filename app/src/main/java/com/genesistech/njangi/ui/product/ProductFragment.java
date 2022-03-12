@@ -26,9 +26,6 @@ import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
 import com.genesistech.njangi.model.User;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -43,6 +40,7 @@ public class ProductFragment extends Fragment {
 
     private FragmentProductBinding binding;
     private Controller controller;
+    private ProductViewModel productViewModel;
 
     private User user;
     private FirebaseApp firebaseApp;
@@ -62,7 +60,6 @@ public class ProductFragment extends Fragment {
 
     private long maxId;
     private ProgressBar progressBar;
-    private String seller;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private boolean isUpdating = false;
@@ -73,7 +70,7 @@ public class ProductFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -104,14 +101,19 @@ public class ProductFragment extends Fragment {
             isUpdating = true;
             productViewModel.getTextUpload(false).observe(getViewLifecycleOwner(), btnUpload::setText);
             productViewModel.getTextStock(false).observe(getViewLifecycleOwner(), btnView::setText);
-            btnView.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+            btnView.setOnClickListener(v -> {
+                Navigation.findNavController(v).popBackStack();
+                ratingBar.setRating(0);
+                inputTitle.setText("");
+                category.setSelection(0);
+                inputCurrency.setText("");
+                inputDescription.setText("");
+                inputPrice.setText("");
+            });
             btnUpload.setOnClickListener(v -> updateProduct());
 
             assert getArguments() != null;
             product = getArguments().getParcelable("product");
-            // TODO: Load images
-            //    - Update product in DB using ProdID
-            //    - Add Image (Choose) - Update (Upload) - Cancel (Stocks)
 
             ratingBar.setRating((float) product.getRating());
             ratingBar.setEnabled(false);
@@ -173,10 +175,9 @@ public class ProductFragment extends Fragment {
 //                Toast.makeText(getActivity(),"Rating: " + rating, Toast.LENGTH_SHORT).show();
             });
 
-            getUserData();
             productViewModel.getCurrency();
             category.setAdapter(productViewModel.getAdapter());
-            productViewModel.getText().observe(getViewLifecycleOwner(), s -> inputCurrency.setText(s));
+            productViewModel.getCurrencySign().observe(getViewLifecycleOwner(), s -> inputCurrency.setText(s));
         }
 
         return root;
@@ -313,7 +314,8 @@ public class ProductFragment extends Fragment {
                     uploadedImages.add(downloadUrl.toString());
 
                     String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    product = new Product(String.valueOf(maxId+1), uuid, seller, title,
+                    product = new Product(String.valueOf(maxId+1), uuid,
+                            productViewModel.getSeller(), title,
                             controller.getCategoryTranslation(category), price,
                             currency, description, uploadedImages, rating,"0", key, "", "0");
 
@@ -405,33 +407,6 @@ public class ProductFragment extends Fragment {
         return inputTitle.getText().toString().isEmpty()
                 || inputPrice.getText().toString().isEmpty()
                 || inputDescription.getText().toString().isEmpty();
-    }
-
-    private void getUserData() {
-        if (firebaseApp.getAuth().getCurrentUser() == null) return;
-        String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
-        DatabaseReference ref = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("User");
-        ref.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot dataSnapshot)
-            {
-                user = dataSnapshot.getValue(User.class);
-                if (user != null)
-                {
-                    seller = user.getFirstName();
-                }
-                else
-                {
-                    getUserData();
-                }
-            }
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void setyViewPager(FragmentCallback callback, List<String> targetList) {

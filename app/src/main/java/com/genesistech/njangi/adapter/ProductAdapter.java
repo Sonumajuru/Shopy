@@ -99,11 +99,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     switch(id)
                     {
                         case R.id.update:
-                            callback.onItemClicked(position, product, id);
-                            return true;
                         case R.id.delete:
                             callback.onItemClicked(position, product, id);
-                            removeAt(position);
                             return true;
                         default:
                             return false;

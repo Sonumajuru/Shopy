@@ -22,6 +22,7 @@ public class ProductViewModel extends AndroidViewModel {
 
     private final Application app;
     private final MutableLiveData<String> inputCurrency;
+    private String seller;
     private final FirebaseApp firebaseApp;
     private final MutableLiveData<String> btnChoose;
     private final MutableLiveData<String> btnUpload;
@@ -35,6 +36,7 @@ public class ProductViewModel extends AndroidViewModel {
         btnStock = new MutableLiveData<>();
         firebaseApp = new FirebaseApp();
         inputCurrency = new MutableLiveData<>();
+        seller = "";
     }
 
     public ArrayAdapter<String> getAdapter()
@@ -74,6 +76,7 @@ public class ProductViewModel extends AndroidViewModel {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 String country = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getCountry();
+                seller = Objects.requireNonNull(dataSnapshot.getValue(User.class)).getFirstName();
                 switch (country) {
                     case "Cameroon":
                         inputCurrency.setValue("CFA");
@@ -93,18 +96,20 @@ public class ProductViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<String> getText() {
+    public LiveData<String> getCurrencySign() {
         return inputCurrency;
     }
 
-    public LiveData<String> getTextChoose()
-    {
+    public String getSeller() {
+        return seller;
+    }
+
+    public LiveData<String> getTextChoose() {
         btnChoose.setValue(app.getString(R.string.photos));
         return btnChoose;
     }
 
-    public LiveData<String> getTextUpload(boolean user)
-    {
+    public LiveData<String> getTextUpload(boolean user) {
         if (user) {
             btnUpload.setValue(app.getString(R.string.upload));
         }
@@ -114,8 +119,7 @@ public class ProductViewModel extends AndroidViewModel {
         return btnUpload;
     }
 
-    public LiveData<String> getTextStock(boolean user)
-    {
+    public LiveData<String> getTextStock(boolean user) {
         if (user) {
             btnStock.setValue(app.getString(R.string.boutique));
         }

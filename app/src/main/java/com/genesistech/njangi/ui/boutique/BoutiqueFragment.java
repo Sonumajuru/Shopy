@@ -49,7 +49,6 @@ public class BoutiqueFragment extends Fragment {
 
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        productList = new ArrayList<>();
         getUserData();
 
         return root;
@@ -57,6 +56,7 @@ public class BoutiqueFragment extends Fragment {
 
     private void getUserData()
     {
+        productList = new ArrayList<>();
         String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("ProductDB").child("products")
@@ -100,6 +100,9 @@ public class BoutiqueFragment extends Fragment {
                                 Navigation.findNavController(requireView()).navigate(navigation_product, bundle);
                             } else if (id == R.id.delete) {
                                 deleteProduct(product.getProdID(), product);
+                                adapter.removeAt(position);
+                                adapter.notifyItemRemoved(position);
+                                adapter.notifyItemRangeChanged(position, productList.size());
                             }
                         }
                     };
