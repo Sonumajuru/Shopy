@@ -142,30 +142,24 @@ public class RegisterFragment extends Fragment {
                 // Prompt the user to re-provide their sign-in credentials
                 assert currentUser != null;
                 currentUser.reauthenticate(credential)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    currentUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                                                user = new User(firstName, lastName, male, female, address, language, country,
-                                                        email, password, retypePassword, uniqueID, date);
-                                                mDatabase.child(userId).setValue(user);
-                                                progressBar.setVisibility(View.GONE);
-                                                registerViewModel.goToAccount(navHostFragment);
-                                            } else {
-                                                Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
-                                }
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                currentUser.updatePassword(password).addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                                        user = new User(firstName, lastName, male, female, address, language, country,
+                                                email, password, retypePassword, uniqueID, date);
+                                        mDatabase.child(userId).setValue(user);
+                                        progressBar.setVisibility(View.GONE);
+                                        registerViewModel.goToAccount(navHostFragment);
+                                    } else {
+                                        Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
             }

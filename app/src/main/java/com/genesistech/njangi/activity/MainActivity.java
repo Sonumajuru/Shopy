@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         com.genesistech.njangi.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Controller controller = new Controller(this);
-        if (controller.getDeviceType() == DeviceType.Phone)
+        if (Controller.getDeviceType() == DeviceType.Phone)
         {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
