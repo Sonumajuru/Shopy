@@ -3,12 +3,13 @@ package com.genesistech.njangi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Insets;
+import android.os.Build;
 import android.text.InputFilter;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.helper.DeviceType;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -82,8 +83,7 @@ public class Controller {
                 bottomNavigationMenuView,false);
     }
 
-    private void getBadge()
-    {
+    private void getBadge() {
         if (getBottomNavigationMenuView() != null) {
             return;
         }
@@ -91,8 +91,7 @@ public class Controller {
         setNotificationsBadge(LayoutInflater.from(getContext()).inflate(R.layout.custom_badge_layout, getBottomNavigationMenuView(),false));
     }
 
-    public void addBadge(int count)
-    {
+    public void addBadge(int count) {
         getNavView().removeView(getNotificationsBadge());
         getBadge();
         TextView notifications_badge = getNotificationsBadge().findViewById(R.id.notifications_badge);
@@ -105,8 +104,7 @@ public class Controller {
         getNavView().removeView(getNotificationsBadge());
     }
 
-    public String getTranslation(String text)
-    {
+    public String getTranslation(String text) {
         switch (text) {
             case "Books":
                 text = mContext.getString(R.string.books);
@@ -154,8 +152,7 @@ public class Controller {
         return text;
     }
 
-    public String getCategoryTranslation(String text)
-    {
+    public String getCategoryTranslation(String text) {
         switch (text) {
             case "Livres":
             case "Books":
@@ -223,16 +220,14 @@ public class Controller {
         return (String) mContext.createConfigurationContext(config).getText(resId);
     }
 
-    public void setTextLength(TextView title)
-    {
+    public void setTextLength(TextView title) {
         int maxLength = 15;
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(maxLength);
         title.setFilters(fArray);
     }
 
-    public String getDate()
-    {
+    public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate currentdate = LocalDate.now();
         return formatter.format(currentdate);
@@ -243,14 +238,25 @@ public class Controller {
         return IsFragVisible;
     }
 
-    public DeviceType getDeviceType() {
-        Display display = ((Activity)mContext).getWindowManager().getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
+    public static DeviceType getDeviceType() {
 
-        float widthInches = metrics.widthPixels / metrics.xdpi;
-        float heightInches = metrics.heightPixels / metrics.ydpi;
-        double diagonalInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
+        float widthInches;
+        float heightInches;
+        double diagonalInches;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowMetrics windowMetrics = ((Activity)mContext).getWindowManager().getCurrentWindowMetrics();
+            Insets insets = windowMetrics.getWindowInsets()
+                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+            widthInches = windowMetrics.getBounds().width() - insets.left - insets.right;
+            heightInches = windowMetrics.getBounds().height() - insets.left - insets.right;
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            widthInches = displayMetrics.widthPixels / displayMetrics.xdpi;
+            heightInches = displayMetrics.heightPixels / displayMetrics.ydpi;
+        }
+        diagonalInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
         if (diagonalInches >= 7.0) {
             return DeviceType.Tablet;
         }
