@@ -18,8 +18,6 @@ import com.genesistech.njangi.R;
 import com.genesistech.njangi.databinding.FragmentRegisterBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
