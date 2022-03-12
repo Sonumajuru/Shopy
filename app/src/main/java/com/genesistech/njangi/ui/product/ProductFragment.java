@@ -96,8 +96,7 @@ public class ProductFragment extends Fragment {
         Bundle bundle = getArguments();
         productViewModel.getTextChoose().observe(getViewLifecycleOwner(), btnChoose::setText);
         btnChoose.setOnClickListener(v -> chooseImage());
-        if(bundle !=null)
-        {
+        if(bundle !=null) {
             fileUris = new ArrayList<>();
             productViewModel.getTextUpload(false).observe(getViewLifecycleOwner(), btnUpload::setText);
             productViewModel.getTextStock(false).observe(getViewLifecycleOwner(), btnView::setText);
@@ -116,10 +115,8 @@ public class ProductFragment extends Fragment {
 
             ArrayAdapter<String> categoryAdapter = productViewModel.getAdapter();
             int categoryPosition = 0;
-            for (int i = 0; i < categoryAdapter.getCount(); i++)
-            {
-                if (categoryAdapter.getItem(i).equals(product.getCategory()))
-                {
+            for (int i = 0; i < categoryAdapter.getCount(); i++) {
+                if (categoryAdapter.getItem(i).equals(product.getCategory())) {
                     categoryPosition = i;
                 }
             }
@@ -162,8 +159,7 @@ public class ProductFragment extends Fragment {
             };
             setViewPager(callback);
         }
-        else
-        {
+        else {
             productViewModel.getTextUpload(true).observe(getViewLifecycleOwner(), btnUpload::setText);
             productViewModel.getTextStock(true).observe(getViewLifecycleOwner(), btnView::setText);
             btnUpload.setOnClickListener(v -> publishProduct());
@@ -197,33 +193,23 @@ public class ProductFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            fileUris = new ArrayList<>();
-            if(resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST)
+        fileUris = new ArrayList<>();
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST)
+        {
+            if(data.getClipData() != null)
             {
-                if(data.getClipData() != null)
-                {
-                    int count = data.getClipData().getItemCount();
-                    for(int i = 0; i < count; i++) {
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                        ClipData.Item item = data.getClipData().getItemAt(i);
-                        Uri uri = item.getUri();
-                        fileUris.add(uri); /// add the images to list
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), fileUris.get(i)); //pass    the images with position
-//                        imageView.setImageBitmap(bitmap);
-                    }
-                    getImages();
-                }
-                else if(data.getData() != null) {
-                    Uri imageUri = data.getData();
-                    //do something with the image (save it to some directory or whatever you need to do with it here)
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
-//                    imageView.setImageBitmap(bitmap);
+                int count = data.getClipData().getItemCount();
+                for(int i = 0; i < count; i++) {
+                    ClipData.Item item = data.getClipData().getItemAt(i);
+                    Uri uri = item.getUri();
+                    fileUris.add(uri);
                 }
             }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            else if(data.getData() != null) {
+                Uri imageUri = data.getData();
+                fileUris.add(imageUri);
+            }
+            getImages();
         }
     }
 
