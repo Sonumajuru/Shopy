@@ -160,13 +160,12 @@ public class DetailFragment extends Fragment {
                                 product.getRating(),
                                 product.getCurrency(),
                                 product.getUuid(),
-                                product.getCategory(), "false");
+                                product.getCategory(), "0");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
+                    else {
                         product.setFavStatus("0");
                         favDB.remove_fav(product.getId());
                         favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
@@ -193,7 +192,7 @@ public class DetailFragment extends Fragment {
                                 favItem.getRating(),
                                 favItem.getCurrency(),
                                 favItem.getUuid(),
-                                favItem.getCategory(), "false");
+                                favItem.getCategory(), "0");
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), favItem.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
@@ -215,13 +214,11 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null)
             {
-                if (prefManager.getQuantity() != 0)
-                {
+                if (prefManager.getQuantity() != 0) {
                     counter = prefManager.getQuantity() + 1;
                     controller.addBadge(counter);
                 }
-                else
-                {
+                else {
                     counter = counter + 1;
                     controller.addBadge(counter);
                 }

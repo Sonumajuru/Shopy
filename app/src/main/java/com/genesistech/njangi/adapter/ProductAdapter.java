@@ -134,13 +134,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     }
                     imageList = json.toString();
                     product.setFavStatus("1");
-                    favDB.insertIntoTheDatabase(product.getTitle(), product.getDescription(), product.getSeller(),
-                            imageList, product.getId(), product.getFavStatus(),
-                            product.getPrice(), product.getRating(), product.getCurrency(),
-                            product.getUuid(), product.getCategory(), product.getFavStatus());
+                    favDB.insertIntoTheDatabase(product.getTitle(),
+                            product.getDescription(),
+                            product.getSeller(),
+                            imageList,
+                            product.getId(),
+                            product.getFavStatus(),
+                            product.getPrice(),
+                            product.getRating(),
+                            product.getCurrency(),
+                            product.getUuid(),
+                            product.getCategory(),
+                            "0");
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-                    Toast.makeText(mCtx, product.getTitle() + " Added to favorite!",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx, product.getTitle() + " Added to favorite!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
