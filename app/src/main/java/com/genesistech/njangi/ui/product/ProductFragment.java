@@ -179,13 +179,13 @@ public class ProductFragment extends Fragment {
 
     private void setRegisterForActivity()
     {
-        fileUris = new ArrayList<>();
         someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
                         assert result.getData() != null;
+                        fileUris = new ArrayList<>();
                         if( result.getData().getClipData() != null)
                         {
                             int count = result.getData().getClipData().getItemCount();

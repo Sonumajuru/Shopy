@@ -16,7 +16,9 @@ import com.genesistech.njangi.adapter.ProductAdapter;
 import com.genesistech.njangi.databinding.FragmentStockBinding;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -133,7 +135,7 @@ public class BoutiqueFragment extends Fragment {
                         assert product != null;
                         if (product.getProdID().equals(prodId))
                         {
-                            ds.getRef().removeValue();
+                            ds.child(prodId).getRef().removeValue();
                             break;
                         }
                     }
