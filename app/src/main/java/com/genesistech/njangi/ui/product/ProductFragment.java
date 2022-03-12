@@ -26,6 +26,9 @@ import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
 import com.genesistech.njangi.model.User;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -351,27 +354,44 @@ public class ProductFragment extends Fragment {
 
             for (Uri file : fileUris)
             {
-                uploadedImages.add(String.valueOf(file));
-                product = new Product(product.getId(), product.getUuid(), product.getSeller(), title,
-                        category, price, product.getCurrency(), description,
-                        uploadedImages, product.getRating(),product.getFavStatus(),
-                        product.getProdID(), product.getStore(), product.getTrending());
+                final StorageReference ref = storageReference.child("images/" + file.getLastPathSegment());
+                uploadTask = ref.putFile(file);
+                Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
 
-                Map<String, Object> productValues = product.toMap();
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Uri downloadUrl = task.getResult();
 
-                mDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        assert downloadUrl != null;
+                        uploadedImages.add(downloadUrl.toString());
+
+                        product = new Product(product.getId(), product.getUuid(), product.getSeller(), title,
+                                category, price, product.getCurrency(), description,
+                                uploadedImages, product.getRating(),product.getFavStatus(),
+                                product.getProdID(), product.getStore(), product.getTrending());
+
+                        Map<String, Object> productValues = product.toMap();
+
                         progressBar.setVisibility(View.GONE);
                         // adding a map to our database.
                         mDatabase.updateChildren(productValues);
                     }
+                }).addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    uploadedImages.add(file.toString());
+                    product = new Product(product.getId(), product.getUuid(), product.getSeller(), title,
+                            category, price, product.getCurrency(), description,
+                            uploadedImages, product.getRating(),product.getFavStatus(),
+                            product.getProdID(), product.getStore(), product.getTrending());
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // displaying a failure message on toast.
-                        Toast.makeText(requireActivity(), "Fail to update product..", Toast.LENGTH_SHORT).show();
-                    }
+                    Map<String, Object> productValues = product.toMap();
+
+                    Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
             }
             Toast.makeText(requireActivity(), "Updated product..", Toast.LENGTH_SHORT).show();
