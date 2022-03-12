@@ -1,16 +1,17 @@
 package com.genesistech.njangi.ui.product;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,10 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.*;
-
-import static android.app.Activity.RESULT_OK;
 
 public class ProductFragment extends Fragment {
 
@@ -59,12 +57,12 @@ public class ProductFragment extends Fragment {
     private DatabaseReference mDatabase;
     private  StorageReference storageReference;
 
-    private final int PICK_IMAGE_REQUEST = 22;
     private long maxId;
     private ProgressBar progressBar;
     private String seller;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    ActivityResultLauncher<Intent> someActivityResultLauncher;
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -93,9 +91,10 @@ public class ProductFragment extends Fragment {
         viewPager = binding.imageLayout;
         tabLayout = binding.tabDots;
 
+        setRegisterForActivity();
         Bundle bundle = getArguments();
         productViewModel.getTextChoose().observe(getViewLifecycleOwner(), btnChoose::setText);
-        btnChoose.setOnClickListener(v -> chooseImage());
+        btnChoose.setOnClickListener(v -> launchImageIntent());
         if(bundle !=null) {
             fileUris = new ArrayList<>();
             productViewModel.getTextUpload(false).observe(getViewLifecycleOwner(), btnUpload::setText);
@@ -178,39 +177,40 @@ public class ProductFragment extends Fragment {
         return root;
     }
 
-    private void chooseImage() {
+    private void setRegisterForActivity()
+    {
+        fileUris = new ArrayList<>();
+        someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        assert result.getData() != null;
+                        if( result.getData().getClipData() != null)
+                        {
+                            int count = result.getData().getClipData().getItemCount();
+                            for(int i = 0; i < count; i++) {
+                                ClipData.Item item =  result.getData().getClipData().getItemAt(i);
+                                Uri uri = item.getUri();
+                                fileUris.add(uri);
+                            }
+                        }
+                        else if(result.getData() != null) {
+                            Uri imageUri = result.getData().getData();
+                            fileUris.add(imageUri);
+                        }
+                        getImages();
+                    }
+                });
+    }
+
+    public void launchImageIntent() {
         Intent intent = new Intent();
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-
-//        Intent chooserIntent = Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST;
-//        startActivity(chooserIntent);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        fileUris = new ArrayList<>();
-        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST)
-        {
-            if(data.getClipData() != null)
-            {
-                int count = data.getClipData().getItemCount();
-                for(int i = 0; i < count; i++) {
-                    ClipData.Item item = data.getClipData().getItemAt(i);
-                    Uri uri = item.getUri();
-                    fileUris.add(uri);
-                }
-            }
-            else if(data.getData() != null) {
-                Uri imageUri = data.getData();
-                fileUris.add(imageUri);
-            }
-            getImages();
-        }
+        someActivityResultLauncher.launch(intent);
     }
 
     private void getImages() {
