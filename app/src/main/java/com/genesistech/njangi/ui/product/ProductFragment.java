@@ -340,9 +340,9 @@ public class ProductFragment extends Fragment {
         if (fileUris == null) return;
         if (fileUris.size() == 0) return;
         uploadedImages = new ArrayList<>();
+        progressBar.setVisibility(View.VISIBLE);
 
         try {
-            progressBar.setVisibility(View.VISIBLE);
             String title = inputTitle.getText().toString().trim();
             String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
             double price = Double.parseDouble(inputPrice.getText().toString().trim()); /*Fix double */
@@ -356,7 +356,7 @@ public class ProductFragment extends Fragment {
             {
                 final StorageReference ref = storageReference.child("images/" + file.getLastPathSegment());
                 uploadTask = ref.putFile(file);
-                Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                uploadTask.continueWithTask(task -> {
                     if (!task.isSuccessful()) {
                         throw Objects.requireNonNull(task.getException());
                     }
@@ -390,14 +390,14 @@ public class ProductFragment extends Fragment {
                             product.getProdID(), product.getStore(), product.getTrending());
 
                     Map<String, Object> productValues = product.toMap();
-
-                    Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mDatabase.updateChildren(productValues);
                 });
             }
             Toast.makeText(requireActivity(), "Updated product..", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e) {
             e.printStackTrace();
+            progressBar.setVisibility(View.GONE);
         }
     }
 
