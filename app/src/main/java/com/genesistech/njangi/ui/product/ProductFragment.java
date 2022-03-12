@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class ProductFragment extends Fragment {
@@ -40,8 +41,6 @@ public class ProductFragment extends Fragment {
     private FragmentProductBinding binding;
     private Controller controller;
     private ProductViewModel productViewModel;
-
-    private FirebaseApp firebaseApp;
 
     private Spinner category;
     private RatingBar ratingBar;
@@ -72,7 +71,7 @@ public class ProductFragment extends Fragment {
         binding = FragmentProductBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        firebaseApp = new FirebaseApp();
+        FirebaseApp firebaseApp = new FirebaseApp();
         storageReference = FirebaseStorage.getInstance().getReference();
         controller = Controller.getInstance(requireContext());
 
@@ -129,7 +128,9 @@ public class ProductFragment extends Fragment {
             inputCurrency.setText(product.getCurrency());
             inputCurrency.setEnabled(false);
             inputDescription.setText(product.getDescription());
-            inputPrice.setText(String.format("%.2f", product.getPrice()));
+
+            DecimalFormat df = new DecimalFormat("###.#");
+            inputPrice.setText(df.format(product.getPrice()));
             for (int i = 0; i < product.getImages().size(); i++) {
                 fileUris.add(Uri.parse(product.getImages().get(i)));
             }
@@ -246,7 +247,7 @@ public class ProductFragment extends Fragment {
                         targetList.remove(position);
                     }
                 }
-                setyViewPager(this, targetList);
+                setViewPager(this, targetList);
                 for (String s : targetList) {
                     fileUris.add(Uri.parse(s));
                 }
@@ -257,7 +258,7 @@ public class ProductFragment extends Fragment {
 
             }
         };
-        setyViewPager(callback, targetList);
+        setViewPager(callback, targetList);
     }
 
     private void publishProduct() {
@@ -270,72 +271,77 @@ public class ProductFragment extends Fragment {
         product = new Product();
         uploadedImages = new ArrayList<>();
 
-        progressBar.setVisibility(View.VISIBLE);
-        String title = inputTitle.getText().toString().trim();
-        String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
-        double price = Double.parseDouble(inputPrice.getText().toString().trim());
-        double rating = ratingBar.getRating();
-        String description = inputDescription.getText().toString().trim();
-        String currency = inputCurrency.getText().toString().trim();
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+            String title = inputTitle.getText().toString().trim();
+            String category = controller.getCategoryTranslation(this.category.getSelectedItem().toString());
+            double price = Double.parseDouble(inputPrice.getText().toString().trim());
+            double rating = ratingBar.getRating();
+            String description = inputDescription.getText().toString().trim();
+            String currency = inputCurrency.getText().toString().trim();
 
-        mDatabase = FirebaseDatabase
-                .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("ProductDB");
+            mDatabase = FirebaseDatabase
+                    .getInstance("https://shopy-a60b9-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("ProductDB");
 
-        mDatabase.child("products").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
-                    maxId = snapshot.getChildrenCount();
+            mDatabase.child("products").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        maxId = snapshot.getChildrenCount();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-            }
-        });
-        String key = mDatabase.child("products").push().getKey();
-
-        for (Uri file : fileUris)
-        {
-            StorageReference photoRef = storageReference.child("images/" + file.getLastPathSegment());
-            uploadTask = photoRef.putFile(file);
-
-            uploadTask.addOnSuccessListener(taskSnapshot -> uploadTask.continueWithTask(task -> {
-                if (!task.isSuccessful()) {
-                    throw Objects.requireNonNull(task.getException());
                 }
-                // Continue with the task to get the download URL
-                return photoRef.getDownloadUrl();
-
-            }).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    Uri downloadUrl = task.getResult();
-
-                    assert downloadUrl != null;
-                    uploadedImages.add(downloadUrl.toString());
-
-                    String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    product = new Product(String.valueOf(maxId+1), uuid,
-                            productViewModel.getSeller(), title,
-                            controller.getCategoryTranslation(category), price,
-                            currency, description, uploadedImages, rating,"0", key, "", "0");
-
-                    Map<String, Object> productValues = product.toMap();
-
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/products/" + key, productValues);
-                    childUpdates.put("/user-products/" + uuid + "/" + key, productValues);
-
-                    mDatabase.updateChildren(childUpdates);
-                }
-            })).addOnFailureListener(e -> {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             });
+            String key = mDatabase.child("products").push().getKey();
+
+            for (Uri file : fileUris)
+            {
+                StorageReference photoRef = storageReference.child("images/" + file.getLastPathSegment());
+                uploadTask = photoRef.putFile(file);
+
+                uploadTask.addOnSuccessListener(taskSnapshot -> uploadTask.continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
+                    // Continue with the task to get the download URL
+                    return photoRef.getDownloadUrl();
+
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        Uri downloadUrl = task.getResult();
+
+                        assert downloadUrl != null;
+                        uploadedImages.add(downloadUrl.toString());
+
+                        String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                        product = new Product(String.valueOf(maxId+1), uuid,
+                                productViewModel.getSeller(), title,
+                                controller.getCategoryTranslation(category), price,
+                                currency, description, uploadedImages, rating,"0", key, "", "0");
+
+                        Map<String, Object> productValues = product.toMap();
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/products/" + key, productValues);
+                        childUpdates.put("/user-products/" + uuid + "/" + key, productValues);
+
+                        mDatabase.updateChildren(childUpdates);
+                    }
+                })).addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -414,7 +420,7 @@ public class ProductFragment extends Fragment {
                 || inputDescription.getText().toString().isEmpty();
     }
 
-    private void setyViewPager(FragmentCallback callback, List<String> targetList) {
+    private void setViewPager(FragmentCallback callback, List<String> targetList) {
         ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(requireContext(),
                 ProductFragment.this, targetList, callback);
         viewPager.setAdapter(imagePagerAdapter);

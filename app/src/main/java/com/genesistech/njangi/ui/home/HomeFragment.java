@@ -102,7 +102,10 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 else if (tab.getId() == 2)
                 {
                     // Display only Trending Products
-                    if (trendingList.size() == 0) return;
+//                    if (trendingList.size() == 0) return;
+                    if (trendingList.size() == 0) {
+                        recyclerView.setAdapter(null);
+                    }
                     getTrending();
                 }
                 else
@@ -145,6 +148,9 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 
         progressBar.setVisibility(View.VISIBLE);
         productList = new ArrayList<>();
+        parentModelArrayList = new ArrayList<>();
+        categoryList = new ArrayList<>();
+
         DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
