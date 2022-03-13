@@ -78,7 +78,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             favBtn.setOnClickListener(view -> {
                 int position = getAbsoluteAdapterPosition();
                 final FavItem favItem = favItemList.get(position);
-                favDB.remove_fav(favItem.getKey_id());
+                favDB.remove_fav(favItem.getProdID());
                 removeItem(position);
             });
         }

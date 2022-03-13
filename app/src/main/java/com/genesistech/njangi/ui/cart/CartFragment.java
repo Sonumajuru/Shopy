@@ -87,6 +87,7 @@ public class CartFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
+                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 List<String> images = new ArrayList<>();
                 JSONArray jArray = json.optJSONArray("images");
@@ -104,7 +105,7 @@ public class CartFragment extends Fragment {
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String cartStatus = cursor.getString(cursor.getColumnIndex(FavDB.CART_STATUS));
                 this.currency = currency;
-                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus, 0);
+                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus, 0, prodId);
                 cartItemList.add(cartItem);
             }
         } catch (JSONException e) {
@@ -165,8 +166,7 @@ public class CartFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void updateScreen()
-    {
+    private void updateScreen() {
         if (newCartItemList.size() > 0)
         {
             cartViewModel.getStatusText().observe(getViewLifecycleOwner(), s -> {

@@ -145,7 +145,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             product.getCurrency(),
                             product.getUuid(),
                             product.getCategory(),
-                            "0");
+                            "0",
+                            product.getProdID());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     Toast.makeText(mCtx, product.getTitle() + " Added to favorite!", Toast.LENGTH_SHORT).show();
                 }
@@ -211,7 +212,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     private void readCursorData(Product product, ProductViewHolder holder) {
-        Cursor cursor = favDB.read_all_data(product.getId());
+        Cursor cursor = favDB.read_all_data(product.getProdID());
         try (SQLiteDatabase db = favDB.getReadableDatabase()) {
             while (cursor.moveToNext()) {
                 @SuppressLint("Range")

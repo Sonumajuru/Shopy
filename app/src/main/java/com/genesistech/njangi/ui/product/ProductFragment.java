@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.Product;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 import com.google.firebase.storage.FirebaseStorage;
@@ -283,8 +285,7 @@ public class ProductFragment extends Fragment {
             firebaseApp.getFirebaseDB().getReference("ProductDB").child("products").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    if (snapshot.exists())
-                    {
+                    if (snapshot.exists()) {
                         maxId = snapshot.getChildrenCount();
                     }
                 }
@@ -294,10 +295,9 @@ public class ProductFragment extends Fragment {
 
                 }
             });
-            String key = firebaseApp.getFirebaseDB().getReference("ProductDB").child("products").push().getKey();
 
-            for (Uri file : fileUris)
-            {
+            String key = firebaseApp.getFirebaseDB().getReference("ProductDB").child("products").push().getKey();
+            for (Uri file : fileUris) {
                 StorageReference photoRef = storageReference.child("images/" + file.getLastPathSegment());
                 uploadTask = photoRef.putFile(file);
 

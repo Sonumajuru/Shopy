@@ -42,11 +42,11 @@ public class RegisterFragment extends Fragment {
     private CheckBox male;
     private CheckBox female;
     private EditText address;
+    private EditText telNum;
     private Spinner country;
     private Spinner language;
     private EditText inputEmail;
     private EditText inputPassword;
-    private EditText inputRetypePassword;
     private NavHostFragment navHostFragment;
     private ProgressBar progressBar;
 
@@ -73,9 +73,9 @@ public class RegisterFragment extends Fragment {
         address = binding.txtAddress;
         language = binding.language;
         country = binding.country;
+        telNum = binding.txtPhone;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
-        inputRetypePassword = binding.txtPhone;
         btnRegister = binding.btnRegister;
         progressBar = binding.progressBar;
         TextView delete = binding.textDelAcct;
@@ -94,17 +94,16 @@ public class RegisterFragment extends Fragment {
             boolean male = this.male.isChecked();
             boolean female = this.female.isChecked();
             String address  = this.address.getText().toString().trim();
+            String number  = this.telNum.getText().toString().trim();
             String language = this.language.getSelectedItem().toString();
             String country = this.country.getSelectedItem().toString();
-            String retypePassword = inputRetypePassword.getText().toString().trim();
             String date = controller.getDate();
             String uniqueID = UUID.randomUUID().toString();
 
             progressBar.setVisibility(View.VISIBLE);
-            formCheck(firstName, lastName, address, email, password);
+            formCheck(firstName, lastName, address, email, number, password);
             String text = btnRegister.getText().toString();
-            if (!text.equals(getString(R.string.update)))
-            {
+            if (!text.equals(getString(R.string.update))) {
                 if (email.isEmpty() || password.isEmpty()) return;
                 firebaseApp.getAuth().createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task ->
@@ -114,11 +113,10 @@ public class RegisterFragment extends Fragment {
                                         Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                             }
-                            else
-                            {
+                            else {
                                 String userId = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
                                 user = new User(firstName, lastName, male, female, address, language, country,
-                                        email, password, retypePassword, uniqueID, date);
+                                        email, password, number, uniqueID, date);
                                 firebaseApp.getFirebaseDB()
                                         .getReference()
                                         .child("User")
@@ -128,8 +126,7 @@ public class RegisterFragment extends Fragment {
                             }
                         });
             }
-            else
-            {
+            else {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 AuthCredential credential = EmailAuthProvider.getCredential(this.user.getEmail(), this.user.getPassword());
 
@@ -142,7 +139,7 @@ public class RegisterFragment extends Fragment {
                                     if (task1.isSuccessful()) {
                                         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                         user = new User(firstName, lastName, male, female, address, language, country,
-                                                email, password, retypePassword, uniqueID, date);
+                                                email, password, number, uniqueID, date);
                                         firebaseApp.getFirebaseDB()
                                                 .getReference()
                                                 .child("User")
@@ -205,7 +202,7 @@ public class RegisterFragment extends Fragment {
         return root;
     }
 
-    private void formCheck(String username, String lastname, String address, String email, String password) {
+    private void formCheck(String username, String lastname, String address, String email, String number, String password) {
         if (TextUtils.isEmpty(username)) {
             name.setError("");
         }
@@ -216,6 +213,9 @@ public class RegisterFragment extends Fragment {
             this.address.setError("");
         }
         if (TextUtils.isEmpty(email)) {
+            inputEmail.setError("");
+        }
+        if (TextUtils.isEmpty(number)) {
             inputEmail.setError("");
         }
         if (TextUtils.isEmpty(password)) {
@@ -281,7 +281,7 @@ public class RegisterFragment extends Fragment {
 
                     inputEmail.setText(user.getEmail());
                     inputPassword.setText(user.getPassword());
-                    inputRetypePassword.setText(user.getTelNumber());
+                    telNum.setText(user.getTelNumber());
                 }
                 else {
                     getUserData();

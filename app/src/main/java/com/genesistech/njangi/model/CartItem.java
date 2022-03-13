@@ -8,6 +8,7 @@ import java.util.List;
 public class CartItem implements Parcelable {
 
     private String key_id;
+    private String prodID;
     private String uuid;
     public String seller;
     private String title;
@@ -35,6 +36,14 @@ public class CartItem implements Parcelable {
 
     public void setKey_id(String key_id) {
         this.key_id = key_id;
+    }
+
+    public String getProdID() {
+        return prodID;
+    }
+
+    public void setProdID(String prodID) {
+        this.prodID = prodID;
     }
 
     public String getUuid() {
@@ -129,12 +138,13 @@ public class CartItem implements Parcelable {
     }
 
     public CartItem(String item_title, String seller, String description, String key_id, List<String> item_image,
-                    double item_price, double item_rating, String currency, String uuid, String category, String cartStatus, int quantity) {
+                    double item_price, double item_rating, String currency, String uuid, String category, String cartStatus, int quantity, String prodID) {
+        this.key_id = key_id;
+        this.prodID = prodID;
         this.uuid = uuid;
         this.title = item_title;
         this.seller = seller;
         this.description = description;
-        this.key_id = key_id;
         this.category = category;
         this.price = item_price;
         this.currency = currency;
@@ -158,6 +168,7 @@ public class CartItem implements Parcelable {
 
     protected CartItem(Parcel in) {
         key_id = in.readString();
+        prodID = in.readString();
         seller = in.readString();
         title = in.readString();
         category = in.readString();
@@ -173,6 +184,7 @@ public class CartItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(key_id);
+        dest.writeString(prodID);
         dest.writeString(seller);
         dest.writeString(title);
         dest.writeString(category);

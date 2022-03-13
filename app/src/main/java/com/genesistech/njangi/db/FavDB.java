@@ -13,6 +13,7 @@ public class FavDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "NJangiDB";
     private static final String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
+    public static String PROD_ID = "prodId";
     public static String ITEM_TITLE = "itemTitle";
     public static String ITEM_SELLER = "itemSeller";
     public static String ITEM_PRICE =  "itemPrice";
@@ -28,8 +29,9 @@ public class FavDB extends SQLiteOpenHelper {
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
             + KEY_ID + " TEXT," + ITEM_TITLE + " TEXT,"+ ITEM_SELLER + " TEXT," + ITEM_PRICE
             + " TEXT," + ITEM_CURRENCY + " TEXT," + ITEM_RATING + " TEXT," + CART_STATUS
-            + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE + " TEXT," + ITEM_CATEGORY
-            + " TEXT," + ITEM_DESCRIPTION + " TEXT," + FAVORITE_STATUS+" TEXT)";
+            + " TEXT," + PROD_ID + " TEXT," + ITEM_UUID + " TEXT," + ITEM_IMAGE
+            + " TEXT," + ITEM_CATEGORY + " TEXT," + ITEM_DESCRIPTION
+            + " TEXT," + FAVORITE_STATUS+" TEXT)";
 
     public FavDB(Context context) { super(context,DATABASE_NAME,null,DB_VERSION);}
 
@@ -59,7 +61,7 @@ public class FavDB extends SQLiteOpenHelper {
     // insert data into database
     public void insertIntoTheDatabase(String item_title, String desc, String seller, String item_image, String id,
                                       String fav_status, double item_price, double item_rating,
-                                      String currency, String uuid, String category, String cart_status) {
+                                      String currency, String uuid, String category, String cart_status, String prodID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ITEM_TITLE, item_title);
@@ -72,6 +74,7 @@ public class FavDB extends SQLiteOpenHelper {
         values.put(CART_STATUS, cart_status);
         values.put(ITEM_UUID, uuid);
         values.put(KEY_ID, id);
+        values.put(PROD_ID, prodID);
         values.put(ITEM_SELLER, seller);
         values.put(FAVORITE_STATUS, fav_status);
         db.insert(TABLE_NAME,null, values);
@@ -81,21 +84,22 @@ public class FavDB extends SQLiteOpenHelper {
     // read all data
     public Cursor read_all_data(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select * from " + TABLE_NAME + " where " + KEY_ID+"="+id+"";
+        String sql = "select * from " + TABLE_NAME + " where " + PROD_ID+"="+id+"";
         return db.rawQuery(sql,null,null);
     }
 
     // remove from database
     public void remove_fav(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE " + TABLE_NAME + " SET  "+ FAVORITE_STATUS+" ='0' WHERE "+KEY_ID+"="+id+"";
+        String sql = "UPDATE " + TABLE_NAME + " SET  "+ FAVORITE_STATUS+" ='0' WHERE "+PROD_ID+"="+id+"";
         db.execSQL(sql);
         Log.d("remove", id);
 
     }
+
     public void remove_from_cart(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE " + TABLE_NAME + " SET  "+ CART_STATUS+" ='0' WHERE "+KEY_ID+"="+id+"";
+        String sql = "UPDATE " + TABLE_NAME + " SET  "+ CART_STATUS+" ='0' WHERE "+PROD_ID+"="+id+"";
         db.execSQL(sql);
         Log.d("remove", id);
 
@@ -107,6 +111,7 @@ public class FavDB extends SQLiteOpenHelper {
         String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+FAVORITE_STATUS+" ='1'";
         return db.rawQuery(sql,null,null);
     }
+
     public Cursor select_all_cart_list() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+CART_STATUS+" ='1'";

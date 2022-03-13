@@ -17,7 +17,6 @@ public class CartViewModel extends AndroidViewModel {
         super(application);
         app = (Application) application.getApplicationContext();
         emptyCart = new MutableLiveData<>();
-        emptyCart.setValue("njangi@support.com");
     }
 
     public LiveData<String> getStatusText()

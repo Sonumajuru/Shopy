@@ -76,6 +76,7 @@ public class FavoriteFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
+                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 List<String> images = new ArrayList<>();
                 JSONArray jArray = json.optJSONArray("images");
@@ -92,7 +93,7 @@ public class FavoriteFragment extends Fragment {
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus, prodId);
                 favItemList.add(favItem);
             }
         } catch (JSONException e) {
@@ -145,7 +146,7 @@ public class FavoriteFragment extends Fragment {
             if (direction == ItemTouchHelper.LEFT){ // Left swipe
                 favAdapter.notifyItemRemoved(position); // Item removed from recycleView
                 favItemList.remove(position); // The remove the item
-                favDB.remove_fav(favItem.getKey_id()); // remove item from DB
+                favDB.remove_fav(favItem.getProdID()); // remove item from DB
             }
         }
     };

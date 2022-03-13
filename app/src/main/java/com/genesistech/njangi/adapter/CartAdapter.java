@@ -94,10 +94,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void resetProduct(int position, CartItem cartItem)
-    {
-        if (cartItem.getQuantity() == 0)
-        {
+    private void resetProduct(int position, CartItem cartItem) {
+        if (cartItem.getQuantity() == 0) {
             cartItemList.get(position).setCartStatus("0");
             favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
@@ -108,8 +106,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void deleteProduct(int position, CartItem cartItem)
-    {
+    private void deleteProduct(int position, CartItem cartItem) {
         cartItemList.get(position).setCartStatus("0");
         favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);

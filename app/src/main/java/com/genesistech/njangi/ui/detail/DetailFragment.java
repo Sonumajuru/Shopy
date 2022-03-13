@@ -124,13 +124,11 @@ public class DetailFragment extends Fragment {
         productOwner.setPaintFlags(productOwner.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         productOwner.setText(text);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null)
-        {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
             getFav();
         }
-        else
-        {
+        else {
             favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
         }
 
@@ -160,14 +158,16 @@ public class DetailFragment extends Fragment {
                                 product.getRating(),
                                 product.getCurrency(),
                                 product.getUuid(),
-                                product.getCategory(), "0");
+                                product.getCategory(),
+                                "0",
+                                product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
                     }
                     else {
                         product.setFavStatus("0");
-                        favDB.remove_fav(product.getId());
+                        favDB.remove_fav(product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                     }
                 }
@@ -192,15 +192,16 @@ public class DetailFragment extends Fragment {
                                 favItem.getRating(),
                                 favItem.getCurrency(),
                                 favItem.getUuid(),
-                                favItem.getCategory(), "0");
+                                favItem.getCategory(),
+                                "0",
+                                favItem.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), favItem.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
+                    else {
                         favItem.setFavStatus("0");
-                        favDB.remove_fav(favItem.getKey_id());
+                        favDB.remove_fav(favItem.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                     }
                 }
@@ -212,8 +213,7 @@ public class DetailFragment extends Fragment {
         });
         btnAddToCart.setOnClickListener(view -> {
 
-            if (FirebaseAuth.getInstance().getCurrentUser() != null)
-            {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 if (prefManager.getQuantity() != 0) {
                     counter = prefManager.getQuantity() + 1;
                     controller.addBadge(counter);
@@ -223,8 +223,7 @@ public class DetailFragment extends Fragment {
                     controller.addBadge(counter);
                 }
 
-                if (product != null)
-                {
+                if (product != null) {
                     try {
                         json.put("images", new JSONArray(product.getImages()));
                     } catch (JSONException e) {
@@ -241,11 +240,12 @@ public class DetailFragment extends Fragment {
                             product.getRating(),
                             product.getCurrency(),
                             product.getUuid(),
-                            product.getCategory(), "1");
+                            product.getCategory(),
+                            "1",
+                            product.getProdID());
                     saveProdDetails(counter);
                 }
-                else
-                {
+                else {
                     try {
                         json.put("images", new JSONArray(favItem.getImages()));
                     } catch (JSONException e) {
@@ -262,12 +262,13 @@ public class DetailFragment extends Fragment {
                             favItem.getRating(),
                             favItem.getCurrency(),
                             favItem.getUuid(),
-                            favItem.getCategory(), "1");
+                            favItem.getCategory(),
+                            "1",
+                            favItem.getProdID());
                     saveProdDetails(counter);
                 }
             }
-            else
-            {
+            else {
                 Navigation.findNavController(view).navigate(navigation_login);
             }
         });
@@ -289,6 +290,7 @@ public class DetailFragment extends Fragment {
                 item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
                 String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
                 String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
+                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
                 JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
                 JSONArray jArray = json.optJSONArray("images");
                 for (int i = 0; i < Objects.requireNonNull(jArray).length(); i++) {
@@ -302,7 +304,7 @@ public class DetailFragment extends Fragment {
                 String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
                 String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
                 String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus);
+                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus, prodId);
                 favItemList.add(favItem);
             }
         } catch (JSONException e) {
@@ -312,7 +314,7 @@ public class DetailFragment extends Fragment {
         if (product != null)
         {
             for (FavItem favItem : favItemList) {
-                if (product.getId().equals(favItem.getKey_id()))
+                if (product.getProdID().equals(favItem.getProdID()))
                 {
                     favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     break;
