@@ -109,4 +109,5 @@
     <string name="recent">Recent</string>
     <string name="trending">Trending</string>
     <string name="stocks">Boutique</string>
+    <string name="cancel">Cancel</string>
 </resources>
