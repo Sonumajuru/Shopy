@@ -154,13 +154,16 @@ public class DetailFragment extends Fragment {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 if (prefManager.getQuantity(product.getProdID()) != 0) {
-                    counter = controller.getBadgeCount() + 1;
+                    counter = product.getQuantity()+ 1;
+                    product.setQuantity(counter);
                 }
                 else {
                     counter = counter + 1;
+                    product.setQuantity(counter);
                 }
                 prefManager.saveQuantity(counter, product.getProdID());
 
+                counter = controller.getBadgeCount() + 1;
                 controller.setBadgeCount(counter);
                 controller.addBadge(counter);
 
@@ -171,7 +174,6 @@ public class DetailFragment extends Fragment {
                         e.printStackTrace();
                     }
                     imageList = json.toString();
-                    product.setQuantity(counter);
                     product.setCartStatus("1");
                     productList.add(product);
                     prefManager.saveCartList(productList, product.getProdID());

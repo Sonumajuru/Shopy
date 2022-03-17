@@ -21,7 +21,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/helper/PrefManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/helper/PrefManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/detail/DetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/ui/detail/DetailFragment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -252,13 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1640017615332</updated>
-    </task>
-    <task id="LOCAL-00096" summary="- Full screen picture view for detail items on click">
-      <created>1645372487078</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1645372487078</updated>
     </task>
     <task id="LOCAL-00097" summary="Fixed minor bugs translation and categories">
       <created>1645464656296</created>
@@ -596,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647520572582</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="Fixed Cart Item Counter">
+      <created>1647521621442</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1647521621442</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -640,15 +639,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fixed Cart Item Counter" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/genesistech/njangi/adapter/CartAdapter.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="98" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="shadow$_klass_" />
