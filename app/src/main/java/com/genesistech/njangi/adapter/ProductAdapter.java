@@ -127,14 +127,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     product.setFavStatus("1");
                     List<Product> productList = new ArrayList<>();
                     productList.add(product);
-                    prefManager.saveProducts(productList, product.getProdID());
+                    prefManager.saveFavList(productList, product.getProdID());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     Toast.makeText(mCtx, product.getTitle() + " Added to favorite!",
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
                     product.setFavStatus("0");
-                    prefManager.updateQuoteList(product.getProdID());
+                    prefManager.updateFavList(product.getProdID());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                 }
             }
@@ -183,15 +183,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 int position = getAbsoluteAdapterPosition();
                 final Product favItem = productList.get(position);
                 removeItem(position);
-                prefManager.updateQuoteList(favItem.getProdID());
+                prefManager.updateFavList(favItem.getProdID());
             });
         }
     }
 
     private void checkIfItemIsFav(Product product, ProductViewHolder holder) {
-        for (int i = 0; i < prefManager.getProductList().size(); i++) {
-            if (prefManager.getProductList().get(i).getProdID().equals(product.getProdID())) {
-                product.setFavStatus(prefManager.getProductList().get(i).getFavStatus());
+        for (int i = 0; i < prefManager.getFavList().size(); i++) {
+            if (prefManager.getFavList().get(i).getProdID().equals(product.getProdID())) {
+                product.setFavStatus(prefManager.getFavList().get(i).getFavStatus());
             }
         }
         if (product != null) {

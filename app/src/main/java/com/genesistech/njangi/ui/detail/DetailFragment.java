@@ -134,14 +134,14 @@ public class DetailFragment extends Fragment {
                         imageList = json.toString();
                         product.setFavStatus("1");
                         productList.add(product);
-                        prefManager.saveProducts(productList, product.getProdID());
+                        prefManager.saveFavList(productList, product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
                     }
                     else {
                         product.setFavStatus("0");
-                        prefManager.updateQuoteList(product.getProdID());
+                        prefManager.updateFavList(product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                     }
                 }
@@ -153,12 +153,14 @@ public class DetailFragment extends Fragment {
         btnAddToCart.setOnClickListener(view -> {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                if (prefManager.getQuantity() != 0) {
-                    counter = prefManager.getQuantity() + 1;
-                }
-                else {
-                    counter = counter + 1;
-                }
+//                if (prefManager.getQuantity() != 0) {
+//                    counter = prefManager.getQuantity() + 1;
+//                }
+//                else {
+                    counter = controller.getBadgeCount() + 1;
+//                }
+//                prefManager.saveQuantity(counter);
+
                 controller.setBadgeCount(counter);
                 controller.addBadge(counter);
 
@@ -169,11 +171,10 @@ public class DetailFragment extends Fragment {
                         e.printStackTrace();
                     }
                     imageList = json.toString();
-                    saveProdDetails(counter);
                     product.setQuantity(counter);
                     product.setCartStatus("1");
                     productList.add(product);
-                    prefManager.saveProducts(productList, product.getProdID());
+                    prefManager.saveCartList(productList, product.getProdID());
                 }
             }
             else {
@@ -190,15 +191,11 @@ public class DetailFragment extends Fragment {
     }
 
     private void checkIfItemIsFav() {
-        for (int i = 0; i < prefManager.getProductList().size(); i++) {
-            if (prefManager.getProductList().get(i).getProdID().equals(product.getProdID())) {
-                product.setFavStatus(prefManager.getProductList().get(i).getFavStatus());
+        for (int i = 0; i < prefManager.getFavList().size(); i++) {
+            if (prefManager.getFavList().get(i).getProdID().equals(product.getProdID())) {
+                product.setFavStatus(prefManager.getFavList().get(i).getFavStatus());
             }
         }
-    }
-
-    private void saveProdDetails(int quantity) {
-        prefManager.saveQuantity(quantity);
     }
 
     @Override

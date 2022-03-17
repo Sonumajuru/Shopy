@@ -51,7 +51,7 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            productList = prefManager.getProductList();
+            productList = prefManager.getFavList();
             FragmentCallback callback = new FragmentCallback() {
                 @Override
                 public void doSomething() {
@@ -108,7 +108,7 @@ public class FavoriteFragment extends Fragment {
             if (direction == ItemTouchHelper.LEFT){ // Left swipe
                 favAdapter.notifyItemRemoved(position); // Item removed from recycleView
                 newCartItemList.remove(position); // The remove the item
-                prefManager.updateQuoteList(favItem.getProdID());
+                prefManager.updateFavList(favItem.getProdID());
             }
         }
     };

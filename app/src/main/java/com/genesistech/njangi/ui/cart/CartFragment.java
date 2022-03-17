@@ -44,8 +44,8 @@ public class CartFragment extends Fragment {
     private RecyclerView recyclerView;
     private PrefManager prefManager;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -76,7 +76,7 @@ public class CartFragment extends Fragment {
 
         // hashmap to store the frequency of element
         Map<String, Integer> map = new HashMap<>();
-        cartItemList = prefManager.getProductList();
+        cartItemList = prefManager.getCartList();
 
         for (Product value : cartItemList) {
             String id = value.getProdID();
@@ -89,9 +89,9 @@ public class CartFragment extends Fragment {
             System.out.println("Element " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
             for (Product value : cartItemList) {
                 if (value.getCartStatus() != null)
-                if (val.getKey().equals(value.getProdID()) && value.getCartStatus().equals("1")) {
-                    value.setQuantity(val.getValue());
+                if (val.getKey().equals(value.getProdID())) {
                     tempList.add(value);
+                    currency = value.getCurrency();
                 }
             }
         }
@@ -139,8 +139,7 @@ public class CartFragment extends Fragment {
                 totalCost += cartItem.getPrice() + 0;
             }
         }
-        else
-        {
+        else {
             cartViewModel.getCartText().observe(getViewLifecycleOwner(), s -> {
                 emptyCart.setText(s);
                 emptyCart.setVisibility(View.VISIBLE);
@@ -150,8 +149,7 @@ public class CartFragment extends Fragment {
         subTotal.setText(subTotalCost + " " +currency);
         shipCost.setText(Double.toString(0));
         total.setText(totalCost + " " +currency);
-        if (totalCost == 0)
-        {
+        if (totalCost == 0) {
             controller.removeBadge();
             PrefManager prefManager = new PrefManager(requireContext());
             prefManager.clearPref();

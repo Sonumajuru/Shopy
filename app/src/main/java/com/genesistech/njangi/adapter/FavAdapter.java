@@ -78,7 +78,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
                 int position = getAbsoluteAdapterPosition();
                 final Product favItem = favItemList.get(position);
                 removeItem(position);
-                prefManager.updateQuoteList(favItem.getProdID());
+                prefManager.updateFavList(favItem.getProdID());
             });
         }
     }

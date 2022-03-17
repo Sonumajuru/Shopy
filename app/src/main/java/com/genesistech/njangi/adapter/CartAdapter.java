@@ -97,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
             cartItemList.get(position).setCartStatus("0");
             cartItemList.remove(position);
-            prefManager.updateQuoteList(cartItem.getProdID());
+            prefManager.updateCartList(cartItem.getProdID());
             callback.onItemClicked(position, cartItem);
             notifyDataSetChanged();
         }
@@ -116,7 +116,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         cartItemList.get(position).setCartStatus("0");
         cartItemList.remove(position);
-        prefManager.updateQuoteList(cartItem.getProdID());
+        prefManager.updateCartList(cartItem.getProdID());
         callback.onItemClicked(position, cartItem);
         notifyDataSetChanged();
     }
