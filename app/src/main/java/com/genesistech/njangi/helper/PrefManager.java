@@ -20,18 +20,24 @@ public class PrefManager {
     private final Context context;
     private int quantity;
     private Gson gson;
-    private final SharedPreferences favPreferences;
-    private final SharedPreferences.Editor prefsFavEditor;
+    private SharedPreferences favPreferences;
+    private SharedPreferences.Editor prefsFavEditor;
     private SharedPreferences cartPreferences;
-    private final SharedPreferences.Editor prefsCartEditor;
+    private SharedPreferences.Editor prefsCartEditor;
 
     public PrefManager(Context context) {
         this.context = context;
         gson = new Gson();
-        favPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
-        cartPreferences = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
-        prefsFavEditor = favPreferences.edit();
-        prefsCartEditor = cartPreferences.edit();
+        try {
+            favPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
+            cartPreferences = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
+            prefsFavEditor = favPreferences.edit();
+            prefsCartEditor = cartPreferences.edit();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void saveQuantity(int quantity, String prodID) {

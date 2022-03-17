@@ -34,7 +34,6 @@ public class BoutiqueFragment extends Fragment {
     private FirebaseApp firebaseApp;
     private Product product;
     private ProductAdapter adapter;
-    private FragmentCallback callback;
 
     private List<Product> productList;
     private RecyclerView recyclerView;
@@ -54,14 +53,14 @@ public class BoutiqueFragment extends Fragment {
         return root;
     }
 
-    private void getUserData()
-    {
+    private void getUserData() {
+
         String uuid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         firebaseApp.getFirebaseDB()
                 .getReference()
                 .child("ProductDB")
                 .child("products")
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists())
@@ -75,7 +74,7 @@ public class BoutiqueFragment extends Fragment {
                         }
                     }
 
-                    callback = new FragmentCallback() {
+                    FragmentCallback callback = new FragmentCallback() {
                         @Override
                         public void doSomething() {
                         }
@@ -141,5 +140,6 @@ public class BoutiqueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        adapter = null;
     }
 }
