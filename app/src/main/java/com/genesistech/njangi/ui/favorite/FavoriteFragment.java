@@ -1,8 +1,5 @@
 package com.genesistech.njangi.ui.favorite;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.FavAdapter;
+import com.genesistech.njangi.adapter.ProductAdapter;
 import com.genesistech.njangi.databinding.FragmentFavoriteBinding;
-import com.genesistech.njangi.db.FavDB;
+import com.genesistech.njangi.helper.PrefManager;
 import com.genesistech.njangi.interfaces.FragmentCallback;
-import com.genesistech.njangi.model.FavItem;
+import com.genesistech.njangi.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +32,10 @@ public class FavoriteFragment extends Fragment {
 
     private FragmentFavoriteBinding binding;
 
-    private FavDB favDB;
-    private RecyclerView recyclerView;
-    private List<FavItem> favItemList;
     private FavAdapter favAdapter;
+    private ProductAdapter adapter;
+    private PrefManager prefManager;
+    private List<Product> productList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -48,87 +43,47 @@ public class FavoriteFragment extends Fragment {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        favDB = new FavDB(getActivity());
-        favItemList = new ArrayList<>();
-        recyclerView = binding.recyclerView;
-//        recyclerView.setHasFixedSize(true);
+        prefManager = new PrefManager(requireContext());
+        productList = new ArrayList<>();
+        RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null)
-        {
-            loadData();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            productList = prefManager.getProductList();
+            FragmentCallback callback = new FragmentCallback() {
+                @Override
+                public void doSomething() {
+
+                }
+
+                @Override
+                public void onItemClicked(int position, Object object) {
+
+                    // Handle Object of list item here
+                    Product favItem = (Product) object;
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("product", favItem);
+                    NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                            .findFragmentById(R.id.nav_host_fragment_activity_main);
+                    assert navHostFragment != null;
+                    NavController navController = navHostFragment.getNavController();
+                    navController.navigate(navigation_detail, bundle);
+                }
+
+                @Override
+                public void onItemClicked(int position, Object object, int id) {
+
+                }
+            };
+            favAdapter = new FavAdapter(productList, requireContext(), callback);
+//            adapter = new ProductAdapter(getActivity(), FavoriteFragment.this, productList, callback);
+            recyclerView.setAdapter(favAdapter);
         }
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallBack);
-        itemTouchHelper.attachToRecyclerView(recyclerView); // Setting swipe to recycleview
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         return root;
-    }
-
-    @SuppressLint("Range")
-    private void loadData(){
-        if (favItemList != null) {
-            favItemList.clear();
-        }
-
-        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
-            Cursor cursor = favDB.select_all_favorite_list();
-            while (cursor.moveToNext()) {
-                String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
-                String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
-                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
-                List<String> images = new ArrayList<>();
-                JSONArray jArray = json.optJSONArray("images");
-                if (jArray != null) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        images.add(jArray.optString(i));  //<< jget value from jArray
-                    }
-                }
-                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
-                double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
-                String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
-                String favStatus = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
-                String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
-                String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
-                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus, prodId);
-                favItemList.add(favItem);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Handle Object of list item here
-        FragmentCallback callback = new FragmentCallback() {
-            @Override
-            public void doSomething() {
-
-            }
-
-            @Override
-            public void onItemClicked(int position, Object object) {
-
-                // Handle Object of list item here
-                FavItem favItem = (FavItem) object;
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("favItem", favItem);
-                NavHost navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment_activity_main);
-                assert navHostFragment != null;
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(navigation_detail, bundle);
-            }
-
-            @Override
-            public void onItemClicked(int position, Object object, int id) {
-
-            }
-        };
-
-        favAdapter = new FavAdapter(favItemList, requireContext(), callback);
-        recyclerView.setAdapter(favAdapter);
     }
 
     // Remove Item after Swipe
@@ -142,11 +97,11 @@ public class FavoriteFragment extends Fragment {
         @Override
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAbsoluteAdapterPosition(); // get swiped position
-            final FavItem favItem = favItemList.get(position);
+            final Product favItem = productList.get(position);
             if (direction == ItemTouchHelper.LEFT){ // Left swipe
                 favAdapter.notifyItemRemoved(position); // Item removed from recycleView
-                favItemList.remove(position); // The remove the item
-                favDB.remove_fav(favItem.getProdID()); // remove item from DB
+                productList.remove(position); // The remove the item
+                prefManager.updateQuoteList(favItem.getProdID());
             }
         }
     };

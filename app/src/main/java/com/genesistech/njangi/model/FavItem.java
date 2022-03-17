@@ -2,6 +2,11 @@ package com.genesistech.njangi.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -32,7 +37,7 @@ public class FavItem implements Parcelable {
         return prodID;
     }
 
-    public void setProdID(String prodID) {
+    public void setProdID(@NotNull String prodID) {
         this.prodID = prodID;
     }
 

@@ -2,8 +2,6 @@ package com.genesistech.njangi.ui.detail;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,10 +18,8 @@ import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.ImagePagerAdapter;
 import com.genesistech.njangi.databinding.FragmentDetailBinding;
-import com.genesistech.njangi.db.FavDB;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.helper.PrefManager;
-import com.genesistech.njangi.model.FavItem;
 import com.genesistech.njangi.model.Product;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +29,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.genesistech.njangi.R.id.navigation_login;
 import static com.genesistech.njangi.R.id.navigation_profile;
@@ -42,22 +37,19 @@ public class DetailFragment extends Fragment {
 
     private FragmentDetailBinding binding;
 
-    private FavDB favDB;
     private Controller controller;
     private PrefManager prefManager;
 
     private JSONObject json;
     private Product product;
-    private FavItem favItem;
 
     private ImageView favBtn;
 
     private int counter;
     private String uid;
-    private String item_fav_status = null;
     private String imageList;
     private List<String> images;
-    private List<FavItem> favItemList;
+    private List<Product> productList;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -72,8 +64,7 @@ public class DetailFragment extends Fragment {
         prefManager = new PrefManager(requireContext());
         FirebaseApp firebaseApp = new FirebaseApp();
         product = new Product();
-        favItemList = new ArrayList<>();
-        favDB = new FavDB(getActivity());
+        productList = new ArrayList<>();
         json = new JSONObject();
         images = new ArrayList<>();
         counter = 0;
@@ -93,31 +84,20 @@ public class DetailFragment extends Fragment {
         controller.setTextLength(title);
         assert getArguments() != null;
         product = getArguments().getParcelable("product");
+        checkIfItemIsFav();
 
-        if (product != null)
-        {
+        if (product != null) {
+
             imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, product.getImages(), null);
-
             price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
             title.setText(product.getTitle());
             ratingBar.setRating((float) product.getRating());
             description.setText(product.getDescription());
             uid = product.getUuid();
-        }
-        else
-        {
-            favItem = getArguments().getParcelable("favItem");
-            imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, favItem.getImages(), null);
 
-            price.setText(String.format("%.2f", favItem.getPrice()) + " " + favItem.getCurrency());
-            title.setText(favItem.getTitle());
-            ratingBar.setRating((float) favItem.getRating());
-            description.setText(favItem.getDescription());
-            uid = favItem.getUuid();
+            viewPager.setAdapter(imagePagerAdapter);
+            tabLayout.setupWithViewPager(viewPager, true);
         }
-
-        viewPager.setAdapter(imagePagerAdapter);
-        tabLayout.setupWithViewPager(viewPager, true);
 
         Resources res = getResources();
         String text = res.getString(R.string.product_owner);
@@ -125,8 +105,14 @@ public class DetailFragment extends Fragment {
         productOwner.setText(text);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
-            getFav();
+            if (product != null) {
+                if (product.getFavStatus().equals("1")) {
+                    favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
+                }
+                else {
+                    favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+                }
+            }
         }
         else {
             favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
@@ -146,68 +132,21 @@ public class DetailFragment extends Fragment {
                             e.printStackTrace();
                         }
                         imageList = json.toString();
-
                         product.setFavStatus("1");
-                        favDB.insertIntoTheDatabase(product.getTitle(),
-                                product.getDescription(),
-                                product.getSeller(),
-                                imageList,
-                                product.getId(),
-                                product.getFavStatus(),
-                                product.getPrice(),
-                                product.getRating(),
-                                product.getCurrency(),
-                                product.getUuid(),
-                                product.getCategory(),
-                                "0",
-                                product.getProdID());
+                        productList.add(product);
+                        prefManager.initializeMyQuoteList(productList, product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
                     }
                     else {
                         product.setFavStatus("0");
-                        favDB.remove_fav(product.getProdID());
-                        favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
-                    }
-                }
-                else
-                {
-                    if (item_fav_status != null && item_fav_status.equals("0"))
-                    {
-                        try {
-                            json.put("images", new JSONArray(favItem.getImages()));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        imageList = json.toString();
-                        favItem.setFavStatus("1");
-                        favDB.insertIntoTheDatabase(favItem.getTitle(),
-                                favItem.getDescription(),
-                                favItem.getCategory(),
-                                imageList,
-                                favItem.getKey_id(),
-                                favItem.getFavStatus(),
-                                favItem.getPrice(),
-                                favItem.getRating(),
-                                favItem.getCurrency(),
-                                favItem.getUuid(),
-                                favItem.getCategory(),
-                                "0",
-                                favItem.getProdID());
-                        favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-                        Toast.makeText(getActivity(), favItem.getTitle() + " Added to favorite!",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        favItem.setFavStatus("0");
-                        favDB.remove_fav(favItem.getProdID());
+                        prefManager.updateQuoteList(product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
                     }
                 }
             }
-            else
-            {
+            else {
                 Navigation.findNavController(v).navigate(navigation_login);
             }
         });
@@ -230,41 +169,6 @@ public class DetailFragment extends Fragment {
                         e.printStackTrace();
                     }
                     imageList = json.toString();
-                    favDB.insertIntoTheDatabase(product.getTitle(),
-                            product.getDescription(),
-                            product.getSeller(),
-                            imageList,
-                            product.getId(),
-                            "0",
-                            product.getPrice(),
-                            product.getRating(),
-                            product.getCurrency(),
-                            product.getUuid(),
-                            product.getCategory(),
-                            "1",
-                            product.getProdID());
-                    saveProdDetails(counter);
-                }
-                else {
-                    try {
-                        json.put("images", new JSONArray(favItem.getImages()));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    imageList = json.toString();
-                    favDB.insertIntoTheDatabase(favItem.getTitle(),
-                            favItem.getDescription(),
-                            favItem.getSeller(),
-                            imageList,
-                            favItem.getKey_id(),
-                            "0",
-                            favItem.getPrice(),
-                            favItem.getRating(),
-                            favItem.getCurrency(),
-                            favItem.getUuid(),
-                            favItem.getCategory(),
-                            "1",
-                            favItem.getProdID());
                     saveProdDetails(counter);
                 }
             }
@@ -281,54 +185,10 @@ public class DetailFragment extends Fragment {
         return root;
     }
 
-    @SuppressLint("Range")
-    private void getFav()
-    {
-        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
-            Cursor cursor = favDB.select_all_favorite_list();
-            while (cursor.moveToNext()) {
-                item_fav_status = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
-                String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
-                String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
-                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
-                JSONArray jArray = json.optJSONArray("images");
-                for (int i = 0; i < Objects.requireNonNull(jArray).length(); i++) {
-                    images.add(jArray.optString(i));  //<< jget value from jArray
-                }
-                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
-                double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
-                String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
-                String favStatus = cursor.getString(cursor.getColumnIndex(FavDB.FAVORITE_STATUS));
-                String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
-                String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
-                String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                FavItem favItem = new FavItem(title, seller, desc, id, images, price, rating, currency, uuid, category, favStatus, prodId);
-                favItemList.add(favItem);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (product != null)
-        {
-            for (FavItem favItem : favItemList) {
-                if (product.getProdID().equals(favItem.getProdID()))
-                {
-                    favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-                    break;
-                }
-                favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
-            }
-        }
-        else
-        {
-            if (item_fav_status != null && item_fav_status.equals("1")) {
-                favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
-            }
-            else if (item_fav_status != null && item_fav_status.equals("0")) {
-                favBtn.setBackgroundResource(R.drawable.ic_favorite_border_24);
+    private void checkIfItemIsFav() {
+        for (int i = 0; i < prefManager.getProductList().size(); i++) {
+            if (prefManager.getProductList().get(i).getProdID().equals(product.getProdID())) {
+                product.setFavStatus(prefManager.getProductList().get(i).getFavStatus());
             }
         }
     }

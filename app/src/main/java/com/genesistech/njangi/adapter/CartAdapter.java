@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
-import com.genesistech.njangi.db.FavDB;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.CartItem;
 import com.squareup.picasso.Picasso;
@@ -23,7 +22,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private static final String TAG = "CartAdapter";
     private final List<CartItem> cartItemList;
     private final Context mCtx;
-    private FavDB favDB;
     private final Controller controller;
     private int count;
     public FragmentCallback callback;
@@ -38,7 +36,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        favDB = new FavDB(mCtx);
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_items,parent,false);
         return new CartViewHolder(view);
     }
@@ -97,7 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private void resetProduct(int position, CartItem cartItem) {
         if (cartItem.getQuantity() == 0) {
             cartItemList.get(position).setCartStatus("0");
-            favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
+//            favDB.removeCartItem(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
             controller.addBadge(controller.getBadgeCount() + count);
             callback.onItemClicked(position, cartItem);
@@ -108,7 +105,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @SuppressLint("NotifyDataSetChanged")
     private void deleteProduct(int position, CartItem cartItem) {
         cartItemList.get(position).setCartStatus("0");
-        favDB.remove_from_cart(cartItemList.remove(position).getKey_id());
+//        favDB.removeCartItem(cartItemList.remove(position).getKey_id());
 //                cartItemList.remove(position);
         controller.addBadge(controller.getBadgeCount() + count);
         callback.onItemClicked(position, cartItem);

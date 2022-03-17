@@ -18,7 +18,6 @@ import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.CartAdapter;
 import com.genesistech.njangi.databinding.FragmentCartBinding;
-import com.genesistech.njangi.db.FavDB;
 import com.genesistech.njangi.helper.PrefManager;
 import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.CartItem;
@@ -44,7 +43,6 @@ public class CartFragment extends Fragment {
     private double subTotalCost;
     private double totalCost;
 
-    private FavDB favDB;
     private Controller controller;
     private List<CartItem> cartItemList;
     private List<CartItem> newCartItemList;
@@ -56,7 +54,6 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        favDB = new FavDB(getActivity());
         cartItemList = new ArrayList<>();
         newCartItemList = new ArrayList<>();
         controller = Controller.getInstance(requireContext());
@@ -70,7 +67,6 @@ public class CartFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        loadData();
         btnCheckOut.setOnClickListener(view -> {
 
         });
@@ -79,44 +75,12 @@ public class CartFragment extends Fragment {
 
     @SuppressLint("Range")
     private void loadData() {
-        if (cartItemList != null) {
-            cartItemList.clear();
-        }
-        try (SQLiteDatabase db = favDB.getReadableDatabase()) {
-            Cursor cursor = favDB.select_all_cart_list();
-            while (cursor.moveToNext()) {
-                String title = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_TITLE));
-                String id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID));
-                String prodId = cursor.getString(cursor.getColumnIndex(FavDB.PROD_ID));
-                JSONObject json = new JSONObject(cursor.getString(cursor.getColumnIndex(String.valueOf(FavDB.ITEM_IMAGE))));
-                List<String> images = new ArrayList<>();
-                JSONArray jArray = json.optJSONArray("images");
-                if (jArray != null) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        images.add(jArray.optString(i));  //<< jget value from jArray
-                    }
-                }
-                double price = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_PRICE));
-                double rating = cursor.getDouble(cursor.getColumnIndex(FavDB.ITEM_RATING));
-                String currency = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CURRENCY));
-                String uuid = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_UUID));
-                String desc = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_DESCRIPTION));
-                String category = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_CATEGORY));
-                String seller = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_SELLER));
-                String cartStatus = cursor.getString(cursor.getColumnIndex(FavDB.CART_STATUS));
-                this.currency = currency;
-                CartItem cartItem = new CartItem(title, seller, desc, id, images, price, rating, currency, uuid, category, cartStatus, 0, prodId);
-                cartItemList.add(cartItem);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         // hashmap to store the frequency of element
         Map<String, Integer> map = new HashMap<>();
 
         for (CartItem value : cartItemList) {
-            String id = value.getKey_id();
+            String id = value.getProdID();
             Integer count = map.get(id);
             map.put(id, (count == null) ? 1 : count + 1);
         }

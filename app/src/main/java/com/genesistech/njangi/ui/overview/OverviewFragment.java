@@ -53,12 +53,10 @@ public class OverviewFragment extends Fragment {
 
         assert getArguments() != null;
         category = getArguments().getString(requireContext().getResources().getString(R.string.category));
-        if (category != null)
-        {
+        if (category != null) {
             getUserData();
         }
-        else
-        {
+        else {
             mList = new ArrayList<>();
             mList = getArguments().getParcelableArrayList(requireContext().getResources().getString(R.string.feeling_lucky));
             getData();
@@ -74,8 +72,7 @@ public class OverviewFragment extends Fragment {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     product = ds.getValue(Product.class);
                     assert product != null;
-                    if (product.getCategory().equals(category))
-                    {
+                    if (product.getCategory().equals(category)) {
                         productList.add(product);
                     }
                 }

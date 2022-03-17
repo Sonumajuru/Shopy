@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.Controller;
-import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.R;
-import com.genesistech.njangi.db.FavDB;
-import com.genesistech.njangi.model.FavItem;
+import com.genesistech.njangi.helper.PrefManager;
+import com.genesistech.njangi.interfaces.FragmentCallback;
+import com.genesistech.njangi.model.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,13 +22,14 @@ import java.util.List;
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
 
     private final Context context;
-    private static FavDB favDB;
     private final Controller controller;
     private final FragmentCallback callback;
-    private static List<FavItem> favItemList;
+    private static List<Product> favItemList;
+    private final PrefManager prefManager;
 
-    public FavAdapter(List<FavItem> favItemList, Context context, FragmentCallback callback) {
+    public FavAdapter(List<Product> favItemList, Context context, FragmentCallback callback) {
         this.context = context;
+        prefManager = new PrefManager(context);
         controller = Controller.getInstance(context);
         FavAdapter.favItemList = favItemList;
         this.callback = callback;
@@ -39,7 +39,6 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favourites_items,viewGroup,false);
-        favDB = new FavDB(context);
         return new ViewHolder(view);
     }
 
@@ -47,7 +46,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        FavItem favItem = favItemList.get(position);
+        Product favItem = favItemList.get(position);
         //binding the data with the viewHolder views
         holder.textViewTitle.setText(favItemList.get(position).getTitle());
         holder.textViewRating.setRating((float) favItemList.get(position).getRating());
@@ -77,9 +76,9 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             controller.setTextLength(textViewTitle);
             favBtn.setOnClickListener(view -> {
                 int position = getAbsoluteAdapterPosition();
-                final FavItem favItem = favItemList.get(position);
-                favDB.remove_fav(favItem.getProdID());
+                final Product favItem = favItemList.get(position);
                 removeItem(position);
+                prefManager.updateQuoteList(favItem.getProdID());
             });
         }
     }
