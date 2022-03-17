@@ -34,16 +34,16 @@ public class PrefManager {
         prefsCartEditor = cartPreferences.edit();
     }
 
-    public void saveQuantity(int quantity) {
+    public void saveQuantity(int quantity, String prodID) {
         cartPreferences = context.getSharedPreferences("Quantity", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = cartPreferences.edit();
-        editor.putInt("Quantity", quantity);
+        editor.putInt(prodID, quantity);
         editor.apply();
     }
 
-    public int getQuantity() {
+    public int getQuantity(String key) {
         cartPreferences = context.getSharedPreferences("Quantity", Context.MODE_PRIVATE);
-        return (cartPreferences.getInt("Quantity", quantity));
+        return (cartPreferences.getInt(key, quantity));
     }
 
     public void clearPref() {

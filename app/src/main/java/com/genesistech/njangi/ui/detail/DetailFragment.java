@@ -153,13 +153,13 @@ public class DetailFragment extends Fragment {
         btnAddToCart.setOnClickListener(view -> {
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//                if (prefManager.getQuantity() != 0) {
-//                    counter = prefManager.getQuantity() + 1;
-//                }
-//                else {
+                if (prefManager.getQuantity(product.getProdID()) != 0) {
                     counter = controller.getBadgeCount() + 1;
-//                }
-//                prefManager.saveQuantity(counter);
+                }
+                else {
+                    counter = counter + 1;
+                }
+                prefManager.saveQuantity(counter, product.getProdID());
 
                 controller.setBadgeCount(counter);
                 controller.addBadge(counter);
