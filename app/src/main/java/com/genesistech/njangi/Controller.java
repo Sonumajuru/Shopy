@@ -46,14 +46,6 @@ public class Controller {
         this.bottomNavigationMenuView = bottomNavigationMenuView;
     }
 
-    public int getBadgeCount() {
-        return badgeCount;
-    }
-
-    public void setBadgeCount(int badgeCount) {
-        this.badgeCount = badgeCount;
-    }
-
     public BottomNavigationView getNavView() {
         return navView;
     }
@@ -84,6 +76,14 @@ public class Controller {
                 bottomNavigationMenuView,false);
     }
 
+    public int getBadgeCount() {
+        return badgeCount;
+    }
+
+    public void setBadgeCount(int badgeCount) {
+        this.badgeCount = badgeCount;
+    }
+
     private void getBadge() {
         if (getBottomNavigationMenuView() != null) {
             return;
@@ -94,10 +94,10 @@ public class Controller {
 
     public void addBadge(int count) {
         getNavView().removeView(getNotificationsBadge());
+        setBadgeCount(count);
         getBadge();
         TextView notifications_badge = getNotificationsBadge().findViewById(R.id.notifications_badge);
         notifications_badge.setText(String.valueOf(count));
-        setBadgeCount(count);
         getNavView().addView(getNotificationsBadge());
     }
 

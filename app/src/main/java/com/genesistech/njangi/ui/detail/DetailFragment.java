@@ -134,7 +134,7 @@ public class DetailFragment extends Fragment {
                         imageList = json.toString();
                         product.setFavStatus("1");
                         productList.add(product);
-                        prefManager.initializeMyQuoteList(productList, product.getProdID());
+                        prefManager.saveProducts(productList, product.getProdID());
                         favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                         Toast.makeText(getActivity(), product.getTitle() + " Added to favorite!",
                                 Toast.LENGTH_SHORT).show();
@@ -155,12 +155,12 @@ public class DetailFragment extends Fragment {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 if (prefManager.getQuantity() != 0) {
                     counter = prefManager.getQuantity() + 1;
-                    controller.addBadge(counter);
                 }
                 else {
                     counter = counter + 1;
-                    controller.addBadge(counter);
                 }
+                controller.setBadgeCount(counter);
+                controller.addBadge(counter);
 
                 if (product != null) {
                     try {
@@ -170,6 +170,10 @@ public class DetailFragment extends Fragment {
                     }
                     imageList = json.toString();
                     saveProdDetails(counter);
+                    product.setQuantity(counter);
+                    product.setCartStatus("1");
+                    productList.add(product);
+                    prefManager.saveProducts(productList, product.getProdID());
                 }
             }
             else {

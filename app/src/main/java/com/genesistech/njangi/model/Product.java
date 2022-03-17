@@ -25,6 +25,8 @@ public class Product implements Parcelable {
     private double rating;
     private String favStatus;
     private String trending;
+    private String cartStatus;
+    private int quantity;
 
     private List<Product> productList;
 
@@ -144,6 +146,22 @@ public class Product implements Parcelable {
         this.productList = productList;
     }
 
+    public String getCartStatus() {
+        return cartStatus;
+    }
+
+    public void setCartStatus(String cartStatus) {
+        this.cartStatus = cartStatus;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Product() {
     }
 
@@ -191,6 +209,8 @@ public class Product implements Parcelable {
         description = in.readString();
         in.readList(images, Product.class.getClassLoader());
         rating = in.readDouble();
+        cartStatus = in.readString();
+        quantity = in.readInt();
     }
 
     @Override
@@ -206,6 +226,8 @@ public class Product implements Parcelable {
         dest.writeString(description);
         dest.writeList(images);
         dest.writeDouble(rating);
+        dest.writeString(cartStatus);
+        dest.writeInt(quantity);
     }
 
     @Override

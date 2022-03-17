@@ -36,15 +36,17 @@ public class FavoriteFragment extends Fragment {
     private ProductAdapter adapter;
     private PrefManager prefManager;
     private List<Product> productList;
+    private List<Product> newCartItemList;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         FavoriteViewModel favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         prefManager = new PrefManager(requireContext());
         productList = new ArrayList<>();
+        newCartItemList = new ArrayList<>();
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -75,7 +77,12 @@ public class FavoriteFragment extends Fragment {
 
                 }
             };
-            favAdapter = new FavAdapter(productList, requireContext(), callback);
+            for (Product product : productList) {
+                if (product.getFavStatus().equals("1")) {
+                    newCartItemList.add(product);
+                }
+            }
+            favAdapter = new FavAdapter(newCartItemList, requireContext(), callback);
 //            adapter = new ProductAdapter(getActivity(), FavoriteFragment.this, productList, callback);
             recyclerView.setAdapter(favAdapter);
         }
@@ -100,7 +107,7 @@ public class FavoriteFragment extends Fragment {
             final Product favItem = productList.get(position);
             if (direction == ItemTouchHelper.LEFT){ // Left swipe
                 favAdapter.notifyItemRemoved(position); // Item removed from recycleView
-                productList.remove(position); // The remove the item
+                newCartItemList.remove(position); // The remove the item
                 prefManager.updateQuoteList(favItem.getProdID());
             }
         }

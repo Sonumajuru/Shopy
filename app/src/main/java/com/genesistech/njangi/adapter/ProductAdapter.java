@@ -127,7 +127,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     product.setFavStatus("1");
                     List<Product> productList = new ArrayList<>();
                     productList.add(product);
-                    prefManager.initializeMyQuoteList(productList, product.getProdID());
+                    prefManager.saveProducts(productList, product.getProdID());
                     holder.favBtn.setBackgroundResource(R.drawable.ic_red_favorite_24);
                     Toast.makeText(mCtx, product.getTitle() + " Added to favorite!",
                             Toast.LENGTH_SHORT).show();

@@ -50,7 +50,7 @@ public class PrefManager {
     }
 
     // create an empty list of MyQuote
-    public void initializeMyQuoteList(List<Product> productList, String prodID) {
+    public void saveProducts(List<Product> productList, String prodID) {
         String jsonText = gson.toJson(productList);
         prefsEditor.putString(prodID, jsonText);
         prefsEditor.apply();

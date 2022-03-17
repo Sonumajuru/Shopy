@@ -12,22 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
+import com.genesistech.njangi.helper.PrefManager;
 import com.genesistech.njangi.interfaces.FragmentCallback;
-import com.genesistech.njangi.model.CartItem;
+import com.genesistech.njangi.model.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private static final String TAG = "CartAdapter";
-    private final List<CartItem> cartItemList;
+    private final List<Product> cartItemList;
     private final Context mCtx;
     private final Controller controller;
     private int count;
     public FragmentCallback callback;
+    private final PrefManager prefManager;
 
-    public CartAdapter(List<CartItem> cartItemList, Context mCtx, FragmentCallback callback) {
+    public CartAdapter(List<Product> cartItemList, Context mCtx, FragmentCallback callback) {
         this.cartItemList = cartItemList;
+        prefManager = new PrefManager(mCtx);
         this.mCtx = mCtx;
         controller = Controller.getInstance(mCtx);
         this.callback = callback;
@@ -44,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, final int position) {
 
-        final CartItem cartItem = cartItemList.get(position);
+        final Product cartItem = cartItemList.get(position);
 
         holder.prname.setText(cartItem.getTitle());
         holder.prprice.setText(cartItem.getPrice() + " " + cartItem.getCurrency());
@@ -54,60 +57,66 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.prqtty.setText(String.valueOf(count));
 
         holder.minusbtn.setOnClickListener(v -> {
-            count = count - 1;
+            count = cartItem.getQuantity() - 1;
             if (count < 0) count = 0;
             cartItem.setQuantity(count);
 
-            for (CartItem item : cartItemList) {
-                if (item != cartItem)
-                {
-                    controller.setBadgeCount(count + item.getQuantity());
-                    controller.addBadge(count + item.getQuantity());
-                }
-            }
+            int foo = controller.getBadgeCount();
+            foo = foo - 1;
+            controller.setBadgeCount(foo);
+            controller.addBadge(foo);
 
             holder.prqtty.setText(String.valueOf(count));
             resetProduct(position, cartItem);
         });
 
         holder.plusbtn.setOnClickListener(v -> {
-            count = count + 1;
+            count = cartItem.getQuantity() + 1;
             if (count < 0) count = 0;
             cartItem.setQuantity(count);
 
-            for (CartItem item : cartItemList) {
-                if (item != cartItem)
-                {
-                    controller.setBadgeCount(count + item.getQuantity());
-                    controller.addBadge(count + item.getQuantity());
-                }
-            }
+            int foo = controller.getBadgeCount();
+            foo = foo + 1;
+            controller.setBadgeCount(foo);
+            controller.addBadge(foo);
 
             holder.prqtty.setText(String.valueOf(count));
-            resetProduct(position, cartItem);
         });
 
         holder.deletbtn.setOnClickListener(v -> deleteProduct(position, cartItem));
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void resetProduct(int position, CartItem cartItem) {
+    private void resetProduct(int position, Product cartItem) {
         if (cartItem.getQuantity() == 0) {
+
+            int foo = controller.getBadgeCount();
+            foo = foo - cartItem.getQuantity();
+            controller.setBadgeCount(foo);
+            controller.addBadge(foo);
+
             cartItemList.get(position).setCartStatus("0");
-//            favDB.removeCartItem(cartItemList.remove(position).getKey_id());
-//                cartItemList.remove(position);
-            controller.addBadge(controller.getBadgeCount() + count);
+            cartItemList.remove(position);
+            prefManager.updateQuoteList(cartItem.getProdID());
             callback.onItemClicked(position, cartItem);
             notifyDataSetChanged();
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void deleteProduct(int position, CartItem cartItem) {
+    private void deleteProduct(int position, Product cartItem) {
+
+        int prodQtt = cartItem.getQuantity();
+        int foo = controller.getBadgeCount();
+        foo = foo - prodQtt;
+        cartItem.setQuantity(0);
+
+        controller.setBadgeCount(foo);
+        controller.addBadge(foo);
+
         cartItemList.get(position).setCartStatus("0");
-//        favDB.removeCartItem(cartItemList.remove(position).getKey_id());
-//                cartItemList.remove(position);
-        controller.addBadge(controller.getBadgeCount() + count);
+        cartItemList.remove(position);
+        prefManager.updateQuoteList(cartItem.getProdID());
         callback.onItemClicked(position, cartItem);
         notifyDataSetChanged();
     }
