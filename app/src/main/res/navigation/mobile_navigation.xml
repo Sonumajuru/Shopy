@@ -114,4 +114,10 @@
             android:label="@string/title_stock"
             tools:layout="@layout/fragment_boutique"/>
 
+    <fragment
+            android:id="@+id/navigation_message"
+            android:name="com.genesistech.njangi.ui.message.MessageFragment"
+            android:label="@string/Message"
+            tools:layout="@layout/fragment_message"/>
+
 </navigation>

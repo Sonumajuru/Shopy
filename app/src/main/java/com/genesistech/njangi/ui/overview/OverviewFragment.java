@@ -28,7 +28,7 @@ import static com.genesistech.njangi.R.id.navigation_detail;
 
 public class OverviewFragment extends Fragment {
 
-    FragmentOverviewBinding binding;
+    private FragmentOverviewBinding binding;
     private ProductAdapter adapter;
     private FragmentCallback callback;
     private FirebaseApp firebaseApp;

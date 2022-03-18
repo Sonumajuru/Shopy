@@ -13,6 +13,7 @@ import android.view.WindowInsets;
 import android.view.WindowMetrics;
 import android.widget.TextView;
 import com.genesistech.njangi.helper.DeviceType;
+import com.genesistech.njangi.helper.PrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +30,7 @@ public class Controller {
     private int badgeCount;
     private BottomNavigationView navView;
     private boolean IsFragVisible;
+    private PrefManager prefManager;
 
     public View getNotificationsBadge() {
         return notificationsBadge;
@@ -72,6 +74,7 @@ public class Controller {
 
     public Controller(Context context){
         mContext = context;
+        prefManager = new PrefManager(context);
         notificationsBadge = LayoutInflater.from(mContext).inflate(R.layout.custom_badge_layout,
                 bottomNavigationMenuView,false);
     }
@@ -99,6 +102,11 @@ public class Controller {
         TextView notifications_badge = getNotificationsBadge().findViewById(R.id.notifications_badge);
         notifications_badge.setText(String.valueOf(count));
         getNavView().addView(getNotificationsBadge());
+        prefManager.saveBadge(count);
+    }
+
+    public int getPrefCount() {
+        return prefManager.getBadgeCount();
     }
 
     public void removeBadge() {

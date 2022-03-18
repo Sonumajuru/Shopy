@@ -110,4 +110,7 @@
     <string name="trending">Trending</string>
     <string name="stocks">Boutique</string>
     <string name="cancel">Cancel</string>
+    <string name="send">Send</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="Message">title_message</string>
 </resources>

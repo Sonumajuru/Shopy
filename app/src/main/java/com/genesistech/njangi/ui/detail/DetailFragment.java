@@ -27,8 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,17 +43,13 @@ public class DetailFragment extends Fragment {
     private PrefManager prefManager;
     private FirebaseApp firebaseApp;
 
-    private JSONObject json;
     private Product product;
 
     private ImageView favBtn;
 
     private int counter;
     private String uid;
-    private String imageList;
-    private List<String> images;
     private List<Product> productList;
-    private boolean isAvailable;
 
     private ImagePagerAdapter imagePagerAdapter;
     private ViewPager viewPager;
@@ -65,7 +59,6 @@ public class DetailFragment extends Fragment {
     private TextView description;
     private TabLayout tabLayout;
 
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,9 +72,6 @@ public class DetailFragment extends Fragment {
         firebaseApp = new FirebaseApp();
         product = new Product();
         productList = new ArrayList<>();
-        json = new JSONObject();
-        images = new ArrayList<>();
-        isAvailable = false;
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
@@ -131,12 +121,6 @@ public class DetailFragment extends Fragment {
                 {
                     if (product.getFavStatus().equals("0"))
                     {
-                        try {
-                            json.put("images", new JSONArray(product.getImages()));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        imageList = json.toString();
                         product.setFavStatus("1");
                         productList.add(product);
                         prefManager.saveFavList(productList, product.getProdID());
@@ -173,12 +157,6 @@ public class DetailFragment extends Fragment {
                 controller.addBadge(counter);
 
                 if (product != null) {
-                    try {
-                        json.put("images", new JSONArray(product.getImages()));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    imageList = json.toString();
                     product.setCartStatus("1");
                     productList.add(product);
                     prefManager.saveCartList(productList, product.getProdID());
@@ -197,6 +175,7 @@ public class DetailFragment extends Fragment {
         return root;
     }
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void checkIfProductStillAvailable(String id) {
 
         firebaseApp.getFirebaseDB()

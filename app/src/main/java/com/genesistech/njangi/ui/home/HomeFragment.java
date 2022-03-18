@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.genesistech.njangi.Controller;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +38,6 @@ import com.genesistech.njangi.interfaces.FragmentCallback;
 import com.genesistech.njangi.model.ParentModel;
 import com.genesistech.njangi.model.Product;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Controller controller = Controller.getInstance(requireContext());
         firebaseApp = new FirebaseApp();
         parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
@@ -140,6 +141,9 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             }
         });
 
+//        if (controller.getPrefCount() > 0) {
+//            controller.addBadge(controller.getPrefCount());
+//        }
         return root;
     }
 

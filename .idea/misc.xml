@@ -84,6 +84,7 @@
         <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_item.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_message.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_order.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/fragment_product.xml" value="0.25" />
@@ -101,6 +102,8 @@
         <entry key="app/src/main/res/layout/home_view.xml" value="0.335" />
         <entry key="app/src/main/res/layout/home_view_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/image_item.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/item_message_received.xml" value="0.1953125" />
+        <entry key="app/src/main/res/layout/item_message_sent.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/list_group.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/list_view_items.xml" value="0.23233695652173914" />
@@ -113,6 +116,8 @@
         <entry key="app/src/main/res/layout/product_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/product_view_items.xml" value="0.14375" />
+        <entry key="app/src/main/res/layout/receive_message_item.xml" value="0.19427083333333334" />
+        <entry key="app/src/main/res/layout/sender_message_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/slider_layout.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/tab_layout.xml" value="0.22644927536231885" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32447916666666665" />

@@ -19,6 +19,7 @@ public class PrefManager {
 
     private final Context context;
     private int quantity;
+    private int count;
     private Gson gson;
     private SharedPreferences favPreferences;
     private SharedPreferences.Editor prefsFavEditor;
@@ -38,6 +39,18 @@ public class PrefManager {
         {
             e.printStackTrace();
         }
+    }
+
+    public void saveBadge(int count) {
+        cartPreferences = context.getSharedPreferences("Badge", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = cartPreferences.edit();
+        editor.putInt("Badge", count);
+        editor.apply();
+    }
+
+    public int getBadgeCount() {
+        cartPreferences = context.getSharedPreferences("Badge", Context.MODE_PRIVATE);
+        return (cartPreferences.getInt("Badge", count));
     }
 
     public void saveQuantity(int quantity, String prodID) {
