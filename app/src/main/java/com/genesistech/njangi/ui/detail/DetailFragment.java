@@ -23,6 +23,10 @@ import com.genesistech.njangi.helper.PrefManager;
 import com.genesistech.njangi.model.Product;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +43,7 @@ public class DetailFragment extends Fragment {
 
     private Controller controller;
     private PrefManager prefManager;
+    private FirebaseApp firebaseApp;
 
     private JSONObject json;
     private Product product;
@@ -50,6 +55,15 @@ public class DetailFragment extends Fragment {
     private String imageList;
     private List<String> images;
     private List<Product> productList;
+    private boolean isAvailable;
+
+    private ImagePagerAdapter imagePagerAdapter;
+    private ViewPager viewPager;
+    private TextView price;
+    private TextView title;
+    private RatingBar ratingBar;
+    private TextView description;
+    private TabLayout tabLayout;
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -62,23 +76,23 @@ public class DetailFragment extends Fragment {
 
         controller = Controller.getInstance(requireContext());
         prefManager = new PrefManager(requireContext());
-        FirebaseApp firebaseApp = new FirebaseApp();
+        firebaseApp = new FirebaseApp();
         product = new Product();
         productList = new ArrayList<>();
         json = new JSONObject();
         images = new ArrayList<>();
+        isAvailable = false;
         counter = 0;
         controller.setNavView(requireActivity().findViewById(R.id.nav_view));
 
-        ImagePagerAdapter imagePagerAdapter;
-        ViewPager viewPager = binding.imagePager;
+        viewPager = binding.imagePager;
         Button btnAddToCart = binding.addToCartBtn;
         TextView productOwner = binding.productOwner;
-        TextView price = binding.priceOfProduct;
-        TextView title = binding.title;
-        RatingBar ratingBar = binding.ratingBar;
-        TextView description = binding.description;
-        TabLayout tabLayout = binding.tabDots;
+        price = binding.priceOfProduct;
+        title = binding.title;
+        ratingBar = binding.ratingBar;
+        description = binding.description;
+        tabLayout = binding.tabDots;
         favBtn = binding.favBtn;
 
         controller.setTextLength(title);
@@ -87,16 +101,7 @@ public class DetailFragment extends Fragment {
         checkIfItemIsFav();
 
         if (product != null) {
-
-            imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, product.getImages(), null);
-            price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
-            title.setText(product.getTitle());
-            ratingBar.setRating((float) product.getRating());
-            description.setText(product.getDescription());
-            uid = product.getUuid();
-
-            viewPager.setAdapter(imagePagerAdapter);
-            tabLayout.setupWithViewPager(viewPager, true);
+            checkIfProductStillAvailable(product.getProdID());
         }
 
         Resources res = getResources();
@@ -190,6 +195,38 @@ public class DetailFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void checkIfProductStillAvailable(String id) {
+
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("ProductDB")
+                .child("products").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // TODO: handle the case where the data already exists
+                    imagePagerAdapter = new ImagePagerAdapter(requireContext(), DetailFragment.this, product.getImages(), null);
+                    price.setText(String.format("%.2f", product.getPrice()) + " " + product.getCurrency());
+                    title.setText(product.getTitle());
+                    ratingBar.setRating((float) product.getRating());
+                    description.setText(product.getDescription());
+                    uid = product.getUuid();
+
+                    viewPager.setAdapter(imagePagerAdapter);
+                    tabLayout.setupWithViewPager(viewPager, true);
+                }
+                else {
+                    // TODO: handle the case where the data does not yet exist
+                    Toast.makeText(requireContext(), product.getTitle() + " Is no longer available for purchase!", Toast.LENGTH_SHORT).show();
+                }
+            }
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+        });
     }
 
     private void checkIfItemIsFav() {

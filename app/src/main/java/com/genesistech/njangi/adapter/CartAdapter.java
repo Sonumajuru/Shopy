@@ -68,6 +68,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
             holder.prqtty.setText(String.valueOf(count));
             resetProduct(position, cartItem);
+            cartItem.setPrice(cartItem.getPrice() * cartItem.getQuantity());
+            callback.onItemClicked(position, cartItem);
         });
 
         holder.plusbtn.setOnClickListener(v -> {
@@ -81,6 +83,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             controller.addBadge(foo);
 
             holder.prqtty.setText(String.valueOf(count));
+            cartItem.setPrice(cartItem.getPrice() * cartItem.getQuantity());
+            callback.onItemClicked(position, cartItem);
         });
 
         holder.deletbtn.setOnClickListener(v -> deleteProduct(position, cartItem));
