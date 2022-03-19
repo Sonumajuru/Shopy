@@ -117,7 +117,7 @@
     <fragment
             android:id="@+id/navigation_message"
             android:name="com.genesistech.njangi.ui.message.MessageFragment"
-            android:label="@string/Message"
+            android:label="@string/title_message"
             tools:layout="@layout/fragment_message"/>
 
 </navigation>

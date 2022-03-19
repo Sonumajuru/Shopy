@@ -111,4 +111,7 @@
     <string name="image">Image</string>
     <string name="back">Retour</string>
     <string name="stocks">Boutique</string>
+    <string name="send">Envoyer</string>
+    <string name="enter_message">Entrer un message</string>
+    <string name="title_message">Messages</string>
 </resources>

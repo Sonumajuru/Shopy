@@ -39,7 +39,7 @@
             android:id="@+id/messageBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/messages"
+            android:text="@string/title_message"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@+id/AddPayment_Btn"
             android:layout_marginTop="100dp"
