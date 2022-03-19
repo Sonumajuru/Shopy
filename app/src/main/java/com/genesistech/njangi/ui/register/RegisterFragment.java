@@ -116,7 +116,7 @@ public class RegisterFragment extends Fragment {
                             else {
                                 String userId = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
                                 user = new User(firstName, lastName, male, female, address, language, country,
-                                        email, password, number, uniqueID, date);
+                                        email, password, number, uniqueID, date, userId);
                                 firebaseApp.getFirebaseDB()
                                         .getReference()
                                         .child("User")
@@ -139,7 +139,7 @@ public class RegisterFragment extends Fragment {
                                     if (task1.isSuccessful()) {
                                         String userId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                                         user = new User(firstName, lastName, male, female, address, language, country,
-                                                email, password, number, uniqueID, date);
+                                                email, password, number, uniqueID, date, userId);
                                         firebaseApp.getFirebaseDB()
                                                 .getReference()
                                                 .child("User")

@@ -20,6 +20,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.databinding.FragmentAccountBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
@@ -38,6 +39,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FragmentAccountBinding binding;
 
     private User user;
+    private Controller controller;
     private FirebaseApp firebaseApp;
     private NavHost navHostFragment;
 
@@ -58,6 +60,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         user = new User();
         firebaseApp = new FirebaseApp();
+        controller = Controller.getInstance(requireContext());
         Button btnOrder = binding.orderBtn;
         username = binding.userName;
         userEmail = binding.userEmail;
@@ -155,6 +158,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 if (user != null)
                 {
                     username.setText(user.getFirstName());
+                    controller.setUserName(user.getFirstName());
                     userEmail.setText(user.getEmail());
                     accountViewModel.setLocale(requireActivity(), user.getLanguage());
                 }

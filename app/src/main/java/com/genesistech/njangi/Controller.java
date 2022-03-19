@@ -31,6 +31,7 @@ public class Controller {
     private BottomNavigationView navView;
     private boolean IsFragVisible;
     private PrefManager prefManager;
+    private String userName;
 
     public View getNotificationsBadge() {
         return notificationsBadge;
@@ -240,6 +241,14 @@ public class Controller {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate currentdate = LocalDate.now();
         return formatter.format(currentdate);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public boolean getIsFragVisible()

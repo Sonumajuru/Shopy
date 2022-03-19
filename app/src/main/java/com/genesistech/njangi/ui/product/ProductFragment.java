@@ -230,6 +230,7 @@ public class ProductFragment extends Fragment {
         someActivityResultLauncher.launch(intent);
     }
 
+    @SuppressLint("NewApi")
     private void getImages() {
         List<String> targetList = new ArrayList<>();
         fileUris.forEach(uri -> targetList.add(uri.toString()));

@@ -3,7 +3,8 @@ package com.genesistech.njangi.model;
 public class Message {
 
     private String message;
-    private User sender;
+    private String sender;
+    private String senderUuid;
     private long createdAt;
 
     public String getMessage() {
@@ -14,12 +15,20 @@ public class Message {
         this.message = message;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getSenderUuid() {
+        return senderUuid;
+    }
+
+    public void setSenderUuid(String senderUuid) {
+        this.senderUuid = senderUuid;
     }
 
     public long getCreatedAt() {
@@ -30,9 +39,12 @@ public class Message {
         this.createdAt = createdAt;
     }
 
-    public Message(String message, User sender, long createdAt) {
+    public Message() {}
+
+    public Message(String message, String sender, String senderUuid, long createdAt) {
         this.message = message;
         this.sender = sender;
+        this.senderUuid = senderUuid;
         this.createdAt = createdAt;
     }
 }

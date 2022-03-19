@@ -1,6 +1,9 @@
 package com.genesistech.njangi.model;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
 
     private String firstName;
     private String lastName;
@@ -13,7 +16,36 @@ public class User {
     private String password;
     private String telNumber;
     private String uniqueID;
+    private String uuid;
     private String date;
+
+    protected User(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        male = in.readByte() != 0;
+        female = in.readByte() != 0;
+        address = in.readString();
+        language = in.readString();
+        country = in.readString();
+        email = in.readString();
+        password = in.readString();
+        telNumber = in.readString();
+        uniqueID = in.readString();
+        uuid = in.readString();
+        date = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getFirstName() {
         return firstName;
@@ -103,6 +135,14 @@ public class User {
         this.uniqueID = uniqueID;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     public String getDate() {
         return date;
     }
@@ -116,7 +156,7 @@ public class User {
     }
 
     public User(String firstName, String lastName, boolean male, boolean female, String address, String language,
-                String country, String email, String password, String telNumber, String uniqueID, String date)
+                String country, String email, String password, String telNumber, String uniqueID, String date, String uuid)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -129,6 +169,29 @@ public class User {
         this.password = password;
         this.telNumber = telNumber;
         this.uniqueID = uniqueID;
+        this.uuid = uuid;
         this.date = date;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeByte((byte) (male ? 1 : 0));
+        parcel.writeByte((byte) (female ? 1 : 0));
+        parcel.writeString(address);
+        parcel.writeString(language);
+        parcel.writeString(country);
+        parcel.writeString(email);
+        parcel.writeString(password);
+        parcel.writeString(telNumber);
+        parcel.writeString(uniqueID);
+        parcel.writeString(uuid);
+        parcel.writeString(date);
     }
 }

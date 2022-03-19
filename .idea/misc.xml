@@ -10,6 +10,7 @@
         <entry key="../../Library/Developer/Xamarin/android-sdk-macosx/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/drawable/anim_out.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/babayy.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/background_chat.xml" value="0.21041666666666667" />
         <entry key="app/src/main/res/drawable/background_tab.xml" value="0.1921875" />
         <entry key="app/src/main/res/drawable/background_text.xml" value="0.2609375" />
         <entry key="app/src/main/res/drawable/badge_view.xml" value="0.325" />
@@ -24,6 +25,8 @@
         <entry key="app/src/main/res/drawable/error_background.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/ic_account_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_baseline_baby_changing_station_24.xml" value="0.1859375" />
+        <entry key="app/src/main/res/drawable/ic_cancel_black_24.xml" value="0.21145833333333333" />
+        <entry key="app/src/main/res/drawable/ic_chat_black_24.xml" value="0.21145833333333333" />
         <entry key="app/src/main/res/drawable/ic_choose_file_black_24.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/ic_country_black_24.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_delete_black_24.xml" value="0.321025641025641" />
@@ -84,7 +87,7 @@
         <entry key="app/src/main/res/layout/fragment_invoice.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_item.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_message.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/fragment_message.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_order.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/layout/fragment_overview.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/fragment_product.xml" value="0.25" />

@@ -10,7 +10,6 @@ import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +23,7 @@ public class ProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<String> idCountryText;
     private final MutableLiveData<String> idAddress;
     private final MutableLiveData<String> idSince;
+    private User currentUser;
 
     public ProfileViewModel(@NonNull @NotNull Application application) {
         super(application);
@@ -37,8 +37,8 @@ public class ProfileViewModel extends AndroidViewModel {
         idSince = new MutableLiveData<>();
     }
 
-    public void getUserData(String uid)
-    {
+    public void getUserData(String uid) {
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
@@ -46,6 +46,7 @@ public class ProfileViewModel extends AndroidViewModel {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
 
+                currentUser = user;
                 idProfileName.setValue(user.getFirstName()
                         + " " + user.getLastName());
                 idEmail.setValue(user.getEmail());
@@ -89,5 +90,8 @@ public class ProfileViewModel extends AndroidViewModel {
     public LiveData<String> getRegistrationDate()
     {
         return idSince;
+    }
+    public User getCurrentUser() {
+        return currentUser;
     }
 }
