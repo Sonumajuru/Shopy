@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
         idChat.setOnClickListener(v -> {
 
             Bundle bundle = new Bundle();
-            bundle.putParcelable("user", profileViewModel.getCurrentUser());
+            bundle.putString("uuid", profileViewModel.getCurrentUser());
             Navigation.findNavController(v).navigate(R.id.navigation_message, bundle);
         });
 

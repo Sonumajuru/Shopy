@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.genesistech.njangi.R;
-import com.genesistech.njangi.model.User;
+import com.genesistech.njangi.interfaces.FragmentCallback;
+import com.genesistech.njangi.model.Message;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -17,12 +17,14 @@ import java.util.List;
 public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserChatViewHolder> {
 
     private final Context mCtx;
-    private List<User> UserList;
+    public FragmentCallback callback;
+    private final List<Message> UserList;
 
     //getting the context and product list with constructor
-    public ChatUserAdapter(Context mCtx, Fragment fragment, List<User> UserList) {
+    public ChatUserAdapter(Context mCtx, List<Message> UserList, FragmentCallback callback) {
         this.mCtx = mCtx;
         this.UserList = UserList;
+        this.callback = callback;
     }
 
     @SuppressLint("InflateParams")
@@ -37,12 +39,16 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserCh
     }
 
     @Override
-    @SuppressLint({"RecyclerView", "SetTextI18n", "DefaultLocale", "ResourceType", "NonConstantResourceId"})
     public void onBindViewHolder(@NotNull UserChatViewHolder holder, int position) {
-        User user = UserList.get(position);
-        holder.txt_username.setText(user.getFirstName() + " " + user.getLastName());
-    }
+        Message message = UserList.get(position);
+        holder.txt_username.setText(message.getSenderName());
+        holder.bind(UserList.get(position), callback);
 
+        holder.txt_username.setOnClickListener(v -> {
+//            clickedPos = holder.getAbsoluteAdapterPosition();
+            callback.onItemClicked(position, message);
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -50,12 +56,19 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserCh
     }
 
     public static class UserChatViewHolder extends RecyclerView.ViewHolder {
-
         TextView txt_username;
 
         public UserChatViewHolder(View itemView) {
             super(itemView);
             txt_username = itemView.findViewById(R.id.user_name);
+        }
+
+        public void bind(final Message item, final FragmentCallback listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClicked(getAbsoluteAdapterPosition(), item);
+                }
+            });
         }
     }
 }

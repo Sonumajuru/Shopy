@@ -68,11 +68,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         Button btnSettings = binding.settingsBtn;
         btnSignOut = binding.signOutBtn;
         Button btnAddPay = binding.AddPaymentBtn;
+        Button btnMessages = binding.messageBtn;
 
         btnOrder.setOnClickListener(this);
         btnManageItem.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
         btnAddPay.setOnClickListener(this);
+        btnMessages.setOnClickListener(this);
         btnSignOut.setOnClickListener(this);
 
         checkIfSignedIn();
@@ -110,6 +112,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId())
         {
+            case messageBtn:
+                if (!checkIfSignedIn()) {
+                    getLogin();
+                } else {
+                    Navigation.findNavController(v).navigate(navigation_chat_user);
+                }
+                break;
             case orderBtn:
                 break;
             case AddPayment_Btn:
@@ -143,8 +152,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void getUserData()
-    {
+    private void getUserData() {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
         firebaseApp.getFirebaseDB()
@@ -174,8 +182,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void getLogin()
-    {
+    private void getLogin() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(
                 R.id.navigation_login,

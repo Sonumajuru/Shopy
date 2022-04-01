@@ -33,7 +33,7 @@ import java.util.Objects;
 
 public class MessageFragment extends Fragment {
 
-    private MessageViewModel mViewModel;
+    private MessageViewModel messageViewModel;
     private FragmentMessageBinding binding;
     private FirebaseApp firebaseApp;
     private MessageAdapter messageAdapter;
@@ -45,7 +45,7 @@ public class MessageFragment extends Fragment {
     private String name;
     private String receiverUuid;
 
-    private User user;
+    private String uUid;
     private String receiverRoom;
     private String senderRoom;
     private String senderUuid;
@@ -55,7 +55,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        MessageViewModel messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
+        messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
         binding = FragmentMessageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -67,8 +67,8 @@ public class MessageFragment extends Fragment {
         sendButton = binding.buttonGchatSend;
 
         assert getArguments() != null;
-        user = getArguments().getParcelable("user");
-        receiverUuid = user.getUuid();
+        uUid = getArguments().getString("uuid");
+        receiverUuid = uUid;
 
         senderUuid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
         senderRoom = receiverUuid + " <------> "+ senderUuid;
@@ -84,7 +84,7 @@ public class MessageFragment extends Fragment {
 
                 long millis = new java.util.Date().getTime();
                 String message = editTextChat.getText().toString().trim();
-                Message messageObject = new Message(message, controller.getUserName(), senderUuid, millis);
+                Message messageObject = new Message(message, controller.getUserName(), senderUuid, receiverUuid, millis);
 
                 firebaseApp.getFirebaseDB().getReference()
                         .child("chats")
@@ -118,15 +118,14 @@ public class MessageFragment extends Fragment {
         return root;
     }
 
-    private void getMessages()
-    {
+    private void getMessages() {
         messageAdapter = new MessageAdapter(requireContext(), messageList);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(messageAdapter);
 
         firebaseApp.getFirebaseDB().getReference()
                 .child("chats")
-                .child(receiverUuid)
+                .child(senderUuid)
                 .child("messages")
                 .addValueEventListener(new ValueEventListener() {
                     @SuppressLint("NotifyDataSetChanged")
@@ -138,7 +137,10 @@ public class MessageFragment extends Fragment {
                         {
                             Message message = ds.getValue(Message.class);
                             assert message != null;
-                            messageList.add(message);
+                            if (Objects.equals(message.getReceiverUuid(), receiverUuid)
+                                    || Objects.equals(message.getSenderUuid(), receiverUuid)) {
+                                messageList.add(message);
+                            }
                         }
 
                         messageAdapter.notifyDataSetChanged();

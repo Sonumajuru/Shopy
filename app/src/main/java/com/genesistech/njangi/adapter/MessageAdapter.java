@@ -110,7 +110,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         void bind(Message message) {
             messageText.setText(message.getMessage());
-            nameText.setText(message.getSender());
+            nameText.setText(message.getSenderName());
 
             // Format the stored timestamp into a readable String using method.
             @SuppressLint("SimpleDateFormat")

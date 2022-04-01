@@ -23,7 +23,7 @@ public class ProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<String> idCountryText;
     private final MutableLiveData<String> idAddress;
     private final MutableLiveData<String> idSince;
-    private User currentUser;
+    private String currentUser;
 
     public ProfileViewModel(@NonNull @NotNull Application application) {
         super(application);
@@ -46,7 +46,7 @@ public class ProfileViewModel extends AndroidViewModel {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
 
-                currentUser = user;
+                currentUser = user.getUuid();
                 idProfileName.setValue(user.getFirstName()
                         + " " + user.getLastName());
                 idEmail.setValue(user.getEmail());
@@ -91,7 +91,7 @@ public class ProfileViewModel extends AndroidViewModel {
     {
         return idSince;
     }
-    public User getCurrentUser() {
+    public String getCurrentUser() {
         return currentUser;
     }
 }

@@ -120,4 +120,10 @@
             android:label="@string/title_message"
             tools:layout="@layout/fragment_message"/>
 
+    <fragment
+            android:id="@+id/navigation_chat_user"
+            android:name="com.genesistech.njangi.ui.userchat.ChatUsersFragment"
+            android:label="@string/title_chat_users"
+            tools:layout="@layout/fragment_chat_users"/>
+
 </navigation>
