@@ -20,7 +20,6 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserCh
     public FragmentCallback callback;
     private final List<Message> UserList;
 
-    //getting the context and product list with constructor
     public ChatUserAdapter(Context mCtx, List<Message> UserList, FragmentCallback callback) {
         this.mCtx = mCtx;
         this.UserList = UserList;
@@ -45,7 +44,6 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserCh
         holder.bind(UserList.get(position), callback);
 
         holder.txt_username.setOnClickListener(v -> {
-//            clickedPos = holder.getAbsoluteAdapterPosition();
             callback.onItemClicked(position, message);
         });
     }
@@ -64,11 +62,7 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.UserCh
         }
 
         public void bind(final Message item, final FragmentCallback listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    listener.onItemClicked(getAbsoluteAdapterPosition(), item);
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onItemClicked(getAbsoluteAdapterPosition(), item));
         }
     }
 }

@@ -78,41 +78,30 @@ public class MessageFragment extends Fragment {
 
         // Adding message to the DB
         /** Include product title, price to the message*/
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        sendButton.setOnClickListener(view -> {
 
-                long millis = new java.util.Date().getTime();
-                String message = editTextChat.getText().toString().trim();
-                Message messageObject = new Message(message, controller.getUserName(), senderUuid, receiverUuid, millis);
+            long millis = new java.util.Date().getTime();
+            String message = editTextChat.getText().toString().trim();
+            Message messageObject = new Message(message, controller.getUserName(), senderUuid, receiverUuid, millis);
 
-                firebaseApp.getFirebaseDB().getReference()
-                        .child("chats")
-                        .child(senderUuid)
-                        .child("messages").push()
-                        .setValue(messageObject)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Write was successful!
-                                firebaseApp.getFirebaseDB().getReference()
-                                        .child("chats")
-                                        .child(receiverUuid)
-                                        .child("messages").push()
-                                        .setValue(messageObject);
-                                editTextChat.setText("");
+            firebaseApp.getFirebaseDB().getReference()
+                    .child("chats")
+                    .child(senderUuid)
+                    .child("messages").push()
+                    .setValue(messageObject)
+                    .addOnSuccessListener(aVoid -> {
+                        // Write was successful!
+                        firebaseApp.getFirebaseDB().getReference()
+                                .child("chats")
+                                .child(receiverUuid)
+                                .child("messages").push()
+                                .setValue(messageObject);
+                        editTextChat.setText("");
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Write failed
-                                // ...
-                                Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(requireContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
 
         return root;

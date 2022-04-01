@@ -38,10 +38,6 @@ public class ChatUsersFragment extends Fragment {
     private FirebaseApp firebaseApp;
     private RecyclerView recyclerView;
 
-    public static ChatUsersFragment newInstance() {
-        return new ChatUsersFragment();
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         chatUsersViewModel = new ViewModelProvider(this).get(ChatUsersViewModel.class);
