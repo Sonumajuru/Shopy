@@ -23,11 +23,19 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private final Context mContext;
     private final FirebaseApp firebaseApp;
     private final List<Message> mMessageList;
+    private final SimpleDateFormat dateFormat;
+    private final SimpleDateFormat timeFormat;
+    private String prevDate = "";
+    private String receiverDate = "";
+    private String senderDate = "";
 
+    @SuppressLint("SimpleDateFormat")
     public MessageAdapter(Context context, List<Message> messageList) {
         mContext = context;
         firebaseApp = new FirebaseApp();
         mMessageList = messageList;
+        timeFormat = new SimpleDateFormat("HH:mm"); //hours and minutes, 24hr clock
+        dateFormat = new SimpleDateFormat("dd - MMMM - yyyy");
     }
 
     @Override
@@ -42,9 +50,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         if (message.getSenderUuid().equals(Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid())) {
             // If the current user is the sender of the message
+            senderDate = dateFormat.format(message.getCreatedAt());
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
             // If some other user sent the message
+            receiverDate = dateFormat.format(message.getCreatedAt());
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
@@ -80,42 +90,52 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public static class SentMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText;
+    public class SentMessageHolder extends RecyclerView.ViewHolder {
+        TextView messageText, timeText, dataText;
 
         SentMessageHolder(View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.text_gchat_message_me);
             timeText = itemView.findViewById(R.id.text_gchat_timestamp_me);
+            dataText = itemView.findViewById(R.id.text_gchat_date_me);
         }
 
         void bind(Message message) {
             messageText.setText(message.getMessage());
-
-            @SuppressLint("SimpleDateFormat")
-            final SimpleDateFormat format = new SimpleDateFormat("HH:mm"); //hours and minutes, 24hr clock
-            timeText.setText(format.format(message.getCreatedAt()));
+            timeText.setText(timeFormat.format(message.getCreatedAt()));
+            if (senderDate.equals(receiverDate) || senderDate.equals(prevDate)) {
+                dataText.setText("");
+            }
+            else {
+                dataText.setText(dateFormat.format(message.getCreatedAt()));
+            }
+            prevDate = dateFormat.format(message.getCreatedAt());
         }
     }
 
-    public static class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText, nameText;
+    @SuppressLint("SimpleDateFormat")
+    public class ReceivedMessageHolder extends RecyclerView.ViewHolder {
+        TextView messageText, timeText, nameText, dataText;
 
         ReceivedMessageHolder(View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.text_gchat_user_other);
             messageText = itemView.findViewById(R.id.text_gchat_message_other);
             timeText = itemView.findViewById(R.id.text_gchat_timestamp_other);
+            dataText = itemView.findViewById(R.id.text_gchat_date_other);
         }
 
         void bind(Message message) {
             messageText.setText(message.getMessage());
             nameText.setText(message.getSenderName());
-
-            // Format the stored timestamp into a readable String using method.
-            @SuppressLint("SimpleDateFormat")
-            final SimpleDateFormat format = new SimpleDateFormat("HH:mm"); //hours and minutes, 24hr clock
-            timeText.setText(format.format(message.getCreatedAt()));
+            timeText.setText(timeFormat.format(message.getCreatedAt()));
+            if (receiverDate.equals(senderDate) || receiverDate.equals(prevDate)) {
+                dataText.setText("");
+            }
+            else {
+                dataText.setText(dateFormat.format(message.getCreatedAt()));
+            }
+            prevDate = dateFormat.format(message.getCreatedAt());
         }
     }
 }
