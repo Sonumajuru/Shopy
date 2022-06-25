@@ -12,9 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
-
 public class ProfileViewModel extends AndroidViewModel {
-
     private final Application app;
     private final FirebaseApp firebaseApp;
     private final MutableLiveData<String> idProfileName;
@@ -24,7 +22,6 @@ public class ProfileViewModel extends AndroidViewModel {
     private final MutableLiveData<String> idAddress;
     private final MutableLiveData<String> idSince;
     private String currentUser;
-
     public ProfileViewModel(@NonNull @NotNull Application application) {
         super(application);
         app = (Application) application.getApplicationContext();
@@ -36,7 +33,6 @@ public class ProfileViewModel extends AndroidViewModel {
         idAddress = new MutableLiveData<>();
         idSince = new MutableLiveData<>();
     }
-
     public void getUserData(String uid) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -66,7 +62,6 @@ public class ProfileViewModel extends AndroidViewModel {
                 .child("User")
                 .child(uid).getRef().addListenerForSingleValueEvent(valueEventListener);
     }
-
     public LiveData<String> getProfile()
     {
         return idProfileName;

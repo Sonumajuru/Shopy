@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ImagePagerAdapter extends PagerAdapter {
     private final Context context;
     private final List<String> images;
@@ -29,7 +28,6 @@ public class ImagePagerAdapter extends PagerAdapter {
     private final Controller controller;
     private final Fragment fragment;
     public FragmentCallback callback;
-
     public ImagePagerAdapter(Context context, Fragment fragment, List<String> images, FragmentCallback callback) {
         this.context = context;
         controller = Controller.getInstance(context);
@@ -38,12 +36,10 @@ public class ImagePagerAdapter extends PagerAdapter {
         this.callback = callback;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
     @Override
     public int getCount() {
         return images.size();
     }
-
     @Override
     public boolean isViewFromObject(@NotNull View view, @NotNull Object object) {
         return view == object;
@@ -81,7 +77,6 @@ public class ImagePagerAdapter extends PagerAdapter {
 
         return itemView;
     }
-
     @Override
     public void destroyItem(ViewGroup container, int position, @NotNull Object object) {
         container.removeView((ConstraintLayout) object);

@@ -20,26 +20,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 public class RegisterViewModel extends AndroidViewModel {
-
     private final Application app;
     private final FirebaseApp firebaseApp;
     private final MutableLiveData<String> btnText;
-
     public RegisterViewModel(@NonNull @NotNull Application application) {
         super(application);
         app = (Application) application.getApplicationContext();
         btnText = new MutableLiveData<>();
         firebaseApp = new FirebaseApp();
     }
-
     public void setCountryAdapter(Spinner country) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, getCountryList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         country.setAdapter(adapter);
     }
-
     private List<String> getCountryList() {
         List<String> countriesList = new ArrayList<>();
         String[] locales = Locale.getISOCountries();
@@ -54,7 +49,6 @@ public class RegisterViewModel extends AndroidViewModel {
 
         return countriesList;
     }
-
     public LiveData<String> getButtonText(boolean user) {
         if (user) {
             btnText.setValue(app.getString(R.string.update));
@@ -64,13 +58,11 @@ public class RegisterViewModel extends AndroidViewModel {
         }
         return btnText;
     }
-
     public void setLanguage(Spinner language, List<String> langCode) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(app.getApplicationContext(), android.R.layout.simple_spinner_item, langCode);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         language.setAdapter(adapter);
     }
-
     public void getLanguages(Spinner country, Spinner language, List<String> langCode) {
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -95,7 +87,6 @@ public class RegisterViewModel extends AndroidViewModel {
             }
         });
     }
-
     public void goToAccount(NavHost navHostFragment) {
         if (navHostFragment != null) {
             firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {

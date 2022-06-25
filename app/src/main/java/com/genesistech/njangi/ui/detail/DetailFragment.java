@@ -34,23 +34,16 @@ import java.util.List;
 
 import static com.genesistech.njangi.R.id.navigation_login;
 import static com.genesistech.njangi.R.id.navigation_profile;
-
 public class DetailFragment extends Fragment {
-
     private FragmentDetailBinding binding;
-
     private Controller controller;
     private PrefManager prefManager;
     private FirebaseApp firebaseApp;
-
     private Product product;
-
     private ImageView favBtn;
-
     private int counter;
     private String uid;
     private List<Product> productList;
-
     private ImagePagerAdapter imagePagerAdapter;
     private ViewPager viewPager;
     private TextView price;
@@ -58,7 +51,6 @@ public class DetailFragment extends Fragment {
     private RatingBar ratingBar;
     private TextView description;
     private TabLayout tabLayout;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -174,7 +166,6 @@ public class DetailFragment extends Fragment {
 
         return root;
     }
-
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     public void checkIfProductStillAvailable(String id) {
 
@@ -207,7 +198,6 @@ public class DetailFragment extends Fragment {
                 }
         });
     }
-
     private void checkIfItemIsFav() {
         for (int i = 0; i < prefManager.getFavList().size(); i++) {
             if (prefManager.getFavList().get(i).getProdID().equals(product.getProdID())) {
@@ -215,7 +205,6 @@ public class DetailFragment extends Fragment {
             }
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

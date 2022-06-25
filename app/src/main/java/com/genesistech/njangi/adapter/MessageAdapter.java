@@ -19,7 +19,6 @@ import java.util.Objects;
 public class MessageAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 1;
     private static final int VIEW_TYPE_MESSAGE_SENT = 2;
-
     private final Context mContext;
     private final FirebaseApp firebaseApp;
     private final List<Message> mMessageList;
@@ -28,7 +27,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private String prevDate = "";
     private String receiverDate = "";
     private String senderDate = "";
-
     @SuppressLint("SimpleDateFormat")
     public MessageAdapter(Context context, List<Message> messageList) {
         mContext = context;
@@ -37,14 +35,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
         timeFormat = new SimpleDateFormat("HH:mm"); //hours and minutes, 24hr clock
         dateFormat = new SimpleDateFormat("dd - MMMM - yyyy");
     }
-
     @Override
     public int getItemCount() {
         return mMessageList.size();
     }
 
-    // Determines the appropriate ViewType according to the sender of the message.
-    @Override
+    // Determines the appropriate ViewType according to the sender of the message.    @Override
     public int getItemViewType(int position) {
         Message message = mMessageList.get(position);
 
@@ -75,9 +71,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         return null;
     }
-
-    // Passes the message object to a ViewHolder so that the contents can be bound to UI.
-    @Override
+    // Passes the message object to a ViewHolder so that the contents can be bound to UI.    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = mMessageList.get(position);
 
@@ -89,7 +83,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 ((ReceivedMessageHolder) holder).bind(message);
         }
     }
-
     public class SentMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, dataText;
 
@@ -112,7 +105,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
             prevDate = dateFormat.format(message.getCreatedAt());
         }
     }
-
     @SuppressLint("SimpleDateFormat")
     public class ReceivedMessageHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText, nameText, dataText;

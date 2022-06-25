@@ -31,9 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 import static android.os.Build.VERSION.SDK_INT;
-
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -88,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(binding.navView, navController);
         }
     }
-
     public static void setLocale(Activity activity, String languageCode)
     {
         Locale locale = new Locale(languageCode);
@@ -99,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         activity.createConfigurationContext(config);
 //        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
-
     @SuppressLint("ObsoleteSdkInt")
     private Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -112,19 +108,16 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
     }
-
     @Override
     public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         initLanguage();
     }
-
     private void initLanguage() {
         String ul = LanguageHelper.getUserLanguage(this);
         // if null the language doesn't need to be changed as the user has not chosen one.

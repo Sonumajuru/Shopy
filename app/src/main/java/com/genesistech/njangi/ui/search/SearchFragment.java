@@ -23,20 +23,15 @@ import com.google.firebase.database.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 public class SearchFragment extends Fragment{
-
     private FragmentSearchBinding binding;
-
     private androidx.appcompat.widget.SearchView searchView;
     private Product product;
     private SearchAdapter adapter;
     private SuggestionsDatabase database;
-
     private ListView list;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
@@ -174,7 +169,6 @@ public class SearchFragment extends Fragment{
 
         return root;
     }
-
     private void getUserData()
     {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -208,7 +202,6 @@ public class SearchFragment extends Fragment{
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
-
     private void getSearch(String mySearch)
     {
         // hashmap to store the frequency of element
@@ -254,7 +247,6 @@ public class SearchFragment extends Fragment{
             }
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -12,10 +12,8 @@ import com.genesistech.njangi.interfaces.FragmentCallback;
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter {
-
     private final List<String> offerList;
     private final FragmentCallback callback;
-
     public SliderAdapter(List<String> offerList, FragmentCallback callback) {
         this.offerList = offerList;
         this.callback = callback;
@@ -51,17 +49,14 @@ public class SliderAdapter extends PagerAdapter {
         parent.addView(view);
         return view;
     }
-
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);
     }
-
     @Override
     public int getCount() {
         return offerList.size();
     }
-
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;

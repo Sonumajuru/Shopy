@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class Product implements Parcelable {
-
     private String id;
     private String prodID;
     private String uuid;
@@ -29,142 +27,107 @@ public class Product implements Parcelable {
     private int quantity;
 
     private List<Product> productList;
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getProdID() {
         return prodID;
     }
-
     public void setProdID(String prodID) {
         this.prodID = prodID;
     }
-
     public String getUuid() {
         return uuid;
     }
-
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getCategory() {
         return category;
     }
-
     public void setCategory(String category) {
         this.category = category;
     }
-
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
-
     public String getSeller() {
         return seller;
     }
-
     public String getStore() {
         return store;
     }
-
     public void setStore(String store) {
         this.store = store;
     }
-
     public void setSeller(String seller) {
         this.seller = seller;
     }
-
     public String getCurrency() {
         return currency;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public List<String> getImages() {
         return images;
     }
-
     public void setImages(List<String> images) {
         this.images = images;
     }
-
     public double getRating() {
         return rating;
     }
-
     public void setRating(double rating) {
         this.rating = rating;
     }
-
     public String getFavStatus() {
         return favStatus;
     }
-
     public void setFavStatus(String favStatus) {
         this.favStatus = favStatus;
     }
-
     public String getTrending() {
         return trending;
     }
-
     public void setTrending(String trending) {
         this.trending = trending;
     }
-
     public List<Product> getProductList() {
         return productList;
     }
-
     public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
-
     public String getCartStatus() {
         return cartStatus;
     }
-
     public void setCartStatus(String cartStatus) {
         this.cartStatus = cartStatus;
     }
-
     public int getQuantity() {
         return quantity;
     }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
     public Product() {
     }
-
     public Product(String id, String uuid, String seller, String title, String category, double price, String currency,
                    String description, List<String> images, double rating, String favStatus, String prodID, String store, String trending) {
 
@@ -184,7 +147,6 @@ public class Product implements Parcelable {
         this.trending = trending;
         productList = new ArrayList<>();
     }
-
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel in) {
@@ -196,7 +158,6 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
-
     protected Product(Parcel in) {
         id = in.readString();
         prodID = in.readString();
@@ -212,7 +173,6 @@ public class Product implements Parcelable {
         cartStatus = in.readString();
         quantity = in.readInt();
     }
-
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(id);
@@ -229,7 +189,6 @@ public class Product implements Parcelable {
         dest.writeString(cartStatus);
         dest.writeInt(quantity);
     }
-
     @Override
     public int describeContents() {
         return 0;

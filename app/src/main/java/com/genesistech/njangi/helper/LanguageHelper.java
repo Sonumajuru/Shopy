@@ -6,9 +6,7 @@ import android.content.res.Resources;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
-
 public class LanguageHelper {
-
     private static final String GENERAL_STORAGE = "GENERAL_STORAGE";
     private static final String KEY_USER_LANGUAGE = "KEY_USER_LANGUAGE";
 
@@ -46,7 +44,6 @@ public class LanguageHelper {
         return context.getSharedPreferences(GENERAL_STORAGE, MODE_PRIVATE)
                 .getString(KEY_USER_LANGUAGE, null);
     }
-
     public static String countryCodeToEmoji(String code) {
 
         // offset between uppercase ascii and regional indicator symbols

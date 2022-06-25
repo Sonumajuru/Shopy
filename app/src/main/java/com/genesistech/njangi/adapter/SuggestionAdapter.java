@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.SimpleCursorAdapter;
 import com.genesistech.njangi.db.SuggestionsDatabase;
-
 public class SuggestionAdapter extends SimpleCursorAdapter
 {
     public SuggestionAdapter(Context context, int layout, Cursor c,

@@ -18,15 +18,12 @@ import com.genesistech.njangi.model.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
-
     private final Context context;
     private final Controller controller;
     private final FragmentCallback callback;
     private static List<Product> favItemList;
     private final PrefManager prefManager;
-
     public FavAdapter(List<Product> favItemList, Context context, FragmentCallback callback) {
         this.context = context;
         prefManager = new PrefManager(context);
@@ -55,12 +52,10 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
         Picasso.with(context).load(favItemList.get(position).getImages().get(0)).into(holder.imageView);
         holder.imageView.setOnClickListener(v -> callback.onItemClicked(position, favItem));
     }
-
     @Override
     public int getItemCount() {
         return favItemList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         RatingBar textViewRating;
         TextView textViewTitle, textViewPrice;
@@ -82,7 +77,6 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder> {
             });
         }
     }
-
     private void removeItem(int position) {
         favItemList.remove(position);
         notifyItemRemoved(position);

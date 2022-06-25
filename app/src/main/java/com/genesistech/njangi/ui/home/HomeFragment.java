@@ -40,9 +40,7 @@ import com.genesistech.njangi.model.Product;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
-
 public class HomeFragment extends Fragment implements FragmentCallback {
-
     private FragmentHomeBinding binding;
     private FragmentActivity objects;
 
@@ -55,18 +53,14 @@ public class HomeFragment extends Fragment implements FragmentCallback {
     private RecyclerView recyclerView;
     private FragmentCallback callback;
     private FirebaseApp firebaseApp;
-
     private Timer timer;
     private ViewPager page;
     private Product product;
-
     private ParentViewAdapter parentViewAdapter;
     private ProgressBar progressBar;
-
     private ArrayList<ParentModel> categoryList;
     private ArrayList<ParentModel> parentModelArrayList;
     private RecyclerView.LayoutManager parentLayoutManager;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -146,7 +140,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
 //        }
         return root;
     }
-
     @SuppressLint("NotifyDataSetChanged")
     public void getRecent() {
 
@@ -209,7 +202,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 .child("ProductDB")
                 .child("products").addListenerForSingleValueEvent(valueEventListener);
     }
-
     public void getTrending() {
 
         progressBar.setVisibility(View.VISIBLE);
@@ -267,7 +259,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 .child("ProductDB")
                 .child("products").addListenerForSingleValueEvent(valueEventListener);
     }
-
     public static class DividerItemDecoration extends RecyclerView.ItemDecoration {
         int spacing;
         public DividerItemDecoration(Context context, int spacing) {
@@ -280,7 +271,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             outRect.bottom = spacing;
         }
     }
-
     @SuppressLint("NotifyDataSetChanged")
     private void getProducts() {
         progressBar.setVisibility(View.VISIBLE);
@@ -349,7 +339,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
                 .getReference()
                 .child("ProductDB").child("products").addListenerForSingleValueEvent(valueEventListener);
     }
-
     @SuppressLint("NotifyDataSetChanged")
     private void getSpecialOffers()
     {
@@ -404,21 +393,17 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         // sliderTimer
         timer.scheduleAtFixedRate(new sliderTimer(),3000,5000);
     }
-
     @Override
     public void doSomething() {
     }
-
     @Override
     public void onItemClicked(int position, Object object) {
 
     }
-
     @Override
     public void onItemClicked(int position, Object object, int id) {
 
     }
-
     public class sliderTimer extends TimerTask {
         @Override
         public void run() {
@@ -435,7 +420,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             });
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

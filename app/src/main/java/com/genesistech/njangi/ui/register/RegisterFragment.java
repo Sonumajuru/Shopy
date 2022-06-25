@@ -29,14 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 public class RegisterFragment extends Fragment {
-
     private RegisterViewModel registerViewModel;
     private FragmentRegisterBinding binding;
     private Controller controller;
     private FirebaseApp firebaseApp;
-
     private EditText name;
     private EditText surname;
     private CheckBox male;
@@ -49,10 +46,8 @@ public class RegisterFragment extends Fragment {
     private EditText inputPassword;
     private NavHostFragment navHostFragment;
     private ProgressBar progressBar;
-
     private User user;
     private Button btnRegister;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
@@ -201,7 +196,6 @@ public class RegisterFragment extends Fragment {
 
         return root;
     }
-
     private void formCheck(String username, String lastname, String address, String email, String number, String password) {
         if (TextUtils.isEmpty(username)) {
             name.setError("");
@@ -226,7 +220,6 @@ public class RegisterFragment extends Fragment {
         }
         progressBar.setVisibility(View.GONE);
     }
-
     private void onCheckBoxSelection() {
         male.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -239,7 +232,6 @@ public class RegisterFragment extends Fragment {
             }
         });
     }
-
     private void getUserData() {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
@@ -293,7 +285,6 @@ public class RegisterFragment extends Fragment {
             }
         });
     }
-
     private void disAbleControls() {
         name.setEnabled(false);
         surname.setEnabled(false);
@@ -302,7 +293,6 @@ public class RegisterFragment extends Fragment {
         female.setEnabled(false);
         inputEmail.setEnabled(false);
     }
-
     public void checkIfSignedIn() {
         firebaseApp.getAuth().addAuthStateListener(firebaseAuth -> {
             if (firebaseApp.getAuth().getCurrentUser() == null) {
@@ -315,7 +305,6 @@ public class RegisterFragment extends Fragment {
             }
         });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

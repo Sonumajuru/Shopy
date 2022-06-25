@@ -16,7 +16,6 @@ import java.util.Map;
  * Class for Shared Preference
  */
 public class PrefManager {
-
     private final Context context;
     private int quantity;
     private int count;
@@ -25,7 +24,6 @@ public class PrefManager {
     private SharedPreferences.Editor prefsFavEditor;
     private SharedPreferences cartPreferences;
     private SharedPreferences.Editor prefsCartEditor;
-
     public PrefManager(Context context) {
         this.context = context;
         gson = new Gson();
@@ -40,31 +38,26 @@ public class PrefManager {
             e.printStackTrace();
         }
     }
-
     public void saveBadge(int count) {
         cartPreferences = context.getSharedPreferences("Badge", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = cartPreferences.edit();
         editor.putInt("Badge", count);
         editor.apply();
     }
-
     public int getBadgeCount() {
         cartPreferences = context.getSharedPreferences("Badge", Context.MODE_PRIVATE);
         return (cartPreferences.getInt("Badge", count));
     }
-
     public void saveQuantity(int quantity, String prodID) {
         cartPreferences = context.getSharedPreferences("Quantity", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = cartPreferences.edit();
         editor.putInt(prodID, quantity);
         editor.apply();
     }
-
     public int getQuantity(String key) {
         cartPreferences = context.getSharedPreferences("Quantity", Context.MODE_PRIVATE);
         return (cartPreferences.getInt(key, quantity));
     }
-
     public void clearPref() {
         cartPreferences = context.getSharedPreferences("Quantity", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = cartPreferences.edit();

@@ -27,17 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.genesistech.njangi.R.id.navigation_detail;
-
 public class FavoriteFragment extends Fragment {
-
     private FragmentFavoriteBinding binding;
-
     private FavAdapter favAdapter;
     private ProductAdapter adapter;
     private PrefManager prefManager;
     private List<Product> productList;
     private List<Product> newCartItemList;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         FavoriteViewModel favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
@@ -112,7 +108,6 @@ public class FavoriteFragment extends Fragment {
             }
         }
     };
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

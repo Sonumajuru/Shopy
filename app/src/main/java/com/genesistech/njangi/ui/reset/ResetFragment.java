@@ -14,11 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.genesistech.njangi.databinding.FragmentResetBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
-
 public class ResetFragment extends Fragment {
-
     private FragmentResetBinding binding;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         ResetViewModel resetViewModel = new ViewModelProvider(this).get(ResetViewModel.class);
@@ -53,7 +50,6 @@ public class ResetFragment extends Fragment {
 
         return root;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

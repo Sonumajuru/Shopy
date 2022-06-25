@@ -14,24 +14,19 @@ import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
 public class HomeViewModel extends AndroidViewModel {
-
     private final MutableLiveData<String> mTitle;
     private final Application app;
     private FirebaseApp firebaseApp;
-
     public HomeViewModel(@NonNull @NotNull Application application) {
         super(application);
         app = (Application) application.getApplicationContext();
         mTitle = new MutableLiveData<>();
         firebaseApp = new FirebaseApp();
     }
-
     public LiveData<String> getText() {
         return mTitle;
     }
-
     public void getUserName()
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

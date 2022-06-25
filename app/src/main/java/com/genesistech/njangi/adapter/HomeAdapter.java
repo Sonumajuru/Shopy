@@ -20,15 +20,12 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
-
     private static final String TAG = "HomeAdapter";
     private final Context mCtx;
     private final Controller controller;
     private final FragmentCallback callback;
     private final List<Product> productList;
-
     public HomeAdapter(Context context, List<Product> productList, FragmentCallback callback) {
         mCtx = context;
         controller = Controller.getInstance(context);
@@ -62,12 +59,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             callback.doSomething(); //<-- This is how you call callback method
         });
     }
-
     @Override
     public int getItemCount() {
         return productList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;

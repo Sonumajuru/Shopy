@@ -28,9 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-
     private final Context mCtx;
     public int clickedPos = -1;
     public FragmentCallback callback;
@@ -149,18 +147,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             callback.onItemClicked(position, product);
         });
     }
-
     public void removeAt(int position) {
         productList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, productList.size());
     }
-
     @Override
     public int getItemCount() {
         return productList.size();
     }
-
     public class ProductViewHolder extends RecyclerView.ViewHolder {
 
         RatingBar textViewRating;
@@ -187,7 +182,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             });
         }
     }
-
     private void checkIfItemIsFav(Product product, ProductViewHolder holder) {
         for (int i = 0; i < prefManager.getFavList().size(); i++) {
             if (prefManager.getFavList().get(i).getProdID().equals(product.getProdID())) {
@@ -203,7 +197,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         }
     }
-
     private void removeItem(int position) {
         productList.remove(position);
         notifyItemRemoved(position);

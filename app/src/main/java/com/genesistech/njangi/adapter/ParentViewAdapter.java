@@ -17,15 +17,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.MyViewHolder> {
-
     public Context cxt;
     private final Controller controller;
     private final FragmentCallback callback;
     private final List<Product> productList;
     private final ArrayList<ParentModel> parentModelArrayList;
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView category;
         public RecyclerView childRecyclerView;
@@ -37,7 +34,6 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
             childRecyclerView = itemView.findViewById(R.id.Child_RV);
         }
     }
-
     public ParentViewAdapter(ArrayList<ParentModel> exampleList, List<Product> productList, Context context, FragmentCallback callback) {
         this.parentModelArrayList = exampleList;
         this.productList = productList;
@@ -52,12 +48,10 @@ public class ParentViewAdapter extends RecyclerView.Adapter<ParentViewAdapter.My
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.parent_items, parent, false);
         return new MyViewHolder(view);
     }
-
     @Override
     public int getItemCount() {
         return parentModelArrayList.size();
     }
-
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 

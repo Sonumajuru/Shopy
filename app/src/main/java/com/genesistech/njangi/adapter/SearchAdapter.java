@@ -16,13 +16,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class SearchAdapter extends BaseAdapter {
-
     Context mContext;
     LayoutInflater inflater;
     private final Controller controller;
     private final List<Product> productNamesList;
     private final ArrayList<Product> arraylist;
-
     public SearchAdapter(Context context, List<Product> productNamesList) {
         mContext = context;
         controller = Controller.getInstance(context);
@@ -31,26 +29,21 @@ public class SearchAdapter extends BaseAdapter {
         this.arraylist = new ArrayList<>();
         this.arraylist.addAll(productNamesList);
     }
-
     public static class ViewHolder {
         TextView title;
     }
-
     @Override
     public int getCount() {
         return productNamesList.size();
     }
-
     @Override
     public Product getItem(int position) {
         return productNamesList.get(position);
     }
-
     @Override
     public long getItemId(int position) {
         return position;
     }
-
     @SuppressLint("InflateParams")
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
@@ -70,7 +63,6 @@ public class SearchAdapter extends BaseAdapter {
         holder.title.setText(productNamesList.get(position).getTitle());
         return view;
     }
-
     // Filter Class
     public void filter(String charText)
     {

@@ -20,9 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-
 public class Controller {
-
     private View notificationsBadge;
     private BottomNavigationMenuView bottomNavigationMenuView;
     private static Context mContext;
@@ -32,35 +30,27 @@ public class Controller {
     private boolean IsFragVisible;
     private PrefManager prefManager;
     private String userName;
-
     public View getNotificationsBadge() {
         return notificationsBadge;
     }
-
     public void setNotificationsBadge(View notificationsBadge) {
         this.notificationsBadge = notificationsBadge;
     }
-
     public BottomNavigationMenuView getBottomNavigationMenuView() {
         return bottomNavigationMenuView;
     }
-
     public void setBottomNavigationMenuView(BottomNavigationMenuView bottomNavigationMenuView) {
         this.bottomNavigationMenuView = bottomNavigationMenuView;
     }
-
     public BottomNavigationView getNavView() {
         return navView;
     }
-
     public void setNavView(BottomNavigationView navView) {
         this.navView = navView;
     }
-
     public Context getContext() {
         return mContext;
     }
-
     public static Controller getInstance(Context context){
         if(instance==null){
             synchronized(Controller.class){
@@ -72,22 +62,18 @@ public class Controller {
         }
         return instance;
     }
-
     public Controller(Context context){
         mContext = context;
         prefManager = new PrefManager(context);
         notificationsBadge = LayoutInflater.from(mContext).inflate(R.layout.custom_badge_layout,
                 bottomNavigationMenuView,false);
     }
-
     public int getBadgeCount() {
         return badgeCount;
     }
-
     public void setBadgeCount(int badgeCount) {
         this.badgeCount = badgeCount;
     }
-
     private void getBadge() {
         if (getBottomNavigationMenuView() != null) {
             return;
@@ -95,7 +81,6 @@ public class Controller {
         setBottomNavigationMenuView((BottomNavigationMenuView) getNavView().getChildAt(0));
         setNotificationsBadge(LayoutInflater.from(getContext()).inflate(R.layout.custom_badge_layout, getBottomNavigationMenuView(),false));
     }
-
     public void addBadge(int count) {
         getNavView().removeView(getNotificationsBadge());
         setBadgeCount(count);
@@ -105,15 +90,12 @@ public class Controller {
         getNavView().addView(getNotificationsBadge());
         prefManager.saveBadge(count);
     }
-
     public int getPrefCount() {
         return prefManager.getBadgeCount();
     }
-
     public void removeBadge() {
         getNavView().removeView(getNotificationsBadge());
     }
-
     public String getTranslation(String text) {
         switch (text) {
             case "Books":
@@ -161,7 +143,6 @@ public class Controller {
         }
         return text;
     }
-
     public String getCategoryTranslation(String text) {
         switch (text) {
             case "Livres":
@@ -223,39 +204,32 @@ public class Controller {
         }
         return text;
     }
-
     public String translate(Locale locale, int resId) {
         Configuration config = new Configuration(mContext.getResources().getConfiguration());
         config.setLocale(locale);
         return (String) mContext.createConfigurationContext(config).getText(resId);
     }
-
     public void setTextLength(TextView title) {
         int maxLength = 15;
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(maxLength);
         title.setFilters(fArray);
     }
-
     public String getDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate currentdate = LocalDate.now();
         return formatter.format(currentdate);
     }
-
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
     public boolean getIsFragVisible()
     {
         return IsFragVisible;
     }
-
     public static DeviceType getDeviceType() {
 
         float widthInches;
@@ -282,7 +256,6 @@ public class Controller {
             return DeviceType.Phone;
         }
     }
-
     public void setIsFragVisible(boolean visible) {
         IsFragVisible = visible;
     }

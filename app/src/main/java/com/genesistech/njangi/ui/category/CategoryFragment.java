@@ -22,19 +22,14 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
 public class CategoryFragment extends Fragment {
-
     private FragmentCategoryBinding binding;
     private FirebaseApp firebaseApp;
-
     private CategoryAdapter adapter;
     private Product product;
-
     private ListView list;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -62,7 +57,6 @@ public class CategoryFragment extends Fragment {
 
         return root;
     }
-
     private void getUserData()
     {
         DatabaseReference eventsRef = firebaseApp.getFirebaseDB().getReference().child("ProductDB").child("products");
@@ -96,7 +90,6 @@ public class CategoryFragment extends Fragment {
         };
         eventsRef.addListenerForSingleValueEvent(valueEventListener);
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -15,12 +15,9 @@ import com.genesistech.njangi.databinding.FragmentImageBinding;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
-
 public class ImageFragment extends Fragment {
-
     private FragmentImageBinding binding;
     private Controller controller;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -42,7 +39,6 @@ public class ImageFragment extends Fragment {
 
         return root;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

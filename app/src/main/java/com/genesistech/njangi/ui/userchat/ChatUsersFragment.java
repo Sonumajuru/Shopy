@@ -25,19 +25,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 public class ChatUsersFragment extends Fragment {
-
     private ChatUsersViewModel chatUsersViewModel;
     private FragmentChatUsersBinding binding;
-
     private List<Message> userList;
     private ChatUserAdapter adapter;
     private MessageAdapter messageAdapter;
     private FragmentCallback callback;
     private FirebaseApp firebaseApp;
     private RecyclerView recyclerView;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         chatUsersViewModel = new ViewModelProvider(this).get(ChatUsersViewModel.class);
@@ -53,7 +49,6 @@ public class ChatUsersFragment extends Fragment {
 
         return root;
     }
-
     private void getUserData() {
         if (firebaseApp.getAuth().getCurrentUser() == null) return;
         String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
@@ -109,7 +104,6 @@ public class ChatUsersFragment extends Fragment {
                     }
                 });
     }
-
     private void getMessages() {
         messageAdapter = new MessageAdapter(requireContext(), userList);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -142,7 +136,6 @@ public class ChatUsersFragment extends Fragment {
                     }
                 });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
