@@ -63,7 +63,7 @@ public class CartFragment extends Fragment {
         emptyCart = binding.emptyCart;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
+        controller.setApplicationLanguage();
         loadData();
         btnCheckOut.setOnClickListener(view -> {
 

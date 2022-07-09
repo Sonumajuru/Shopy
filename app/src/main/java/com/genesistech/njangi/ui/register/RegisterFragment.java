@@ -22,13 +22,16 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 public class RegisterFragment extends Fragment {
     private RegisterViewModel registerViewModel;
     private FragmentRegisterBinding binding;
@@ -75,6 +78,7 @@ public class RegisterFragment extends Fragment {
         progressBar = binding.progressBar;
         TextView delete = binding.textDelAcct;
 
+        controller.setApplicationLanguage();
         registerViewModel.setCountryAdapter(country);
         registerViewModel.getLanguages(country, language, langCode);
         onCheckBoxSelection();
@@ -118,6 +122,8 @@ public class RegisterFragment extends Fragment {
                                         .child(userId).setValue(user);
                                 registerViewModel.goToAccount(navHostFragment);
                                 progressBar.setVisibility(View.GONE);
+                                controller.setLocale(requireActivity(), language);
+                                controller.setApplicationLanguage();
                             }
                         });
             }
@@ -141,6 +147,8 @@ public class RegisterFragment extends Fragment {
                                                 .child(userId).setValue(user);
                                         progressBar.setVisibility(View.GONE);
                                         registerViewModel.goToAccount(navHostFragment);
+                                        controller.setLocale(requireActivity(), language);
+                                        controller.setApplicationLanguage();
                                     } else {
                                         Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);

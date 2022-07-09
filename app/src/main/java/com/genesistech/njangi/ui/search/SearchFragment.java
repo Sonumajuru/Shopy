@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.SearchAdapter;
 import com.genesistech.njangi.adapter.SuggestionAdapter;
@@ -32,6 +33,7 @@ public class SearchFragment extends Fragment{
     private ListView list;
     private ArrayList<Product> arraylist;
     private ArrayList<Product> productList;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
@@ -42,11 +44,13 @@ public class SearchFragment extends Fragment{
         arraylist = new ArrayList<>();
         productList = new ArrayList<>();
         database = new SuggestionsDatabase(requireContext());
+        Controller controller = Controller.getInstance(requireContext());
         searchView = binding.search;
         list = binding.listview;
         list.setVisibility(View.INVISIBLE);
 
         getUserData();
+        controller.setApplicationLanguage();
 
         searchView.setOnClickListener(v -> searchView.setIconified(false));
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {

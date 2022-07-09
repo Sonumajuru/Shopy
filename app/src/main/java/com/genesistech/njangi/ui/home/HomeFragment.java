@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment implements FragmentCallback {
         View root = binding.getRoot();
 
         Controller controller = Controller.getInstance(requireContext());
+        controller.setApplicationLanguage();
         firebaseApp = new FirebaseApp();
         parentModelArrayList = new ArrayList<>();
         productList = new ArrayList<>();
@@ -135,9 +136,6 @@ public class HomeFragment extends Fragment implements FragmentCallback {
             }
         });
 
-//        if (controller.getPrefCount() > 0) {
-//            controller.addBadge(controller.getPrefCount());
-//        }
         return root;
     }
     @SuppressLint("NotifyDataSetChanged")

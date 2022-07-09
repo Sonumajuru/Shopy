@@ -74,6 +74,7 @@ public class MessageFragment extends Fragment {
         senderRoom = receiverUuid + " <------> "+ senderUuid;
         receiverRoom = senderUuid + " <------> "+ receiverUuid;
 
+        controller.setApplicationLanguage();
         getMessages();
 
         // Adding message to the DB

@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.helper.LanguageHelper;
@@ -28,6 +29,7 @@ public class AccountViewModel extends AndroidViewModel {
     private final MutableLiveData<String> appVersion;
     private final Application app;
     private final FirebaseApp firebaseApp;
+    private final Controller controller;
 
     public AccountViewModel(@NonNull @NotNull Application application) {
         super(application);
@@ -36,20 +38,13 @@ public class AccountViewModel extends AndroidViewModel {
         emailSender = new MutableLiveData<>();
         whatsAppNum = new MutableLiveData<>();
         appVersion = new MutableLiveData<>();
+        controller = Controller.getInstance(app);
         emailSender.setValue("njangi@support.com");
         whatsAppNum.setValue("WhatsApp");
     }
 
     public void setLocale(Activity activity, String languageCode) {
-        Locale locale = new Locale(languageCode.substring(0,2));
-        Locale.setDefault(locale);
-        Resources resources = activity.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        activity.createConfigurationContext(config);
-
-        LanguageHelper.storeUserLanguage(app, String.valueOf(locale));
-        LanguageHelper.updateLanguage(app, String.valueOf(locale));
+        controller.setLocale(activity, languageCode);
     }
 
     public void support(Activity activity) {

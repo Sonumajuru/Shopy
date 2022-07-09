@@ -25,7 +25,9 @@ import com.genesistech.njangi.R;
 import com.genesistech.njangi.databinding.FragmentAccountBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
 import com.genesistech.njangi.model.User;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -46,7 +48,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private TextView username;
     private TextView userEmail;
     private Button btnSignOut;
-
     private boolean isConnected = false;
 
     @SuppressLint({"SetTextI18n", "ResourceAsColor"})
@@ -78,6 +79,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         btnSignOut.setOnClickListener(this);
 
         checkIfSignedIn();
+        controller.setApplicationLanguage();
 
         final TextView emailSender = binding.emailText;
         accountViewModel.getEmail().observe(getViewLifecycleOwner(), s -> {
@@ -94,7 +96,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         final TextView appVersion = binding.appVersion;
         accountViewModel.getAppVersion().observe(getViewLifecycleOwner(), appVersion::setText);
-
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -104,6 +105,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         });
 
         getUserData();
+
         return root;
     }
 
@@ -163,15 +165,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NotNull DataSnapshot dataSnapshot)
             {
                 user = dataSnapshot.getValue(User.class);
-                if (user != null)
-                {
+                if (user != null) {
                     username.setText(user.getFirstName());
                     controller.setUserName(user.getFirstName());
                     userEmail.setText(user.getEmail());
                     accountViewModel.setLocale(requireActivity(), user.getLanguage());
                 }
-                else
-                {
+                else {
                     getUserData();
                 }
             }
@@ -215,6 +215,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 isConnected = true;
             }
         });
+
         return isConnected;
     }
 

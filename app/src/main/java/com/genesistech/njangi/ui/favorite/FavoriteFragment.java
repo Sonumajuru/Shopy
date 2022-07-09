@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
 import com.genesistech.njangi.adapter.FavAdapter;
 import com.genesistech.njangi.adapter.ProductAdapter;
@@ -33,6 +34,7 @@ public class FavoriteFragment extends Fragment {
     private ProductAdapter adapter;
     private PrefManager prefManager;
     private List<Product> productList;
+    private Controller controller;
     private List<Product> newCartItemList;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -41,6 +43,7 @@ public class FavoriteFragment extends Fragment {
         View root = binding.getRoot();
 
         prefManager = new PrefManager(requireContext());
+        controller = Controller.getInstance(requireContext());
         productList = new ArrayList<>();
         newCartItemList = new ArrayList<>();
         RecyclerView recyclerView = binding.recyclerView;
@@ -85,6 +88,7 @@ public class FavoriteFragment extends Fragment {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallBack);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+        controller.setApplicationLanguage();
 
         return root;
     }

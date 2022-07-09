@@ -113,5 +113,6 @@
     <string name="send">Send</string>
     <string name="enter_message">Enter Message</string>
     <string name="title_message">Message</string>
+    <string name="message">Messages</string>
     <string name="title_chat_users">Chat Users</string>
 </resources>

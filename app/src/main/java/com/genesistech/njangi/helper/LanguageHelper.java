@@ -18,12 +18,11 @@ public class LanguageHelper {
     public static void updateLanguage(Context context, String language) {
         final Locale locale = new Locale(language);
         Locale.setDefault(locale);
-
         Resources res = context.getResources();
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
         context.createConfigurationContext(config);
-//        res.updateConfiguration(config, res.getDisplayMetrics());
+        res.updateConfiguration(config, res.getDisplayMetrics());
     }
 
     /**

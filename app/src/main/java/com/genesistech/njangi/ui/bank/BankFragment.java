@@ -10,11 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.braintreepayments.cardform.view.CardForm;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.databinding.FragmentBankBinding;
 
 public class BankFragment extends Fragment {
 
     private FragmentBankBinding binding;
+    private Controller controller;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -26,6 +28,8 @@ public class BankFragment extends Fragment {
         CardForm cardForm = binding.cardForm;
         Button btnAddPay = binding.btnSave;
         Button btnCancel = binding.btnCancel;
+        controller = Controller.getInstance(requireContext());
+        controller.setApplicationLanguage();
 
         cardForm.cardRequired(true)
                 .expirationRequired(true)

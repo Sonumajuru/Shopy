@@ -1,7 +1,11 @@
 package com.genesistech.njangi.ui.login;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +19,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import com.genesistech.njangi.Controller;
 import com.genesistech.njangi.R;
+import com.genesistech.njangi.activity.MainActivity;
 import com.genesistech.njangi.databinding.FragmentLoginBinding;
 import com.genesistech.njangi.helper.FirebaseApp;
+import com.genesistech.njangi.helper.LanguageHelper;
+import com.genesistech.njangi.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
@@ -28,6 +43,7 @@ public class LoginFragment extends Fragment {
     private NavHostFragment navHostFragment;
     private NavOptions navOption;
     private FirebaseApp firebaseApp;
+    private Controller controller;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -42,6 +58,7 @@ public class LoginFragment extends Fragment {
         navOption = new NavOptions.Builder().setPopUpTo(R.id.navigation_login, true).build();
 
         firebaseApp = new FirebaseApp();
+        controller = Controller.getInstance(requireContext());
         TextView signUp = binding.txtSignUp;
         inputEmail = binding.txtEmail;
         inputPassword = binding.txtPassword;
@@ -65,6 +82,8 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getActivity(),"Wrong Email or Password!",Toast.LENGTH_SHORT).show();
                         }
                         else {
+//                            getUserData();
+                            getUserData();
                             loginViewModel.goToAccount(navHostFragment, navOption);
                         }
                     });
@@ -95,6 +114,37 @@ public class LoginFragment extends Fragment {
                 loginViewModel.goToAccount(navHostFragment, navOption);
             }
         });
+    }
+
+    private void getUserData() {
+        if (firebaseApp.getAuth().getCurrentUser() == null) return;
+        String userid = Objects.requireNonNull(firebaseApp.getAuth().getCurrentUser()).getUid();
+        firebaseApp.getFirebaseDB()
+                .getReference()
+                .child("User")
+                .child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NotNull DataSnapshot dataSnapshot)
+                    {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null)
+                        {
+                            Locale myLocale = new Locale(user.getLanguage());
+                            Configuration configuration = requireContext().getResources().getConfiguration();
+                            configuration.locale = myLocale;
+                            configuration.setLocale(myLocale);
+                            configuration.setLayoutDirection(myLocale);
+                        }
+                        else
+                        {
+                            getUserData();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NotNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override

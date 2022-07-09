@@ -90,6 +90,7 @@ public class ProductFragment extends Fragment {
         viewPager = binding.imageLayout;
         tabLayout = binding.tabDots;
 
+        controller.setApplicationLanguage();
         setRegisterForActivity();
         Bundle bundle = getArguments();
         productViewModel.getTextChoose().observe(getViewLifecycleOwner(), btnChoose::setText);

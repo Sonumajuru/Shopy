@@ -86,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(binding.navView, navController);
         }
     }
-    public static void setLocale(Activity activity, String languageCode)
-    {
+
+    public static void setLocale(Activity activity, String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
         Resources resources = activity.getResources();
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
         activity.createConfigurationContext(config);
-//        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
     @SuppressLint("ObsoleteSdkInt")
     private Boolean isNetworkAvailable() {
@@ -119,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
         initLanguage();
     }
     private void initLanguage() {
-        String ul = LanguageHelper.getUserLanguage(this);
-        // if null the language doesn't need to be changed as the user has not chosen one.
-        if (ul != null) {
-            LanguageHelper.updateLanguage(this, ul);
-            setLocale(this, ul);
+        String userLocale = LanguageHelper.getUserLanguage(this);
+        if (userLocale == null) {
+            userLocale = Locale.getDefault().getLanguage();
         }
+        LanguageHelper.updateLanguage(this, userLocale);
+        setLocale(this, userLocale);
     }
 }

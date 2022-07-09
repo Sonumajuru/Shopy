@@ -10,11 +10,10 @@ import com.genesistech.njangi.R;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginViewModel extends AndroidViewModel {
-    
+
     public LoginViewModel(@NonNull @NotNull Application application) {
         super(application);
     }
-
     public void goToAccount(NavHost navHostFragment, NavOptions navOption)
     {
         if (navHostFragment != null) {

@@ -2,7 +2,9 @@ package com.genesistech.njangi;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Insets;
 import android.os.Build;
 import android.text.InputFilter;
@@ -12,7 +14,9 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
 import android.widget.TextView;
+import com.genesistech.njangi.activity.MainActivity;
 import com.genesistech.njangi.helper.DeviceType;
+import com.genesistech.njangi.helper.LanguageHelper;
 import com.genesistech.njangi.helper.PrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -258,5 +262,34 @@ public class Controller {
     }
     public void setIsFragVisible(boolean visible) {
         IsFragVisible = visible;
+    }
+    public void setApplicationLanguage() {
+
+        String language = LanguageHelper.getUserLanguage(mContext);
+        if (language == null) {
+            language = Locale.getDefault().getLanguage();
+        }
+        Locale myLocale = new Locale(language);
+        Resources res = mContext.getResources();
+        DisplayMetrics display = res.getDisplayMetrics();
+        Configuration configuration = res.getConfiguration();
+        configuration.locale = myLocale;
+        configuration.setLocale(myLocale);
+        configuration.setLayoutDirection(myLocale);
+        res.updateConfiguration(configuration, display);
+        Intent refresh = new Intent(mContext, MainActivity.class);
+        mContext.startActivity(refresh);
+    }
+
+    public void setLocale(Activity activity, String languageCode) {
+        Locale locale = new Locale(languageCode.substring(0,2));
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        activity.createConfigurationContext(config);
+
+        LanguageHelper.storeUserLanguage(mContext, String.valueOf(locale));
+        LanguageHelper.updateLanguage(mContext, String.valueOf(locale));
     }
 }
