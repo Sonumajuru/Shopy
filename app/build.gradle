@@ -61,7 +61,7 @@ dependencies {
 
     // Do not Change buggy newer version
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     // Import Firebase platform
